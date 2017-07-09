@@ -92,6 +92,6 @@ For detailed explanation on how things work, checkout following links please.
 
 * [React](https://facebook.github.io/react/)
 * [Redux](http://redux.js.org/)
-* [Material-UI] (http://www.material-ui.com/)
+* [Material-UI](http://www.material-ui.com/)
 
 
