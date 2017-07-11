@@ -42,6 +42,5 @@ render(
         <Router routes={routes} history={browserHistory} />
         {/*</MuiThemeProvider>*/}     
     </Provider>, 
-    // <App />
     document.getElementById('root')
 );

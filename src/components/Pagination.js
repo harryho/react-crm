@@ -1,6 +1,4 @@
 import React, { PropTypes } from 'react';
-// import KeyboardArrowLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left'
-// import KeyboardArrowRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
 import * as _ from 'lodash';
  
 const propTypes = {

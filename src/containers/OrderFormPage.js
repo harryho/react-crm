@@ -21,7 +21,6 @@ import {  FormsyText } from 'formsy-material-ui/lib';
 import Formsy from 'formsy-react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-// import {white} from 'material-ui/styles/colors';
 
 class OrderFormPage extends React.Component {
 

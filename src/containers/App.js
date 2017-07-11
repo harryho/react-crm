@@ -14,9 +14,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      navDrawerOpen: true,
-      // firstName: props.user&&props.user.firstName?props.user.firstName:'',
-      // lastName:  props.user &&  props.user.lastName? props.user.lastName:''
+      navDrawerOpen: true
     };
   }
 
@@ -89,17 +87,11 @@ App.propTypes = {
     children: PropTypes.element,
     width: PropTypes.number,
     dispatch: PropTypes.func.isRequired,
-    // quote: PropTypes.string,
     isAuthenticated: PropTypes.bool.isRequired,
     errorMessage: PropTypes.string,
     user: PropTypes.object,
-    // isSecretQuote: PropTypes.bool.isRequired
     isFetching: PropTypes.bool
 };
-
-// App.defaultProps = { 
-//   user: {},
-// isAuthenticated: false };
 
 /* eslint-disable */
 function mapStateToProps(state) {  
@@ -120,4 +112,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default  connect(mapStateToProps) (withWidth()(App));  //  connect(mapStateToProps)(withWidth(App));
+export default  connect(mapStateToProps) (withWidth()(App));  
