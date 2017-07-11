@@ -8,7 +8,8 @@ import {
 // we would also want a util to check if the token is expired.
 export function auth(state = {
     isFetching: false,
-    isAuthenticated: localStorage.getItem('token') ? true : false
+    isAuthenticated: localStorage.getItem('token') ? true : false,
+    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {},
   }, action) {
   switch (action.type) {
     case LOGIN_REQUEST:

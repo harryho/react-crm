@@ -1,28 +1,31 @@
 import { 
-  ORDERS_REQUEST, ORDERS_SUCCESS, ORDERS_FAILURE,
+  LOAD_ORDERS_REQUEST, LOAD_ORDERS_SUCCESS, LOAD_ORDERS_FAILURE,
   
-  ORDER_REQUEST, ORDER_SUCCESS, ORDER_FAILURE,
+   GET_ORDER_REQUEST,  GET_ORDER_SUCCESS,  GET_ORDER_FAILURE,
   UPDATE_ORDER_REQUEST, UPDATE_ORDER_SUCCESS, UPDATE_ORDER_FAILURE,
   ADD_ORDER_REQUEST, ADD_ORDER_SUCCESS, ADD_ORDER_FAILURE,
   DELETE_ORDER_REQUEST, DELETE_ORDER_SUCCESS, DELETE_ORDER_FAILURE,
 
-  UPDATE_ORDER_RESET, DELETE_ORDER_RESET, ADD_ORDER_RESET
+  // UPDATE_ORDER_RESET, DELETE_ORDER_RESET, ADD_ORDER_RESET
 } from '../constants';
-// import { CALL_API } from '../middleware/api'
 
-
-export function loadOrders(state = {
-    isFetching: false,
-    orderList: [],
-    authenticated: localStorage.getItem('token') ? true : false,
-  }, action) {
+export function orderReducer (state={
+  isFetching: false,
+  orderList: [],
+  isAuthenticated: localStorage.getItem('token') ? true : false,
+  user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {},
+  updateSuccess: false,
+  addSuccess: false,
+  deleteSuccess: false,
+  errorMessage:null
+}, action){
   switch (action.type) {
-    case ORDERS_REQUEST:
+    case LOAD_ORDERS_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
         filters: action.filters
       })
-    case ORDERS_SUCCESS:
+    case LOAD_ORDERS_SUCCESS:
 
       return Object.assign({}, state, {
         isFetching: false,
@@ -33,55 +36,36 @@ export function loadOrders(state = {
           }          
           return true;
         }),
-        // orders: JSON.parse(action.response),
-        authenticated: action.authenticated || false
+        authenticated: action.authenticated || false,
+        updateSuccess: false,
+        addSuccess: false,
+        deleteSuccess: false,
+        errorMessage: null,
       })
-    case ORDERS_FAILURE:
+    case LOAD_ORDERS_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
         errorMessage: action.message
       })
-    default:
-      return state
-  }
-}
-
-
-export function getOrder (state = {
-    isFetching: false,
-    order:{},
-    authenticated: localStorage.getItem('token') ? true : false,
-  }, action) {
-  switch (action.type) {
-    case ORDER_REQUEST:
+  
+    case  GET_ORDER_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
         authenticated: action.authenticated || false
       })
-    case ORDER_SUCCESS:
+    case  GET_ORDER_SUCCESS:
 
       return Object.assign({}, state, {
         isFetching: false,
         order: JSON.parse(action.response), 
         authenticated: action.authenticated || false
       })
-    case ORDER_FAILURE:
+    case  GET_ORDER_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
         errorMessage: action.message
       })
-      
-    default:
-      return state
-  }
-}
 
-export function updateOrder (state = {
-    isFetching: false,
-    authenticated: localStorage.getItem('token') ? true : false,
-    updateSuccess: false
-  }, action) {
-  switch (action.type) {
     case UPDATE_ORDER_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
@@ -98,74 +82,30 @@ export function updateOrder (state = {
       return Object.assign({}, state, {
         isFetching: false,
         order:{},
-        errorMessage: action.message,
+        errorMessage: action.error.statusText || action.error.status,
         updateSuccess: false
       })
-    case UPDATE_ORDER_RESET:
-        return Object.assign({}, state, {
-                  order:{},
-          isFetching: false,
-          // addSuccess: false,
-          updateSuccess: false,
-          // initSuccess:true
-        });
-    default:
-      return state
-  }
-}
-
-
-export function addOrder (state = {
-    isFetching: false,
-    authenticated: localStorage.getItem('token') ? true : false,
-    addSuccess: false
-  }, action) {
-  switch (action.type) {
     case ADD_ORDER_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
       });
     case ADD_ORDER_SUCCESS:
-      // let order = JSON.parse(action.response);
-      // order.actionDone = true;
       return Object.assign({}, state, {
         isFetching: false,
-        // order: order,
         addSuccess: true,
         authenticated: action.authenticated || false
       });
     case ADD_ORDER_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
-        errorMessage: action.message,
+        errorMessage: action.error.statusText || action.error.status,
         addSuccess: false
       });
-      case ADD_ORDER_RESET:
-        return Object.assign({}, state, {
-                  order:{},
-          isFetching: false,
-          addSuccess: false,
-          // updateSuccess: false,
-          // initSuccess:true
-        });
-    default:
-      return state
-  }
-}
-  
-export function deleteOrder (state = {
-    isFetching: false,
-    authenticated: localStorage.getItem('token') ? true : false,
-    deleteSuccess: false
-  }, action) {
-  switch (action.type) {
     case DELETE_ORDER_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
       });
     case DELETE_ORDER_SUCCESS:
-      // let order = JSON.parse(action.response);
-      // order.actionDone = true;
       return Object.assign({}, state, {
         isFetching: false,
         // order: order,
@@ -175,18 +115,11 @@ export function deleteOrder (state = {
       });
     case DELETE_ORDER_FAILURE:
       return Object.assign({}, state, {
-        isFetching: false,
-        errorMessage: action.message,
-        deleteSuccess: false
+        isFetching: false,       
+        deleteSuccess: false,
+        errorMessage: action.error.statusText || action.error.status,
       });
-      case DELETE_ORDER_RESET:
-        return Object.assign({}, state, {               
-          isFetching: false,
-          deleteSuccess: false,
-        });
     default:
       return state
   }
 }
-
-

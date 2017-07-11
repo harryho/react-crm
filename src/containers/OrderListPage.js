@@ -13,12 +13,14 @@ import PageBase from '../components/PageBase';
 // import Data from '../data';
 import Pagination from '../components/Pagination';
 import { connect } from 'react-redux';
-import { loadOrders, deleteOrder, resetDelete} from '../actions/order';
+import { loadOrders, deleteOrder} from '../actions/order';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Drawer from 'material-ui/Drawer';
 import RaisedButton from 'material-ui/RaisedButton';
  import TextField from 'material-ui/TextField';
+import Snackbar from 'material-ui/Snackbar';
+
 
 class OrderListPage extends React.Component {
   
@@ -29,6 +31,8 @@ class OrderListPage extends React.Component {
         this.state = {
             open:false,
             searchOpen: false,
+            snackbarOpen:false,
+            autoHideDuration: 1500,
             fixedHeader: true,
             fixedFooter: true,
             stripedRows: false,
@@ -50,9 +54,11 @@ class OrderListPage extends React.Component {
         this.onChangePage = this.onChangePage.bind(this);
         this.onDelete = this.onDelete.bind(this);
 
-            this.handleToggle = this.handleToggle.bind(this);
+        this.handleToggle = this.handleToggle.bind(this);
         this.handleSearchFilter = this.handleSearchFilter.bind(this);
-this.handleSearch = this.handleSearch.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
+        this.handleErrorMessage = this.handleErrorMessage.bind(this);
+        this.handleSnackBarClose = this.handleSnackBarClose.bind(this);
 
         if (this.props.orderList || this.props.orderList.length < 1)
           props.getAllOrders(this.state.search);
@@ -69,8 +75,21 @@ this.handleSearch = this.handleSearch.bind(this);
             //this.setPage(this.props.initialPage);
             this.onChangePage(this.props.orderList.slice(0,5));
         }
+
+
+
     }
 
+    componentWillReceiveProps(nextProps) {
+    
+      if (nextProps && nextProps.errorMessage && !nextProps.deleteSuccess){
+          this.setState({snackbarOpen: true});
+      }
+
+      if (!this.props.deleteSuccess &&  nextProps.deleteSuccess && !nextProps.errorMessage && !nextProps.isFetching){
+           this.props.getAllOrders();       
+      }
+    }
 
   
   onChangePage(pageOfItems) {
@@ -119,7 +138,7 @@ this.handleSearch = this.handleSearch.bind(this);
   }
 
 
-handleSearchFilter(event) {
+  handleSearchFilter(event) {
     const field = event.target.name;
 
     if ( event && event.target && field  ){
@@ -130,17 +149,29 @@ handleSearchFilter(event) {
     }
   }
 
+
+  handleErrorMessage() {
+    this.setState({
+      snackbarOpen: true,
+    });
+  }
+
+  handleSnackBarClose()  {
+    this.setState({
+      snackbarOpen: false,
+    });
+  };
+
   render() { 
      
 
     
-     const {  orderList , deleteSuccess } = this.props;
+     const { errorMessage, orderList  } = this.props;
 
-     if ( deleteSuccess){
-           this.props.resetDelete();
-           this.props.getAllOrders();
+    //  if ( deleteSuccess){
+    //        this.props.getAllOrders();
        
-     }
+    //  }
 
 
 
@@ -232,6 +263,15 @@ handleSearchFilter(event) {
                 <Search />
               </FloatingActionButton>
 
+
+     <Snackbar
+          open={this.state.snackbarOpen}
+          message={errorMessage? errorMessage:''}
+          autoHideDuration={this.state.autoHideDuration}
+          onRequestClose={this.handleSnackBarClose}
+        />
+
+
           <Table fixedHeader={this.state.fixedHeader}
           fixedFooter={this.state.fixedFooter}
           selectable={this.state.selectable}
@@ -262,7 +302,7 @@ handleSearchFilter(event) {
                   <TableRowColumn style={styles.columns.name}>{item.price}</TableRowColumn>
                   <TableRowColumn style={styles.columns.price}>{item.quantity}</TableRowColumn>
                   <TableRowColumn style={styles.columns.price}>{item.quantity * item.price}</TableRowColumn>
-                  <TableRowColumn style={styles.columns.category}>{item.customer.firstName + ' ' + item.customer.lastName}</TableRowColumn>
+                  <TableRowColumn style={styles.columns.category}>{item.customer?item.customer.firstName + ' ' + item.customer.lastName: ''}</TableRowColumn>
                   <TableRowColumn style={styles.columns.edit}>
                     <Link className="button" to={"/order/"+item.id} 
                     >
@@ -341,21 +381,19 @@ handleSearchFilter(event) {
 }
 
 OrderListPage.propTypes = {
-  // isFetching: PropTypes.bool,
   orderList : PropTypes.array,
   getAllOrders: PropTypes.func.isRequired,
   deleteOrder: PropTypes.func.isRequired,
-  resetDelete: PropTypes.func.isRequired,
-  // orders : PropTypes.array
-deleteSuccess:PropTypes.bool.isRequired
+  deleteSuccess:PropTypes.bool.isRequired,
+    errorMessage:PropTypes.string
 };
 
 
 function mapStateToProps(state) {  
-  const { loadOrders, auth, deleteOrder } = state;
-  const { orderList, isFetching } = loadOrders;
-  const { deleteSuccess } = deleteOrder;
-  const { isAuthenticated, errorMessage, user } = auth;
+  const { orderReducer } = state;
+  const { orderList, isFetching } = orderReducer;
+  const { deleteSuccess } = orderReducer;
+  const { isAuthenticated, errorMessage, user } = orderReducer;
   
   return {
     orderList,
@@ -371,7 +409,6 @@ function mapDispatchToProps(dispatch) {
   return {
     getAllOrders: (filters) => dispatch( loadOrders(filters)),
     deleteOrder:(id)=>dispatch(deleteOrder(id)),
-    resetDelete: () => dispatch(resetDelete())
   }
 }
 

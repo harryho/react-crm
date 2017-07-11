@@ -39,9 +39,6 @@
     "react-tap-event-plugin": "0.2.2",
     "recharts": "0.20.8",
     "redux": "3.7.1",
-    "redux-auth-wrapper": "2.0.0-beta3",
-    "redux-form": "6.8.0",
-    "redux-form-material-ui": "4.2.0",
     "redux-thunk": "2.2.0"
   },
   "devDependencies": {

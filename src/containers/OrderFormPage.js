@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import {GridList, GridTile} from 'material-ui/GridList';
 import {Card} from 'material-ui/Card';
 
-import { getOrder, updateOrder, addOrder, resetUpdate, resetAdd 
+import { getOrder, updateOrder, addOrder
 } from '../actions/order';
 import { loadCustomers} from '../actions/customer';
 import {  FormsyText } from 'formsy-material-ui/lib';
@@ -28,33 +28,33 @@ class OrderFormPage extends React.Component {
   constructor(props) {
     super(props);
 
-   this.state = {
-
+    this.state = {
         order: (this.props.routeParams.id?Object.assign({}, props.order):{}),
-        updateSuccess:props.updateSuccess,
-        addSuccess:props.addSuccess
-      }
+    }
 
     if (this.props.routeParams.id)
       this.props.getOrder(this.props.routeParams.id);
 
-   this.props.getAllCustomers();
+    this.props.getAllCustomers();
    
-   this.handleChange = this.handleChange.bind(this);
-   this.handleClick = this.handleClick.bind(this);
-         this.enableButton = this.enableButton.bind(this);
-     this.notifyFormError = this.notifyFormError.bind(this);
-     this.disableButton = this.disableButton.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.enableButton = this.enableButton.bind(this);
+    this.notifyFormError = this.notifyFormError.bind(this);
+    this.disableButton = this.disableButton.bind(this);
   }
 
 
   componentWillReceiveProps(nextProps) {
-
-
-    if (this.props.order.id != nextProps.order.id) {
+    if (this.props.order && nextProps.order 
+      && this.props.order.id != nextProps.order.id) {
 
       // Necessary to populate form when existing order is loaded directly.
       this.setState({order: Object.assign({}, nextProps.order)});
+    }
+
+    if (!this.props.addSuccess &&  nextProps.addSuccess || !this.props.updateSuccess &&  nextProps.updateSuccess ){
+      this.props.router.push('/orders');
     }
   }
 
@@ -68,7 +68,7 @@ class OrderFormPage extends React.Component {
     }
   }
 
-    enableButton() {
+  enableButton() {
     this.setState({
       canSubmit: true,
     });
@@ -79,12 +79,10 @@ class OrderFormPage extends React.Component {
       canSubmit: false,
     });
   }
-
   
   notifyFormError(data) {
     console.error('Form error:', data);
   }
-
 
   handleClick (event) {
     event.preventDefault();    
@@ -97,26 +95,14 @@ class OrderFormPage extends React.Component {
 
 
   render(){ 
+  
 
-    
+   const { errorMessage, customerList} = this.props;
 
-   const { errorMessage, updateSuccess, addSuccess , customerList} = this.props;
+    // if( updateSuccess || addSuccess  ){     
 
-
-
-    if( updateSuccess || addSuccess  ){
-        
-        if(updateSuccess)
-              this.props.resetUpdate();
-         
-        if(addSuccess)
-              this.props.resetAdd();       
-
-
-     
-
-        this.props.router.push('/orders');
-    }
+    //     this.props.router.push('/orders');
+    // }
 
     
     const styles = {
@@ -181,10 +167,10 @@ class OrderFormPage extends React.Component {
                     hintText="Price"
                     floatingLabelText="Price"
                     fullWidth={true}
-                    name="lastName"
+                    name="price"
                     onChange = {this.handleChange}
                      validations={{
-                    isWords: true
+                    isNumeric: true
                    }}
                     validationErrors={{
                       isNumeric: 'Please provide valid price',
@@ -213,13 +199,7 @@ class OrderFormPage extends React.Component {
                   />
 
                   <div style={styles.toggleDiv}>
-                    {/*<Toggle
-                      label="Status"
-                      name="isActive"
-                      onChange = {this.handleChange}
-                      defaultToggled={this.state.order.isActive}
-                      labelStyle={styles.toggleLabel}
-                    />*/}
+           
 
                      <SelectField
           floatingLabelText="Customer"
@@ -227,18 +207,14 @@ class OrderFormPage extends React.Component {
           onChange={this.handleChange}
           style={styles.customWidth}
         >
-          {/*<MenuItem value={1} primaryText="Custom width" />
-          <MenuItem value={2} primaryText="Every Night" />
-          <MenuItem value={3} primaryText="Weeknights" />
-          <MenuItem value={4} primaryText="Weekends" />
-          <MenuItem value={5} primaryText="Weekly" />*/}
+  
 
           {customerList.map((customer, index) =>
             <MenuItem
             key={index}
               value={customer.id}
               style={styles.menuItem}
-              primaryText={customer.firstName}             
+              primaryText={customer.firstName? customer.firstName + ' ' + customer.lastName: ''}     
               
             />
           )}
@@ -291,19 +267,17 @@ OrderFormPage.propTypes = {
   updateSuccess: PropTypes.bool.isRequired,
   addSuccess: PropTypes.bool.isRequired,
   addOrder: PropTypes.func.isRequired,
-  resetUpdate: PropTypes.func.isRequired,
-  resetAdd: PropTypes.func.isRequired,
    customerList : PropTypes.array,
    getAllCustomers: PropTypes.func.isRequired
 };
 
 
 function mapStateToProps(state) {  
-  const { loadCustomers, getOrder, updateOrder, addOrder } = state;
-  const { customerList } = loadCustomers;
-  const { order } = getOrder;
-  const { updateSuccess } = updateOrder;
-  const { addSuccess } =  addOrder  ;
+  const { customerReducer, orderReducer } = state;
+  const { customerList } = customerReducer;
+  const { order } = orderReducer;
+  const { updateSuccess } = orderReducer;
+  const { addSuccess } =  orderReducer  ;
   
   return {
     order,
@@ -315,8 +289,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    resetUpdate: () => dispatch(resetUpdate()),
-    resetAdd: () => dispatch(resetAdd()),
     getOrder: id => dispatch( getOrder(id)),
     updateOrder: (order) => dispatch(updateOrder(order)),
     addOrder: (order) => dispatch(addOrder(order)),

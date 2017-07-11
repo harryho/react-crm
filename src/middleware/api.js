@@ -30,17 +30,31 @@ function callApi(endpoint, authenticated, method, data ) {
   }
 
   
+  // return fetch(BASE_URL + endpoint, config)
+  //   .then(response =>
+  //     response.text()
+  //     .then(text => ({ text, response }))
+  //   ).then(({ text, response }) => {
+  //     if (!response.ok) {
+  //       return Promise.reject(text)
+  //     }
+  //     return text
+  //   }).catch(err => console.log(err));
+
+
   return fetch(BASE_URL + endpoint, config)
     .then(response =>
-      response.text()
-      .then(text => ({ text, response }))
-    ).then(({ text, response }) => {
-      if (!response.ok) {
-        return Promise.reject(text)
-      }
-      
+       response && response.ok?
+          response.text()
+            .then(text => ({ text, response }))
+      :  { response }
+    ).then(({ text, response }) => {       
+      if (!response || !response.ok ||  !text ){
+        return Promise.reject(response) 
+      }       
       return text
-    }).catch(err => console.log(err));
+    });
+
 }
 
 export const CALL_API = Symbol('Call API')
@@ -83,14 +97,15 @@ export default store => next => action => {
   // Passing the authenticated boolean back in our data will let us distinguish between normal and secret quotes
   return callApi(endpoint, authenticated, method, data ).then(
     response =>
-      next({
-        response,
-        authenticated,
-        filters:filters,
-        type: successType
-      }),
+          next({
+              response,
+              authenticated,
+              filters:filters,              
+              type: successType,  
+            })  
+    ,
     error => next({
-      error: error.message || 'There was an error.',  
+      error: error, //&& !error.ok?(error.statusText || error.status):'There is an error.', 
       type: errorType
     })
   )

@@ -1,11 +1,9 @@
 /* eslint-disable import/default */
 
 import React from 'react';
-// import { combineReducers } from 'redux';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-// import { reducer as reduxFormReducer } from 'redux-form';
 // import getMuiTheme from 'material-ui/styles/getMuiTheme'
 // import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Router, browserHistory } from 'react-router';

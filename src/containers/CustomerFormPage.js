@@ -1,9 +1,6 @@
 import React, { PropTypes } from 'react';
-import {Link} from 'react-router';
+import {Link } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
-// import MenuItem from 'material-ui/MenuItem';
-// import TextField from 'material-ui/TextField';
-// import SelectField from 'material-ui/SelectField';
 import Toggle from 'material-ui/Toggle';
 // import DatePicker from 'material-ui/DatePicker';
 import {grey400} from 'material-ui/styles/colors';
@@ -14,7 +11,7 @@ import { connect } from 'react-redux';
 import {GridList, GridTile} from 'material-ui/GridList';
 import {Card} from 'material-ui/Card';
 
-import { getCustomer, updateCustomer, addCustomer, resetUpdate, resetAdd 
+import { getCustomer, updateCustomer, addCustomer
 } from '../actions/customer';
 import {  FormsyText } from 'formsy-material-ui/lib';
 import Formsy from 'formsy-react';
@@ -23,35 +20,35 @@ class CustomerFormPage extends React.Component {
 
   constructor(props) {
     super(props);
- 
 
 
-   this.state = {
-        // customer: Object.assign({}, props.customer),
-        customer: (this.props.routeParams.id?Object.assign({}, props.customer):{}),
-        // updateSuccess:props.updateSuccess,
-        addSuccess:props.addSuccess
 
-      }
+    this.state = {    
+    customer: (props.routeParams.id?Object.assign({}, props.customer):{}),
+    }
 
     if (this.props.routeParams.id)
       this.props.getCustomer(this.props.routeParams.id);
 
-   
-   this.handleChange = this.handleChange.bind(this);
-   this.handleClick = this.handleClick.bind(this);
-         this.enableButton = this.enableButton.bind(this);
-     this.notifyFormError = this.notifyFormError.bind(this);
-     this.disableButton = this.disableButton.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.enableButton = this.enableButton.bind(this);
+    this.notifyFormError = this.notifyFormError.bind(this);
+    this.disableButton = this.disableButton.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
   
 
-    if (this.props.customer.id != nextProps.customer.id) {
-
+    if (this.props.customer &&  nextProps.customer
+        &&this.props.customer.id != nextProps.customer.id) {
       // Necessary to populate form when existing customer is loaded directly.
       this.setState({customer: Object.assign({}, nextProps.customer)});
+     
+    }
+
+    if (!this.props.addSuccess &&  nextProps.addSuccess || !this.props.updateSuccess &&  nextProps.updateSuccess ){
+      this.props.router.push('/customers');
     }
   }
 
@@ -85,8 +82,6 @@ class CustomerFormPage extends React.Component {
 
   handleClick (event) {
     event.preventDefault();    
-
-
     if (this.state.customer.id)
       this.props.updateCustomer(this.state.customer);
     else 
@@ -95,26 +90,9 @@ class CustomerFormPage extends React.Component {
 
 
   render(){ 
-
-    
+  
 
    const { errorMessage, updateSuccess, addSuccess } = this.props;
-
-
-
-    if( updateSuccess || addSuccess  ){
-        
-        if(updateSuccess)
-              this.props.resetUpdate();
-         
-        if(addSuccess)
-              this.props.resetAdd();       
-
-     
-
-        this.props.router.push('/customers');
-    }
-
 
     
     const styles = {
@@ -143,7 +121,6 @@ class CustomerFormPage extends React.Component {
 
       <PageBase title="Customer"
                 navigation="Application / Customer ">
-        {/*<form>*/}
             <Formsy.Form
                       onValid={this.enableButton}
                       onInvalid={this.disableButton}
@@ -245,7 +222,6 @@ class CustomerFormPage extends React.Component {
 
             
         </Formsy.Form>
-        {/*</form>*/}
         
       </PageBase>
     );
@@ -258,35 +234,26 @@ CustomerFormPage.propTypes = {
   updateSuccess: PropTypes.bool.isRequired,
   addSuccess: PropTypes.bool.isRequired,
   addCustomer: PropTypes.func.isRequired,
-  resetUpdate: PropTypes.func.isRequired,
-  resetAdd: PropTypes.func.isRequired,
   updateError: PropTypes.string,
 };
 
 
 function mapStateToProps(state) {  
-  const { getCustomer, updateCustomer, addCustomer } = state;
-  const { customer } = getCustomer;
-  const { updateError , updateSuccess} = updateCustomer;
-  const { addSuccess } =  addCustomer  ;
-  // const { isAuthenticated, errorMessage, user } = auth;
+  const { customerReducer} = state;
+  const { customer } = customerReducer;
+  const { updateError , updateSuccess} = customerReducer;
+  const { addSuccess } =  customerReducer  ;
   
   return {
     customer,
-    // initSuccess,
     addSuccess,
     updateSuccess,
     updateError
-    // isAuthenticated,
-    // errorMessage,
-    // user
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    resetUpdate: () => dispatch(resetUpdate()),
-    resetAdd: () => dispatch(resetAdd()),
     getCustomer: id => dispatch( getCustomer(id)),
     updateCustomer: (customer) => dispatch(updateCustomer(customer)),
     addCustomer: (customer) => dispatch(addCustomer(customer))

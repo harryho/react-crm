@@ -1,12 +1,10 @@
 import { CALL_API } from '../middleware/api'
 import {  
-  CUSTOMERS_REQUEST, CUSTOMERS_SUCCESS, CUSTOMERS_FAILURE,
-  CUSTOMER_REQUEST, CUSTOMER_SUCCESS, CUSTOMER_FAILURE,
+  LOAD_CUSTOMERS_REQUEST, LOAD_CUSTOMERS_SUCCESS, LOAD_CUSTOMERS_FAILURE,
+  GET_CUSTOMER_REQUEST, GET_CUSTOMER_SUCCESS, GET_CUSTOMER_FAILURE,
   UPDATE_CUSTOMER_REQUEST, UPDATE_CUSTOMER_SUCCESS, UPDATE_CUSTOMER_FAILURE,
   ADD_CUSTOMER_REQUEST, ADD_CUSTOMER_SUCCESS, ADD_CUSTOMER_FAILURE,
-  DELETE_CUSTOMER_REQUEST, DELETE_CUSTOMER_SUCCESS, DELETE_CUSTOMER_FAILURE,
-
-  UPDATE_CUSTOMER_RESET, ADD_CUSTOMER_RESET, DELETE_CUSTOMER_RESET
+  DELETE_CUSTOMER_REQUEST, DELETE_CUSTOMER_SUCCESS, DELETE_CUSTOMER_FAILURE
 } from '../constants'
 
 
@@ -19,7 +17,7 @@ export function loadCustomers(filters) {
       endpoint: 'customers',
       customers:[],
       filters:filters,
-      types: [CUSTOMERS_REQUEST, CUSTOMERS_SUCCESS, CUSTOMERS_FAILURE]
+      types: [LOAD_CUSTOMERS_REQUEST, LOAD_CUSTOMERS_SUCCESS, LOAD_CUSTOMERS_FAILURE]
     }
   }
 }
@@ -29,7 +27,7 @@ export function getCustomer(id) {
     [CALL_API]: {
       endpoint: `customers/${id}`,
       customer:{},
-      types: [CUSTOMER_REQUEST, CUSTOMER_SUCCESS, CUSTOMER_FAILURE]
+      types: [GET_CUSTOMER_REQUEST, GET_CUSTOMER_SUCCESS, GET_CUSTOMER_FAILURE]
     }
   }
 }
@@ -71,15 +69,4 @@ export function deleteCustomer(id) {
   }
 }
 
-export function resetUpdate(){
-  return { type:  UPDATE_CUSTOMER_RESET }
-}
-
-export function resetAdd(){
-  return { type:  ADD_CUSTOMER_RESET  }
-}
-
-export function resetDelete(){
-  return { type:  DELETE_CUSTOMER_RESET  }
-}
 

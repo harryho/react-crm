@@ -1,12 +1,10 @@
 import { CALL_API } from '../middleware/api'
 import {  
-  ORDERS_REQUEST, ORDERS_SUCCESS, ORDERS_FAILURE,
-  ORDER_REQUEST, ORDER_SUCCESS, ORDER_FAILURE,
+  LOAD_ORDERS_REQUEST, LOAD_ORDERS_SUCCESS, LOAD_ORDERS_FAILURE,
+   GET_ORDER_REQUEST,  GET_ORDER_SUCCESS,  GET_ORDER_FAILURE,
   UPDATE_ORDER_REQUEST, UPDATE_ORDER_SUCCESS, UPDATE_ORDER_FAILURE,
   ADD_ORDER_REQUEST, ADD_ORDER_SUCCESS, ADD_ORDER_FAILURE,
-  DELETE_ORDER_REQUEST, DELETE_ORDER_SUCCESS, DELETE_ORDER_FAILURE,
-
-  UPDATE_ORDER_RESET, ADD_ORDER_RESET, DELETE_ORDER_RESET
+  DELETE_ORDER_REQUEST, DELETE_ORDER_SUCCESS, DELETE_ORDER_FAILURE
 } from '../constants'
 
 
@@ -19,7 +17,7 @@ export function loadOrders(filters) {
       endpoint: 'orders?_expand=customer',
       orders:[],
       filters:filters,
-      types: [ORDERS_REQUEST, ORDERS_SUCCESS, ORDERS_FAILURE]
+      types: [ LOAD_ORDERS_REQUEST, LOAD_ORDERS_SUCCESS, LOAD_ORDERS_FAILURE]
     }
   }
 }
@@ -29,7 +27,7 @@ export function getOrder(id) {
     [CALL_API]: {
       endpoint: `orders/${id}?_expand=customer`,
       order:{},
-      types: [ORDER_REQUEST, ORDER_SUCCESS, ORDER_FAILURE]
+      types: [  GET_ORDER_REQUEST,  GET_ORDER_SUCCESS,  GET_ORDER_FAILURE]
     }
   }
 }
@@ -66,23 +64,7 @@ export function deleteOrder(id) {
       endpoint: `orders/${id}`,
       method: 'DELETE',
       authenticated: true,
-      types: [DELETE_ORDER_REQUEST, 
-      DELETE_ORDER_SUCCESS,
-      //  [ORDERS_REQUEST, ORDERS_SUCCESS, ORDERS_FAILURE],
-       DELETE_ORDER_FAILURE]
+      types: [DELETE_ORDER_REQUEST, DELETE_ORDER_SUCCESS, DELETE_ORDER_FAILURE]
     }
   }
 }
-
-export function resetUpdate(){
-  return { type:  UPDATE_ORDER_RESET }
-}
-
-export function resetAdd(){
-  return { type:  ADD_ORDER_RESET  }
-}
-
-export function resetDelete(){
-  return { type:  DELETE_ORDER_RESET  }
-}
-

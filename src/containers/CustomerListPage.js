@@ -13,13 +13,13 @@ import PageBase from '../components/PageBase';
 // import Data from '../data';
 import Pagination from '../components/Pagination';
 import { connect } from 'react-redux';
-import { loadCustomers, deleteCustomer, resetDelete} from '../actions/customer';
+import { loadCustomers, deleteCustomer} from '../actions/customer';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Drawer from 'material-ui/Drawer';
 import RaisedButton from 'material-ui/RaisedButton';
  import TextField from 'material-ui/TextField';
-
+import Snackbar from 'material-ui/Snackbar';
 
 class CustomerListPage extends React.Component {
   
@@ -30,6 +30,9 @@ class CustomerListPage extends React.Component {
         this.state = {
             open:false,
             searchOpen: false,
+            snackbarOpen:false,
+            autoHideDuration: 1500,
+
             fixedHeader: true,
             fixedFooter: true,
             stripedRows: false,
@@ -50,9 +53,12 @@ class CustomerListPage extends React.Component {
 
         this.onChangePage = this.onChangePage.bind(this);
         this.onDelete = this.onDelete.bind(this);
-     this.handleToggle = this.handleToggle.bind(this);
-         this.handleSearchFilter = this.handleSearchFilter.bind(this);
-this.handleSearch = this.handleSearch.bind(this);
+        this.handleToggle = this.handleToggle.bind(this);
+        this.handleSearchFilter = this.handleSearchFilter.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
+            this.handleErrorMessage = this.handleErrorMessage.bind(this);
+ this.handleSnackBarClose = this.handleSnackBarClose.bind(this);
+
 
         if (this.props.customerList || this.props.customerList.length < 1)
           props.getAllCustomers(this.state.search);
@@ -111,28 +117,54 @@ this.handleSearch = this.handleSearch.bind(this);
      }
   };
 
-handleSearchFilter(event) {
+  handleSearchFilter(event) {
     const field = event.target.name;
 
     if ( event && event.target && field  ){
       let search = Object.assign({}, this.state.search);
       search[field] = event.target.value;
-
       this.setState({search: search});
     }
   }
+
+  
+  handleErrorMessage() {
+    this.setState({
+      snackbarOpen: true,
+    });
+  }
+
+  handleSnackBarClose()  {
+    this.setState({
+      snackbarOpen: false,
+    });
+  };
+
+
+    componentWillReceiveProps(nextProps) {
+    
+      if (nextProps && nextProps.errorMessage && !nextProps.deleteSuccess){
+          this.setState({snackbarOpen: true});
+      }
+
+      if (!this.props.deleteSuccess &&  nextProps.deleteSuccess && !nextProps.errorMessage && !nextProps.isFetching){
+           this.props.getAllCustomers();       
+      }
+    }
+
 
   render() { 
      
 
     
-     const {  customerList , deleteSuccess } = this.props;
+     const { errorMessage, customerList , deleteSuccess ,isFetching } = this.props;
 
-     if ( deleteSuccess){
-           this.props.resetDelete();
-           this.props.getAllCustomers();
-       
-     }
+    //  if ( deleteSuccess && !isFetching){
+    //        this.props.getAllCustomers();       
+    //  }
+    //  else if (!deleteSuccess && errorMessage){
+    //    this.handleErrorMessage ();
+    //  }
 
 
 
@@ -227,6 +259,16 @@ handleSearchFilter(event) {
                 <Search />
               </FloatingActionButton>
           </div>
+ {errorMessage &&
+            <p style={{color:'red'}}>{errorMessage}</p>}
+
+     
+        <Snackbar
+          open={this.state.snackbarOpen}
+          message={errorMessage? errorMessage:''}
+          autoHideDuration={this.state.autoHideDuration}
+          onRequestClose={this.handleSnackBarClose}
+        />
 
           <Table fixedHeader={this.state.fixedHeader}
           fixedFooter={this.state.fixedFooter}
@@ -292,6 +334,8 @@ handleSearchFilter(event) {
                   </div>
               </div>
           </div>  
+
+
           <Dialog
           title="Confirm Dialog "
           actions={actions}
@@ -347,17 +391,16 @@ CustomerListPage.propTypes = {
   customerList : PropTypes.array,
   getAllCustomers: PropTypes.func.isRequired,
   deleteCustomer: PropTypes.func.isRequired,
-  resetDelete: PropTypes.func.isRequired,
-  // customers : PropTypes.array
-  deleteSuccess:PropTypes.bool.isRequired
+  deleteSuccess:PropTypes.bool.isRequired,
+  errorMessage:PropTypes.string
 };
 
 
 function mapStateToProps(state) {  
-  const { loadCustomers, auth, deleteCustomer } = state;
-  const { customerList, isFetching } = loadCustomers;
-  const { deleteSuccess } = deleteCustomer;
-  const { isAuthenticated, errorMessage, user } = auth;
+  const {customerReducer } = state;
+  const { customerList, isFetching } = customerReducer;
+  const { deleteSuccess } = customerReducer;
+  const { isAuthenticated, errorMessage, user } = customerReducer;
   
   return {
     customerList,
@@ -373,7 +416,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getAllCustomers: (filters) => dispatch( loadCustomers(filters)),
     deleteCustomer:(id)=>dispatch(deleteCustomer(id)),
-    resetDelete: () => dispatch(resetDelete())
+ 
   }
 }
 
