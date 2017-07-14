@@ -398,12 +398,12 @@ CustomerListPage.propTypes = {
 
 function mapStateToProps(state) {  
   const {customerReducer } = state;
-  const { customerList, isFetching } = customerReducer;
-  const { deleteSuccess } = customerReducer;
-  const { isAuthenticated, errorMessage, user } = customerReducer;
+  const { customerList, isFetching,  deleteSuccess, 
+        isAuthenticated, errorMessage, user } = customerReducer;
   
   return {
     customerList,
+    isFetching, 
     isAuthenticated,
     errorMessage,
     deleteSuccess,

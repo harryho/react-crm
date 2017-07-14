@@ -92,7 +92,7 @@ class CustomerFormPage extends React.Component {
   render(){ 
   
 
-   const { errorMessage, updateSuccess, addSuccess } = this.props;
+   const { errorMessage } = this.props;
 
     
     const styles = {
@@ -233,22 +233,23 @@ CustomerFormPage.propTypes = {
   updateCustomer: PropTypes.func.isRequired,
   updateSuccess: PropTypes.bool.isRequired,
   addSuccess: PropTypes.bool.isRequired,
-  addCustomer: PropTypes.func.isRequired,
-  updateError: PropTypes.string,
+  addCustomer: PropTypes.func.isRequired
 };
 
 
 function mapStateToProps(state) {  
   const { customerReducer} = state;
-  const { customer } = customerReducer;
-  const { updateError , updateSuccess} = customerReducer;
-  const { addSuccess } =  customerReducer  ;
+  const { customer, isFetching, updateSuccess, addSuccess, errorMessage,
+          isAuthenticated, user } = customerReducer;
   
   return {
     customer,
+    isFetching, 
     addSuccess,
     updateSuccess,
-    updateError
+    errorMessage,
+    isAuthenticated,
+    user
   }
 }
 

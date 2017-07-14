@@ -389,12 +389,13 @@ OrderListPage.propTypes = {
 
 function mapStateToProps(state) {  
   const { orderReducer } = state;
-  const { orderList, isFetching } = orderReducer;
-  const { deleteSuccess } = orderReducer;
-  const { isAuthenticated, errorMessage, user } = orderReducer;
+  const { orderList, deleteSuccess,
+  isAuthenticated, errorMessage, user } = orderReducer;
+
   
   return {
     orderList,
+    isFetching, 
     isAuthenticated,
     errorMessage,
     deleteSuccess,

@@ -271,18 +271,19 @@ OrderFormPage.propTypes = {
 };
 
 
-function mapStateToProps(state) {  
-  const { customerReducer, orderReducer } = state;
-  const { customerList } = customerReducer;
-  const { order } = orderReducer;
-  const { updateSuccess } = orderReducer;
-  const { addSuccess } =  orderReducer  ;
-  
+function mapStateToProps(state) {
+  const {customerReducer, orderReducer} = state;
+  const {customerList} = customerReducer;
+  const {order, isFetching, updateSuccess, addSuccess, isAuthenticated, user} = orderReducer;
+
   return {
     order,
+    isFetching, 
     customerList,
     addSuccess,
     updateSuccess,
+    isAuthenticated,
+    user
   }
 }
 
