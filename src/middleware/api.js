@@ -105,7 +105,7 @@ export default store => next => action => {
             })  
     ,
     error => next({
-      error: error, //&& !error.ok?(error.statusText || error.status):'There is an error.', 
+      error: error, 
       type: errorType
     })
   )

@@ -160,18 +160,9 @@ class OrderListPage extends React.Component {
     });
   };
 
-  render() { 
-     
-
+  render() {    
     
      const { errorMessage, orderList  } = this.props;
-
-    //  if ( deleteSuccess){
-    //        this.props.getAllOrders();
-       
-    //  }
-
-
 
       const styles = {
         fab: {
@@ -389,7 +380,7 @@ OrderListPage.propTypes = {
 
 function mapStateToProps(state) {  
   const { orderReducer } = state;
-  const { orderList, deleteSuccess,
+  const { orderList, deleteSuccess, isFetching, 
   isAuthenticated, errorMessage, user } = orderReducer;
 
   

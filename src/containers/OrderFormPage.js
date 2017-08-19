@@ -97,12 +97,6 @@ class OrderFormPage extends React.Component {
   
 
    const { errorMessage, customerList} = this.props;
-
-    // if( updateSuccess || addSuccess  ){     
-
-    //     this.props.router.push('/orders');
-    // }
-
     
     const styles = {
         toggleDiv: {
@@ -219,10 +213,8 @@ class OrderFormPage extends React.Component {
           )}
 
 
-        </SelectField>
-
-      
-                  </div>
+        </SelectField>      
+        </div>
                   
                 </GridTile>
 
@@ -292,7 +284,7 @@ function mapDispatchToProps(dispatch) {
     getOrder: id => dispatch( getOrder(id)),
     updateOrder: (order) => dispatch(updateOrder(order)),
     addOrder: (order) => dispatch(addOrder(order)),
-      getAllCustomers: () => dispatch( loadCustomers())
+    getAllCustomers: () => dispatch( loadCustomers())
   }
 }
 
