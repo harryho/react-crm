@@ -1,28 +1,21 @@
-# Reetek React Redux CRM
+# React Redux CRM
 
 
 > A reusable CRM project for real-world business based on React 15.4, React-Redux & Material-UI
 
-
-
 This is the very first version, feel free to use for any app. Contributions are always welcome!
 
-The goal of this starter project is to create reusable project for real-world business. To achieve this target, we need a solution which should include authentication process, restful API feature with token support and simple but elegant UI design. 
+The goal of this starter project is to create reusable project for real-world business. To achieve this target, we need a solution which should include simple authentication process, restful API with token support and simple but elegant UI design. 
 
 
 #### Features
 
 * This project is built on the top of React/Redux. 
 * The UI part of this project uses Material-UI. 
-* This project uses Redux-Thunk to support backend API.
-* It uses Json-Server as fake Restful API. (You can simple replace it with your own API)
+* This project uses Redux-Thunk to support back-end API.
+* To simulate real-world business, this starter project chooses Json-Server as fake Restful API. (You can simple replace it with your own API)
+* CRUD functions for Customer, Order
 
-#### Alternatives
-
-There are two similar projects respectively built on the Vue.js and Angular. If you have interests in those technical stacks. You can find and clone those repositories below.
-
-* [Vue2Crm](https://github.com/harryho/vue2crm.git).
-* [Ng4Crm](https://github.com/harryho/ng4crm.git).
 
 #### Screenshots
 
@@ -96,3 +89,9 @@ For detailed explanation on how things work, checkout following links please.
 * [Material-UI](http://www.material-ui.com/)
 
 
+#### Alternatives
+
+There are another two similar projects respectively built on the Vue.js and Angular. If you have interests in those technical stacks. You can find and clone those repositories below.
+
+* [Vue2Crm](https://github.com/harryho/vue2crm.git).
+* [Ng4Crm](https://github.com/harryho/ng4crm.git).
