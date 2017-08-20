@@ -3,7 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import {grey500, white} from 'material-ui/styles/colors';
-
+import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card';
 import {Link} from 'react-router';
 import ThemeDefault from '../theme-default';
 
@@ -94,6 +94,18 @@ class LoginPage extends React.Component {
         right: 0,
         margin: 'auto'
       },
+      formHeader: {
+        color: 'blue',
+        fontColor: 'navy',
+        fontSize: 20,
+        maxWidth: 500,
+      },
+      subHeader: {
+        color: 'navy',
+        fontColor: 'navy',
+        fontSize: 16,
+        maxWidth: 500,
+      },
       paper: {
         padding: 20,
         overflow: 'auto'
@@ -151,68 +163,80 @@ class LoginPage extends React.Component {
           <div style={styles.loginContainer}>
 
             <Paper style={styles.paper}>
-              <Formsy.Form
-                      onValid={this.enableButton}
-                      onInvalid={this.disableButton}
-                      onValidSubmit={this.handleClick}
-                      onInvalidSubmit={this.notifyFormError}>
 
-                <FormsyText
-                  hintText="E-mail" 
-                  ref='username' 
-                  name='username'
-                  value={this.state.username?this.state.username:''}
-                  floatingLabelText="E-mail"
-                  fullWidth={true} 
-                   validations={{
-                    isEmail: true
-                  }}
-                  validationErrors={{
-                      isEmail: 'Please provide a valid email',
-                      isDefaultRequiredValue: 'This is a required field'
-                    }}
-                   required    
-                />
      
-             
-       
-                <FormsyText
-                  hintText="Password"
-                  ref='password' 
-                  name='password'
-                       value={this.state.password?this.state.password:''}
-                  floatingLabelText="Password"
-                  fullWidth={true}
-                  type="password"
-                  validations={{
-                      minLength: 3
-                    }}
-                  validationErrors={{
-                    minLength: 'Please provide a valid password',
-                    isDefaultRequiredValue: 'This is a required field'
-                  }}                     
-                  required         
-                />
-  
-                <div>
-                  <Link to="/">
-                    <RaisedButton label="Login"
-                                  primary={true}
-                                  onClick={() => this.handleClick(event)}
-                                  style={styles.loginBtn}
-                                  disabled={!this.state.canSubmit}
-                                  />
-                  </Link>
-                </div>
-                <div >
-                      {errorMessage &&
-            <p style={{color:'red'}}>{errorMessage}</p>
-          }
+                      <p  style={styles.formHeader}>       
+                        Reetek React Redux CRM
+                      </p>
+            
+                      <p  style={styles.subHeader}>  
+                        Version 1.1.0
+                      </p>
+                   
+                      {/*<CardContent>*/}
+                          <Formsy.Form
+                                  onValid={this.enableButton}
+                                  onInvalid={this.disableButton}
+                                  onValidSubmit={this.handleClick}
+                                  onInvalidSubmit={this.notifyFormError}>
 
-          </div>
-          </Formsy.Form>
-        
+                            <FormsyText
+                              hintText="E-mail" 
+                              ref='username' 
+                              name='username'
+                              value={this.state.username?this.state.username:''}
+                              floatingLabelText="E-mail"
+                              fullWidth={true} 
+                              validations={{
+                                isEmail: true
+                              }}
+                              validationErrors={{
+                                  isEmail: 'Please provide a valid email',
+                                  isDefaultRequiredValue: 'This is a required field'
+                                }}
+                              required    
+                            />
+                
+                        
+                  
+                            <FormsyText
+                              hintText="Password"
+                              ref='password' 
+                              name='password'
+                                  value={this.state.password?this.state.password:''}
+                              floatingLabelText="Password"
+                              fullWidth={true}
+                              type="password"
+                              validations={{
+                                  minLength: 3
+                                }}
+                              validationErrors={{
+                                minLength: 'Please provide a valid password',
+                                isDefaultRequiredValue: 'This is a required field'
+                              }}                     
+                              required         
+                            />
+              
+                            <div>
+                              <Link to="/">
+                                <RaisedButton label="Login"
+                                              primary={true}
+                                              onClick={() => this.handleClick(event)}
+                                              style={styles.loginBtn}
+                                              disabled={!this.state.canSubmit}
+                                              />
+                              </Link>
+                            </div>
+                            <div >
+                                  {errorMessage &&
+                        <p style={{color:'red'}}>{errorMessage}</p>
+                      }
 
+                      </div>
+                      </Formsy.Form>
+                      {/*</CardContent>*/}
+                    
+           
             </Paper>
 
 

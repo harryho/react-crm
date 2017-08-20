@@ -4,6 +4,8 @@ import {customerReducer} from './customer';
 
 import {orderReducer} from './order';
 
-const reducers = combineReducers({auth, customerReducer, orderReducer})
+import {productReducer} from './product';
+
+const reducers = combineReducers({auth, customerReducer, orderReducer, productReducer})
 
 export default reducers

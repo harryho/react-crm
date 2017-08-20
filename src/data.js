@@ -15,6 +15,7 @@ const data = {
     { text: 'DashBoard', icon: <Assessment/>, link: '/dashboard' },
     { text: 'Order', icon: <GridOn/>, link: '/orders' },
     { text: 'Customer', icon: <PermIdentity/>, link: '/customers' },
+    { text: 'Product', icon: <GridOn/>, link: '/products' },
     { text: 'About', icon: <Web/>, link: '/about' }
   ],
   signOutMenus: [

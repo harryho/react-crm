@@ -11,7 +11,7 @@ import PageBase from '../components/PageBase';
 // import Data from '../data';
 import Pagination from '../components/Pagination';
 import { connect } from 'react-redux';
-import { loadOrders, deleteOrder} from '../actions/order';
+import { loadProducts, deleteProduct} from '../actions/product';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Drawer from 'material-ui/Drawer';
@@ -20,7 +20,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Snackbar from 'material-ui/Snackbar';
 
 
-class OrderListPage extends React.Component {
+class ProductListPage extends React.Component {
   
 
     constructor(props) {
@@ -41,7 +41,7 @@ class OrderListPage extends React.Component {
             deselectOnClickaway: true,
             showCheckboxes: false,  
             pageOfItems:[],
-            orderId: null,
+            productId: null,
             dialogText:'Are you sure to do this?',
             search: {
               product: '',
@@ -58,8 +58,8 @@ class OrderListPage extends React.Component {
         this.handleErrorMessage = this.handleErrorMessage.bind(this);
         this.handleSnackBarClose = this.handleSnackBarClose.bind(this);
 
-        if (this.props.orderList || this.props.orderList.length < 1)
-          props.getAllOrders(this.state.search);
+        if (this.props.productList || this.props.productList.length < 1)
+          props.getAllProducts(this.state.search);
     }
 
     componentWillMount(){
@@ -69,9 +69,9 @@ class OrderListPage extends React.Component {
     componentDidUpdate(prevProps, prevState) {
 
         // reset page if items array has changed
-        if (this.props.orderList !== prevProps.orderList) {
+        if (this.props.productList !== prevProps.productList) {
             //this.setPage(this.props.initialPage);
-            this.onChangePage(this.props.orderList.slice(0,5));
+            this.onChangePage(this.props.productList.slice(0,5));
         }
 
 
@@ -85,14 +85,14 @@ class OrderListPage extends React.Component {
       }
 
       if (!this.props.deleteSuccess &&  nextProps.deleteSuccess && !nextProps.errorMessage && !nextProps.isFetching){
-           this.props.getAllOrders();       
+           this.props.getAllProducts();       
       }
     }
 
   
   onChangePage(pageOfItems) {
     if(!this.props.isFetching && this.state.pageOfItems
-        && this.props.orderList )
+        && this.props.productList )
         this.setState({ pageOfItems: pageOfItems });
 
   }
@@ -109,13 +109,13 @@ class OrderListPage extends React.Component {
 
   handleSearch (){
     this.setState({searchOpen: !this.state.searchOpen});
-    this.props.getAllOrders(this.state.search)
+    this.props.getAllProducts(this.state.search)
   }
 
   handleOpen (id) {
     this.setState({dialogText:'Are you sure to delete this data?' });
     this.setState({open: true});
-    this.setState({orderId: id});
+    this.setState({productId: id});
     
   }
 
@@ -123,16 +123,16 @@ class OrderListPage extends React.Component {
 
      this.setState({open: false});
 
-     if (isConfirmed && this.state.orderId){
-        this.props.deleteOrder(this.state.orderId)
-        this.setState({orderId: null});
+     if (isConfirmed && this.state.productId){
+        this.props.deleteProduct(this.state.productId)
+        this.setState({productId: null});
      }
   }
 
   
   handleSearch (){
     this.setState({searchOpen: !this.state.searchOpen});
-    this.props.getAllOrders(this.state.search)
+    this.props.getAllProducts(this.state.search)
   }
 
 
@@ -162,7 +162,7 @@ class OrderListPage extends React.Component {
 
   render() {    
     
-     const { errorMessage, orderList  } = this.props;
+     const { errorMessage, productList  } = this.props;
 
       const styles = {
         fab: {
@@ -198,7 +198,7 @@ class OrderListPage extends React.Component {
             width: '10%'
           },
           name: {
-            width: '20%'
+            width: '40%'
           },
           price: {
             width: '20%',
@@ -237,12 +237,12 @@ class OrderListPage extends React.Component {
     ];
 
     return (
-      <PageBase title={'Orders (' + (orderList.length)+ ')'}
-                navigation="Reetek React CRM / Order">
+      <PageBase title={'Products (' + (productList.length)+ ')'}
+                navigation="Reetek React CRM / Product">
 
         <div>
 
-          <Link to="/order" >
+          <Link to="/product" >
             <FloatingActionButton style={styles.fab} backgroundColor={pink500}>
               <ContentAdd />
             </FloatingActionButton>
@@ -270,14 +270,12 @@ class OrderListPage extends React.Component {
             adjustForCheckbox={this.state.showCheckboxes}
             enableSelectAll={this.state.enableSelectAll}>
               <TableRow>
-                <TableHeaderColumn style={styles.columns.name}>Reference</TableHeaderColumn>
-                {/*<TableHeaderColumn style={styles.columns.name}>Price</TableHeaderColumn>*/}
-                <TableHeaderColumn style={styles.columns.price}>Quantity</TableHeaderColumn>
-                <TableHeaderColumn style={styles.columns.price}>Amount</TableHeaderColumn>
-                <TableHeaderColumn style={styles.columns.price}>Order Date</TableHeaderColumn>
-                <TableHeaderColumn style={styles.columns.price}>Shipped Date</TableHeaderColumn>
-                <TableHeaderColumn style={styles.columns.name}>Customer</TableHeaderColumn>
-                {/*<TableHeaderColumn style={styles.columns.category}>Status</TableHeaderColumn>*/}
+
+        
+                 <TableHeaderColumn style={styles.columns.name}>Product</TableHeaderColumn>
+                <TableHeaderColumn style={styles.columns.name}>Category</TableHeaderColumn>
+                <TableHeaderColumn style={styles.columns.price}>Price</TableHeaderColumn>
+                   <TableHeaderColumn style={styles.columns.price}>Quantity</TableHeaderColumn>
                 <TableHeaderColumn style={styles.columns.edit}>Edit</TableHeaderColumn>
               </TableRow>
             </TableHeader >
@@ -289,15 +287,12 @@ class OrderListPage extends React.Component {
                 <TableRow key={item.id}>
 
       
-                  <TableRowColumn style={styles.columns.name}>{item.reference}</TableRowColumn>
-                  <TableRowColumn style={styles.columns.price}>{item.products.length}</TableRowColumn>
-                  <TableRowColumn style={styles.columns.price}>AUD ${item.amount}</TableRowColumn>
-                  <TableRowColumn style={styles.columns.price}>{item.orderDate}</TableRowColumn>
-                  <TableRowColumn style={styles.columns.price}>{item.shippedDate}</TableRowColumn>
-                  {/*<TableRowColumn style={styles.columns.price}>{item.quantity * item.price}</TableRowColumn>*/}
-                  <TableRowColumn style={styles.columns.category}>{item.customer?item.customer.firstName + ' ' + item.customer.lastName: ''}</TableRowColumn>
+                  <TableRowColumn style={styles.columns.name}>{item.productName}</TableRowColumn>
+                  <TableRowColumn style={styles.columns.name}>{item.category?item.category.categoryName:''}</TableRowColumn>
+                  <TableRowColumn style={styles.columns.price}>AUD ${item.unitPrice}</TableRowColumn>
+                  <TableRowColumn style={styles.columns.price}>{item.unitInStock}</TableRowColumn>
                   <TableRowColumn style={styles.columns.edit}>
-                    <Link className="button" to={"/order/"+item.id} 
+                    <Link className="button" to={"/product/"+item.id} 
                     >
                       <FloatingActionButton zDepth={0}
                                             mini={true}
@@ -327,7 +322,7 @@ class OrderListPage extends React.Component {
           <div className={'row center-xs'}>
               <div className={'col-xs-6'}>
                   <div className={'box'}>
-                     {orderList && <Pagination items={orderList} onChangePage={this.onChangePage} />}
+                     {productList && <Pagination items={productList} onChangePage={this.onChangePage} />}
                   </div>
               </div>
           </div>  
@@ -373,23 +368,23 @@ class OrderListPage extends React.Component {
   }
 }
 
-OrderListPage.propTypes = {
-  orderList : PropTypes.array,
-  getAllOrders: PropTypes.func.isRequired,
-  deleteOrder: PropTypes.func.isRequired,
+ProductListPage.propTypes = {
+  productList : PropTypes.array,
+  getAllProducts: PropTypes.func.isRequired,
+  deleteProduct: PropTypes.func.isRequired,
   deleteSuccess:PropTypes.bool.isRequired,
     errorMessage:PropTypes.string
 };
 
 
 function mapStateToProps(state) {  
-  const { orderReducer } = state;
-  const { orderList, deleteSuccess, isFetching, 
-  isAuthenticated, errorMessage, user } = orderReducer;
+  const { productReducer } = state;
+  const { productList, deleteSuccess, isFetching, 
+  isAuthenticated, errorMessage, user } = productReducer;
 
   
   return {
-    orderList,
+    productList,
     isFetching, 
     isAuthenticated,
     errorMessage,
@@ -401,11 +396,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {  
   return {
-    getAllOrders: (filters) => dispatch( loadOrders(filters)),
-    deleteOrder:(id)=>dispatch(deleteOrder(id)),
+    getAllProducts: (filters) => dispatch( loadProducts(filters)),
+    deleteProduct:(id)=>dispatch(deleteProduct(id)),
   }
 }
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderListPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductListPage);
