@@ -10,6 +10,7 @@ import {
 
 export function orderReducer (state={
   isFetching: false,
+  // order: {},
   orderList: [],
   isAuthenticated: localStorage.getItem('token') ? true : false,
   user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {},

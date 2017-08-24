@@ -3,7 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import {grey500, white} from 'material-ui/styles/colors';
-import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card';
+// import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card';
 import {Link} from 'react-router';
 import ThemeDefault from '../theme-default';
 
@@ -171,9 +171,7 @@ class LoginPage extends React.Component {
             
                       <p  style={styles.subHeader}>  
                         Version 1.1.0
-                      </p>
-                   
-                      {/*<CardContent>*/}
+                      </p>                   
                           <Formsy.Form
                                   onValid={this.enableButton}
                                   onInvalid={this.disableButton}
@@ -234,8 +232,7 @@ class LoginPage extends React.Component {
 
                       </div>
                       </Formsy.Form>
-                      {/*</CardContent>*/}
-                    
+                   
            
             </Paper>
 

@@ -18,7 +18,7 @@ import { getProduct, updateProduct, addProduct, loadCategories
 } from '../actions/product';
 import {  FormsyText , FormsySelect} from 'formsy-material-ui/lib';
 import Formsy from 'formsy-react';
-import SelectField from 'material-ui/SelectField';
+// import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
 class ProductFormPage extends React.Component {
@@ -27,7 +27,7 @@ class ProductFormPage extends React.Component {
     super(props);
 
     this.state = {
-        product: (this.props.routeParams.id?Object.assign({}, props.product):{}),
+        product: {}
     }
 
     if (this.props.routeParams.id)
@@ -129,7 +129,6 @@ class ProductFormPage extends React.Component {
 
       <PageBase title="Product"
                 navigation="Application / Product ">
-        {/*<form>*/}
             <Formsy.Form
                       onValid={this.enableButton}
                       onInvalid={this.disableButton}

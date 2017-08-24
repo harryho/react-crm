@@ -35,11 +35,12 @@ export function getProduct(id) {
   }
 }
 
-export function loadCategories(id) {
+export function loadCategories(filters) {
   return {
     [CALL_API]: {
       endpoint: `categories`,
       categoryList:[],
+      filters:filters,
       types: [ LOAD_CATEGORYS_REQUEST,  LOAD_CATEGORYS_SUCCESS,  LOAD_CATEGORYS_FAILURE]
     }
   }

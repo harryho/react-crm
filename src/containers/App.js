@@ -62,7 +62,7 @@ class App extends React.Component {
                         <LeftDrawer navDrawerOpen={navDrawerOpen}
                                     menus={Data.menus}
                                     signOutMenus ={Data.signOutMenus}
-                                    username= { `${firstName} ${lastName}` } 
+                                    username= {`${firstName} ${lastName}`} 
                                     onLogoutClick={() => dispatch(logoutUser())}
                                     />
 
@@ -74,7 +74,7 @@ class App extends React.Component {
             {!isAuthenticated &&
                 <LoginPage
                 errorMessage={errorMessage}
-                onLoginClick={ creds => dispatch(loginUser(creds)) }
+                onLoginClick={ creds => dispatch(loginUser(creds))}
                 />
             }
         </div>

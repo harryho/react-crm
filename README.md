@@ -60,7 +60,9 @@ json-server -p 5354 db.json
 ## Resources                          
 ## http://localhost:5354/token        
 ## http://localhost:5354/customers    
-## http://localhost:5354/orders       
+## http://localhost:5354/orders 
+## http://localhost:5354/products
+## http://localhost:5354/categories
 ##                                    
 ## Home                               
 ## http://localhost:5354              

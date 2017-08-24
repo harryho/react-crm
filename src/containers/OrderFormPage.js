@@ -6,25 +6,24 @@ import RaisedButton from 'material-ui/RaisedButton';
 // import SelectField from 'material-ui/SelectField';
 // import Toggle from 'material-ui/Toggle';
 // import DatePicker from 'material-ui/DatePicker';
-import Dialog, { DialogActions, DialogContent, DialogContentText, DialogTitle,
- } from 'material-ui/Dialog';
+import Dialog from 'material-ui/Dialog'; // , { DialogActions, DialogContent, DialogContentText, DialogTitle} 
 import {grey400} from 'material-ui/styles/colors';
 import Divider from 'material-ui/Divider';
 import PageBase from '../components/PageBase';
 import IconButton from 'material-ui/IconButton';
 import { connect } from 'react-redux';
-import {GridList, GridTile, GridListTile, GridListTileBar} from 'material-ui/GridList';
-import {Card} from 'material-ui/Card';
+import {GridList, GridTile} from 'material-ui/GridList'; 
+// import {Card} from 'material-ui/Card';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import { getOrder, updateOrder, addOrder
 } from '../actions/order';
 import { loadCustomers} from '../actions/customer';
 import { loadProducts, loadCategories} from '../actions/product';
 
-import {  FormsyText, FormsySelect, FormsyDate } from 'formsy-material-ui/lib';
+import {  FormsyText, FormsySelect,FormsyDate  } from 'formsy-material-ui/lib'; // FormsyDate
 import Formsy from 'formsy-react';
-import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+
 
 class OrderFormPage extends React.Component {
 
@@ -35,7 +34,7 @@ class OrderFormPage extends React.Component {
         categoryId: 0,
         product: null,
         open: false,
-        order: (this.props.routeParams.id?Object.assign({}, props.order):{}),
+        order:{} 
     }
 
     if (this.props.routeParams.id)
@@ -59,7 +58,8 @@ class OrderFormPage extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.order && nextProps.order 
-      && this.props.order.id != nextProps.order.id) {
+      && (this.props.order.id != nextProps.order.id) 
+        || (this.props.order != nextProps.order) ) {
       this.setState({order: Object.assign({}, nextProps.order)});
     }
 
@@ -73,13 +73,20 @@ class OrderFormPage extends React.Component {
     }
   }
 
-  handleChange(event) {
-    const field = event.target.name;
-    if ( event && event.target && field  ){
-      let order = Object.assign({}, this.state.order);
-      order[field] = event.target.value;
+  handleChange(event, date) {
+    const field = event?event.target.name:null;
 
+    if (typeof date === 'object'){
+      let order = Object.assign({}, this.state.order)
+      order.shippedDate = date.toLocaleDateString()
       this.setState({order: order});
+      this.enableButton();
+    }
+    else if ( event && event.target && field  ){
+      let _order = Object.assign({}, this.state.order)
+      _order[field] = event.target.value
+      this.setState({order: _order})
+      this.enableButton();
     }
   }
 
@@ -98,7 +105,7 @@ class OrderFormPage extends React.Component {
   }
   
   notifyFormError(data) {
-    console.error('Form error:', data);
+    console.error('Form error:', data)
   }
 
   handleClick (event, action) {
@@ -113,13 +120,14 @@ class OrderFormPage extends React.Component {
       else 
         this.props.addOrder(this.state.order);
     }
-
   }
 
   shouldComponentUpdate(nextProps, nextState) {
 
     let shouldUpdate = (nextState.order !== this.props.order ||
+      nextState.order !== this.state.order ||
       nextState.canSubmit != this.state.canSubmit );
+    console.log(shouldUpdate)
     return shouldUpdate;
   }
 
@@ -132,35 +140,35 @@ class OrderFormPage extends React.Component {
     }
   }
 
-  handleCancel = () => {
+  handleCancel () {
     this.setState({open: false});
-  };
+  }
 
-  handleOk = () => {
-    console.log(this.state.product)
+  handleOk () {
     this.state.order.products.push(this.state.product);
     this.setState({open: false});
     this.setState({order: this.state.order});
     this.enableButton();
-  };
+  }
 
   handleCategoryChange(event, index, values) {
-    console.log(index)
-    console.log(values)
     this.props.getProductList( {'categoryId': this.props.categoryList[values].id })
   }
 
   handleProductChange (event, index, values) {
-    console.log(index)
-    console.log(values)
     this.setState( {'product': this.props.productList[values] })
   }
 
   render(){ 
   
 
-   const { errorMessage, customerList, categoryList, productList} = this.props;
-    
+   const {errorMessage, customerList, categoryList, productList} = this.props;
+
+   this.state.order.displayOrderDate = this.state.order.orderDate? new Date(this.state.order.orderDate):null
+   this.state.order.displayShippedDate = this.state.order.shippedDate?new Date(this.state.order.shippedDate):null
+   
+
+
     const styles = {
         toggleDiv: {
           maxWidth: 300,
@@ -206,7 +214,6 @@ class OrderFormPage extends React.Component {
           width: '20%',
           maxWidth: 'none',
           minWidth: 300
-
         }
       };
 
@@ -220,7 +227,7 @@ class OrderFormPage extends React.Component {
                       onValidSubmit={this.handleClick}
                       onInvalidSubmit={this.notifyFormError}>
           <GridList cols={3} cellHeight={60}>
-      <GridTile>
+          <GridTile>
                      <FormsySelect
                       floatingLabelText="Customer"
                       value={this.state.order.customer?this.state.order.customer.id:0}
@@ -306,16 +313,15 @@ class OrderFormPage extends React.Component {
            
 
                 </GridTile>
-               
-            
               <GridTile>
                   <FormsyDate
                     hintText="Order Date"
                     floatingLabelText="Order Date"
-                    fullWidth={true}
+                    disabled = {true}
+        
                     name="orderDate"
                     onChange = {this.handleChange}
-                    value = {new Date(this.state.order.orderDate)}                
+                    value = {this.state.order.displayOrderDate} 
                     required
                   />          
            
@@ -329,7 +335,7 @@ class OrderFormPage extends React.Component {
                     fullWidth={true}
                     name="shippedDate"
                     onChange = {this.handleChange}
-                    value = {new Date(this.state.order.shippedDate)}
+                    value ={this.state.order.displayShippedDate}  
                     required
                   />      
                 </GridTile>
@@ -374,44 +380,44 @@ class OrderFormPage extends React.Component {
 
                 </GridTile>
 
-                    <GridTile >
-                <FormsyText
-                    hintText="Country"
-                    floatingLabelText="Country"
-                    name="reference"
-                    onChange = {this.handleChange}
-                    fullWidth={true}
-                    value = {this.state.order.shipAddress&&this.state.order.shipAddress.country?this.state.order.shipAddress.country:''}
-                    validations={{
-                    isWords: true
-                    }}
-                    validationErrors={{
-                      isWords: 'Please provide valid country',
-                      isDefaultRequiredValue: 'This is a required field'
-                    }}
-                    required
-                  />
+                <GridTile >
+                  <FormsyText
+                      hintText="Country"
+                      floatingLabelText="Country"
+                      name="reference"
+                      onChange = {this.handleChange}
+                      fullWidth={true}
+                      value = {this.state.order.shipAddress&&this.state.order.shipAddress.country?this.state.order.shipAddress.country:''}
+                      validations={{
+                      isWords: true
+                      }}
+                      validationErrors={{
+                        isWords: 'Please provide valid country',
+                        isDefaultRequiredValue: 'This is a required field'
+                      }}
+                      required
+                    />
 
                 </GridTile>
 
-                    <GridTile >
-                <FormsyText
-                    hintText="Zip Code"
-                    floatingLabelText="Zip Code"
-                    name="reference"
-                    onChange = {this.handleChange}
-                    fullWidth={true}
-                    value = {this.state.order.shipAddress&&this.state.order.shipAddress.zipcode?
-                    this.state.order.shipAddress.zipcode:''}
-                    validations={{
-                    isWords: true
-                    }}
-                    validationErrors={{
-                      isWords: 'Please provide valid zip code',
-                      isDefaultRequiredValue: 'This is a required field'
-                    }}
-                    required
-                  />
+                <GridTile >
+                  <FormsyText
+                      hintText="Zip Code"
+                      floatingLabelText="Zip Code"
+                      name="reference"
+                      onChange = {this.handleChange}
+                      fullWidth={true}
+                      value = {this.state.order.shipAddress&&this.state.order.shipAddress.zipcode?
+                      this.state.order.shipAddress.zipcode:''}
+                      validations={{
+                      isWords: true
+                      }}
+                      validationErrors={{
+                        isWords: 'Please provide valid zip code',
+                        isDefaultRequiredValue: 'This is a required field'
+                      }}
+                      required
+                    />
 
                 </GridTile>
    
@@ -419,7 +425,7 @@ class OrderFormPage extends React.Component {
             </GridList>
 
 
-      <p style={styles.productList}>Product List: </p>
+          <p style={styles.productList}>Product List: </p>
    <Divider/>
        
 
@@ -442,7 +448,7 @@ class OrderFormPage extends React.Component {
                         
                           </GridList> 
                           </div>
- }         
+ }
       
                         <Divider/>
 
@@ -469,7 +475,7 @@ class OrderFormPage extends React.Component {
                           {errorMessage &&
                           <p style={{color:'red'}}>{errorMessage}</p>}
 
-  <Dialog title="Add Product"
+                          <Dialog title="Add Product"
                                   open={this.state.open}
                                   contentStyle={styles.dialog}
                                   ignoreBackdropClick
@@ -537,6 +543,7 @@ class OrderFormPage extends React.Component {
 }
 
 OrderFormPage.propTypes = {
+  // order: PropTypes.object.isRequired,
   getOrder: PropTypes.func.isRequired,
   updateOrder: PropTypes.func.isRequired,
   getProductList: PropTypes.func.isRequired,

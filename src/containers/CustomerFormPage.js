@@ -24,7 +24,7 @@ class CustomerFormPage extends React.Component {
 
 
     this.state = {    
-    customer: (props.routeParams.id?Object.assign({}, props.customer):{}),
+      customer: {} 
     }
 
     if (this.props.routeParams.id)
