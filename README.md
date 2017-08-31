@@ -37,16 +37,13 @@ git clone https://github.com/harryho/react-crm.git
 
 
 # prepare Json-Server as fake Restful API
-
-## clone json-server to folder server
 cd react-crm
 cd server
 ## replace db.json and routes.json files
 copy /Y ..\db\*.json
 
-## Start a new terminal & navigate to folder server 
+## Start a new terminal and navigate to folder server
 npm install -g json-server
-
 ## start json-server
 json-server -p 5354 db.json
 
