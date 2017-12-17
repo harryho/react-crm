@@ -37,7 +37,7 @@ class OrderFormPage extends React.Component {
         order:{} 
     }
 
-    if (this.props.routeParams.id)
+    if (this.props.routeParams && this.props.routeParams.id)
       this.props.getOrder(this.props.routeParams.id);
 
     this.props.getAllCustomers();
@@ -73,22 +73,7 @@ class OrderFormPage extends React.Component {
     }
   }
 
-  handleChange(event, date) {
-    const field = event?event.target.name:null;
-
-    if (typeof date === 'object'){
-      let order = Object.assign({}, this.state.order)
-      order.shippedDate = date.toLocaleDateString()
-      this.setState({order: order});
-      this.enableButton();
-    }
-    else if ( event && event.target && field  ){
-      let _order = Object.assign({}, this.state.order)
-      _order[field] = event.target.value
-      this.setState({order: _order})
-      this.enableButton();
-    }
-  }
+  
 
   enableButton() {
     this.setState({
@@ -127,8 +112,25 @@ class OrderFormPage extends React.Component {
     let shouldUpdate = (nextState.order !== this.props.order ||
       nextState.order !== this.state.order ||
       nextState.canSubmit != this.state.canSubmit );
-    console.log(shouldUpdate)
+    // console.log(shouldUpdate)
     return shouldUpdate;
+  }
+
+  handleChange(event, date) {
+    const field = event?event.target.name:null;
+
+    if (typeof date === 'object'){
+      let order = Object.assign({}, this.state.order)
+      order.shippedDate = date.toLocaleDateString()
+      this.setState({order: order});
+      this.enableButton();
+    }
+    else if ( event && event.target && field  ){
+      let _order = Object.assign({}, this.state.order)
+      _order[field] = event.target.value
+      this.setState({order: _order})
+      this.enableButton();
+    }
   }
 
   removeProduct (product) {

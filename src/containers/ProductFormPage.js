@@ -51,7 +51,7 @@ class ProductFormPage extends React.Component {
       this.setState({product: Object.assign({}, nextProps.product)});
     }
 
-    if (!this.props.addSuccess &&  nextProps.addSuccess || !this.props.updateSuccess &&  nextProps.updateSuccess ){
+    if ((!this.props.addSuccess && nextProps.addSuccess) || (!this.props.updateSuccess && nextProps.updateSuccess)){
       this.props.router.push('/products');
     }
   }
@@ -260,8 +260,8 @@ ProductFormPage.propTypes = {
   updateSuccess: PropTypes.bool.isRequired,
   addSuccess: PropTypes.bool.isRequired,
   addProduct: PropTypes.func.isRequired,
-   categoryList : PropTypes.array,
-   getCategoryList: PropTypes.func.isRequired
+  categoryList : PropTypes.array,
+  getCategoryList: PropTypes.func.isRequired
 };
 
 

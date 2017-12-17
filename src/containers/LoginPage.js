@@ -1,14 +1,14 @@
-import React, {PropTypes} from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
-import {grey500, white} from 'material-ui/styles/colors';
-// import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card';
-import {Link} from 'react-router';
-import ThemeDefault from '../theme-default';
+import React, {PropTypes} from "react";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import Paper from "material-ui/Paper";
+import RaisedButton from "material-ui/RaisedButton";
+import {grey500, white} from "material-ui/styles/colors";
+// import Card, { CardHeader, CardMedia, CardContent, CardActions } from "material-ui/Card";
+import {Link} from "react-router";
+import ThemeDefault from "../theme-default";
 
-import {  FormsyText } from 'formsy-material-ui/lib';
-import Formsy from 'formsy-react';
+import {  FormsyText } from "formsy-material-ui/lib";
+import Formsy from "formsy-react";
 
 class LoginPage extends React.Component {
 
@@ -17,14 +17,14 @@ class LoginPage extends React.Component {
 
     this.state = { 
       canSubmit: false,
-      username: 'hho@test.com',
-      password: 'password',
+      username: "hho@test.com",
+      password: "password",
       formError: "",
       errorMessage : props.errorMessage,
       styles : {
         paperStyle: {
           width: 300,
-          margin: 'auto',
+          margin: "auto",
           padding: 20,
         },
         switchStyle: {
@@ -56,7 +56,7 @@ class LoginPage extends React.Component {
 
 
   handleChange(e) {
-    e.target.classList.add('active');
+    e.target.classList.add("active");
     
     this.setState({
       [e.target.name]: e.target.value
@@ -78,7 +78,7 @@ class LoginPage extends React.Component {
 
   
   notifyFormError(data) {
-    console.error('Form error:', data);
+    console.error("Form error:", data);
   }
 
 
@@ -87,31 +87,31 @@ class LoginPage extends React.Component {
       loginContainer: {
         minWidth: 320,
         maxWidth: 400,
-        height: 'auto',
-        position: 'absolute',
-        top: '20%',
+        height: "auto",
+        position: "absolute",
+        top: "20%",
         left: 0,
         right: 0,
-        margin: 'auto'
+        margin: "auto"
       },
       formHeader: {
-        color: 'blue',
-        fontColor: 'navy',
+        color: "blue",
+        fontColor: "navy",
         fontSize: 20,
         maxWidth: 500,
       },
       subHeader: {
-        color: 'navy',
-        fontColor: 'navy',
+        color: "navy",
+        fontColor: "navy",
         fontSize: 16,
         maxWidth: 500,
       },
       paper: {
         padding: 20,
-        overflow: 'auto'
+        overflow: "auto"
       },
       buttonsDiv: {
-        textAlign: 'center',
+        textAlign: "center",
         padding: 10
       },
       flatButton: {
@@ -119,7 +119,7 @@ class LoginPage extends React.Component {
       },
       checkRemember: {
         style: {
-          float: 'left',
+          float: "left",
           maxWidth: 180,
           paddingTop: 5
         },
@@ -133,10 +133,10 @@ class LoginPage extends React.Component {
         }
       },
       loginBtn: {
-        float: 'right'
+        float: "right"
       },
       btn: {
-        background: '#4f81e9',
+        background: "#4f81e9",
         color: white,
         padding: 7,
         borderRadius: 2,
@@ -144,10 +144,10 @@ class LoginPage extends React.Component {
         fontSize: 13
       },
       btnFacebook: {
-        background: '#4f81e9'
+        background: "#4f81e9"
       },
       btnGoogle: {
-        background: '#e14441'
+        background: "#e14441"
       },
       btnSpan: {
         marginLeft: 5
@@ -157,18 +157,14 @@ class LoginPage extends React.Component {
     const { errorMessage } = this.props;
 
     return (
-
       <MuiThemeProvider muiTheme={ThemeDefault}>
         <div>
           <div style={styles.loginContainer}>
 
-            <Paper style={styles.paper}>
-
-     
+            <Paper style={styles.paper}>     
                       <p  style={styles.formHeader}>       
                         Reetek React Redux CRM
-                      </p>
-            
+                      </p>            
                       <p  style={styles.subHeader}>  
                         Version 1.1.0
                       </p>                   
@@ -177,31 +173,27 @@ class LoginPage extends React.Component {
                                   onInvalid={this.disableButton}
                                   onValidSubmit={this.handleClick}
                                   onInvalidSubmit={this.notifyFormError}>
-
                             <FormsyText
                               hintText="E-mail" 
-                              ref='username' 
-                              name='username'
-                              value={this.state.username?this.state.username:''}
+                              ref="username" 
+                              name="username"
+                              value={this.state.username?this.state.username:""}
                               floatingLabelText="E-mail"
                               fullWidth={true} 
                               validations={{
                                 isEmail: true
                               }}
                               validationErrors={{
-                                  isEmail: 'Please provide a valid email',
-                                  isDefaultRequiredValue: 'This is a required field'
+                                  isEmail: "Please provide a valid email",
+                                  isDefaultRequiredValue: "This is a required field"
                                 }}
                               required    
                             />
-                
-                        
-                  
                             <FormsyText
                               hintText="Password"
-                              ref='password' 
-                              name='password'
-                                  value={this.state.password?this.state.password:''}
+                              ref="password" 
+                              name="password"
+                                  value={this.state.password?this.state.password:""}
                               floatingLabelText="Password"
                               fullWidth={true}
                               type="password"
@@ -209,8 +201,8 @@ class LoginPage extends React.Component {
                                   minLength: 3
                                 }}
                               validationErrors={{
-                                minLength: 'Please provide a valid password',
-                                isDefaultRequiredValue: 'This is a required field'
+                                minLength: "Please provide a valid password",
+                                isDefaultRequiredValue: "This is a required field"
                               }}                     
                               required         
                             />
@@ -227,17 +219,12 @@ class LoginPage extends React.Component {
                             </div>
                             <div >
                                   {errorMessage &&
-                        <p style={{color:'red'}}>{errorMessage}</p>
+                        <p style={{color:"red"}}>{errorMessage}</p>
                       }
 
                       </div>
-                      </Formsy.Form>
-                   
-           
+                      </Formsy.Form>     
             </Paper>
-
-
-
           </div>
         </div>
       </MuiThemeProvider>

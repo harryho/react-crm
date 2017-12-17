@@ -50,8 +50,7 @@ class App extends React.Component {
       }
     };
 
-    return (
-       
+    return (       
       <MuiThemeProvider muiTheme={ThemeDefault}>
         <div>
             {isAuthenticated && !isFetching &&
@@ -74,7 +73,7 @@ class App extends React.Component {
             {!isAuthenticated &&
                 <LoginPage
                 errorMessage={errorMessage}
-                onLoginClick={ creds => dispatch(loginUser(creds))}
+                onLoginClick={creds => dispatch(loginUser(creds))}
                 />
             }
         </div>

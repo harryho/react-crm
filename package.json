@@ -1,12 +1,13 @@
 {
   "name": "react-crm",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Reetek CRM using React and Material-UI",
   "engines": {
     "npm": ">=3"
   },
   "scripts": {
-    "start": "npm-run-all --parallel test:watch open:src lint:watch",
+    "start": "npm-run-all --parallel start:server test:watch open:src lint:watch",
+    "start:server": "json-server -p 5354 db/db.json",
     "open:src": "babel-node tools/srcServer.js",
     "open:dist": "babel-node tools/distServer.js",
     "lint": "esw webpack.config.* src tools --color",
@@ -71,6 +72,7 @@
     "file-loader": "0.10.0",
     "html-webpack-plugin": "2.22.0",
     "isparta": "4.0.0",
+    "json-server": "0.12.1",
     "mocha": "3.2.0",
     "node-sass": "4.5.0",
     "npm-run-all": "4.0.1",

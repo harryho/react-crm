@@ -36,42 +36,47 @@ The goal of this starter project is to create reusable project for real-world bu
 git clone https://github.com/harryho/react-crm.git
 
 
-# prepare Json-Server as fake Restful API
+# install the packages with npm
 cd react-crm
-cd server
-## replace db.json and routes.json files
-copy /Y ..\db\*.json
-
-## Start a new terminal and navigate to folder server
-npm install -g json-server
-## start json-server
-json-server -p 5354 db.json
-
-## You will see the following output. You can test the URLs via browser.
-##
-## \{^_^}/ hi!                        
-##                                    
-## Loading db.json                    
-## Done                               
-##                                    
-## Resources                          
-## http://localhost:5354/token        
-## http://localhost:5354/customers    
-## http://localhost:5354/orders 
-## http://localhost:5354/products
-## http://localhost:5354/categories
-##                                    
-## Home                               
-## http://localhost:5354              
-
-# install dependences for Reetek React CRM
-cd ..
-
-# install the repo with npm
 npm install
 
 # start the server with hot reload at localhost:4000
 npm run start
+
+## You will see the following output. You can test API with the URLs via browser.
+##
+##  \{^_^}/ hi!
+##
+##  Loading db/db.json
+##  Done
+##
+##  Resources
+##  http://localhost:5354/token
+##  http://localhost:5354/customers
+##  http://localhost:5354/orders
+##  http://localhost:5354/products
+##  http://localhost:5354/categories
+##
+##  Home
+##  http://localhost:5354
+##
+##  Type s + enter at any time to create a snapshot of the database
+##
+##....................
+##....................
+##
+##[BS] Access URLs:
+## ------------------------------------
+##       Local: http://localhost:4000
+##    External: http://192.168.1.5:4000
+## ------------------------------------
+##          UI: http://localhost:4001
+## UI External: http://192.168.1.5:4001
+## ------------------------------------
+##[BS] Serving files from: src
+##[BS] Watching files...
+##webpack: wait until bundle finished: /index.html
+
 
 # Visit the app at [http://localhost:4000](http://localhost:4000)
 
