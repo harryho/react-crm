@@ -22,7 +22,7 @@
     "test:watch": "npm run test -- --watch",
     "open:cover": "npm run test:cover && open coverage/index.html"
   },
-  "author": "Rafael Zeffa",
+  "author": "Harry Ho",
   "license": "MIT",
   "dependencies": {
     "flexboxgrid": "6.3.1",
