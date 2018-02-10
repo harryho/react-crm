@@ -1,35 +1,47 @@
-import { CALL_API } from '../middleware/api'
-import {  
-  LOAD_CUSTOMERS_REQUEST, LOAD_CUSTOMERS_SUCCESS, LOAD_CUSTOMERS_FAILURE,
-  GET_CUSTOMER_REQUEST, GET_CUSTOMER_SUCCESS, GET_CUSTOMER_FAILURE,
-  UPDATE_CUSTOMER_REQUEST, UPDATE_CUSTOMER_SUCCESS, UPDATE_CUSTOMER_FAILURE,
-  ADD_CUSTOMER_REQUEST, ADD_CUSTOMER_SUCCESS, ADD_CUSTOMER_FAILURE,
-  DELETE_CUSTOMER_REQUEST, DELETE_CUSTOMER_SUCCESS, DELETE_CUSTOMER_FAILURE
-} from '../constants'
-
-
+import { CALL_API } from "../middleware/api";
+import {
+  LOAD_CUSTOMERS_REQUEST,
+  LOAD_CUSTOMERS_SUCCESS,
+  LOAD_CUSTOMERS_FAILURE,
+  GET_CUSTOMER_REQUEST,
+  GET_CUSTOMER_SUCCESS,
+  GET_CUSTOMER_FAILURE,
+  UPDATE_CUSTOMER_REQUEST,
+  UPDATE_CUSTOMER_SUCCESS,
+  UPDATE_CUSTOMER_FAILURE,
+  ADD_CUSTOMER_REQUEST,
+  ADD_CUSTOMER_SUCCESS,
+  ADD_CUSTOMER_FAILURE,
+  DELETE_CUSTOMER_REQUEST,
+  DELETE_CUSTOMER_SUCCESS,
+  DELETE_CUSTOMER_FAILURE
+} from "../constants";
 
 // Customer actions
 
 export function loadCustomers(filters) {
   return {
     [CALL_API]: {
-      endpoint: 'customers',
-      customers:[],
-      filters:filters,
-      types: [LOAD_CUSTOMERS_REQUEST, LOAD_CUSTOMERS_SUCCESS, LOAD_CUSTOMERS_FAILURE]
+      endpoint: "customers",
+      customers: [],
+      filters: filters,
+      types: [
+        LOAD_CUSTOMERS_REQUEST,
+        LOAD_CUSTOMERS_SUCCESS,
+        LOAD_CUSTOMERS_FAILURE
+      ]
     }
-  }
+  };
 }
 
 export function getCustomer(id) {
   return {
     [CALL_API]: {
       endpoint: `customers/${id}`,
-      customer:{},
+      customer: {},
       types: [GET_CUSTOMER_REQUEST, GET_CUSTOMER_SUCCESS, GET_CUSTOMER_FAILURE]
     }
-  }
+  };
 }
 
 export function updateCustomer(customer) {
@@ -37,12 +49,16 @@ export function updateCustomer(customer) {
     [CALL_API]: {
       endpoint: `customers/${customer.id}`,
       data: customer,
-      method: 'PUT',
+      method: "PUT",
       authenticated: true,
       updateSuccess: false,
-      types: [UPDATE_CUSTOMER_REQUEST, UPDATE_CUSTOMER_SUCCESS, UPDATE_CUSTOMER_FAILURE]
+      types: [
+        UPDATE_CUSTOMER_REQUEST,
+        UPDATE_CUSTOMER_SUCCESS,
+        UPDATE_CUSTOMER_FAILURE
+      ]
     }
-  }
+  };
 }
 
 export function addCustomer(customer) {
@@ -50,23 +66,25 @@ export function addCustomer(customer) {
     [CALL_API]: {
       endpoint: `customers`,
       data: customer,
-      method: 'POST',
+      method: "POST",
       authenticated: true,
       addSuccess: false,
       types: [ADD_CUSTOMER_REQUEST, ADD_CUSTOMER_SUCCESS, ADD_CUSTOMER_FAILURE]
     }
-  }
+  };
 }
 
 export function deleteCustomer(id) {
   return {
     [CALL_API]: {
       endpoint: `customers/${id}`,
-      method: 'DELETE',
+      method: "DELETE",
       authenticated: true,
-      types: [DELETE_CUSTOMER_REQUEST, DELETE_CUSTOMER_SUCCESS, DELETE_CUSTOMER_FAILURE]
+      types: [
+        DELETE_CUSTOMER_REQUEST,
+        DELETE_CUSTOMER_SUCCESS,
+        DELETE_CUSTOMER_FAILURE
+      ]
     }
-  }
+  };
 }
-
-

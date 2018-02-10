@@ -1,41 +1,38 @@
-import React, { PropTypes } from 'react';
-import {Link} from 'react-router';
-import RaisedButton from 'material-ui/RaisedButton';
+import React, { PropTypes } from "react";
+import { Link } from "react-router";
+import RaisedButton from "material-ui/RaisedButton";
 // import MenuItem from 'material-ui/MenuItem';
 // import TextField from 'material-ui/TextField';
 // import SelectField from 'material-ui/SelectField';
 // import Toggle from 'material-ui/Toggle';
 // import DatePicker from 'material-ui/DatePicker';
-import Dialog from 'material-ui/Dialog'; // , { DialogActions, DialogContent, DialogContentText, DialogTitle} 
-import {grey400} from 'material-ui/styles/colors';
-import Divider from 'material-ui/Divider';
-import PageBase from '../components/PageBase';
-import IconButton from 'material-ui/IconButton';
-import { connect } from 'react-redux';
-import {GridList, GridTile} from 'material-ui/GridList'; 
+import Dialog from "material-ui/Dialog"; // , { DialogActions, DialogContent, DialogContentText, DialogTitle}
+import { grey400 } from "material-ui/styles/colors";
+import Divider from "material-ui/Divider";
+import PageBase from "../components/PageBase";
+import IconButton from "material-ui/IconButton";
+import { connect } from "react-redux";
+import { GridList, GridTile } from "material-ui/GridList";
 // import {Card} from 'material-ui/Card';
-import ActionDelete from 'material-ui/svg-icons/action/delete';
-import { getOrder, updateOrder, addOrder
-} from '../actions/order';
-import { loadCustomers} from '../actions/customer';
-import { loadProducts, loadCategories} from '../actions/product';
+import ActionDelete from "material-ui/svg-icons/action/delete";
+import { getOrder, updateOrder, addOrder } from "../actions/order";
+import { loadCustomers } from "../actions/customer";
+import { loadProducts, loadCategories } from "../actions/product";
 
-import {  FormsyText, FormsySelect,FormsyDate  } from 'formsy-material-ui/lib'; // FormsyDate
-import Formsy from 'formsy-react';
-import MenuItem from 'material-ui/MenuItem';
-
+import { FormsyText, FormsySelect, FormsyDate } from "formsy-material-ui/lib"; // FormsyDate
+import Formsy from "formsy-react";
+import MenuItem from "material-ui/MenuItem";
 
 class OrderFormPage extends React.Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
-        categoryId: 0,
-        product: null,
-        open: false,
-        order:{} 
-    }
+      categoryId: 0,
+      product: null,
+      open: false,
+      order: {}
+    };
 
     if (this.props.routeParams && this.props.routeParams.id)
       this.props.getOrder(this.props.routeParams.id);
@@ -52,542 +49,571 @@ class OrderFormPage extends React.Component {
     this.removeProduct = this.removeProduct.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleProductChange = this.handleProductChange.bind(this);
-
   }
-
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.order && nextProps.order 
-      && (this.props.order.id != nextProps.order.id) 
-        || (this.props.order != nextProps.order) ) {
-      this.setState({order: Object.assign({}, nextProps.order)});
+    if (
+      (this.props.order &&
+        nextProps.order &&
+        this.props.order.id != nextProps.order.id) ||
+      this.props.order != nextProps.order
+    ) {
+      this.setState({ order: Object.assign({}, nextProps.order) });
     }
 
-    if ( nextProps.productList ){
-      this.setState({productList: Object.assign({}, nextProps.productList)});
-    } 
-
-    if (!this.props.addSuccess &&  nextProps.addSuccess 
-        || !this.props.updateSuccess &&  nextProps.updateSuccess ){
-      this.props.router.push('/orders');
+    if (nextProps.productList) {
+      this.setState({ productList: Object.assign({}, nextProps.productList) });
     }
-  }
 
-  
-
-  enableButton() {
-    this.setState({
-      canSubmit: true,
-    });
+    if (
+      (!this.props.addSuccess && nextProps.addSuccess) ||
+      (!this.props.updateSuccess && nextProps.updateSuccess)
+    ) {
+      this.props.router.push("/orders");
+    }
   }
 
   disableButton() {
-    if (this.state.order.products <=0 ){
-        this.setState({
-          canSubmit: false,
-        });
+    if (this.state.order.products <= 0) {
+      this.setState({
+        canSubmit: false
+      });
     }
   }
-  
+
   notifyFormError(data) {
-    console.error('Form error:', data)
+    console.error("Form error:", data);
   }
 
-  handleClick (event, action) {
+  handleClick(event, action) {
     event.preventDefault();
-    console.log(event)
-    if (action && action === 'AddProduct'){
-        this.setState({open: true})
-    } 
-    else{
-      if (this.state.order.id)
-        this.props.updateOrder(this.state.order);
-      else 
-        this.props.addOrder(this.state.order);
+    console.log(event);
+    if (action && action === "AddProduct") {
+      this.setState({ open: true });
+    } else {
+      if (this.state.order.id) this.props.updateOrder(this.state.order);
+      else this.props.addOrder(this.state.order);
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   const shouldUpdate =
+  //     nextState.order !== this.props.order ||
+  //     nextState.order !== this.state.order ||
+  //     nextState.canSubmit != this.state.canSubmit;
+  //   // console.log(shouldUpdate)
+  //   return shouldUpdate;
+  // }
 
-    let shouldUpdate = (nextState.order !== this.props.order ||
-      nextState.order !== this.state.order ||
-      nextState.canSubmit != this.state.canSubmit );
-    // console.log(shouldUpdate)
-    return shouldUpdate;
+  enableButton() {
+    this.setState({
+      canSubmit: true
+    });
   }
 
   handleChange(event, date) {
-    const field = event?event.target.name:null;
+    const field = event ? event.target.name : null;
 
-    if (typeof date === 'object'){
-      let order = Object.assign({}, this.state.order)
-      order.shippedDate = date.toLocaleDateString()
-      this.setState({order: order});
+    if (typeof date === "object") {
+      let order = Object.assign({}, this.state.order);
+      order.shippedDate = date.toLocaleDateString();
+      this.setState({ order: order });
       this.enableButton();
-    }
-    else if ( event && event.target && field  ){
-      let _order = Object.assign({}, this.state.order)
-      _order[field] = event.target.value
-      this.setState({order: _order})
+    } else if (event && event.target && field) {
+      let _order = Object.assign({}, this.state.order);
+      _order[field] = event.target.value;
+      this.setState({ order: _order });
       this.enableButton();
     }
   }
 
-  removeProduct (product) {
+  removeProduct(product) {
     if (product) {
-      this.state.order.products.splice(this.state.order.products.indexOf(product), 1);
-      this.setState({order:this.state.order})
-      if(this.state.order.products.length>0 )
-        this.enableButton();
+      this.state.order.products.splice(
+        this.state.order.products.indexOf(product),
+        1
+      );
+      this.setState({ order: this.state.order });
+      if (this.state.order.products.length > 0) this.enableButton();
     }
   }
 
-  handleCancel () {
-    this.setState({open: false});
+  handleCancel() {
+    this.setState({ open: false });
   }
 
-  handleOk () {
+  handleOk() {
     this.state.order.products.push(this.state.product);
-    this.setState({open: false});
-    this.setState({order: this.state.order});
+    this.setState({ open: false });
+    this.setState({ order: this.state.order });
     this.enableButton();
   }
 
   handleCategoryChange(event, index, values) {
-    this.props.getProductList( {'categoryId': this.props.categoryList[values].id })
+    this.props.getProductList({
+      categoryId: this.props.categoryList[values].id
+    });
   }
 
-  handleProductChange (event, index, values) {
-    this.setState( {'product': this.props.productList[values] })
+  handleProductChange(event, index, values) {
+    this.setState({ product: this.props.productList[values] });
   }
 
-  render(){ 
-  
+  render() {
+    const {
+      errorMessage,
+      customerList,
+      categoryList,
+      productList
+    } = this.props;
 
-   const {errorMessage, customerList, categoryList, productList} = this.props;
+    const { order } = this.state;
 
-   this.state.order.displayOrderDate = this.state.order.orderDate? new Date(this.state.order.orderDate):null
-   this.state.order.displayShippedDate = this.state.order.shippedDate?new Date(this.state.order.shippedDate):null
-   
+    if (order.orderDate)
+      this.setState({
+        order: {
+          displayOrderDate: new Date(this.state.order.orderDate)
+        }
+      });
 
+    if (order.shippedDate)
+      this.setState({
+        order: {
+          displayOrderDate: new Date(this.state.order.shippedDate)
+        }
+      });
 
     const styles = {
-        toggleDiv: {
-          maxWidth: 300,
-          marginTop: 0,
-          marginBottom: 5
-        },
-        toggleLabel: {
-          color: grey400,
-          fontWeight: 100
-        },
-        buttons: {
-          marginTop: 30,
-          float: 'right'
-        },
-        saveButton: {
-          marginLeft: 5
-        },
-        card: {
-          width: 120
-        },
-        productList: {
-          color: 'navy',
-          paddingTop: 20,
-          fontWeight: 'bold',
-        },
-        productItem: {
-          background: 'lightblue',
-          paddingLeft: 20
-        },
-        productDeleteIcon: {
-          float: 'right',
-          marginTop: -30,
-          paddingRight: 20
+      toggleDiv: {
+        maxWidth: 300,
+        marginTop: 0,
+        marginBottom: 5
+      },
+      toggleLabel: {
+        color: grey400,
+        fontWeight: 100
+      },
+      buttons: {
+        marginTop: 30,
+        float: "right"
+      },
+      saveButton: {
+        marginLeft: 5
+      },
+      card: {
+        width: 120
+      },
+      productList: {
+        color: "navy",
+        paddingTop: 20,
+        fontWeight: "bold"
+      },
+      productItem: {
+        background: "lightblue",
+        paddingLeft: 20
+      },
+      productDeleteIcon: {
+        float: "right",
+        marginTop: -30,
+        paddingRight: 20
+      },
+      menuItem: {
+        fontSize: 14
+      },
+      customWidth: {
+        width: 250
+      },
+      dialog: {
+        width: "20%",
+        maxWidth: "none",
+        minWidth: 300
+      }
+    };
 
-        },
-           menuItem: {
-      fontSize: 14
-    },
-    customWidth:{
-      width: 250
-    },
-    dialog : {
-          width: '20%',
-          maxWidth: 'none',
-          minWidth: 300
-        }
-      };
-
-    return (      
-
-      <PageBase title="Order"
-                navigation="Application / Order ">
-            <Formsy.Form
-                      onValid={this.enableButton}
-                      onInvalid={this.disableButton}
-                      onValidSubmit={this.handleClick}
-                      onInvalidSubmit={this.notifyFormError}>
+    return (
+      <PageBase title="Order" navigation="Application / Order ">
+        <Formsy.Form
+          onValid={this.enableButton}
+          onInvalid={this.disableButton}
+          onValidSubmit={this.handleClick}
+          onInvalidSubmit={this.notifyFormError}
+        >
           <GridList cols={3} cellHeight={60}>
-          <GridTile>
-                     <FormsySelect
-                      floatingLabelText="Customer"
-                      value={this.state.order.customer?this.state.order.customer.id:0}
-                      onChange={this.handleChange}
-                      style={styles.customWidth}
-                      name="customerId"
-                    >
-  
-
-          {customerList.map((customer, index) =>
-            <MenuItem
-              key={index}
-              name="customerId"
-              value={customer.id}
-              style={styles.menuItem}
-              primaryText={customer.firstName? customer.firstName + ' ' + customer.lastName: ''}     
-              
-            />
-          )}
-
-
-        </FormsySelect>      
-      
-                </GridTile>
-          <GridTile >
-                <FormsyText
-                    hintText="Reference"
-                    floatingLabelText="Reference"
-                    name="reference"
-                    onChange = {this.handleChange}
-                    fullWidth={true}
-                    value = {this.state.order.reference?this.state.order.reference:''}
-                    validations={{
-                    isWords: true
-                    }}
-                    validationErrors={{
-                      isWords: 'Please provide valid reference name',
-                      isDefaultRequiredValue: 'This is a required field'
-                    }}
-                    required
+            <GridTile>
+              <FormsySelect
+                floatingLabelText="Customer"
+                value={
+                  this.state.order.customer ? this.state.order.customer.id : 0
+                }
+                onChange={this.handleChange}
+                style={styles.customWidth}
+                name="customerId"
+              >
+                {customerList.map((customer, index) => (
+                  <MenuItem
+                    key={index}
+                    name="customerId"
+                    value={customer.id}
+                    style={styles.menuItem}
+                    primaryText={
+                      customer.firstName
+                        ? customer.firstName + " " + customer.lastName
+                        : ""
+                    }
                   />
+                ))}
+              </FormsySelect>
+            </GridTile>
+            <GridTile>
+              <FormsyText
+                hintText="Reference"
+                floatingLabelText="Reference"
+                name="reference"
+                onChange={this.handleChange}
+                fullWidth={true}
+                value={
+                  this.state.order.reference ? this.state.order.reference : ""
+                }
+                validations={{
+                  isWords: true
+                }}
+                validationErrors={{
+                  isWords: "Please provide valid reference name",
+                  isDefaultRequiredValue: "This is a required field"
+                }}
+                required
+              />
+            </GridTile>
 
-                </GridTile>
+            <GridTile>
+              <FormsyText
+                hintText="Amount"
+                floatingLabelText="Amount"
+                fullWidth={true}
+                name="price"
+                onChange={this.handleChange}
+                validations={{
+                  isNumeric: true
+                }}
+                validationErrors={{
+                  isNumeric: "Please provide valid price",
+                  isDefaultRequiredValue: "This is a required field"
+                }}
+                value={this.state.order.amount}
+                required
+              />
+            </GridTile>
 
-                <GridTile>
-                  <FormsyText
-                    hintText="Amount"
-                    floatingLabelText="Amount"
-                    fullWidth={true}
-                    name="price"
-                    onChange = {this.handleChange}
-                     validations={{
-                    isNumeric: true
-                   }}
-                    validationErrors={{
-                      isNumeric: 'Please provide valid price',
-                      isDefaultRequiredValue: 'This is a required field'
-                    }}
-                    value = {this.state.order.amount}
-                    required
-                  />
+            <GridTile>
+              <FormsyText
+                hintText="Quantity"
+                floatingLabelText="Quantity"
+                fullWidth={true}
+                type="number"
+                name="quantity"
+                onChange={this.handleChange}
+                value={
+                  this.state.order.products
+                    ? this.state.order.products.length
+                    : 0
+                }
+                validations={{
+                  isInt: true
+                }}
+                validationErrors={{
+                  isInt: "Please provide a valid password",
+                  isDefaultRequiredValue: "This is a required field"
+                }}
+                required
+              />
+            </GridTile>
+            <GridTile>
+              <FormsyDate
+                hintText="Order Date"
+                floatingLabelText="Order Date"
+                disabled={true}
+                name="orderDate"
+                onChange={this.handleChange}
+                value={this.state.order.displayOrderDate}
+                required
+              />
+            </GridTile>
 
-                </GridTile>
+            <GridTile>
+              <FormsyDate
+                hintText="Shipped Date"
+                floatingLabelText="Shipped Date"
+                fullWidth={true}
+                name="shippedDate"
+                onChange={this.handleChange}
+                value={this.state.order.displayShippedDate}
+                required
+              />
+            </GridTile>
 
-                <GridTile>
-                  <FormsyText
-                    hintText="Quantity"
-                    floatingLabelText="Quantity"
-                    fullWidth={true}
-                    type="number"
-                    name="quantity"
-                    onChange = {this.handleChange}
-                    value = {this.state.order.products?this.state.order.products.length:0}
-                    validations={{
-                    isInt: true
-                    }}
-                    validationErrors={{
-                    isInt: 'Please provide a valid password',
-                    isDefaultRequiredValue: 'This is a required field'
-                  }}
-                    required
-                  />          
-           
+            <GridTile>
+              <FormsyText
+                hintText="Address"
+                floatingLabelText="Address"
+                name="shipAddress.address"
+                onChange={this.handleChange}
+                fullWidth={true}
+                value={
+                  this.state.order.shipAddress &&
+                  this.state.order.shipAddress.address
+                    ? this.state.order.shipAddress.address
+                    : ""
+                }
+                validations={{
+                  isWords: true
+                }}
+                validationErrors={{
+                  isWords: "Please provide valid address",
+                  isDefaultRequiredValue: "This is a required field"
+                }}
+                required
+              />
+            </GridTile>
 
-                </GridTile>
-              <GridTile>
-                  <FormsyDate
-                    hintText="Order Date"
-                    floatingLabelText="Order Date"
-                    disabled = {true}
-        
-                    name="orderDate"
-                    onChange = {this.handleChange}
-                    value = {this.state.order.displayOrderDate} 
-                    required
-                  />          
-           
+            <GridTile>
+              <FormsyText
+                hintText="City"
+                floatingLabelText="City"
+                name="reference"
+                onChange={this.handleChange}
+                fullWidth={true}
+                value={
+                  this.state.order.shipAddress &&
+                  this.state.order.shipAddress.city
+                    ? this.state.order.shipAddress.city
+                    : ""
+                }
+                validations={{
+                  isWords: true
+                }}
+                validationErrors={{
+                  isWords: "Please provide valid city",
+                  isDefaultRequiredValue: "This is a required field"
+                }}
+                required
+              />
+            </GridTile>
 
-                </GridTile>
+            <GridTile>
+              <FormsyText
+                hintText="Country"
+                floatingLabelText="Country"
+                name="reference"
+                onChange={this.handleChange}
+                fullWidth={true}
+                value={
+                  this.state.order.shipAddress &&
+                  this.state.order.shipAddress.country
+                    ? this.state.order.shipAddress.country
+                    : ""
+                }
+                validations={{
+                  isWords: true
+                }}
+                validationErrors={{
+                  isWords: "Please provide valid country",
+                  isDefaultRequiredValue: "This is a required field"
+                }}
+                required
+              />
+            </GridTile>
 
-                <GridTile>
-                  <FormsyDate
-                    hintText="Shipped Date"
-                    floatingLabelText="Shipped Date"
-                    fullWidth={true}
-                    name="shippedDate"
-                    onChange = {this.handleChange}
-                    value ={this.state.order.displayShippedDate}  
-                    required
-                  />      
-                </GridTile>
-            
-              <GridTile >
-                <FormsyText
-                    hintText="Address"
-                    floatingLabelText="Address"
-                    name="shipAddress.address"
-                    onChange = {this.handleChange}
-                    fullWidth={true}
-                    value = {this.state.order.shipAddress&&this.state.order.shipAddress.address?this.state.order.shipAddress.address:''}
-                    validations={{
-                    isWords: true
-                    }}
-                    validationErrors={{
-                      isWords: 'Please provide valid address',
-                      isDefaultRequiredValue: 'This is a required field'
-                    }}
-                    required
-                  />
-
-                </GridTile>
-
-                    <GridTile >
-                <FormsyText
-                    hintText="City"
-                    floatingLabelText="City"
-                    name="reference"
-                    onChange = {this.handleChange}
-                    fullWidth={true}
-                    value = {this.state.order.shipAddress&&this.state.order.shipAddress.city?this.state.order.shipAddress.city:''}
-                    validations={{
-                    isWords: true
-                    }}
-                    validationErrors={{
-                      isWords: 'Please provide valid city',
-                      isDefaultRequiredValue: 'This is a required field'
-                    }}
-                    required
-                  />
-
-                </GridTile>
-
-                <GridTile >
-                  <FormsyText
-                      hintText="Country"
-                      floatingLabelText="Country"
-                      name="reference"
-                      onChange = {this.handleChange}
-                      fullWidth={true}
-                      value = {this.state.order.shipAddress&&this.state.order.shipAddress.country?this.state.order.shipAddress.country:''}
-                      validations={{
-                      isWords: true
-                      }}
-                      validationErrors={{
-                        isWords: 'Please provide valid country',
-                        isDefaultRequiredValue: 'This is a required field'
-                      }}
-                      required
-                    />
-
-                </GridTile>
-
-                <GridTile >
-                  <FormsyText
-                      hintText="Zip Code"
-                      floatingLabelText="Zip Code"
-                      name="reference"
-                      onChange = {this.handleChange}
-                      fullWidth={true}
-                      value = {this.state.order.shipAddress&&this.state.order.shipAddress.zipcode?
-                      this.state.order.shipAddress.zipcode:''}
-                      validations={{
-                      isWords: true
-                      }}
-                      validationErrors={{
-                        isWords: 'Please provide valid zip code',
-                        isDefaultRequiredValue: 'This is a required field'
-                      }}
-                      required
-                    />
-
-                </GridTile>
-   
-
-            </GridList>
-
+            <GridTile>
+              <FormsyText
+                hintText="Zip Code"
+                floatingLabelText="Zip Code"
+                name="reference"
+                onChange={this.handleChange}
+                fullWidth={true}
+                value={
+                  this.state.order.shipAddress &&
+                  this.state.order.shipAddress.zipcode
+                    ? this.state.order.shipAddress.zipcode
+                    : ""
+                }
+                validations={{
+                  isWords: true
+                }}
+                validationErrors={{
+                  isWords: "Please provide valid zip code",
+                  isDefaultRequiredValue: "This is a required field"
+                }}
+                required
+              />
+            </GridTile>
+          </GridList>
 
           <p style={styles.productList}>Product List: </p>
-   <Divider/>
-       
+          <Divider />
 
- {this.state.order.products && 
-  <div>    
-              <GridList cols={1} cellHeight={60} >
-                  {this.state.order.products.map((product, index) =>
-                      <GridTile key={index}>                          
-                         <div style={styles.productItem}>
-                            <span>{product.productName}  
-                              <p> Price: AUD ${product.unitPrice} 
-                              <IconButton style={styles.productDeleteIcon} 
-                              onClick={() => this.removeProduct(product)} >
-                                <ActionDelete />
-                              </IconButton>   
-                              </p>
-                            </span>
-                          </div>
-                        </GridTile>)}
-                        
-                          </GridList> 
-                          </div>
- }
-      
-                        <Divider/>
+          {this.state.order.products && (
+            <div>
+              <GridList cols={1} cellHeight={60}>
+                {this.state.order.products.map((product, index) => (
+                  <GridTile key={index}>
+                    <div style={styles.productItem}>
+                      <span>
+                        {product.productName}
+                        <p>
+                          {" "}
+                          Price: AUD ${product.unitPrice}
+                          <IconButton
+                            style={styles.productDeleteIcon}
+                            onClick={() => this.removeProduct(product)}
+                          >
+                            <ActionDelete />
+                          </IconButton>
+                        </p>
+                      </span>
+                    </div>
+                  </GridTile>
+                ))}
+              </GridList>
+            </div>
+          )}
 
-                        <div style={styles.buttons}>
-                          <Link to="/orders">
-                            <RaisedButton label="Cancel"/>
-                          </Link>
+          <Divider />
 
-                          <RaisedButton label="Save"
-                                        style={styles.saveButton}
-                                        type="button"
-                                        onClick={() => this.handleClick(event)}
-                                        primary={true}
-                                        disabled={!this.state.canSubmit}
-                                        />
-                         <RaisedButton label="Add"
-                                        style={styles.saveButton}
-                                        type="button"
-                                        onClick={() => this.handleClick(event, 'AddProduct')}
-                                        primary={true}
-                                        
-                                        />
-                        </div>
-                          {errorMessage &&
-                          <p style={{color:'red'}}>{errorMessage}</p>}
+          <div style={styles.buttons}>
+            <Link to="/orders">
+              <RaisedButton label="Cancel" />
+            </Link>
 
-                          <Dialog title="Add Product"
-                                  open={this.state.open}
-                                  contentStyle={styles.dialog}
-                                  ignoreBackdropClick
-                                  ignoreEscapeKeyUp
-                                  maxWidth="xs"
-                                >
-                                <div>
+            <RaisedButton
+              label="Save"
+              style={styles.saveButton}
+              type="button"
+              onClick={() => this.handleClick(event)}
+              primary={true}
+              disabled={!this.state.canSubmit}
+            />
+            <RaisedButton
+              label="Add"
+              style={styles.saveButton}
+              type="button"
+              onClick={() => this.handleClick(event, "AddProduct")}
+              primary={true}
+            />
+          </div>
+          {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
-                              
-                                     <FormsySelect
-                                                  floatingLabelText="Categories"
-                                                  onChange={this.handleChange}
-                                                  style={styles.customWidth}
-                                                  name="categoryId"
-                                                  onChange={this.handleCategoryChange}
-                                                >
-                                      {categoryList.map((category, index) =>
-                                        <MenuItem
-                                          key={index}
-                                          value={category.id}
-                                          style={styles.menuItem}                                          
-                                          primaryText={category.categoryName}                                               
-                                        />
-                                      )}
+          <Dialog
+            title="Add Product"
+            open={this.state.open}
+            contentStyle={styles.dialog}
+            ignoreBackdropClick
+            ignoreEscapeKeyUp
+            maxWidth="xs"
+          >
+            <div>
+              <FormsySelect
+                floatingLabelText="Categories"
+                // onChange={this.handleChange}
+                style={styles.customWidth}
+                name="categoryId"
+                onChange={this.handleCategoryChange}
+              >
+                {categoryList.map((category, index) => (
+                  <MenuItem
+                    key={index}
+                    value={category.id}
+                    style={styles.menuItem}
+                    primaryText={category.categoryName}
+                  />
+                ))}
+              </FormsySelect>
 
+              <FormsySelect
+                floatingLabelText="Products"
+                // onChange={this.handleChange}
+                style={styles.customWidth}
+                name="categoryId"
+                onChange={this.handleProductChange}
+              >
+                {productList.map((product, index) => (
+                  <MenuItem
+                    key={index}
+                    value={product.id}
+                    style={styles.menuItem}
+                    primaryText={product.productName}
+                  />
+                ))}
+              </FormsySelect>
 
-                                    </FormsySelect>      
-    
-                                     <FormsySelect
-                                                  floatingLabelText="Products"
-                                                  onChange={this.handleChange}
-                                                  style={styles.customWidth}
-                                                  name="categoryId"
-                                                  onChange={this.handleProductChange}
-                                                >
-                                      {productList.map((product, index) =>
-                                        <MenuItem
-                                        key={index}
-                                          value={product.id}
-                                          style={styles.menuItem}
-                                          primaryText={product.productName}                                               
-                                        />
-                                      )}
-
-
-                                    </FormsySelect>      
-
-
-<span>
-                                    <RaisedButton onClick={this.handleCancel} color="primary">
-                                      Cancel
-                                    </RaisedButton>
-                                    <RaisedButton onClick={this.handleOk} color="primary">
-                                      Ok
-                                    </RaisedButton>
-   </span>
-    </div>
-                                </Dialog>
-                         
-                      </Formsy.Form>
-                    </PageBase>
-
-                  );
-                }
+              <span>
+                <RaisedButton onClick={this.handleCancel} color="primary">
+                  Cancel
+                </RaisedButton>
+                <RaisedButton onClick={this.handleOk} color="primary">
+                  Ok
+                </RaisedButton>
+              </span>
+            </div>
+          </Dialog>
+        </Formsy.Form>
+      </PageBase>
+    );
+  }
 }
 
 OrderFormPage.propTypes = {
-  // order: PropTypes.object.isRequired,
+  router: PropTypes.router,
+  routeParams: PropTypes.object,
+  order: PropTypes.objject,
   getOrder: PropTypes.func.isRequired,
   updateOrder: PropTypes.func.isRequired,
   getProductList: PropTypes.func.isRequired,
   updateSuccess: PropTypes.bool.isRequired,
   addSuccess: PropTypes.bool.isRequired,
   addOrder: PropTypes.func.isRequired,
-  customerList : PropTypes.array,
-  categoryList : PropTypes.array,
-  productList : PropTypes.array,
-  getAllCustomers: PropTypes.func.isRequired
+  customerList: PropTypes.array,
+  categoryList: PropTypes.array,
+  productList: PropTypes.array,
+  getAllCustomers: PropTypes.func.isRequired,
+  getCategoryList: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string
 };
 
-
 function mapStateToProps(state) {
-  const {customerReducer, orderReducer, productReducer} = state;
-  const {productList, categoryList} = productReducer;
-  const {customerList} = customerReducer;
-  const {order, isFetching, updateSuccess, addSuccess, isAuthenticated, user} = orderReducer;
+  const { customerReducer, orderReducer, productReducer } = state;
+  const { productList, categoryList } = productReducer;
+  const { customerList } = customerReducer;
+  const {
+    order,
+    isFetching,
+    updateSuccess,
+    addSuccess,
+    isAuthenticated,
+    user
+  } = orderReducer;
 
   return {
-    order,
-    isFetching, 
+    order: order || {},
+    isFetching,
     customerList,
     categoryList,
-    productList,        
+    productList,
     addSuccess,
     updateSuccess,
     isAuthenticated,
     user
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getOrder: id => dispatch( getOrder(id)) ,
-    updateOrder: (order) => dispatch(updateOrder(order)),
-    addOrder: (order) => dispatch(addOrder(order)),
-    getCategoryList: () => dispatch( loadCategories()),
-    getProductList: (filters) => dispatch( loadProducts(filters)),
-    getAllCustomers: () => dispatch( loadCustomers())
-  }
+    getOrder: id => dispatch(getOrder(id)),
+    updateOrder: order => dispatch(updateOrder(order)),
+    addOrder: order => dispatch(addOrder(order)),
+    getCategoryList: () => dispatch(loadCategories()),
+    getProductList: filters => dispatch(loadProducts(filters)),
+    getAllCustomers: () => dispatch(loadCustomers())
+  };
 }
 
-
-export default connect(mapStateToProps, mapDispatchToProps) (OrderFormPage);
+export default connect(mapStateToProps, mapDispatchToProps)(OrderFormPage);

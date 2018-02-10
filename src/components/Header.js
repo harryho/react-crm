@@ -1,20 +1,18 @@
-import React, {PropTypes} from 'react';
-import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import Menu from 'material-ui/svg-icons/navigation/menu';
-import {white} from 'material-ui/styles/colors';
-
+import React, { PropTypes } from "react";
+import AppBar from "material-ui/AppBar";
+import IconButton from "material-ui/IconButton";
+import Menu from "material-ui/svg-icons/navigation/menu";
+import { white } from "material-ui/styles/colors";
 
 class Header extends React.Component {
-
   render() {
-    const {styles, handleChangeRequestNavDrawer} = this.props;
+    const { styles, handleChangeRequestNavDrawer } = this.props;
 
     const style = {
       appBar: {
-        position: 'fixed',
+        position: "fixed",
         top: 0,
-        overflow: 'hidden',
+        overflow: "hidden",
         maxHeight: 57
       },
       menuButton: {
@@ -30,21 +28,24 @@ class Header extends React.Component {
     };
 
     return (
-        <div>
-            <AppBar
-              style={{...styles, ...style.appBar}}
-              /*title={ <SearchBox />  }*/
-              iconElementLeft={
-                <div style={style.iconsLeftContainer}>
-                  {/*<img width={35} src="../assets/img/logo_rtk_sm.png" ></img>*/}
-                  <IconButton style={style.menuButton} onClick={handleChangeRequestNavDrawer}>
-                    <Menu color={white} />
-                  </IconButton>
-                </div>
-              }
-            />
-          </div>
-      );
+      <div>
+        <AppBar
+          style={{ ...styles, ...style.appBar }}
+          /*title={ <SearchBox />  }*/
+          iconElementLeft={
+            <div style={style.iconsLeftContainer}>
+              {/*<img width={35} src="../assets/img/logo_rtk_sm.png" ></img>*/}
+              <IconButton
+                style={style.menuButton}
+                onClick={handleChangeRequestNavDrawer}
+              >
+                <Menu color={white} />
+              </IconButton>
+            </div>
+          }
+        />
+      </div>
+    );
   }
 }
 

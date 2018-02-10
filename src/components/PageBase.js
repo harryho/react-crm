@@ -1,27 +1,25 @@
-import React, {PropTypes} from 'react';
-import Paper from 'material-ui/Paper';
-import Divider from 'material-ui/Divider';
-import globalStyles from '../styles';
+import React, { PropTypes } from "react";
+import Paper from "material-ui/Paper";
+import Divider from "material-ui/Divider";
+import globalStyles from "../styles";
 
-const PageBase = (props) => {
+const PageBase = props => {
+  const { title, navigation } = props;
 
-    const {title, navigation} = props;
+  return (
+    <div>
+      <span style={globalStyles.navigation}>{navigation}</span>
 
-    return (
-      <div>
-        <span style={globalStyles.navigation}>{navigation}</span>
+      <Paper style={globalStyles.paper}>
+        <h3 style={globalStyles.title}>{title}</h3>
 
-        <Paper style={globalStyles.paper}>
-          <h3 style={globalStyles.title}>{title}</h3>
+        <Divider />
+        {props.children}
 
-          <Divider/>
-          {props.children}
-
-          <div style={globalStyles.clear}/>
-
-        </Paper>
-      </div>
-    );
+        <div style={globalStyles.clear} />
+      </Paper>
+    </div>
+  );
 };
 
 PageBase.propTypes = {

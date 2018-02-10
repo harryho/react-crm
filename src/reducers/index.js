@@ -1,11 +1,16 @@
-import {combineReducers} from 'redux';
-import {auth} from './auth';
-import {customerReducer} from './customer';
+import { combineReducers } from "redux";
+import { auth } from "./auth";
+import { customerReducer } from "./customer";
 
-import {orderReducer} from './order';
+import { orderReducer } from "./order";
 
-import {productReducer} from './product';
+import { productReducer } from "./product";
 
-const reducers = combineReducers({auth, customerReducer, orderReducer, productReducer})
+const reducers = combineReducers({
+  auth,
+  customerReducer,
+  orderReducer,
+  productReducer
+});
 
-export default reducers
+export default reducers;

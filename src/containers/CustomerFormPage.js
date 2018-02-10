@@ -1,31 +1,27 @@
-import React, { PropTypes } from 'react';
-import {Link } from 'react-router';
-import RaisedButton from 'material-ui/RaisedButton';
-import Toggle from 'material-ui/Toggle';
+import React, { PropTypes } from "react";
+import { Link } from "react-router";
+import RaisedButton from "material-ui/RaisedButton";
+import Toggle from "material-ui/Toggle";
 // import DatePicker from 'material-ui/DatePicker';
-import {grey400} from 'material-ui/styles/colors';
-import Divider from 'material-ui/Divider';
-import PageBase from '../components/PageBase';
+import { grey400 } from "material-ui/styles/colors";
+import Divider from "material-ui/Divider";
+import PageBase from "../components/PageBase";
 
-import { connect } from 'react-redux';
-import {GridList, GridTile} from 'material-ui/GridList';
-import {Card} from 'material-ui/Card';
+import { connect } from "react-redux";
+import { GridList, GridTile } from "material-ui/GridList";
+import { Card } from "material-ui/Card";
 
-import { getCustomer, updateCustomer, addCustomer
-} from '../actions/customer';
-import {  FormsyText } from 'formsy-material-ui/lib';
-import Formsy from 'formsy-react';
+import { getCustomer, updateCustomer, addCustomer } from "../actions/customer";
+import { FormsyText } from "formsy-material-ui/lib";
+import Formsy from "formsy-react";
 
 class CustomerFormPage extends React.Component {
-
   constructor(props) {
     super(props);
 
-
-
-    this.state = {    
-      customer: {} 
-    }
+    this.state = {
+      customer: {}
+    };
 
     if (this.props.routeParams.id)
       this.props.getCustomer(this.props.routeParams.id);
@@ -38,228 +34,235 @@ class CustomerFormPage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-  
-
-    if (this.props.customer &&  nextProps.customer
-        &&this.props.customer.id != nextProps.customer.id) {
+    if (
+      this.props.customer &&
+      nextProps.customer &&
+      this.props.customer.id != nextProps.customer.id
+    ) {
       // Necessary to populate form when existing customer is loaded directly.
-      this.setState({customer: Object.assign({}, nextProps.customer)});
-     
+      this.setState({ customer: Object.assign({}, nextProps.customer) });
     }
 
-    if (!this.props.addSuccess &&  nextProps.addSuccess || !this.props.updateSuccess &&  nextProps.updateSuccess ){
-      this.props.router.push('/customers');
+    if (
+      (!this.props.addSuccess && nextProps.addSuccess) ||
+      (!this.props.updateSuccess && nextProps.updateSuccess)
+    ) {
+      this.props.router.push("/customers");
     }
   }
 
   handleChange(event) {
     const field = event.target.name;
-    if ( event && event.target && field  ){
+    if (event && event.target && field) {
       let customer = Object.assign({}, this.state.customer);
       customer[field] = event.target.value;
 
-      this.setState({customer: customer});
+      this.setState({ customer: customer });
     }
   }
 
-    enableButton() {
+  enableButton() {
     this.setState({
-      canSubmit: true,
+      canSubmit: true
     });
   }
 
   disableButton() {
     this.setState({
-      canSubmit: false,
+      canSubmit: false
     });
   }
 
-  
   notifyFormError(data) {
-    console.error('Form error:', data);
+    console.error("Form error:", data);
   }
 
-
-  handleClick (event) {
-    event.preventDefault();    
-    if (this.state.customer.id)
-      this.props.updateCustomer(this.state.customer);
-    else 
-      this.props.addCustomer(this.state.customer);
+  handleClick(event) {
+    event.preventDefault();
+    if (this.state.customer.id) this.props.updateCustomer(this.state.customer);
+    else this.props.addCustomer(this.state.customer);
   }
 
+  render() {
+    const { errorMessage } = this.props;
 
-  render(){ 
-  
-
-   const { errorMessage } = this.props;
-
-    
     const styles = {
-        toggleDiv: {
-          maxWidth: 300,
-          marginTop: 40,
-          marginBottom: 5
-        },
-        toggleLabel: {
-          color: grey400,
-          fontWeight: 100
-        },
-        buttons: {
-          marginTop: 30,
-          float: 'right'
-        },
-        saveButton: {
-          marginLeft: 5
-        },
-        card: {
-          width: 120
-        }
-      };
+      toggleDiv: {
+        maxWidth: 300,
+        marginTop: 40,
+        marginBottom: 5
+      },
+      toggleLabel: {
+        color: grey400,
+        fontWeight: 100
+      },
+      buttons: {
+        marginTop: 30,
+        float: "right"
+      },
+      saveButton: {
+        marginLeft: 5
+      },
+      card: {
+        width: 120
+      }
+    };
 
-    return (      
-
-      <PageBase title="Customer"
-                navigation="Application / Customer ">
-            <Formsy.Form
-                      onValid={this.enableButton}
-                      onInvalid={this.disableButton}
-                      onValidSubmit={this.handleClick}
-                      onInvalidSubmit={this.notifyFormError}>
+    return (
+      <PageBase title="Customer" navigation="Application / Customer ">
+        <Formsy.Form
+          onValid={this.enableButton}
+          onInvalid={this.disableButton}
+          onValidSubmit={this.handleClick}
+          onInvalidSubmit={this.notifyFormError}
+        >
           <GridList cellHeight={300}>
-     
-          <GridTile >
-                <FormsyText
-                    hintText="First Name"
-                    floatingLabelText="First Name"
-                    name="firstName"
-                    onChange = {this.handleChange}
-                    fullWidth={true}
-                    value = {this.state.customer.firstName?this.state.customer.firstName:''}
-                    validations={{
-                    isWords: true
-                    }}
-                    validationErrors={{
-                      isWords: 'Please provide valid first name',
-                      isDefaultRequiredValue: 'This is a required field'
-                    }}
-                    required
-                  />
+            <GridTile>
+              <FormsyText
+                hintText="First Name"
+                floatingLabelText="First Name"
+                name="firstName"
+                onChange={this.handleChange}
+                fullWidth={true}
+                value={
+                  this.state.customer.firstName
+                    ? this.state.customer.firstName
+                    : ""
+                }
+                validations={{
+                  isWords: true
+                }}
+                validationErrors={{
+                  isWords: "Please provide valid first name",
+                  isDefaultRequiredValue: "This is a required field"
+                }}
+                required
+              />
 
-                  <FormsyText
-                    hintText="Last Name"
-                    floatingLabelText="Last Name"
-                    fullWidth={true}
-                    name="lastName"
-                    onChange = {this.handleChange}
-                     validations={{
-                    isWords: true
-                   }}
-                    validationErrors={{
-                      isWords: 'Please provide valid first name',
-                      isDefaultRequiredValue: 'This is a required field'
-                    }}
-                    value = {this.state.customer.lastName?this.state.customer.lastName:''}
-                    required
-                  />
+              <FormsyText
+                hintText="Last Name"
+                floatingLabelText="Last Name"
+                fullWidth={true}
+                name="lastName"
+                onChange={this.handleChange}
+                validations={{
+                  isWords: true
+                }}
+                validationErrors={{
+                  isWords: "Please provide valid first name",
+                  isDefaultRequiredValue: "This is a required field"
+                }}
+                value={
+                  this.state.customer.lastName
+                    ? this.state.customer.lastName
+                    : ""
+                }
+                required
+              />
 
-                  <FormsyText
-                    hintText="Age"
-                    floatingLabelText="Age"
-                    fullWidth={true}
-                    type="number"
-                    name="age"
-                    onChange = {this.handleChange}
-                    value = {this.state.customer.age}
-                    validations={{
-                    isInt: true
-                    }}
-                    validationErrors={{
-                    isInt: 'Please provide a valid password',
-                    isDefaultRequiredValue: 'This is a required field'
-                  }}
-                    required
-                  />
+              <FormsyText
+                hintText="Age"
+                floatingLabelText="Age"
+                fullWidth={true}
+                type="number"
+                name="age"
+                onChange={this.handleChange}
+                value={this.state.customer.age}
+                validations={{
+                  isInt: true
+                }}
+                validationErrors={{
+                  isInt: "Please provide a valid password",
+                  isDefaultRequiredValue: "This is a required field"
+                }}
+                required
+              />
 
-                  <div style={styles.toggleDiv}>
-                    <Toggle
-                      label="Status"
-                      name="isActive"
-                      onChange = {this.handleChange}
-                      defaultToggled={this.state.customer.isActive}
-                      labelStyle={styles.toggleLabel}
-                    />
-                  </div>
-                  
-                </GridTile>
+              <div style={styles.toggleDiv}>
+                <Toggle
+                  label="Status"
+                  name="isActive"
+                  onChange={this.handleChange}
+                  defaultToggled={this.state.customer.isActive}
+                  labelStyle={styles.toggleLabel}
+                />
+              </div>
+            </GridTile>
 
-                <GridTile>
-                  { this.state.customer && this.state.customer.avatar &&
+            <GridTile>
+              {this.state.customer &&
+                this.state.customer.avatar && (
                   <Card style={styles.card}>
-                    <img  width={100} src={this.state.customer.avatar} />
+                    <img width={100} src={this.state.customer.avatar} />
                   </Card>
-                  }
-                </GridTile>
-
-            </GridList>
-          <Divider/>
+                )}
+            </GridTile>
+          </GridList>
+          <Divider />
 
           <div style={styles.buttons}>
             <Link to="/customers">
-              <RaisedButton label="Cancel"/>
+              <RaisedButton label="Cancel" />
             </Link>
 
-            <RaisedButton label="Save"
-                          style={styles.saveButton}
-                          type="button"
-                            onClick={() => this.handleClick(event)}
-                          primary={true}
-                                      disabled={!this.state.canSubmit}
-                          />
+            <RaisedButton
+              label="Save"
+              style={styles.saveButton}
+              type="button"
+              onClick={() => this.handleClick(event)}
+              primary={true}
+              disabled={!this.state.canSubmit}
+            />
           </div>
-            {errorMessage &&
-            <p style={{color:'red'}}>{errorMessage}</p>}
-
-            
+          {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         </Formsy.Form>
-        
       </PageBase>
     );
   }
 }
 
 CustomerFormPage.propTypes = {
+  router: PropTypes.router,
+  routeParams: PropTypes.Object,
+  customer: PropTypes.Object,
   getCustomer: PropTypes.func.isRequired,
   updateCustomer: PropTypes.func.isRequired,
   updateSuccess: PropTypes.bool.isRequired,
   addSuccess: PropTypes.bool.isRequired,
-  addCustomer: PropTypes.func.isRequired
+  addCustomer: PropTypes.func.isRequired,
+
+  errorMessage: PropTypes.string
 };
 
-
-function mapStateToProps(state) {  
-  const { customerReducer} = state;
-  const { customer, isFetching, updateSuccess, addSuccess, errorMessage,
-          isAuthenticated, user } = customerReducer;
-  
-  return {
+function mapStateToProps(state) {
+  const { customerReducer } = state;
+  const {
     customer,
-    isFetching, 
+    isFetching,
+    updateSuccess,
+    addSuccess,
+    errorMessage,
+    isAuthenticated,
+    user
+  } = customerReducer;
+
+  return {
+    customer: customer || {},
+    isFetching,
     addSuccess,
     updateSuccess,
     errorMessage,
     isAuthenticated,
     user
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getCustomer: id => dispatch( getCustomer(id)),
-    updateCustomer: (customer) => dispatch(updateCustomer(customer)),
-    addCustomer: (customer) => dispatch(addCustomer(customer))
-  }
+    getCustomer: id => dispatch(getCustomer(id)),
+    updateCustomer: customer => dispatch(updateCustomer(customer)),
+    addCustomer: customer => dispatch(addCustomer(customer))
+  };
 }
 
-
-export default connect(mapStateToProps, mapDispatchToProps) (CustomerFormPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CustomerFormPage);
