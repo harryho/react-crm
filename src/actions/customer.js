@@ -14,7 +14,8 @@ import {
   ADD_CUSTOMER_FAILURE,
   DELETE_CUSTOMER_REQUEST,
   DELETE_CUSTOMER_SUCCESS,
-  DELETE_CUSTOMER_FAILURE
+  DELETE_CUSTOMER_FAILURE,
+  NEW_CUSTOMER_REQUEST
 } from "../constants";
 
 // Customer actions
@@ -86,5 +87,11 @@ export function deleteCustomer(id) {
         DELETE_CUSTOMER_FAILURE
       ]
     }
+  };
+}
+
+export function newCustomer() {
+  return {
+    type: NEW_CUSTOMER_REQUEST
   };
 }

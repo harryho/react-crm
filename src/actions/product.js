@@ -17,7 +17,8 @@ import {
   ADD_PRODUCT_FAILURE,
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_SUCCESS,
-  DELETE_PRODUCT_FAILURE
+  DELETE_PRODUCT_FAILURE,
+  NEW_PRODUCT_REQUEST
 } from "../constants";
 
 // Product actions
@@ -89,6 +90,12 @@ export function addProduct(product) {
       addSuccess: false,
       types: [ADD_PRODUCT_REQUEST, ADD_PRODUCT_SUCCESS, ADD_PRODUCT_FAILURE]
     }
+  };
+}
+
+export function newProduct() {
+  return {
+    type: NEW_PRODUCT_REQUEST
   };
 }
 

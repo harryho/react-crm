@@ -15,40 +15,49 @@ import { connect } from "react-redux";
 import { GridList, GridTile } from "material-ui/GridList";
 // import {Card} from 'material-ui/Card';
 import ActionDelete from "material-ui/svg-icons/action/delete";
-import { getOrder, updateOrder, addOrder } from "../actions/order";
+import { getOrder, updateOrder, addOrder, newOrder } from "../actions/order";
 import { loadCustomers } from "../actions/customer";
 import { loadProducts, loadCategories } from "../actions/product";
 
 import { FormsyText, FormsySelect, FormsyDate } from "formsy-material-ui/lib"; // FormsyDate
 import Formsy from "formsy-react";
 import MenuItem from "material-ui/MenuItem";
+import CircularProgress from "material-ui/CircularProgress";
+import autoBind from "react-autobind";
 
 class OrderFormPage extends React.Component {
   constructor(props) {
     super(props);
-
+    autoBind(this);
     this.state = {
+      isFetching: this.props.routeParams.id ? true : false,
       categoryId: 0,
       product: null,
       open: false,
       order: {}
     };
 
-    if (this.props.routeParams && this.props.routeParams.id)
-      this.props.getOrder(this.props.routeParams.id);
+    // autobind(this);
+    // this.handleChange = this.handleChange.bind(this);
+    // this.handleClick = this.handleClick.bind(this);
+    // this.handleCancel = this.handleCancel.bind(this);
+    // this.handleOk = this.handleOk.bind(this);
+    // this.enableButton = this.enableButton.bind(this);
+    // this.notifyFormError = this.notifyFormError.bind(this);
+    // this.disableButton = this.disableButton.bind(this);
+    // this.removeProduct = this.removeProduct.bind(this);
+    // this.handleCategoryChange = this.handleCategoryChange.bind(this);
+    // this.handleProductChange = this.handleProductChange.bind(this);
+  }
 
-    this.props.getAllCustomers();
-    this.props.getCategoryList();
-    this.handleChange = this.handleChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
-    this.handleOk = this.handleOk.bind(this);
-    this.enableButton = this.enableButton.bind(this);
-    this.notifyFormError = this.notifyFormError.bind(this);
-    this.disableButton = this.disableButton.bind(this);
-    this.removeProduct = this.removeProduct.bind(this);
-    this.handleCategoryChange = this.handleCategoryChange.bind(this);
-    this.handleProductChange = this.handleProductChange.bind(this);
+  componentWillMount() {
+    if (this.props.routeParams && this.props.routeParams.id) {
+      this.props.getOrder(this.props.routeParams.id);
+      this.props.getAllCustomers();
+      this.props.getCategoryList();
+    } else {
+      this.props.newOrder();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -58,6 +67,7 @@ class OrderFormPage extends React.Component {
         this.props.order.id != nextProps.order.id) ||
       this.props.order != nextProps.order
     ) {
+      this.setState({ isFetching: false });
       this.setState({ order: Object.assign({}, nextProps.order) });
     }
 
@@ -96,15 +106,6 @@ class OrderFormPage extends React.Component {
     }
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   const shouldUpdate =
-  //     nextState.order !== this.props.order ||
-  //     nextState.order !== this.state.order ||
-  //     nextState.canSubmit != this.state.canSubmit;
-  //   // console.log(shouldUpdate)
-  //   return shouldUpdate;
-  // }
-
   enableButton() {
     this.setState({
       canSubmit: true
@@ -113,17 +114,20 @@ class OrderFormPage extends React.Component {
 
   handleChange(event, date) {
     const field = event ? event.target.name : null;
+    const { order } = this.state;
 
-    if (typeof date === "object") {
-      let order = Object.assign({}, this.state.order);
-      order.shippedDate = date.toLocaleDateString();
-      this.setState({ order: order });
-      this.enableButton();
-    } else if (event && event.target && field) {
-      let _order = Object.assign({}, this.state.order);
-      _order[field] = event.target.value;
-      this.setState({ order: _order });
-      this.enableButton();
+    if (order) {
+      if (typeof date === "object") {
+        let order = Object.assign({}, order);
+        order.shippedDate = date.toLocaleDateString();
+        this.setState({ order: order });
+        this.enableButton();
+      } else if (event && event.target && field) {
+        let _order = Object.assign({}, order);
+        _order[field] = event.target.value;
+        this.setState({ order: _order });
+        this.enableButton();
+      }
     }
   }
 
@@ -143,7 +147,10 @@ class OrderFormPage extends React.Component {
   }
 
   handleOk() {
-    this.state.order.products.push(this.state.product);
+    const { order } = this.state;
+
+    order.products = order.products || [];
+    order.products.push(this.state.product);
     this.setState({ open: false });
     this.setState({ order: this.state.order });
     this.enableButton();
@@ -167,21 +174,7 @@ class OrderFormPage extends React.Component {
       productList
     } = this.props;
 
-    const { order } = this.state;
-
-    if (order.orderDate)
-      this.setState({
-        order: {
-          displayOrderDate: new Date(this.state.order.orderDate)
-        }
-      });
-
-    if (order.shippedDate)
-      this.setState({
-        order: {
-          displayOrderDate: new Date(this.state.order.shippedDate)
-        }
-      });
+    const { isFetching, order } = this.state;
 
     const styles = {
       toggleDiv: {
@@ -230,341 +223,338 @@ class OrderFormPage extends React.Component {
       }
     };
 
-    return (
-      <PageBase title="Order" navigation="Application / Order ">
-        <Formsy.Form
-          onValid={this.enableButton}
-          onInvalid={this.disableButton}
-          onValidSubmit={this.handleClick}
-          onInvalidSubmit={this.notifyFormError}
-        >
-          <GridList cols={3} cellHeight={60}>
-            <GridTile>
-              <FormsySelect
-                floatingLabelText="Customer"
-                value={
-                  this.state.order.customer ? this.state.order.customer.id : 0
-                }
-                onChange={this.handleChange}
-                style={styles.customWidth}
-                name="customerId"
-              >
-                {customerList.map((customer, index) => (
-                  <MenuItem
-                    key={index}
-                    name="customerId"
-                    value={customer.id}
-                    style={styles.menuItem}
-                    primaryText={
-                      customer.firstName
-                        ? customer.firstName + " " + customer.lastName
-                        : ""
-                    }
-                  />
-                ))}
-              </FormsySelect>
-            </GridTile>
-            <GridTile>
-              <FormsyText
-                hintText="Reference"
-                floatingLabelText="Reference"
-                name="reference"
-                onChange={this.handleChange}
-                fullWidth={true}
-                value={
-                  this.state.order.reference ? this.state.order.reference : ""
-                }
-                validations={{
-                  isWords: true
-                }}
-                validationErrors={{
-                  isWords: "Please provide valid reference name",
-                  isDefaultRequiredValue: "This is a required field"
-                }}
-                required
-              />
-            </GridTile>
-
-            <GridTile>
-              <FormsyText
-                hintText="Amount"
-                floatingLabelText="Amount"
-                fullWidth={true}
-                name="price"
-                onChange={this.handleChange}
-                validations={{
-                  isNumeric: true
-                }}
-                validationErrors={{
-                  isNumeric: "Please provide valid price",
-                  isDefaultRequiredValue: "This is a required field"
-                }}
-                value={this.state.order.amount}
-                required
-              />
-            </GridTile>
-
-            <GridTile>
-              <FormsyText
-                hintText="Quantity"
-                floatingLabelText="Quantity"
-                fullWidth={true}
-                type="number"
-                name="quantity"
-                onChange={this.handleChange}
-                value={
-                  this.state.order.products
-                    ? this.state.order.products.length
-                    : 0
-                }
-                validations={{
-                  isInt: true
-                }}
-                validationErrors={{
-                  isInt: "Please provide a valid password",
-                  isDefaultRequiredValue: "This is a required field"
-                }}
-                required
-              />
-            </GridTile>
-            <GridTile>
-              <FormsyDate
-                hintText="Order Date"
-                floatingLabelText="Order Date"
-                disabled={true}
-                name="orderDate"
-                onChange={this.handleChange}
-                value={this.state.order.displayOrderDate}
-                required
-              />
-            </GridTile>
-
-            <GridTile>
-              <FormsyDate
-                hintText="Shipped Date"
-                floatingLabelText="Shipped Date"
-                fullWidth={true}
-                name="shippedDate"
-                onChange={this.handleChange}
-                value={this.state.order.displayShippedDate}
-                required
-              />
-            </GridTile>
-
-            <GridTile>
-              <FormsyText
-                hintText="Address"
-                floatingLabelText="Address"
-                name="shipAddress.address"
-                onChange={this.handleChange}
-                fullWidth={true}
-                value={
-                  this.state.order.shipAddress &&
-                  this.state.order.shipAddress.address
-                    ? this.state.order.shipAddress.address
-                    : ""
-                }
-                validations={{
-                  isWords: true
-                }}
-                validationErrors={{
-                  isWords: "Please provide valid address",
-                  isDefaultRequiredValue: "This is a required field"
-                }}
-                required
-              />
-            </GridTile>
-
-            <GridTile>
-              <FormsyText
-                hintText="City"
-                floatingLabelText="City"
-                name="reference"
-                onChange={this.handleChange}
-                fullWidth={true}
-                value={
-                  this.state.order.shipAddress &&
-                  this.state.order.shipAddress.city
-                    ? this.state.order.shipAddress.city
-                    : ""
-                }
-                validations={{
-                  isWords: true
-                }}
-                validationErrors={{
-                  isWords: "Please provide valid city",
-                  isDefaultRequiredValue: "This is a required field"
-                }}
-                required
-              />
-            </GridTile>
-
-            <GridTile>
-              <FormsyText
-                hintText="Country"
-                floatingLabelText="Country"
-                name="reference"
-                onChange={this.handleChange}
-                fullWidth={true}
-                value={
-                  this.state.order.shipAddress &&
-                  this.state.order.shipAddress.country
-                    ? this.state.order.shipAddress.country
-                    : ""
-                }
-                validations={{
-                  isWords: true
-                }}
-                validationErrors={{
-                  isWords: "Please provide valid country",
-                  isDefaultRequiredValue: "This is a required field"
-                }}
-                required
-              />
-            </GridTile>
-
-            <GridTile>
-              <FormsyText
-                hintText="Zip Code"
-                floatingLabelText="Zip Code"
-                name="reference"
-                onChange={this.handleChange}
-                fullWidth={true}
-                value={
-                  this.state.order.shipAddress &&
-                  this.state.order.shipAddress.zipcode
-                    ? this.state.order.shipAddress.zipcode
-                    : ""
-                }
-                validations={{
-                  isWords: true
-                }}
-                validationErrors={{
-                  isWords: "Please provide valid zip code",
-                  isDefaultRequiredValue: "This is a required field"
-                }}
-                required
-              />
-            </GridTile>
-          </GridList>
-
-          <p style={styles.productList}>Product List: </p>
-          <Divider />
-
-          {this.state.order.products && (
-            <div>
-              <GridList cols={1} cellHeight={60}>
-                {this.state.order.products.map((product, index) => (
-                  <GridTile key={index}>
-                    <div style={styles.productItem}>
-                      <span>
-                        {product.productName}
-                        <p>
-                          {" "}
-                          Price: AUD ${product.unitPrice}
-                          <IconButton
-                            style={styles.productDeleteIcon}
-                            onClick={() => this.removeProduct(product)}
-                          >
-                            <ActionDelete />
-                          </IconButton>
-                        </p>
-                      </span>
-                    </div>
-                  </GridTile>
-                ))}
-              </GridList>
-            </div>
-          )}
-
-          <Divider />
-
-          <div style={styles.buttons}>
-            <Link to="/orders">
-              <RaisedButton label="Cancel" />
-            </Link>
-
-            <RaisedButton
-              label="Save"
-              style={styles.saveButton}
-              type="button"
-              onClick={() => this.handleClick(event)}
-              primary={true}
-              disabled={!this.state.canSubmit}
-            />
-            <RaisedButton
-              label="Add"
-              style={styles.saveButton}
-              type="button"
-              onClick={() => this.handleClick(event, "AddProduct")}
-              primary={true}
-            />
-          </div>
-          {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-
-          <Dialog
-            title="Add Product"
-            open={this.state.open}
-            contentStyle={styles.dialog}
-            ignoreBackdropClick
-            ignoreEscapeKeyUp
-            maxWidth="xs"
+    if (isFetching) {
+      return <CircularProgress />;
+    } else {
+      return (
+        <PageBase title="Order" navigation="Application / Order ">
+          <Formsy.Form
+            onValid={this.enableButton}
+            onInvalid={this.disableButton}
+            onValidSubmit={this.handleClick}
+            onInvalidSubmit={this.notifyFormError}
           >
-            <div>
-              <FormsySelect
-                floatingLabelText="Categories"
-                // onChange={this.handleChange}
-                style={styles.customWidth}
-                name="categoryId"
-                onChange={this.handleCategoryChange}
-              >
-                {categoryList.map((category, index) => (
-                  <MenuItem
-                    key={index}
-                    value={category.id}
-                    style={styles.menuItem}
-                    primaryText={category.categoryName}
-                  />
-                ))}
-              </FormsySelect>
+            <GridList cols={3} cellHeight={60}>
+              <GridTile>
+                <FormsySelect
+                  floatingLabelText="Customer"
+                  value={order.customer ? order.customer.id : 0}
+                  onChange={this.handleChange}
+                  style={styles.customWidth}
+                  name="customerId"
+                >
+                  {customerList.map((customer, index) => (
+                    <MenuItem
+                      key={index}
+                      name="customerId"
+                      value={customer.id}
+                      style={styles.menuItem}
+                      primaryText={
+                        customer.firstName
+                          ? customer.firstName + " " + customer.lastName
+                          : ""
+                      }
+                    />
+                  ))}
+                </FormsySelect>
+              </GridTile>
+              <GridTile>
+                <FormsyText
+                  hintText="Reference"
+                  floatingLabelText="Reference"
+                  name="reference"
+                  onChange={this.handleChange}
+                  fullWidth={true}
+                  value={order.reference ? order.reference : ""}
+                  validations={{
+                    isWords: true
+                  }}
+                  validationErrors={{
+                    isWords: "Please provide valid reference name",
+                    isDefaultRequiredValue: "This is a required field"
+                  }}
+                  required
+                />
+              </GridTile>
 
-              <FormsySelect
-                floatingLabelText="Products"
-                // onChange={this.handleChange}
-                style={styles.customWidth}
-                name="categoryId"
-                onChange={this.handleProductChange}
-              >
-                {productList.map((product, index) => (
-                  <MenuItem
-                    key={index}
-                    value={product.id}
-                    style={styles.menuItem}
-                    primaryText={product.productName}
-                  />
-                ))}
-              </FormsySelect>
+              <GridTile>
+                <FormsyText
+                  hintText="Amount"
+                  floatingLabelText="Amount"
+                  fullWidth={true}
+                  name="price"
+                  onChange={this.handleChange}
+                  validations={{
+                    isNumeric: true
+                  }}
+                  validationErrors={{
+                    isNumeric: "Please provide valid price",
+                    isDefaultRequiredValue: "This is a required field"
+                  }}
+                  value={order.amount}
+                  required
+                />
+              </GridTile>
 
-              <span>
-                <RaisedButton onClick={this.handleCancel} color="primary">
-                  Cancel
-                </RaisedButton>
-                <RaisedButton onClick={this.handleOk} color="primary">
-                  Ok
-                </RaisedButton>
-              </span>
+              <GridTile>
+                <FormsyText
+                  hintText="Quantity"
+                  floatingLabelText="Quantity"
+                  fullWidth={true}
+                  type="number"
+                  name="quantity"
+                  onChange={this.handleChange}
+                  value={order.products ? order.products.length : 0}
+                  validations={{
+                    isInt: true
+                  }}
+                  validationErrors={{
+                    isInt: "Please provide a valid password",
+                    isDefaultRequiredValue: "This is a required field"
+                  }}
+                  required
+                />
+              </GridTile>
+              <GridTile>
+                <FormsyDate
+                  hintText="Order Date"
+                  floatingLabelText="Order Date"
+                  disabled={true}
+                  name="orderDate"
+                  onChange={this.handleChange}
+                  value={
+                    order.orderDate ? new Date(order.orderDate) : new Date()
+                  }
+                  required
+                />
+              </GridTile>
+
+              <GridTile>
+                <FormsyDate
+                  hintText="Shipped Date"
+                  floatingLabelText="Shipped Date"
+                  fullWidth={false}
+                  name="shippedDate"
+                  onChange={this.handleChange}
+                  value={
+                    order.shippedDate ? new Date(order.shippedDate) : new Date()
+                  }
+                  required
+                />
+              </GridTile>
+
+              <GridTile>
+                <FormsyText
+                  hintText="Address"
+                  floatingLabelText="Address"
+                  name="shipAddress.address"
+                  onChange={this.handleChange}
+                  fullWidth={true}
+                  value={
+                    order.shipAddress && order.shipAddress.address
+                      ? order.shipAddress.address
+                      : ""
+                  }
+                  validations={{
+                    isWords: true
+                  }}
+                  validationErrors={{
+                    isWords: "Please provide valid address",
+                    isDefaultRequiredValue: "This is a required field"
+                  }}
+                  required
+                />
+              </GridTile>
+
+              <GridTile>
+                <FormsyText
+                  hintText="City"
+                  floatingLabelText="City"
+                  name="reference"
+                  onChange={this.handleChange}
+                  fullWidth={true}
+                  value={
+                    order.shipAddress && order.shipAddress.city
+                      ? order.shipAddress.city
+                      : ""
+                  }
+                  validations={{
+                    isWords: true
+                  }}
+                  validationErrors={{
+                    isWords: "Please provide valid city",
+                    isDefaultRequiredValue: "This is a required field"
+                  }}
+                  required
+                />
+              </GridTile>
+
+              <GridTile>
+                <FormsyText
+                  hintText="Country"
+                  floatingLabelText="Country"
+                  name="reference"
+                  onChange={this.handleChange}
+                  fullWidth={true}
+                  value={
+                    order.shipAddress && order.shipAddress.country
+                      ? order.shipAddress.country
+                      : ""
+                  }
+                  validations={{
+                    isWords: true
+                  }}
+                  validationErrors={{
+                    isWords: "Please provide valid country",
+                    isDefaultRequiredValue: "This is a required field"
+                  }}
+                  required
+                />
+              </GridTile>
+
+              <GridTile>
+                <FormsyText
+                  hintText="Zip Code"
+                  floatingLabelText="Zip Code"
+                  name="reference"
+                  onChange={this.handleChange}
+                  fullWidth={true}
+                  value={
+                    order.shipAddress && order.shipAddress.zipcode
+                      ? order.shipAddress.zipcode
+                      : ""
+                  }
+                  validations={{
+                    isWords: true
+                  }}
+                  validationErrors={{
+                    isWords: "Please provide valid zip code",
+                    isDefaultRequiredValue: "This is a required field"
+                  }}
+                  required
+                />
+              </GridTile>
+            </GridList>
+
+            <p style={styles.productList}>Product List: </p>
+            <Divider />
+
+            {order.products && (
+              <div>
+                <GridList cols={1} cellHeight={60}>
+                  {order.products.map((product, index) => (
+                    <GridTile key={index}>
+                      <div style={styles.productItem}>
+                        <span>
+                          {product.productName}
+                          <p>
+                            {" "}
+                            Price: AUD ${product.unitPrice}
+                            <IconButton
+                              style={styles.productDeleteIcon}
+                              onClick={() => this.removeProduct(product)}
+                            >
+                              <ActionDelete />
+                            </IconButton>
+                          </p>
+                        </span>
+                      </div>
+                    </GridTile>
+                  ))}
+                </GridList>
+              </div>
+            )}
+
+            <Divider />
+
+            <div style={styles.buttons}>
+              <Link to="/orders">
+                <RaisedButton label="Cancel" />
+              </Link>
+
+              <RaisedButton
+                label="Save"
+                style={styles.saveButton}
+                type="button"
+                onClick={() => this.handleClick(event)}
+                primary={true}
+                disabled={!this.state.canSubmit}
+              />
+              <RaisedButton
+                label="Add"
+                style={styles.saveButton}
+                type="button"
+                onClick={() => this.handleClick(event, "AddProduct")}
+                primary={true}
+              />
             </div>
-          </Dialog>
-        </Formsy.Form>
-      </PageBase>
-    );
+            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+
+            <Dialog
+              title="Add Product"
+              open={this.state.open}
+              contentStyle={styles.dialog}
+              ignoreBackdropClick
+              ignoreEscapeKeyUp
+              maxWidth="xs"
+            >
+              <div>
+                <FormsySelect
+                  floatingLabelText="Categories"
+                  // onChange={this.handleChange}
+                  style={styles.customWidth}
+                  name="categoryId"
+                  onChange={this.handleCategoryChange}
+                >
+                  {categoryList.map((category, index) => (
+                    <MenuItem
+                      key={index}
+                      value={category.id}
+                      style={styles.menuItem}
+                      primaryText={category.categoryName}
+                    />
+                  ))}
+                </FormsySelect>
+
+                <FormsySelect
+                  floatingLabelText="Products"
+                  // onChange={this.handleChange}
+                  style={styles.customWidth}
+                  name="categoryId"
+                  onChange={this.handleProductChange}
+                >
+                  {productList.map((product, index) => (
+                    <MenuItem
+                      key={index}
+                      value={product.id}
+                      style={styles.menuItem}
+                      primaryText={product.productName}
+                    />
+                  ))}
+                </FormsySelect>
+
+                <span>
+                  <RaisedButton onClick={this.handleCancel} color="primary">
+                    Cancel
+                  </RaisedButton>
+                  <RaisedButton onClick={this.handleOk} color="primary">
+                    Ok
+                  </RaisedButton>
+                </span>
+              </div>
+            </Dialog>
+          </Formsy.Form>
+        </PageBase>
+      );
+    }
   }
 }
 
 OrderFormPage.propTypes = {
-  router: PropTypes.router,
+  router: PropTypes.object,
   routeParams: PropTypes.object,
-  order: PropTypes.objject,
+  order: PropTypes.object,
+  newOrder: PropTypes.func.isRequired,
   getOrder: PropTypes.func.isRequired,
   updateOrder: PropTypes.func.isRequired,
   getProductList: PropTypes.func.isRequired,
@@ -607,6 +597,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    newOrder: () => dispatch(newOrder()),
     getOrder: id => dispatch(getOrder(id)),
     updateOrder: order => dispatch(updateOrder(order)),
     addOrder: order => dispatch(addOrder(order)),

@@ -16,7 +16,8 @@ import {
   ADD_PRODUCT_FAILURE,
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_SUCCESS,
-  DELETE_PRODUCT_FAILURE
+  DELETE_PRODUCT_FAILURE,
+  NEW_PRODUCT_REQUEST
 } from "../constants";
 
 export function productReducer(
@@ -124,6 +125,12 @@ export function productReducer(
         product: {},
         errorMessage: action.error.statusText || action.error.status,
         updateSuccess: false
+      });
+
+    case NEW_PRODUCT_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: false,
+        product: {}
       });
     case ADD_PRODUCT_REQUEST:
       return Object.assign({}, state, {

@@ -13,7 +13,8 @@ import {
   ADD_ORDER_FAILURE,
   DELETE_ORDER_REQUEST,
   DELETE_ORDER_SUCCESS,
-  DELETE_ORDER_FAILURE
+  DELETE_ORDER_FAILURE,
+  NEW_ORDER_REQUEST
 } from "../constants";
 
 export function orderReducer(
@@ -95,6 +96,11 @@ export function orderReducer(
         order: {},
         errorMessage: action.error.statusText || action.error.status,
         updateSuccess: false
+      });
+    case NEW_ORDER_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: false,
+        order: {}
       });
     case ADD_ORDER_REQUEST:
       return Object.assign({}, state, {

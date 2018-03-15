@@ -14,7 +14,8 @@ import {
   ADD_ORDER_FAILURE,
   DELETE_ORDER_REQUEST,
   DELETE_ORDER_SUCCESS,
-  DELETE_ORDER_FAILURE
+  DELETE_ORDER_FAILURE,
+  NEW_ORDER_REQUEST
 } from "../constants";
 
 // Order actions
@@ -63,6 +64,12 @@ export function addOrder(order) {
       addSuccess: false,
       types: [ADD_ORDER_REQUEST, ADD_ORDER_SUCCESS, ADD_ORDER_FAILURE]
     }
+  };
+}
+
+export function newOrder() {
+  return {
+    type: NEW_ORDER_REQUEST
   };
 }
 

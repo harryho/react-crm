@@ -21,11 +21,11 @@ import reducers from "./reducers";
 
 injectTapEventPlugin();
 
-let createStoreWithMiddleware = applyMiddleware(thunkMiddleware, api)(
+const createStoreWithMiddleware = applyMiddleware(thunkMiddleware, api)(
   createStore
 );
 
-let store = createStoreWithMiddleware(reducers);
+const store = createStoreWithMiddleware(reducers);
 
 render(
   <Provider store={store}>

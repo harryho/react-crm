@@ -2,8 +2,8 @@
 const BASE_URL = "http://localhost:5354/";
 
 function callApi(endpoint, authenticated, method, data) {
-  let token = localStorage.getItem("token") || null;
-  let config = {};
+  const token = localStorage.getItem("token") || null;
+  const config = {};
 
   if (authenticated) {
     if (token) {
@@ -67,8 +67,8 @@ export default store => next => action => {
     return next(action);
   }
 
-  let { endpoint, types, authenticated, method, data, filters } = callAPI;
-
+  const { types, authenticated, method, data, filters } = callAPI;
+  let endpoint = callAPI.endpoint;
   if (typeof endpoint === "function") {
     endpoint = endpoint(store.getState());
   }

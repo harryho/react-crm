@@ -13,9 +13,8 @@ import {
   ADD_CUSTOMER_FAILURE,
   DELETE_CUSTOMER_REQUEST,
   DELETE_CUSTOMER_SUCCESS,
-  DELETE_CUSTOMER_FAILURE
-
-  // UPDATE_CUSTOMER_RESET, ADD_CUSTOMER_RESET, DELETE_CUSTOMER_RESET
+  DELETE_CUSTOMER_FAILURE,
+  NEW_CUSTOMER_REQUEST
 } from "../constants";
 
 export function customerReducer(
@@ -102,6 +101,12 @@ export function customerReducer(
         errorMessage: action.error.statusText || action.error.status,
         updateSuccess: false,
         updateError: action.message
+      });
+    case NEW_CUSTOMER_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: false,
+        customer: {},
+        errorMessage: action.message
       });
     case ADD_CUSTOMER_REQUEST:
       return Object.assign({}, state, {

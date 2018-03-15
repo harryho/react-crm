@@ -50,11 +50,11 @@ export function loginUser(creds) {
 
   //// Development setting
   //// The code below is only for local fake api test
-  let config = {
+  const config = {
     method: "GET",
     headers: { "Content-Type": "application/x-www-form-urlencoded" }
   };
-  let tokenUrl = "http://localhost:5354/token";
+  const tokenUrl = "http://localhost:5354/token";
 
   return dispatch => {
     // We dispatch requestLogin to kickoff the call to the API

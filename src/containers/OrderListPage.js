@@ -145,7 +145,7 @@ class OrderListPage extends React.Component {
     const field = event.target.name;
 
     if (event && event.target && field) {
-      let search = Object.assign({}, this.state.search);
+      const search = Object.assign({}, this.state.search);
       search[field] = event.target.value;
 
       this.setState({ search: search });
