@@ -17,16 +17,16 @@ const LeftDrawer = props => {
   let { navDrawerOpen } = props;
 
   const styles = {
-    logo: {
-      cursor: "pointer",
-      fontSize: 22,
-      color: typography.textFullWhite,
-      lineHeight: `${spacing.desktopKeylineIncrement}px`,
-      fontWeight: typography.fontWeightLight,
-      backgroundColor: blue600,
-      paddingLeft: 40,
-      height: 56
-    },
+    // logo: {
+    //   cursor: "pointer",
+    //   fontSize: 22,
+    //   color: typography.textFullWhite,
+    //   lineHeight: `${spacing.desktopKeylineIncrement}px`,
+    //   fontWeight: typography.fontWeightLight,
+    //   backgroundColor: blue600,
+    //   paddingLeft: 40,
+    //   height: 56
+    // },
     menuItem: {
       color: white,
       fontSize: 14
@@ -34,9 +34,11 @@ const LeftDrawer = props => {
     avatar: {
       div: {
         padding: "15px 0 20px 15px",
-        backgroundImage:
-          "url(" + require("../assets/img/material_bg.png") + ")",
-        height: 45
+        // backgroundImage:
+        //   "url(" + require("../assets/img/material_bg.png") + ")",
+        backgroundColor: "rgba(227, 231, 232, 0.83)",
+        height: 45,
+        // backgroundColor: "silver"
       },
       icon: {
         float: "left",
@@ -52,6 +54,11 @@ const LeftDrawer = props => {
         fontSize: 19,
         textShadow: "1px 1px #444"
       }
+    },
+    drawer: {
+      color: "darkgrey",
+      backgroundColor: "rgba(227, 231, 232, 0.63)",
+      overflow: "auto"
     }
   };
 
@@ -61,7 +68,7 @@ const LeftDrawer = props => {
   }
 
   return (
-    <Drawer docked={true} open={navDrawerOpen}>
+    <Drawer docked={true} open={navDrawerOpen} style={styles.drawer}>
       {/*<div style={styles.logo}>Material Admin<div>*/}
       <div style={styles.avatar.div}>
         <Avatar

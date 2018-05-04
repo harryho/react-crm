@@ -53,7 +53,8 @@ class App extends React.Component {
         paddingLeft:
           navDrawerOpen && this.props.width !== SMALL
             ? paddingLeftDrawerOpen
-            : 0
+            : 0,
+
       }
     };
 

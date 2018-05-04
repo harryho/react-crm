@@ -41,10 +41,10 @@ function callApi(endpoint, authenticated, method, data) {
 
   return fetch(BASE_URL + endpoint, config)
     .then(
-      response =>
-        response && response.ok
-          ? response.text().then(text => ({ text, response }))
-          : { response }
+    response =>
+      response && response.ok
+        ? response.text().then(text => ({ text, response }))
+        : { response }
     )
     .then(({ text, response }) => {
       if (!response || !response.ok || !text) {
@@ -69,6 +69,7 @@ export default store => next => action => {
 
   const { types, authenticated, method, data, filters } = callAPI;
   let endpoint = callAPI.endpoint;
+
   if (typeof endpoint === "function") {
     endpoint = endpoint(store.getState());
   }

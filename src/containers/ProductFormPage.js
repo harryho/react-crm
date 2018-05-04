@@ -145,7 +145,7 @@ class ProductFormPage extends React.Component {
             onValidSubmit={this.handleClick}
             onInvalidSubmit={this.notifyFormError}
           >
-            <GridList cellHeight={100} cols="2">
+            <GridList cellHeight={100} cols={2}>
               <GridTile>
                 <FormsySelect
                   floatingLabelText="Categories"
@@ -255,7 +255,7 @@ class ProductFormPage extends React.Component {
 }
 
 ProductFormPage.propTypes = {
-  router: PropTypes.router,
+  router: PropTypes.object,
   routeParams: PropTypes.object,
   product: PropTypes.object,
   newProduct: PropTypes.func.isRequired,

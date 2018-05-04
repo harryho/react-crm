@@ -71,14 +71,14 @@ class OrderListPage extends React.Component {
       props.getAllOrders(this.state.search);
   }
 
-  componentWillMount() {}
+  componentWillMount() { }
 
   /* eslint-disable */
   componentDidUpdate(prevProps, prevState) {
     // reset page if items array has changed
     if (this.props.orderList !== prevProps.orderList) {
       //this.setPage(this.props.initialPage);
-      this.onChangePage(this.props.orderList.slice(0, 5));
+      this.onChangePage(this.props.orderList.slice(0, 10));
     }
   }
 
@@ -241,7 +241,7 @@ class OrderListPage extends React.Component {
     return (
       <PageBase
         title={"Orders (" + orderList.length + ")"}
-        navigation="Reetek React CRM / Order"
+        navigation="React CRM / Order"
       >
         <div>
           <Link to="/order">

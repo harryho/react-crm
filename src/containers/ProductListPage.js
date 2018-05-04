@@ -71,14 +71,14 @@ class ProductListPage extends React.Component {
       props.getAllProducts(this.state.search);
   }
 
-  componentWillMount() {}
+  componentWillMount() { }
 
   /* eslint-disable */
   componentDidUpdate(prevProps, prevState) {
     // reset page if items array has changed
     if (this.props.productList !== prevProps.productList) {
       //this.setPage(this.props.initialPage);
-      this.onChangePage(this.props.productList.slice(0, 5));
+      this.onChangePage(this.props.productList.slice(0, 10));
     }
   }
 
@@ -241,7 +241,7 @@ class ProductListPage extends React.Component {
     return (
       <PageBase
         title={"Products (" + productList.length + ")"}
-        navigation="Reetek React CRM / Product"
+        navigation="React CRM / Product"
       >
         <div>
           <Link to="/product">

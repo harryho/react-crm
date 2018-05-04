@@ -74,13 +74,13 @@ class CustomerListPage extends React.Component {
       props.getAllCustomers(this.state.search);
   }
 
-  componentWillMount() {}
+  componentWillMount() { }
 
   /* eslint-disable */
   componentDidUpdate(prevProps, prevState) {
     // reset page if items array has changed
     if (this.props.customerList !== prevProps.customerList) {
-      this.onChangePage(this.props.customerList.slice(0, 5));
+      this.onChangePage(this.props.customerList.slice(0, 10));
     }
   }
 
@@ -248,7 +248,7 @@ class CustomerListPage extends React.Component {
     return (
       <PageBase
         title={"Customers (" + customerList.length + ")"}
-        navigation="Reetek React CRM / Customer"
+        navigation="React CRM / Customer"
       >
         <div>
           <div>
