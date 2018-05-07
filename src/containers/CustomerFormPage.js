@@ -169,13 +169,13 @@ class CustomerFormPage extends React.Component {
                 />
 
                 <FormsyText
-                  hintText="Age"
-                  floatingLabelText="Age"
+                  hintText="Rewards"
+                  floatingLabelText="Rewards"
                   fullWidth={true}
                   type="number"
-                  name="age"
+                  name="rewards"
                   onChange={this.handleChange}
-                  value={customer.age}
+                  value={customer.rewards}
                   validations={{
                     isInt: true
                   }}
@@ -188,10 +188,10 @@ class CustomerFormPage extends React.Component {
 
                 <div style={styles.toggleDiv}>
                   <Toggle
-                    label="Status"
-                    name="isActive"
+                    label="Membership"
+                    name="membership"
                     onChange={this.handleChange}
-                    defaultToggled={customer.isActive}
+                    defaultToggled={customer.membership}
                     labelStyle={styles.toggleLabel}
                   />
                 </div>

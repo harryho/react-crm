@@ -18,6 +18,7 @@ import {
   grey200,
   grey500,
   green400,
+  teal500,
   white
 } from "material-ui/styles/colors";
 import PageBase from "../components/PageBase";
@@ -251,7 +252,7 @@ class ProductListPage extends React.Component {
           </Link>
           <FloatingActionButton
             style={styles.fabSearch}
-            backgroundColor={pink500}
+            backgroundColor={teal500}
             onTouchTap={this.handleToggle}
           >
             <Search />

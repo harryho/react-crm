@@ -300,10 +300,10 @@ class CustomerListPage extends React.Component {
                   Last Name
                 </TableHeaderColumn>
                 <TableHeaderColumn style={styles.columns.price}>
-                  Age
+                  Rewards
                 </TableHeaderColumn>
                 <TableHeaderColumn style={styles.columns.category}>
-                  Status
+                  Membership
                 </TableHeaderColumn>
                 <TableHeaderColumn style={styles.columns.edit}>
                   Edit
@@ -328,10 +328,10 @@ class CustomerListPage extends React.Component {
                     {item.lastName}
                   </TableRowColumn>
                   <TableRowColumn style={styles.columns.price}>
-                    {item.age}
+                    {item.rewards}
                   </TableRowColumn>
                   <TableRowColumn style={styles.columns.category}>
-                    {item.isActive ? <CheckCircle /> : <Cancel />}
+                    {item.membership ? <CheckCircle /> : <Cancel />}
                   </TableRowColumn>
                   <TableRowColumn style={styles.columns.edit}>
                     <Link className="button" to={"/customer/" + item.id}>

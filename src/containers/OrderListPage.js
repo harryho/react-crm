@@ -295,7 +295,7 @@ class OrderListPage extends React.Component {
                 <TableHeaderColumn style={styles.columns.name}>
                   Customer
                 </TableHeaderColumn>
-                {/*<TableHeaderColumn style={styles.columns.category}>Status</TableHeaderColumn>*/}
+                {/*<TableHeaderColumn style={styles.columns.category}>Membership</TableHeaderColumn>*/}
                 <TableHeaderColumn style={styles.columns.edit}>
                   Edit
                 </TableHeaderColumn>
