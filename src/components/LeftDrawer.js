@@ -1,7 +1,7 @@
 import React, { PropTypes } from "react";
 import Drawer from "material-ui/Drawer";
 // import { spacing, typography } from "material-ui/styles";
-import { white, orange, blue600 } from "material-ui/styles/colors";
+import { white, orange } from "material-ui/styles/colors";
 import MenuItem from "material-ui/MenuItem";
 import IconButton from "material-ui/IconButton";
 import IconMenu from "material-ui/IconMenu";
@@ -72,7 +72,7 @@ const LeftDrawer = props => {
       {/*<div style={styles.logo}>Material Admin<div>*/}
       <div style={styles.avatar.div}>
         <Avatar
-          src="../assets/img/avatar0.png"
+          src="assets/img/avatar0.png"
           size={50}
           style={styles.avatar.icon}
         />

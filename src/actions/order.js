@@ -57,7 +57,7 @@ export function updateOrder(order) {
 export function addOrder(order) {
   return {
     [CALL_API]: {
-      endpoint: `orders`,
+      endpoint: `orders/`,
       data: order,
       method: "POST",
       authenticated: true,

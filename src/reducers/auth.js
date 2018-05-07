@@ -1,7 +1,7 @@
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
-  LOGIN_FAILURE,
+  // LOGIN_FAILURE,
   LOGOUT_SUCCESS
 } from "../constants";
 
@@ -34,12 +34,12 @@ export function auth(
           ? JSON.parse(localStorage.getItem("user"))
           : {}
       });
-    case LOGIN_FAILURE:
-      return Object.assign({}, state, {
-        isFetching: false,
-        isAuthenticated: false,
-        errorMessage: action.message
-      });
+    // case LOGIN_FAILURE:
+    //   return Object.assign({}, state, {
+    //     isFetching: false,
+    //     isAuthenticated: false,
+    //     errorMessage: action.message
+    //   });
     case LOGOUT_SUCCESS:
       return Object.assign({}, state, {
         isFetching: true,

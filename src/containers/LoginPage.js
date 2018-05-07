@@ -16,7 +16,7 @@ class LoginPage extends React.Component {
 
     this.state = {
       canSubmit: false,
-      username: "hho@test.com",
+      username: "Admin@test.com",
       password: "password",
       formError: "",
       errorMessage: props.errorMessage,

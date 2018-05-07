@@ -2,10 +2,11 @@
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
-  LOGIN_FAILURE,
+  // LOGIN_FAILURE,
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS
 } from "../constants";
+import { login } from "../middleware/api";
 
 // Login actions
 
@@ -28,14 +29,14 @@ function receiveLogin(user) {
   };
 }
 
-function loginError(message) {
-  return {
-    type: LOGIN_FAILURE,
-    isFetching: false,
-    isAuthenticated: false,
-    message: message
-  };
-}
+// function loginError(message) {
+//   return {
+//     type: LOGIN_FAILURE,
+//     isFetching: false,
+//     isAuthenticated: false,
+//     message: message
+//   };
+// }
 
 // Calls the API to get a token and
 // dispatches actions along the way
@@ -59,26 +60,37 @@ export function loginUser(creds) {
   return dispatch => {
     // We dispatch requestLogin to kickoff the call to the API
     dispatch(requestLogin(creds));
-    return fetch(tokenUrl, config)
-      .then(response => response.json().then(user => ({ user, response })))
-      .then(({ user, response }) => {
-        if (!response.ok) {
-          // If there was a problem, we want to
-          // dispatch the error condition
-          dispatch(loginError(user.message));
-          return Promise.reject(user);
-        } else {
-          // If login was successful, set the token in local storage
-          user = Object.assign({}, user, user.user);
-          user.token = user.access_token;
-          localStorage.setItem("token", user.access_token);
-          localStorage.setItem("user", JSON.stringify(user));
-          // Dispatch the success action
-          dispatch(receiveLogin(user));
-        }
-      })
-      .catch(err => console.log("Error: ", err));
-  };
+    // return fetch(tokenUrl, config)
+    //   .then(response => response.json().then(user => ({ user, response })))
+    //   .then(({ user, response }) => {
+    //     if (!response.ok) {
+    //       // If there was a problem, we want to
+    //       // dispatch the error condition
+    //       dispatch(loginError(user.message));
+    //       return Promise.reject(user);
+    //     } else {
+    //       // If login was successful, set the token in local storage
+    //       user = Object.assign({}, user, user.user);
+    //       user.token = user.access_token;
+    //       localStorage.setItem("token", user.access_token);
+    //       localStorage.setItem("user", JSON.stringify(user));
+    //       // Dispatch the success action
+    //       dispatch(receiveLogin(user));
+    //     }
+    //   })
+    //   .catch(err => console.log("Error: ", err));
+
+    return login(tokenUrl, config).then(({ user, access_token }) => {
+      // If login was successful, set the token in local storage
+      user = Object.assign({}, user);
+      user.token = access_token;
+      localStorage.setItem("token", access_token);
+      localStorage.setItem("user", JSON.stringify(user));
+      // Dispatch the success action
+      dispatch(receiveLogin(user));
+    })
+
+  }
 }
 
 // Logout actions
