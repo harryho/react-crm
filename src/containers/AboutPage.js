@@ -16,13 +16,21 @@ class AboutPage extends React.Component {
       },
       version: {
         fontSize: "24px"
+      },
+      desc: {
+        fontSize: "18px"
       }
     }
     return (
       <div style={styles.about}>
         <div style={styles.title}><b>About</b></div>
 
-        <div style={styles.version}>React CRM Version 1.2.0</div>
+        <div style={styles.version}>React CRM App Demo</div>
+
+        <div style={styles.desc}>
+          <p>This demo app does not have fake API as back-end service. Its advanced search doesn't work properly. Any data update will not be stored after hard refresh or logout.
+           </p>
+        </div>
       </div>
     );
   }
