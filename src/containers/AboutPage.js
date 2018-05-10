@@ -15,6 +15,8 @@ class AboutPage extends React.Component {
         fontSize: "36px"
       },
       version: {
+        display: "flex",
+        justifyContent: "center",
         fontSize: "24px"
       },
       desc: {
