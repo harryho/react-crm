@@ -60,36 +60,17 @@ export function loginUser(creds) {
   return dispatch => {
     // We dispatch requestLogin to kickoff the call to the API
     dispatch(requestLogin(creds));
-    // return fetch(tokenUrl, config)
-    //   .then(response => response.json().then(user => ({ user, response })))
-    //   .then(({ user, response }) => {
-    //     if (!response.ok) {
-    //       // If there was a problem, we want to
-    //       // dispatch the error condition
-    //       dispatch(loginError(user.message));
-    //       return Promise.reject(user);
-    //     } else {
-    //       // If login was successful, set the token in local storage
-    //       user = Object.assign({}, user, user.user);
-    //       user.token = user.access_token;
-    //       localStorage.setItem("token", user.access_token);
-    //       localStorage.setItem("user", JSON.stringify(user));
-    //       // Dispatch the success action
-    //       dispatch(receiveLogin(user));
-    //     }
-    //   })
-    //   .catch(err => console.log("Error: ", err));
-
-    return login(tokenUrl, config).then(({ user, access_token }) => {
-      // If login was successful, set the token in local storage
-      user = Object.assign({}, user);
-      user.token = access_token;
-      localStorage.setItem("token", access_token);
-      localStorage.setItem("user", JSON.stringify(user));
-      // Dispatch the success action
-      dispatch(receiveLogin(user));
-    })
-
+    return login(tokenUrl, config)
+      .then(({ user, access_token }) => {
+        // If login was successful, set the token in local storage
+        user = Object.assign({}, user);
+        user.token = access_token;
+        localStorage.setItem("token", access_token);
+        localStorage.setItem("user", JSON.stringify(user));
+        // Dispatch the success action
+        dispatch(receiveLogin(user));
+      })
+      .catch(err => console.log("Error: ", err));
   }
 }
 
