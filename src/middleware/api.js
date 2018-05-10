@@ -26,9 +26,9 @@ function getExpand(action) {
       action.substring('_expand='.length + 1)) : undefined
 }
 
-// function getEmbed(action) {
-//   return action.includes('?') ? action.substring(action.indexOf('/'), action.indexOf('?')) : action.substring(action.indexOf('/'))
-// }
+function getEmbed(action) {
+  return action.includes('?') ? action.substring(action.indexOf('/'), action.indexOf('?')) : action.substring(action.indexOf('/'))
+}
 
 function callApi(endpoint, authenticated, method, data) {
   // const token = localStorage.getItem("token") || null;
