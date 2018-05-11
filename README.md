@@ -17,6 +17,10 @@ The goal of this starter project is to create reusable project for real-world bu
 * CRUD functions for Customer, Order, Product
 
 
+#### Live Demo
+[Demo](https://react-app-demo.harryho.org) The demo is just a proof of concept. It doesn't have back-end API and all features of master branch.
+
+
 #### Screenshots
 
 ![Screenshot1](screenshots/screenshot-1.jpg)
