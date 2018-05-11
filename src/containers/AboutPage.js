@@ -17,10 +17,12 @@ class AboutPage extends React.Component {
       version: {
         display: "flex",
         justifyContent: "center",
-        fontSize: "24px"
+        fontSize: "24px",
+        color: "darkcyan",
       },
       desc: {
-        fontSize: "18px"
+        padding: "0px 50px",
+        fontSize: "20px"
       }
     }
     return (
@@ -30,7 +32,7 @@ class AboutPage extends React.Component {
         <div style={styles.version}>React CRM App Demo</div>
 
         <div style={styles.desc}>
-          <p>This demo app does not have fake API as back-end service. Its advanced search doesn't work properly. Any data update will not be stored after hard refresh or logout.
+          <p>This demo app is not a real application. There is no fake API as back-end service behind the scene. Its advanced search doesn't work properly. Any data update (create or update record) will not be stored after hard refresh or logout. The main purpose of this demo is just a proof of concept.
            </p>
         </div>
       </div>
