@@ -1,6 +1,6 @@
 {
   "name": "react-crm-demo",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Reetek CRM using React and Material-UI",
   "engines": {
     "npm": ">=3"
