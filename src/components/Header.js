@@ -14,7 +14,7 @@ class Header extends React.Component {
   }
 
   handleClick() {
-    window.open("https://github.com/harryho/vue2crm", false);
+    window.open("https://github.com/harryho/react-crm", false);
   }
 
   render() {
