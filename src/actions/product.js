@@ -51,7 +51,7 @@ export function getProduct(id) {
 export function loadCategories(filters) {
   return {
     [CALL_API]: {
-      endpoint: `categories`,
+      endpoint: `categories/`,
       categoryList: [],
       filters: filters,
       types: [
@@ -83,7 +83,7 @@ export function updateProduct(product) {
 export function addProduct(product) {
   return {
     [CALL_API]: {
-      endpoint: `products`,
+      endpoint: `products/`,
       data: product,
       method: "POST",
       authenticated: true,

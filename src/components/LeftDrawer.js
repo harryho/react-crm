@@ -72,7 +72,7 @@ const LeftDrawer = props => {
       {/*<div style={styles.logo}>Material Admin<div>*/}
       <div style={styles.avatar.div}>
         <Avatar
-          src="../assets/img/avatar0.png"
+          src="assets/img/avatar0.png"
           size={50}
           style={styles.avatar.icon}
         />

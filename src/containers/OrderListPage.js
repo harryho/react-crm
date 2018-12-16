@@ -14,6 +14,7 @@ import ActionDelete from "material-ui/svg-icons/action/delete";
 import ContentAdd from "material-ui/svg-icons/content/add";
 import Search from "material-ui/svg-icons/action/search";
 import {
+  teal500,
   pink500,
   grey200,
   grey500,
@@ -251,7 +252,7 @@ class OrderListPage extends React.Component {
           </Link>
           <FloatingActionButton
             style={styles.fabSearch}
-            backgroundColor={pink500}
+            backgroundColor={teal500}
             onTouchTap={this.handleToggle}
           >
             <Search />

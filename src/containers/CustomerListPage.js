@@ -16,6 +16,7 @@ import Search from "material-ui/svg-icons/action/search";
 import CheckCircle from "material-ui/svg-icons/action/check-circle";
 import Cancel from "material-ui/svg-icons/navigation/cancel";
 import {
+  teal500,
   pink500,
   grey200,
   grey500,
@@ -265,7 +266,7 @@ class CustomerListPage extends React.Component {
 
             <FloatingActionButton
               style={styles.fabSearch}
-              backgroundColor={pink500}
+              backgroundColor={teal500}
               onTouchTap={this.handleToggle}
             >
               <Search />

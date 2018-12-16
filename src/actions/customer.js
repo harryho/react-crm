@@ -23,7 +23,7 @@ import {
 export function loadCustomers(filters) {
   return {
     [CALL_API]: {
-      endpoint: "customers",
+      endpoint: "customers/",
       customers: [],
       filters: filters,
       types: [
@@ -65,7 +65,7 @@ export function updateCustomer(customer) {
 export function addCustomer(customer) {
   return {
     [CALL_API]: {
-      endpoint: `customers`,
+      endpoint: `customers/`,
       data: customer,
       method: "POST",
       authenticated: true,
