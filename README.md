@@ -76,6 +76,28 @@ npm run build
 npm run build --mode production
 ```
 
+## Docker 
+
+```
+## Run / Test release without building new image
+npm run build
+
+# Launch nginx image to test latest release
+docker pull nginx:alpine
+docker run -p 8080:80 -v \
+    <your_aboslute_path>/dist:/usr/share/nginx/html nginx:alpine
+
+
+# Build release image
+docker build . -t  rc-prd:1.0
+
+# Launch the development image in the backgroud
+docker run -d --publish 8080:80  --name rc1 rc-prd:1.0
+
+# Check the log
+docker logs vc2   -f
+```
+
 ## Welcome to fork or clone!
 
 For detailed explanation on how things work, checkout following links please.
@@ -94,6 +116,8 @@ There are another two similar projects respectively built on the Vue.js and Angu
 
 ### Change log
 
+
+
 - Rebase demo branch to master
 
   New master doesn't rely on Json-Server as fake API. It will only have Readonly fake API. It means any new or updated data will be stored to any physical file. All test data will be rolled back after system restart.
@@ -101,3 +125,4 @@ There are another two similar projects respectively built on the Vue.js and Angu
 - Create an archived branch json-server
 
   This branch was the master which used Json-Server as fake API. Considering the hiccup of setting Json-Server up and maintenance, it will be replaced by fake service ( Readonly fake API). You still can find clone this branch by branch name **json-server**, but it will be no longer updated. It is an archived branch.
+
