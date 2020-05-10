@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders learn react link 1`] = `
+<div
+  className="parent"
+>
+  <header
+    className="App-header"
+  >
+    <p>
+      Edit 
+      <code>
+        src/App.tsx
+      </code>
+       and save to reload.
+    </p>
+    <a
+      className="App-link"
+      href="https:reactjs.org"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      Learn React
+    </a>
+    <button
+      onClick={[Function]}
+      style={
+        Object {
+          "backgroundColor": "maroon",
+          "border": "none",
+          "borderRadius": 5,
+          "color": "white",
+          "display": "inline-block",
+          "fontSize": "16px",
+          "margin": "4px 2px",
+          "padding": 20,
+          "textAlign": "center",
+          "textDecoration": "none",
+        }
+      }
+    >
+      New Button
+    </button>
+    <div
+      className="chat-history"
+    >
+      <div
+        className="message-item"
+      >
+        <h3>
+          From: 
+          Chat Bot
+        </h3>
+        <p>
+          This is a very basic chat application written in typescript using react and redux. Feel free to explore the source code.
+        </p>
+      </div>
+    </div>
+    <div
+      className="chat-interface"
+    >
+      <h3>
+        User: 
+        myName
+         
+      </h3>
+      <input
+        className="chat-input"
+        onChange={[Function]}
+        onKeyPress={[Function]}
+        placeholder="Type a message..."
+        value=""
+      />
+      <button
+        onClick={[Function]}
+      >
+        Send
+      </button>
+    </div>
+  </header>
+</div>
+`;
