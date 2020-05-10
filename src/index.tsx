@@ -23,25 +23,6 @@ const createStoreWithMiddleware = applyMiddleware(thunkMiddleware, api)(
   createStore
 );
 
-const routes2= ( <div>
-  <Switch>
-    <Route path="/" component={App} />
-    {/* <Route path="dashboard" component={Dashboard} />
-    <Route path="form" component={FormPage} />
-    <Route path="customer" component={CustomerFormPage} />
-    <Route path="customer/:id" component={CustomerFormPage} />
-    <Route path="order" component={OrderFormPage} />
-    <Route path="order/:id" component={OrderFormPage} />
-    <Route path="product" component={ProductFormPage} />
-    <Route path="product/:id" component={ProductFormPage} />
-    <Route path="customers" component={CustomerListPage} />
-    <Route path="orders" component={OrderListPage} />
-    <Route path="products" component={ProductListPage} />
-    <Route path="about" component={AboutPage} />
-    <Route path="*" component={NotFoundPage} /> */}
-  </Switch>
-</div>)
-
 
 const store = createStoreWithMiddleware(reducers);
 
