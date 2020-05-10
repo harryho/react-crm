@@ -1,7 +1,14 @@
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import {blue600, grey900} from 'material-ui/styles/colors';
+import {createMuiTheme} from '@material-ui/core/styles';
+import { blue, grey } from '@material-ui/core/colors';
+// import React from 'react';
+// import { ThemeProvider, useTheme } from '@material-ui/styles';
+// import { unstable_useMediaQuery as useMediaQuery } from '@material-ui/core/useMediaQuery';
 
-const themeDefault = getMuiTheme({
+
+const blue600 = blue['600'];
+const grey900 = grey['900'];
+
+const themeDefault = createMuiTheme({
   palette: {
   },
   appBar: {
@@ -12,10 +19,13 @@ const themeDefault = getMuiTheme({
     width: 230,
     color: grey900
   },
-  raisedButton: {
+  Button: {
     primaryColor: blue600,
-  }
+  },
+
 });
+
+// themeDefault.breakpoints
 
 
 export default themeDefault;

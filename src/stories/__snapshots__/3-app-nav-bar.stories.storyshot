@@ -1,0 +1,539 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots AppNavBar with styles 1`] = `
+Array [
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#eee",
+          "borderRadius": "2px",
+          "color": "black",
+          "fontFamily": "Helvetica Neue, Helvetica, Segoe UI, Arial, freesans, sans-serif",
+          "fontSize": "15px",
+          "fontWeight": 300,
+          "lineHeight": "2",
+          "padding": "0px 5px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "borderBottom": "1px solid #eee",
+            "marginBottom": 10,
+            "paddingBottom": 0,
+            "paddingTop": 0,
+          }
+        }
+      >
+        <h1
+          style={
+            Object {
+              "display": "inline",
+              "fontSize": "25px",
+              "margin": 0,
+              "marginRight": "20px",
+              "padding": 0,
+            }
+          }
+        >
+          AppNavBar
+        </h1>
+        <h2
+          style={
+            Object {
+              "color": "#999",
+              "display": "inline",
+              "fontSize": "22px",
+              "fontWeight": 400,
+              "margin": "0 0 10px 0",
+              "padding": 0,
+            }
+          }
+        >
+          with styles
+        </h2>
+      </div>
+    </div>
+  </div>,
+  <div
+    id="story-root"
+    style={Object {}}
+  >
+    <div>
+      <header
+        className="MuiPaper-root MuiAppBar-root MuiAppBar-positionFixed MuiAppBar-colorPrimary mui-fixed MuiPaper-elevation4"
+      >
+        <div
+          className="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
+        >
+          <button
+            aria-label="menu"
+            className="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeStart"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            <span
+              className="MuiIconButton-label"
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
+                />
+              </svg>
+            </span>
+            <span
+              className="MuiTouchRipple-root"
+            />
+          </button>
+          <h5
+            className="MuiTypography-root makeStyles-title-2 MuiTypography-h5"
+          >
+            Demo
+          </h5>
+          <button
+            aria-describedby={null}
+            aria-label="add"
+            className="MuiButtonBase-root MuiIconButton-root"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseOver={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            title="GitHub"
+            type="button"
+          >
+            <span
+              className="MuiIconButton-label"
+            >
+              <svg
+                aria-hidden="true"
+                height="30"
+                version="1.1"
+                viewBox="0 0 16 16"
+                width="32"
+              >
+                <path
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+                  fillRule="evenodd"
+                />
+              </svg>
+            </span>
+            <span
+              className="MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </header>
+    </div>
+  </div>,
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#eee",
+          "borderRadius": "2px",
+          "color": "black",
+          "fontFamily": "Helvetica Neue, Helvetica, Segoe UI, Arial, freesans, sans-serif",
+          "fontSize": "15px",
+          "fontWeight": 300,
+          "lineHeight": "2",
+          "padding": "0px 5px",
+        }
+      }
+    >
+      
+      <h1
+        style={
+          Object {
+            "borderBottom": "1px solid #EEE",
+            "fontSize": "25px",
+            "margin": "20px 0 0 0",
+            "padding": "0 0 5px 0",
+          }
+        }
+      >
+        Prop Types
+      </h1>
+      <div>
+        <h3
+          style={
+            Object {
+              "margin": "20px 0 0 0",
+            }
+          }
+        >
+          "
+          AppNavBar
+          " Component
+        </h3>
+        <small>
+          No propTypes defined!
+        </small>
+      </div>
+    </div>
+  </div>,
+]
+`;
+
+exports[`Storyshots Welcome AppNavBar 1`] = `
+Array [
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#eee",
+          "borderRadius": "2px",
+          "color": "black",
+          "fontFamily": "Helvetica Neue, Helvetica, Segoe UI, Arial, freesans, sans-serif",
+          "fontSize": "15px",
+          "fontWeight": 300,
+          "lineHeight": "2",
+          "padding": "0px 5px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "borderBottom": "1px solid #eee",
+            "marginBottom": 10,
+            "paddingBottom": 0,
+            "paddingTop": 0,
+          }
+        }
+      >
+        <h1
+          style={
+            Object {
+              "display": "inline",
+              "fontSize": "25px",
+              "margin": 0,
+              "marginRight": "20px",
+              "padding": 0,
+            }
+          }
+        >
+          Welcome
+        </h1>
+        <h2
+          style={
+            Object {
+              "color": "#999",
+              "display": "inline",
+              "fontSize": "22px",
+              "fontWeight": 400,
+              "margin": "0 0 10px 0",
+              "padding": 0,
+            }
+          }
+        >
+          AppNavBar
+        </h2>
+      </div>
+    </div>
+  </div>,
+  <div
+    id="story-root"
+    style={Object {}}
+  >
+    <article
+      style={
+        Object {
+          "backgroundColor": "#fff",
+          "color": "#000",
+          "fontFamily": "\\"Helvetica Neue\\", Helvetica, \\"Segoe UI\\", Arial, freesans, sans-serif",
+          "lineHeight": 1.4,
+          "padding": 15,
+        }
+      }
+    >
+      <h1>
+        Welcome to storybook
+      </h1>
+      <p>
+        This is a UI component dev environment for your app.
+      </p>
+      <p>
+        We've added some basic stories inside the 
+        <code
+          style={
+            Object {
+              "backgroundColor": "#f3f2f2",
+              "border": "1px solid #eae9e9",
+              "borderRadius": 4,
+              "color": "#3a3a3a",
+              "fontSize": 15,
+              "fontWeight": 600,
+              "padding": "2px 5px",
+            }
+          }
+        >
+          src/stories
+        </code>
+         directory.
+        <br />
+        A story is a single state of one or more UI components. You can have as many stories as you want.
+        <br />
+        (Basically a story is like a visual test case.)
+      </p>
+      <p>
+        See these sample 
+        <button
+          onClick={[Function]}
+          style={
+            Object {
+              "backgroundColor": "transparent",
+              "borderBottom": "1px solid #1474f3",
+              "borderLeft": "none",
+              "borderRight": "none",
+              "borderTop": "none",
+              "color": "#1474f3",
+              "cursor": "pointer",
+              "font": "inherit",
+              "padding": 0,
+              "paddingBottom": 2,
+              "textDecoration": "none",
+            }
+          }
+          type="button"
+        >
+          stories
+        </button>
+         for a component called 
+        <code
+          style={
+            Object {
+              "backgroundColor": "#f3f2f2",
+              "border": "1px solid #eae9e9",
+              "borderRadius": 4,
+              "color": "#3a3a3a",
+              "fontSize": 15,
+              "fontWeight": 600,
+              "padding": "2px 5px",
+            }
+          }
+        >
+          Button
+        </code>
+        .
+      </p>
+      <p>
+        Just like that, you can add your own components as stories.
+        <br />
+        You can also edit those components and see changes right away.
+        <br />
+        (Try editing the 
+        <code
+          style={
+            Object {
+              "backgroundColor": "#f3f2f2",
+              "border": "1px solid #eae9e9",
+              "borderRadius": 4,
+              "color": "#3a3a3a",
+              "fontSize": 15,
+              "fontWeight": 600,
+              "padding": "2px 5px",
+            }
+          }
+        >
+          Button
+        </code>
+         stories located at 
+        <code
+          style={
+            Object {
+              "backgroundColor": "#f3f2f2",
+              "border": "1px solid #eae9e9",
+              "borderRadius": 4,
+              "color": "#3a3a3a",
+              "fontSize": 15,
+              "fontWeight": 600,
+              "padding": "2px 5px",
+            }
+          }
+        >
+          src/stories/1-Button.stories.js
+        </code>
+        .)
+      </p>
+      <p>
+        Usually we create stories with smaller UI components in the app.
+        <br />
+        Have a look at the 
+        <a
+          href="https://storybook.js.org/basics/writing-stories"
+          rel="noopener noreferrer"
+          style={
+            Object {
+              "borderBottom": "1px solid #1474f3",
+              "color": "#1474f3",
+              "paddingBottom": 2,
+              "textDecoration": "none",
+            }
+          }
+          target="_blank"
+        >
+          Writing Stories
+        </a>
+         section in our documentation.
+      </p>
+      <p
+        style={
+          Object {
+            "opacity": 0.5,
+          }
+        }
+      >
+        <b>
+          NOTE:
+        </b>
+        <br />
+        Have a look at the 
+        <code
+          style={
+            Object {
+              "backgroundColor": "#f3f2f2",
+              "border": "1px solid #eae9e9",
+              "borderRadius": 4,
+              "color": "#3a3a3a",
+              "fontSize": 15,
+              "fontWeight": 600,
+              "padding": "2px 5px",
+            }
+          }
+        >
+          .storybook/webpack.config.js
+        </code>
+         to add webpack loaders and plugins you are using in this project.
+      </p>
+    </article>
+  </div>,
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#eee",
+          "borderRadius": "2px",
+          "color": "black",
+          "fontFamily": "Helvetica Neue, Helvetica, Segoe UI, Arial, freesans, sans-serif",
+          "fontSize": "15px",
+          "fontWeight": 300,
+          "lineHeight": "2",
+          "padding": "0px 5px",
+        }
+      }
+    >
+      
+      <h1
+        style={
+          Object {
+            "borderBottom": "1px solid #EEE",
+            "fontSize": "25px",
+            "margin": "20px 0 0 0",
+            "padding": "0 0 5px 0",
+          }
+        }
+      >
+        Prop Types
+      </h1>
+      <div>
+        <h3
+          style={
+            Object {
+              "margin": "20px 0 0 0",
+            }
+          }
+        >
+          "
+          Welcome
+          " Component
+        </h3>
+        <table
+          className="info-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                property
+              </th>
+              <th>
+                propType
+              </th>
+              <th>
+                required
+              </th>
+              <th>
+                default
+              </th>
+              <th>
+                description
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                className="info-table-monospace"
+              >
+                showApp
+              </td>
+              <td
+                className="info-table-monospace"
+              >
+                <span>
+                  unknown
+                </span>
+              </td>
+              <td
+                className={null}
+              >
+                -
+              </td>
+              <td
+                className={null}
+              >
+                <span>
+                  null
+                </span>
+              </td>
+              <td
+                className={null}
+              />
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>,
+]
+`;

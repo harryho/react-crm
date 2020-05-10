@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders learn react link 1`] = `
+<div
+  style={
+    Object {
+      "paddingLeft": 30,
+      "paddingRight": 30,
+      "paddingTop": 80,
+    }
+  }
+>
+  <span
+    style={
+      Object {
+        "color": "#757575",
+        "display": "block",
+        "fontSize": 15,
+        "fontWeight": 400,
+        "paddingBottom": 15,
+      }
+    }
+  >
+    navigation
+  </span>
+  <div
+    className="MuiPaper-root MuiPaper-elevation1 MuiPaper-rounded"
+    style={
+      Object {
+        "padding": 10,
+      }
+    }
+  >
+    <h3
+      style={
+        Object {
+          "fontSize": 24,
+          "fontWeight": 500,
+          "marginBottom": 20,
+        }
+      }
+    >
+      title
+    </h3>
+    <hr
+      className="MuiDivider-root"
+    />
+    empty content
+    <div
+      style={
+        Object {
+          "clear": "both",
+        }
+      }
+    />
+  </div>
+</div>
+`;
