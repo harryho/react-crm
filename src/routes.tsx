@@ -1,10 +1,11 @@
 import React from 'react';
 // import { Route, IndexRoute } from "react-router";
 import { Route, BrowserRouter as Router, Link, Switch } from 'react-router-dom';
-import App from './App';
+import App0 from './App';
 import NotFoundPage from './containers/NotFoundPage.js';
 import FormPage from './containers/FormPage';
 // import Dashboard from './containers/DashboardPage';
+import App from './containers/App';
 import AboutPage from './containers/AboutPage';
 import CustomerListPage from './containers/CustomerListPage';
 // import CustomerFormPage from './containers/CustomerFormPage';
@@ -39,11 +40,13 @@ import CustomerListPage from './containers/CustomerListPage';
 
 export const routes = (
   <div>
+   
+      <Route path="/" component={App}>
       <Switch>
-        <Route path="/app0" component={App} />
-        <Route exact path="/" component={CustomerListPage} />
+        <Route exact path="/app" component={App0} />
+        {/* <Route exact path="/" component={App} /> */}
         <Route exact path="/customers" component={CustomerListPage} />
-        <Route path="/about" component={AboutPage} />
+        <Route path="about" component={AboutPage} />
         {/* <Route path="dashboard" component={Dashboard} />
         <Route path="form" component={FormPage} />
         <Route path="customer" component={CustomerFormPage} />
@@ -56,7 +59,9 @@ export const routes = (
         <Route path="products" component={ProductListPage} />
       
         <Route path="*" component={NotFoundPage} /> */}
-      </Switch>
+          </Switch>
+        </Route>
+    
     </div>
 )
 

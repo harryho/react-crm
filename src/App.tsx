@@ -67,14 +67,6 @@ const styles: (theme: Theme) => StyleRules<string> = theme =>
     }
   });
 
-// type AppProps = {
-//   sendMessage: typeof sendMessage;
-//   updateSession: typeof updateSession;
-//   chat: ChatState;
-//   system: SystemState;
-//   thunkSendMessage: any;
-// } & WithStyles<typeof styles>;
-
 
 const helloFunc = () => {
   alert('Hello');
@@ -91,7 +83,7 @@ interface AppProps extends WithStyles<typeof styles> {
 
 export type UpdateMessageParam = React.SyntheticEvent<{ value: string }>;
 
-class App extends React.Component<AppProps> {
+class App0 extends React.Component<AppProps> {
   state = {
     message: ''
   };
@@ -161,5 +153,5 @@ export default withStyles(styles)(connect(mapStateToProps, {
   sendMessage,
   updateSession,
   thunkSendMessage
-})(App));
+})(App0));
 

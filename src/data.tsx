@@ -5,14 +5,15 @@ import PermIdentity from '@material-ui/icons/PermIdentity';
 import Web from '@material-ui/icons/Web';
 import SettingsPower from '@material-ui/icons/SettingsPower';
 import VpnKey from '@material-ui/icons/VpnKey';
-const cyan600 = cyan['600'];
-const pink600 = pink['600'];
-const purple600 = purple['600'];
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 
 import { cyan, pink, purple } from '@material-ui/core/colors';
+
+const cyan600 = cyan['600'];
+const pink600 = pink['600'];
+const purple600 = purple['600'];
 
 const data = {
   menus: [
