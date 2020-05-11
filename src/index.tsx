@@ -11,9 +11,9 @@ import thunkMiddleware from "redux-thunk";
 import App from './App';
 import api from "./middleware/api";
 import reducers from "./reducers";
-import './index.css';
+// import './index.css';
 // require("./favicon.ico");
-// import "./styles.scss";
+import "./styles.scss";
 // import "font-awesome/css/font-awesome.css";
 // import "flexboxgrid/css/flexboxgrid.css";
 

@@ -1,13 +1,13 @@
 import React from 'react';
 // import { Route, IndexRoute } from "react-router";
 import { Route, BrowserRouter as Router, Link, Switch } from 'react-router-dom';
-import App0 from './App';
+// import App0 from './App';
 import NotFoundPage from './containers/NotFoundPage.js';
 import FormPage from './containers/FormPage';
 // import Dashboard from './containers/DashboardPage';
-import App from './containers/App';
+// import App from './containers/App';
 import AboutPage from './containers/AboutPage';
-import CustomerListPage from './containers/CustomerListPage';
+// import CustomerListPage from './containers/CustomerListPage';
 // import CustomerFormPage from './containers/CustomerFormPage';
 
 // import OrderListPage from './containers/OrderListPage';
@@ -40,14 +40,12 @@ import CustomerListPage from './containers/CustomerListPage';
 
 export const routes = (
   <div>
-   
-      <Route path="/" component={App}>
-      <Switch>
-        <Route exact path="/app" component={App0} />
-        {/* <Route exact path="/" component={App} /> */}
-        <Route exact path="/customers" component={CustomerListPage} />
-        <Route path="about" component={AboutPage} />
-        {/* <Route path="dashboard" component={Dashboard} />
+    <Switch>
+      {/* <Route exact path="/app" component={App0} /> */}
+      {/* <Route exact path="/" component={App} /> */}
+      {/* <Route exact path="/customers" component={CustomerListPage} /> */}
+      <Route path="about" component={AboutPage} />
+      {/* <Route path="dashboard" component={Dashboard} />
         <Route path="form" component={FormPage} />
         <Route path="customer" component={CustomerFormPage} />
         <Route path="customer/:id" component={CustomerFormPage} />
@@ -59,10 +57,8 @@ export const routes = (
         <Route path="products" component={ProductListPage} />
       
         <Route path="*" component={NotFoundPage} /> */}
-          </Switch>
-        </Route>
-    
-    </div>
-)
+    </Switch>
+  </div>
+);
 
 // export default getRoutes
