@@ -5,9 +5,9 @@ import { Route, BrowserRouter as Router, Link, Switch } from 'react-router-dom';
 import NotFoundPage from './containers/NotFoundPage.js';
 import FormPage from './containers/FormPage';
 // import Dashboard from './containers/DashboardPage';
-// import App from './containers/App';
+import App from './containers/App';
 import AboutPage from './containers/AboutPage';
-// import CustomerListPage from './containers/CustomerListPage';
+import CustomerListPage from './containers/CustomerListPage';
 // import CustomerFormPage from './containers/CustomerFormPage';
 
 // import OrderListPage from './containers/OrderListPage';
@@ -42,8 +42,8 @@ export const routes = (
   <div>
     <Switch>
       {/* <Route exact path="/app" component={App0} /> */}
-      {/* <Route exact path="/" component={App} /> */}
-      {/* <Route exact path="/customers" component={CustomerListPage} /> */}
+      <Route exact path="/" component={App} />
+      <Route exact path="/customers" component={CustomerListPage} />
       <Route path="about" component={AboutPage} />
       {/* <Route path="dashboard" component={Dashboard} />
         <Route path="form" component={FormPage} />
