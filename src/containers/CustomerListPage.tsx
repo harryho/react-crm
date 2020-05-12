@@ -17,7 +17,7 @@ import PageBase from '../components/PageBase';
 // import Data from '../data';
 // import Pagination from "../components/Pagination";
 import { connect } from 'react-redux';
-import { listCustomers, deleteCustomer } from '../store/customer';
+import { listCustomers, deleteCustomer } from '../actions/customer';
 import Dialog from '@material-ui/core/Dialog';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
@@ -25,7 +25,9 @@ import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import { teal, pink, grey, green, common } from '@material-ui/core/colors';
 import { sendMessage } from '../store/actions';
-import { thunkSearch } from '../services/thunks';
+import { thunkSearch, ApiAction } from '../services/thunks';
+import { LIST_CUSTOMER } from '../store/types';
+import { Entity } from '../types';
 
 const teal500 = teal['500'];
 const pink500 = pink['500'];
@@ -36,13 +38,14 @@ const white = common.white;
 
 interface CustomerListProps {
   isFetching: boolean;
-  customerList: TODO[];
+  customerList: Entity[];
   searchCustomer: typeof thunkSearch;
   deleteCustomer: typeof deleteCustomer;
   sendMessage: typeof sendMessage;
   deleteSuccess: boolean;
   errorMessage: string;
 }
+
 
 class CustomerListPage extends React.Component<CustomerListProps> {
   //
@@ -68,13 +71,19 @@ class CustomerListPage extends React.Component<CustomerListProps> {
     search: {
       firstName: '',
       lastName: '',
-    },
+    }
+    
   };
 
   //   UNSAFE_componentWillMount() {
   componentDidMount() {
-      debugger
-    this.props.searchCustomer('');
+    const apiAction = {
+        type: LIST_CUSTOMER,
+        endpoint: "customers/",
+        method: "HTTP_GET",
+        filters: this.state.search
+    }
+    this.props.searchCustomer(apiAction);
   }
 
   /* eslint-disable */
@@ -217,7 +226,7 @@ class CustomerListPage extends React.Component<CustomerListProps> {
       saveButton: {},
     };
 
-    const actions = [
+    const actions:React.ReactNode = [
       <Button color="primary" onClick={() => this.handleClose(false)}>
         Cancel
       </Button>,
@@ -352,14 +361,12 @@ class CustomerListPage extends React.Component<CustomerListProps> {
 
 function mapStateToProps(state) {
   const { customer } = state;
-  const { customerList, isFetching, deleteSuccess, isAuthenticated, errorMessage, user } = customer;
+  const { customerList, isFetching,   errorMessage, user } = customer;
 
   return {
     customerList,
     isFetching,
-    isAuthenticated,
     errorMessage,
-    deleteSuccess,
     user,
   };
 }
@@ -367,7 +374,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     searchCustomer: (filter?:TODO)=>dispatch(thunkSearch(filter)),
-    deleteCustomer, //: ()=>dispatch(searchCustomer()),
+    deleteCustomer: (id:TODO)=>dispatch(thunkSearch(id)),
     sendMessage,
   };
 }

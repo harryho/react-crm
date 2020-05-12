@@ -1,3 +1,14 @@
+
+const HTTP_GET="HTTP_GET"
+const HTTP_POST="HTTP_POST"
+const HTTP_PUT="HTTP_PUT"
+const HTTP_DELETE="HTTP_DELETE";
+
+export type HttpMethod = typeof HTTP_GET | typeof  HTTP_POST |
+ typeof HTTP_DELETE | typeof HTTP_PUT;
+
+
+
 export interface Entity {
   id: number;
   text?: string;

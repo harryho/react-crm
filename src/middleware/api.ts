@@ -1,39 +1,14 @@
 /* eslint-disable */
 // const BASE_URL = ''; // 'http://localhost:3001/api'
 // const BASE_URL = "http://localhost:5354/";
-import  {DB} from "./demo-db"
+import { DB } from "./demo-db"
 
-import { Entity } from '../types';
+import { Entity, HttpMethod } from '../types';
 import url from 'url';
 import querystring from 'querystring';
 
 const ds = DB
 const EXPAND = "_expand"
-// function getModel(action) {
-//   if (action.includes('?') && action.includes('/')) {
-//     return action.indexOf('?') > action.indexOf('/') ? action.substring(0, action.indexOf('/')) : action.substring(0, action.indexOf('?'))
-//   } else {
-//     return action.includes('?') ? action.substring(0, action.indexOf('?')) : action.substring(0, action.indexOf('/'))
-//   }
-// }
-
-// function getId(action, model) {
-//   action = action.substr(model.length + 1)
-//   return action.length > 0 && (action.includes('?') ? action.substring(0, action.indexOf('?')) : action)
-// }
-
-// function getExpand(action) {
-//   action = action.substr(action.indexOf('?'))
-//   return action.includes('_expand') ? (
-//     action.includes('&') ?
-//       action.substring('_expand='.length + 1, action.indexOf('&')) :
-//       action.substring('_expand='.length + 1)) : undefined
-// }
-
-// function getEmbed(action) {
-//   return action.includes('?') ? action.substring(action.indexOf('/'), action.indexOf('?')) : action.substring(action.indexOf('/'))
-// }
-
 
 function getModel(action: string) {
   if (action.includes("/")) {
@@ -60,17 +35,17 @@ function getExpand(qs: TODO) {
   else return ''
 }
 
-function parseRequest( req: string ){
+function parseRequest(req: string) {
   const parsedUrl = url.parse(req);
   const parsedQs = querystring.parse(parsedUrl.query);
   const model = getModel(parsedUrl.pathname);
   const id = getId(parsedUrl.pathname);
   const exp = getExpand(parsedQs)
-  return { model, id , exp }
+  return { model, id, exp }
 }
 
-export function getData(action: string): Promise<TODO> {
-  const {model, id, exp} = parseRequest(action)
+export function getData(action: string, filters): Promise<TODO> {
+  const { model, id, exp } = parseRequest(action)
   return new Promise(function (resolve, _reject) {
     const expandModel = exp
       ? exp === "category"
@@ -80,7 +55,7 @@ export function getData(action: string): Promise<TODO> {
 
     console.log(model);
     let result;
-    let expand :string, expandId: number;
+    let expand: string, expandId: number;
     console.log(expandModel);
     if (model in ds) {
       if (id && id > 0) {
@@ -119,7 +94,7 @@ export function getData(action: string): Promise<TODO> {
 }
 
 export function postData(action: string, data: Entity): Promise<TODO> {
-  const {model } = parseRequest(action)
+  const { model } = parseRequest(action)
   return new Promise(function (resolve, _reject) {
     ds[model].push(data);
     setTimeout(resolve, 200, { data: data });
@@ -127,7 +102,7 @@ export function postData(action: string, data: Entity): Promise<TODO> {
 }
 
 export function putData(action: string, data: Entity): Promise<TODO> {
-  const {model, id } = parseRequest(action)
+  const { model, id } = parseRequest(action)
   return new Promise(function (resolve, _reject) {
     const idx = ds[model].findIndex((d: { id: number }) => d.id === id);
     ds[model][idx] = Object.assign({}, data);
@@ -136,7 +111,7 @@ export function putData(action: string, data: Entity): Promise<TODO> {
 }
 
 export function deleteData(action: string): Promise<TODO> {
-  const {model, id } = parseRequest(action)
+  const { model, id } = parseRequest(action)
   return new Promise(function (resolve, _reject) {
     if (id > 0) {
       ds[model].splice(ds[model].findIndex((d: Entity) => d.id === id));
@@ -164,21 +139,17 @@ export function login(action: string, data: TODO): Promise<TODO> {
   });
 }
 
-export  function callApi(endpoint,  method, data): TODO {
-  let result:TODO;
+export function callApi(endpoint, method:HttpMethod, data?: TODO, filters?: TODO) {
+  let result: TODO;
   switch (method) {
-    // case (null || undefined):
-    case ("GET"):
-      return  getData(endpoint) ;
-    case ("PUT"):
-      result=    putData(endpoint, data)
-      return result;
-    case ("POST"):
-      result =     postData(endpoint, data)
-      return result;
-    case ("DELETE"):
-      result =     deleteData(endpoint)
-      return result;
+    case "HTTP_GET":
+      return getData(endpoint, filters);
+    case "HTTP_PUT":
+      return putData(endpoint, data);
+    case "HTTP_POST":
+      return postData(endpoint, data)
+    case "HTTP_DELETE":
+      return  deleteData(endpoint)
     default:
       return null;
 
@@ -223,7 +194,7 @@ export default store => next => action => {
   const [requestType, successType, errorType] = types;
 
   // Passing the authenticated boolean back in our data will let us distinguish between normal and secret quotes
-  return callApi(endpoint, method, data).then(
+  return callApi(endpoint, method, data, filters).then(
     response =>
       next({
         response,
@@ -238,53 +209,3 @@ export default store => next => action => {
       })
   );
 };
-
-
-// export const api = action => {
-//   debugger;
-//   const callAPI = action[CALL_API];
-
-//   // So the middleware doesn't get applied to every single action
-//   if (typeof callAPI === "undefined") {
-//     // Reset type action
-//     if (action.type) return next({ type: action.type });
-//     return next(action);
-//   }
-
-//   const { types, authenticated, method, data, filters } = callAPI;
-//   let endpoint = callAPI.endpoint;
-
-//   if (typeof endpoint === "function") {
-//     endpoint = endpoint(store.getState());
-//   }
-
-//   if (typeof endpoint !== "string") {
-//     throw new Error("Specify a string endpoint URL.");
-//   }
-
-//   if (!Array.isArray(types) || types.length !== 3) {
-//     throw new Error("Expected an array of three action types.");
-//   }
-
-//   if (!types.every(type => typeof type === "string")) {
-//     throw new Error("Expected action types to be strings.");
-//   }
-
-//   const [requestType, successType, errorType] = types;
-
-//   // Passing the authenticated boolean back in our data will let us distinguish between normal and secret quotes
-//   return callApi(endpoint, authenticated, method, data).then(
-//     response =>
-//       next({
-//         response,
-//         authenticated,
-//         filters: filters,
-//         type: successType
-//       }),
-//     error =>
-//       next({
-//         error: error,
-//         type: errorType
-//       })
-//   );
-// };

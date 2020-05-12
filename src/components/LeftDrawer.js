@@ -20,16 +20,16 @@ const LeftDrawer = props => {
   let { navDrawerOpen } = props;
 
   const styles = {
-    // logo: {
-    //   cursor: "pointer",
-    //   fontSize: 22,
-    //   color: typography.textFullWhite,
-    //   lineHeight: `${spacing.desktopKeylineIncrement}px`,
-    //   fontWeight: typography.fontWeightLight,
-    //   backgroundColor: blue600,
-    //   paddingLeft: 40,
-    //   height: 56
-    // },
+    logo: {
+      cursor: "pointer",
+      fontSize: 22,
+      color: typography.textFullWhite,
+      lineHeight: `${spacing.desktopKeylineIncrement}px`,
+      fontWeight: typography.fontWeightLight,
+      backgroundColor: blue600,
+      paddingLeft: 40,
+      height: 56
+    },
     menuItem: {
       color: white,
       fontSize: 14
@@ -37,11 +37,11 @@ const LeftDrawer = props => {
     avatar: {
       div: {
         padding: "15px 0 20px 15px",
-        // backgroundImage:
-        //   "url(" + require("../assets/img/material_bg.png") + ")",
+        backgroundImage:
+          "url(" + require("../assets/img/material_bg.png") + ")",
         backgroundColor: "rgba(227, 231, 232, 0.83)",
         height: 45,
-        // backgroundColor: "silver"
+        backgroundColor: "silver"
       },
       icon: {
         float: "left",

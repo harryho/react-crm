@@ -8,7 +8,7 @@ export const LOGOUT_FAILURE = "LOGOUT_FAILURE";
 
 //---------------------------------------------------------------------
 
-export const LOAD_CUSTOMERS_REQUEST = "LOAD_CUSTOMERS_REQUEST";
+// export const LOAD_CUSTOMERS_REQUEST = "LOAD_CUSTOMERS_REQUEST";
 // export const LOAD_CUSTOMERS_SUCCESS = "LOAD_CUSTOMERS_SUCCESS";
 // export const LOAD_CUSTOMERS_FAILURE = "LOAD_CUSTOMERS_FAILURE";
 
