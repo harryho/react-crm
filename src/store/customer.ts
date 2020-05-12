@@ -1,8 +1,7 @@
-// import { CALL_API } from "../middleware/api";
+import { CALL_API, callApi } from "../middleware/api";
 // import {
 //   LOAD_CUSTOMERS_REQUEST,
-//   LOAD_CUSTOMERS_SUCCESS,
-//   LOAD_CUSTOMERS_FAILURE,
+
 //   GET_CUSTOMER_REQUEST,
 //   GET_CUSTOMER_SUCCESS,
 //   GET_CUSTOMER_FAILURE,
@@ -17,11 +16,16 @@
 //   DELETE_CUSTOMER_FAILURE,
 //   NEW_CUSTOMER_REQUEST
 // } from "../constants";
+import {
+  CusomerActionTypes, LOAD_CUSTOMERS_SUCCESS,
+  LOAD_CUSTOMERS_FAILURE,
+} from "./types";
+import { ThunkAction } from "redux-thunk";
+import { Action } from "redux";
 
-// // Customer actions
+// Customer actions
 
-// export function loadCustomers(filters) {
-//   debugger;
+// export function loadCustomers(filters?:TODO) {
 //   return {
 //     [CALL_API]: {
 //       endpoint: "customers/",
@@ -33,8 +37,17 @@
 //         LOAD_CUSTOMERS_FAILURE
 //       ]
 //     }
+
 //   };
 // }
+
+
+export function listCustomers(result?: TODO) {
+  return {
+    type: LOAD_CUSTOMERS_SUCCESS,
+    payload: result
+  }
+}
 
 // export function getCustomer(id) {
 //   return {
@@ -76,20 +89,13 @@
 //   };
 // }
 
-// export function deleteCustomer(id) {
-//   return {
-//     [CALL_API]: {
-//       endpoint: `customers/${id}`,
-//       method: "DELETE",
-//       authenticated: true,
-//       types: [
-//         DELETE_CUSTOMER_REQUEST,
-//         DELETE_CUSTOMER_SUCCESS,
-//         DELETE_CUSTOMER_FAILURE
-//       ]
-//     }
-//   };
-// }
+export function deleteCustomer(id) {
+
+  return {
+    type: LOAD_CUSTOMERS_SUCCESS,
+    payload: ""
+  }
+}
 
 // export function newCustomer() {
 //   return {

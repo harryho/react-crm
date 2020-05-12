@@ -17,13 +17,15 @@ import PageBase from '../components/PageBase';
 // import Data from '../data';
 // import Pagination from "../components/Pagination";
 import { connect } from 'react-redux';
-import { loadCustomers, deleteCustomer } from '../actions/customer';
+import { listCustomers, deleteCustomer } from '../store/customer';
 import Dialog from '@material-ui/core/Dialog';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import { teal, pink, grey, green, common } from '@material-ui/core/colors';
+import { sendMessage } from '../store/actions';
+import { thunkSearch } from '../services/thunks';
 
 const teal500 = teal['500'];
 const pink500 = pink['500'];
@@ -35,8 +37,9 @@ const white = common.white;
 interface CustomerListProps {
   isFetching: boolean;
   customerList: TODO[];
-  getAllCustomers: typeof loadCustomers;
+  searchCustomer: typeof thunkSearch;
   deleteCustomer: typeof deleteCustomer;
+  sendMessage: typeof sendMessage;
   deleteSuccess: boolean;
   errorMessage: string;
 }
@@ -50,15 +53,15 @@ class CustomerListPage extends React.Component<CustomerListProps> {
     searchOpen: false,
     snackbarOpen: false,
     autoHideDuration: 1500,
-    fixedHeader: true,
-    fixedFooter: true,
-    stripedRows: false,
-    showRowHover: false,
-    selectable: false,
-    multiSelectable: false,
-    enableSelectAll: false,
-    deselectOnClickaway: true,
-    showCheckboxes: false,
+    // fixedHeader: true,
+    // fixedFooter: true,
+    // stripedRows: false,
+    // showRowHover: false,
+    // selectable: false,
+    // multiSelectable: false,
+    // enableSelectAll: false,
+    // deselectOnClickaway: true,
+    // showCheckboxes: false,
     pageOfItems: [],
     customerId: null,
     dialogText: 'Are you sure to do this?',
@@ -67,19 +70,12 @@ class CustomerListPage extends React.Component<CustomerListProps> {
       lastName: '',
     },
   };
-  // constructor(props) {
-  // this.onChangePage = this.onChangePage.bind(this);
-  // this.onDelete = this.onDelete.bind(this);
-  // this.handleToggle = this.handleToggle.bind(this);
-  // this.handleSearchFilter = this.handleSearchFilter.bind(this);
-  // this.handleSearch = this.handleSearch.bind(this);
-  // this.handleErrorMessage = this.handleErrorMessage.bind(this);
-  // this.handleSnackBarClose = this.handleSnackBarClose.bind(this);
-  // if (this.props.customerList || this.props.customerList.length < 1)
-  //   props.getAllCustomers(this.state.search);
-  // }
 
-  componentWillMount() {}
+  //   UNSAFE_componentWillMount() {
+  componentDidMount() {
+      debugger
+    this.props.searchCustomer('');
+  }
 
   /* eslint-disable */
   componentDidUpdate(prevProps, prevState) {
@@ -100,12 +96,12 @@ class CustomerListPage extends React.Component<CustomerListProps> {
   }
 
   handleToggle() {
-    this.setState({ searchOpen: !this.state.searchOpen });
+    this.setState({ searchOpen: !this.state.searchOpen } as TODO);
   }
 
   handleSearch() {
     this.setState({ searchOpen: !this.state.searchOpen });
-    this.props.getAllCustomers(this.state.search);
+    this.props.searchCustomer(''); //this.state.search);
   }
 
   handleOpen(id) {
@@ -145,24 +141,25 @@ class CustomerListPage extends React.Component<CustomerListProps> {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps && nextProps.errorMessage && !nextProps.deleteSuccess) {
       this.setState({ snackbarOpen: true });
     }
 
     if (!this.props.deleteSuccess && nextProps.deleteSuccess && !nextProps.errorMessage && !nextProps.isFetching) {
-      this.props.getAllCustomers();
+      this.props.searchCustomer('');
     }
   }
 
   render() {
-    const { errorMessage, customerList, deleteSuccess, isFetching, getAllCustomers } = this.props;
+    const { errorMessage, customerList, deleteSuccess, isFetching, searchCustomer } = this.props;
 
-    if (deleteSuccess && !isFetching) {
-      getAllCustomers();
-    } else if (!deleteSuccess && errorMessage) {
-      this.handleErrorMessage();
-    }
+    // if (deleteSuccess && !isFetching) {
+    // if (true) {
+    //   searchCustomer();
+    // } else if (!deleteSuccess && errorMessage) {
+    //   this.handleErrorMessage();
+    // }
 
     const styles = {
       fab: {
@@ -182,7 +179,7 @@ class CustomerListPage extends React.Component<CustomerListProps> {
         left: 'auto' as TODO,
         position: 'fixed' as TODO,
         marginRight: 20,
-        backgroundColor: 'lightblue' as TODO
+        backgroundColor: 'lightblue' as TODO,
       },
       editButton: {
         paddingRight: 25,
@@ -217,15 +214,16 @@ class CustomerListPage extends React.Component<CustomerListProps> {
       drawer: {
         backgroundColor: 'lightgrey',
       },
+      saveButton: {},
     };
 
     const actions = [
-      (<Button color="primary" onClick={() => this.handleClose(false)}>
+      <Button color="primary" onClick={() => this.handleClose(false)}>
         Cancel
-      </Button>),
-      (<Button color="primary" onClick={() => this.handleClose(true)}>
+      </Button>,
+      <Button color="primary" onClick={() => this.handleClose(true)}>
         Confirm
-      </Button>)
+      </Button>,
     ];
 
     return (
@@ -234,17 +232,16 @@ class CustomerListPage extends React.Component<CustomerListProps> {
           <div>
             <Link to="/customer">
               <Fab
-              // backgroundColor="lightblue"
-              // secondary={true}
-              // style={styles.fab}
-              // backgroundColor={pink500}
+                // backgroundColor="lightblue"
+                color="secondary"
+                //   style={styles.fab}
+                // backgroundColor={pink500}
               >
                 <ContentAdd />
               </Fab>
             </Link>
-            // backgroundColor={teal500} 
-            <Fab style={styles.fabSearch} 
-            onClick={this.handleToggle}>
+            // backgroundColor={teal500}
+            <Fab style={styles.fabSearch} onClick={this.handleToggle}>
               <Search />
             </Fab>
           </div>
@@ -257,17 +254,8 @@ class CustomerListPage extends React.Component<CustomerListProps> {
             // onRequestClose={this.handleSnackBarClose}
           />
 
-          <Table
-          // fixedHeader={this.state.fixedHeader}
-          // fixedFooter={this.state.fixedFooter}
-          // selectable={this.state.selectable}
-          // multiSelectable={this.state.multiSelectable}
-          >
-            <TableHead
-            //             displaySelectAll={this.state.showCheckboxes}
-            // adjustForCheckbox={this.state.showCheckboxes}
-            // enableSelectAll={this.state.enableSelectAll}
-            >
+          <Table>
+            <TableHead>
               <TableRow>
                 <TableCell style={styles.columns.name} />
                 <TableCell style={styles.columns.name}>First Name</TableCell>
@@ -277,12 +265,7 @@ class CustomerListPage extends React.Component<CustomerListProps> {
                 <TableCell style={styles.columns.edit}>Edit</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody
-            // displayRowCheckbox={this.state.showCheckboxes}
-            // deselectOnClickaway={this.state.deselectOnClickaway}
-            // showRowHover={this.state.showRowHover}
-            // stripedRows={this.state.stripedRows}
-            >
+            <TableBody>
               {this.state.pageOfItems.map(item => (
                 <TableRow key={item.id}>
                   <TableCell style={styles.columns.name}>
@@ -293,27 +276,15 @@ class CustomerListPage extends React.Component<CustomerListProps> {
                   <TableCell style={styles.columns.price}>{item.rewards}</TableCell>
                   <TableCell style={styles.columns.category}>{item.membership ? <CheckCircle /> : <Cancel />}</TableCell>
                   <TableCell style={styles.columns.edit}>
-                    {/* <Link className="button" to={"/customer/" + item.id}>
-                      <Fab
-                        zDepth={0}
-                        mini={true}
-                        style={styles.editButton}
-                        backgroundColor={green400}
-                        iconStyle={styles.editButtonIcon}
-                      >
+                    <Link className="button" to={'/customer/' + item.id}>
+                      <Fab color="primary">
                         <ContentCreate />
                       </Fab>
                     </Link>
 
-                    <Fab
-                      zDepth={0}
-                      mini={true}
-                      backgroundColor={grey200}
-                      iconStyle={styles.deleteButton}
-                      onTouchTap={() => this.onDelete(item.id)}
-                    >
+                    <Fab color="secondary" onClick={() => this.onDelete(item.id)}>
                       <ActionDelete />
-                    </Fab> */}
+                    </Fab>
                   </TableCell>
                 </TableRow>
               ))}
@@ -347,13 +318,9 @@ class CustomerListPage extends React.Component<CustomerListProps> {
             // containerStyle={styles.drawer}
           >
             {/*<AppBar title="AppBar" />*/}
-            {/* <Button variant="contained"
-              label="Search"
-              style={styles.saveButton}
-              type="button"
-              onClick={this.handleSearch}
-              secondary={true}
-            /> */}
+            <Button variant="contained" style={styles.saveButton} onClick={this.handleSearch} color="secondary">
+              Search
+            </Button>
 
             <TextField
               // hintText="First Name"
@@ -384,8 +351,8 @@ class CustomerListPage extends React.Component<CustomerListProps> {
 // };
 
 function mapStateToProps(state) {
-  const { customerReducer } = state;
-  const { customerList, isFetching, deleteSuccess, isAuthenticated, errorMessage, user } = customerReducer;
+  const { customer } = state;
+  const { customerList, isFetching, deleteSuccess, isAuthenticated, errorMessage, user } = customer;
 
   return {
     customerList,
@@ -399,8 +366,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getAllCustomers: loadCustomers,
-    deleteCustomer: deleteCustomer,
+    searchCustomer: (filter?:TODO)=>dispatch(thunkSearch(filter)),
+    deleteCustomer, //: ()=>dispatch(searchCustomer()),
+    sendMessage,
   };
 }
 

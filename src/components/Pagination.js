@@ -20,7 +20,7 @@ class Pagination extends React.Component {
     this.state = { pager: {} };
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // set page if items array isn't empty
     if (this.props.items && this.props.items.length) {
       this.setPage(this.props.initialPage);

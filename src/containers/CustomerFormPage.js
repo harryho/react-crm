@@ -43,13 +43,13 @@ class CustomerFormPage extends React.Component {
     // this.disableButton = this.disableButton.bind(this);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (this.props.routeParams.id)
       this.props.getCustomer(this.props.routeParams.id);
     else this.props.newCustomer();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       this.props.customer &&
       nextProps.customer &&

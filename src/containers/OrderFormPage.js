@@ -54,7 +54,7 @@ class OrderFormPage extends React.Component {
     // this.handleProductChange = this.handleProductChange.bind(this);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (this.props.routeParams && this.props.routeParams.id) {
       this.props.getOrder(this.props.routeParams.id);
       this.props.getAllCustomers();
@@ -64,7 +64,7 @@ class OrderFormPage extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       (this.props.order &&
         nextProps.order &&

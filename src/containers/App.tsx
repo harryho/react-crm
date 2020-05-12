@@ -45,7 +45,7 @@ type AppProps = {
     };
   // }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.width !== nextProps.width) {
       this.setState({ navDrawerOpen: nextProps.width >= 1000 });
     }
@@ -136,13 +136,13 @@ type AppProps = {
 
 /* eslint-disable */
 function mapStateToProps(state) {
-  const { auth } = state;
-  const { isFetching, isAuthenticated, errorMessage, user } = auth;
+  // const { auth } = state;
+  // const { isFetching, isAuthenticated, errorMessage, user } = auth;
 
   return {
-    isAuthenticated,
-    errorMessage,
-    user
+    isAuthenticated:true,
+    errorMessage:'',
+    user:{} as TODO
   };
 }
 

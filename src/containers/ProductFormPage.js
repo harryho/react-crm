@@ -42,7 +42,7 @@ class ProductFormPage extends React.Component {
     // this.disableButton = this.disableButton.bind(this);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (this.props.routeParams && this.props.routeParams.id) {
       this.props.getProduct(this.props.routeParams.id);
       this.props.getCategoryList();
@@ -51,7 +51,7 @@ class ProductFormPage extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       this.props.product &&
       nextProps.product &&

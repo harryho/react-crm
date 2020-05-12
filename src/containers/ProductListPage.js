@@ -71,7 +71,7 @@ class ProductListPage extends React.Component {
       props.getAllProducts(this.state.search);
   }
 
-  componentWillMount() { }
+  UNSAFE_componentWillMount() { }
 
   /* eslint-disable */
   componentDidUpdate(prevProps, prevState) {
@@ -82,7 +82,7 @@ class ProductListPage extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps && nextProps.errorMessage && !nextProps.deleteSuccess) {
       this.setState({ snackbarOpen: true });
     }

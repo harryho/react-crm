@@ -1,3 +1,6 @@
+import { User } from "../types";
+// import { LOAD_CUSTOMERS_SUCCESS, LOAD_CUSTOMERS_REQUEST } from "../constants";
+
 // Describing the shape of the chat's slice of state
 export interface Message {
   user: string;
@@ -43,3 +46,30 @@ interface UpdateSessionAction {
 export type SystemActionTypes = UpdateSessionAction;
 
 export type ChatActionTypes = SendMessageAction | DeleteMessageAction;
+
+export const LOAD_CUSTOMERS_SUCCESS = "LOAD_CUSTOMERS_SUCCESS";
+export const LOAD_CUSTOMERS_FAILURE = "LOAD_CUSTOMERS_FAILURE";
+
+export interface CustomerState {
+  isFetching: boolean;
+  customerList: [];
+  authenticated: boolean;
+  user: User;
+  updateSuccess: boolean,
+  addSuccess: boolean,
+  deleteSuccess: boolean,
+  errorMessage: null
+}
+
+interface LoadCustomersSuccessAction {
+  type: typeof LOAD_CUSTOMERS_SUCCESS;
+  payload: TODO
+}
+
+interface LoadCustomersRequestAction {
+  type: typeof LOAD_CUSTOMERS_FAILURE;
+  payload: ''
+}
+
+
+export type CusomerActionTypes = LoadCustomersRequestAction | LoadCustomersSuccessAction;

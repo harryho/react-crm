@@ -9,6 +9,8 @@ export function sendMessage(newMessage: Message) {
 }
 
 export function deleteMessage(timestamp: number) {
+
+  
   return {
     type: DELETE_MESSAGE,
     meta: {
@@ -23,3 +25,6 @@ export function updateSession(newSession: SystemState) {
     payload: newSession
   };
 }
+
+
+

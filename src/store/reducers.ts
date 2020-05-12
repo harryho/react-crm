@@ -38,10 +38,3 @@ export function systemReducer(state = sysInitialState, action: SystemActionTypes
   }
 }
 
-//   declare module 'chat' {
-//     export type Article = {
-//       id: string;
-//       title: string;
-//       content: string;
-//     };
-//   }
