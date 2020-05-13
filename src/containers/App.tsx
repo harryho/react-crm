@@ -137,7 +137,7 @@ type AppProps = {
 /* eslint-disable */
 function mapStateToProps(state) {
   // const { auth } = state;
-  // const { isFetching, isAuthenticated, errorMessage, user } = auth;
+  // const { isFetching, isAuthenticated, user } = auth;
 
   return {
     isAuthenticated:true,

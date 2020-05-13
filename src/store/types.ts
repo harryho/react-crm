@@ -1,6 +1,4 @@
 import { Entity, Customer } from "../types";
-import { NEW_CUSTOMER_REQUEST } from "../constants";
-// import * as constants from "../constants";
 
 // Describing the shape of the chat's slice of state
 export interface Message {
@@ -48,25 +46,34 @@ export type SystemActionTypes = UpdateSessionAction;
 
 export type ChatActionTypes = SendMessageAction | DeleteMessageAction;
 
+// export const HTTP_GET="HTTP_GET"
+// export const HTTP_POST="HTTP_POST"
+// export const HTTP_PUT="HTTP_PUT"
+// export const HTTP_DELETE="HTTP_DELETE";
+
+// export type HttpMethod = typeof HTTP_GET | typeof  HTTP_POST |
+//  typeof HTTP_DELETE | typeof HTTP_PUT;
+export enum HttpMethod {
+  GET,
+  POST,
+  PUT,
+  DELETE
+}
+
+export interface ApiAction {
+  type: TODO,
+  endpoint: string,
+  method: HttpMethod,
+  data?: TODO,
+  filters?: TODO,
+}
+
 export const LIST_CUSTOMER = "LIST_CUSTOMER";
-// export const LOAD_CUSTOMERS_FAILURE = "LOAD_CUSTOMERS_FAILURE";
-// export const GET_CUSTOMER_REQUEST = "GET_CUSTOMER_REQUEST";
 export const GET_CUSTOMER = "GET_CUSTOMER";
-// export const GET_CUSTOMER_FAILURE = "GET_CUSTOMER_FAILURE";
-
 export const NEW_CUSTOMER = "NEW_CUSTOMER";
-
-// export const UPDATE_CUSTOMER_REQUEST = "UPDATE_CUSTOMER_REQUEST";
 export const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
-// export const UPDATE_CUSTOMER_FAILURE = "UPDATE_CUSTOMER_FAILURE";
-
-// export const ADD_CUSTOMER_REQUEST = "ADD_CUSTOMER_REQUEST";
 export const ADD_CUSTOMER = "ADD_CUSTOMER";
-// export const ADD_CUSTOMER_FAILURE = "ADD_CUSTOMER_FAILURE";
-
-// export const DELETE_CUSTOMER_REQUEST = "DELETE_CUSTOMER_REQUEST";
 export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
-// export const DELETE_CUSTOMER_FAILURE = "DELETE_CUSTOMER_FAILURE";
 
 
 export interface CustomerState {
@@ -81,7 +88,6 @@ interface GetCustomerAction {
   payload: Customer,
   error?: string
 }
-
 
 interface ListCustomerAction {
   type: typeof LIST_CUSTOMER;

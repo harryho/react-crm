@@ -3,9 +3,10 @@
 // const BASE_URL = "http://localhost:5354/";
 import { DB } from "./demo-db"
 
-import { Entity, HttpMethod } from '../types';
+import { Entity } from '../types';
 import url from 'url';
 import querystring from 'querystring';
+import { HttpMethod } from "../store/types";
 
 const ds = DB
 const EXPAND = "_expand"
@@ -142,13 +143,13 @@ export function login(action: string, data: TODO): Promise<TODO> {
 export function callApi(endpoint, method:HttpMethod, data?: TODO, filters?: TODO) {
   let result: TODO;
   switch (method) {
-    case "HTTP_GET":
+    case HttpMethod.GET:
       return getData(endpoint, filters);
-    case "HTTP_PUT":
+    case HttpMethod.PUT:
       return putData(endpoint, data);
-    case "HTTP_POST":
+    case HttpMethod.POST:
       return postData(endpoint, data)
-    case "HTTP_DELETE":
+    case HttpMethod.DELETE:
       return  deleteData(endpoint)
     default:
       return null;
@@ -162,7 +163,7 @@ export const CALL_API = Symbol("Call API");
 
 
 export default store => next => action => {
-  debugger;
+  
   const callAPI = action[CALL_API];
 
   // So the middleware doesn't get applied to every single action

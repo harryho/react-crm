@@ -44,7 +44,7 @@ export function customerReducer(
     //     filters: null // action.filters
     //   });
     case LIST_CUSTOMER:
-      debugger;
+      
       return Object.assign({}, state, {
         isFetching: false,
         customerList: action.payload,

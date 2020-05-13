@@ -4,8 +4,7 @@ import { sendMessage } from "../store/actions";
 import { AppState } from "../store";
 import { callApi } from "../middleware/api";
 import { listCustomers, getCustomer, deleteCustomer } from "../actions/customer";
-import { LIST_CUSTOMER, GET_CUSTOMER, DELETE_CUSTOMER } from "../store/types";
-import { HttpMethod } from "../types";
+import { LIST_CUSTOMER, GET_CUSTOMER, DELETE_CUSTOMER, ApiAction } from "../store/types";
 
 export const thunkSendMessage = (
   message: string
@@ -24,14 +23,7 @@ function exampleAPI() {
   return Promise.resolve("Async Chat Bot");
 }
 
-export interface ApiAction {
-  type: TODO
-  actionTypes: TODO,
-  endpoint: string,
-  method: HttpMethod,
-  data?: TODO,
-  filters?: TODO,
-}
+
 
 
 export const thunkSearch = (
@@ -41,11 +33,11 @@ export const thunkSearch = (
   const response = await callApi(endpoint, method, data, filters)
   console.log(response)
 
-  dispatchReponse(type, dispatch, response);
+  dispatchReponse(dispatch, type, response);
 };
 
 
-function dispatchReponse(type, dispatch, response) {
+function dispatchReponse( dispatch, type,response) {
 
   switch (type) {
     case LIST_CUSTOMER:
@@ -55,12 +47,12 @@ function dispatchReponse(type, dispatch, response) {
       break;
     case GET_CUSTOMER:
       dispatch(
-        getCustomer(response.data)
+         getCustomer(response.data)
       );
       break;
     case DELETE_CUSTOMER:
       dispatch(
-        deleteCustomer(response.data)
+           deleteCustomer(response.data)
       );
       break;
 

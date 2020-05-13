@@ -137,7 +137,7 @@ export const login = (action, data) => {
 
 
 export default store => next => action => {
-  debugger;
+  
   const callAPI = action[CALL_API];
 
   // So the middleware doesn't get applied to every single action
@@ -187,7 +187,7 @@ export default store => next => action => {
 
 
 // export const api = action => {
-//   debugger;
+//   
 //   const callAPI = action[CALL_API];
 
 //   // So the middleware doesn't get applied to every single action

@@ -5,8 +5,7 @@ import {
   UPDATE_CUSTOMER,
   NEW_CUSTOMER
 } from "../store/types";
-import { ThunkAction } from "redux-thunk";
-import { Action } from "redux";
+
 
 export function listCustomers(result?: TODO) {
   return {

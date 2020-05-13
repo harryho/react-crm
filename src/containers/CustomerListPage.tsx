@@ -1,9 +1,10 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
 import TableCell from '@material-ui/core/TableCell';
+import Pagination from '@material-ui/lab/Pagination';
 // import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Fab from '@material-ui/core/Fab';
@@ -15,9 +16,9 @@ import CheckCircle from '@material-ui/icons/CheckCircle';
 import Cancel from '@material-ui/icons/Cancel';
 import PageBase from '../components/PageBase';
 // import Data from '../data';
-// import Pagination from "../components/Pagination";
+import AppBar from '@material-ui/core/AppBar';
 import { connect } from 'react-redux';
-import { listCustomers, deleteCustomer } from '../actions/customer';
+import { deleteCustomer } from '../actions/customer';
 import Dialog from '@material-ui/core/Dialog';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
@@ -25,20 +26,21 @@ import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import { teal, pink, grey, green, common } from '@material-ui/core/colors';
 import { sendMessage } from '../store/actions';
-import { thunkSearch, ApiAction } from '../services/thunks';
-import { LIST_CUSTOMER } from '../store/types';
-import { Entity } from '../types';
+import { thunkSearch } from '../services/thunks';
+import { LIST_CUSTOMER, HttpMethod } from '../store/types';
+import { Customer } from '../types';
+import { Container, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 
 const teal500 = teal['500'];
 const pink500 = pink['500'];
-const grey200 = grey['200'];
 const grey500 = grey['500'];
 const green400 = green['400'];
 const white = common.white;
 
 interface CustomerListProps {
+  pageCount: number;
   isFetching: boolean;
-  customerList: Entity[];
+  customerList: Customer[];
   searchCustomer: typeof thunkSearch;
   deleteCustomer: typeof deleteCustomer;
   sendMessage: typeof sendMessage;
@@ -46,56 +48,78 @@ interface CustomerListProps {
   errorMessage: string;
 }
 
+interface CustomerListState {
+  open: boolean;
+  searchOpen: boolean;
+  snackbarOpen: boolean;
+  autoHideDuration: 1500;
+  page: number;
+  items: Customer[];
+  customerList: Customer[];
+  totalPages: number;
+  customerId: null;
+  dialogText: string; //'Are you sure to do this?',
+  search: {
+    firstName: string;
+    lastName: string;
+  };
+}
 
-class CustomerListPage extends React.Component<CustomerListProps> {
-  //
-  //   super(props);
+class CustomerListPage extends React.Component<CustomerListProps, CustomerListState> {
+  constructor(props) {
+    super(props);
+    this.handleToggle = this.handleToggle.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.onPageChange = this.onPageChange.bind(this);
+    this.onEdit = this.onEdit.bind(this);
+  }
 
-  state = {
+  state: CustomerListState = {
     open: false,
     searchOpen: false,
     snackbarOpen: false,
     autoHideDuration: 1500,
-    // fixedHeader: true,
-    // fixedFooter: true,
-    // stripedRows: false,
-    // showRowHover: false,
-    // selectable: false,
-    // multiSelectable: false,
-    // enableSelectAll: false,
-    // deselectOnClickaway: true,
-    // showCheckboxes: false,
-    pageOfItems: [],
+    page: 1,
+    items: [],
+    totalPages: 1,
     customerId: null,
+    customerList: [],
     dialogText: 'Are you sure to do this?',
     search: {
       firstName: '',
       lastName: '',
-    }
-    
+    },
   };
 
-  //   UNSAFE_componentWillMount() {
+  apiAction = {
+    type: LIST_CUSTOMER,
+    endpoint: 'customers/',
+    method: HttpMethod.GET,
+    filters: this.state.search,
+  };
+
   componentDidMount() {
-    const apiAction = {
-        type: LIST_CUSTOMER,
-        endpoint: "customers/",
-        method: "HTTP_GET",
-        filters: this.state.search
-    }
-    this.props.searchCustomer(apiAction);
+    this.props.searchCustomer(this.apiAction);
   }
 
   /* eslint-disable */
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     // reset page if items array has changed
     if (this.props.customerList !== prevProps.customerList) {
-      this.onChangePage(this.props.customerList.slice(0, 10));
+      this.setState({ customerList: this.props.customerList });
+      const page = 1;
+      const totalPages = Math.ceil(this.props.customerList.length / 10);
+      const items = this.props.customerList.slice(0, 10);
+      this.setState({ page, totalPages, items });
     }
   }
 
-  onChangePage(pageOfItems) {
-    if (!this.props.isFetching && this.state.pageOfItems && this.props.customerList) this.setState({ pageOfItems: pageOfItems });
+  onPageChange(event: React.ChangeEvent<unknown>, page: number) {
+    const startIndex = (page - 1) * 10;
+    const endIndex = startIndex + 10;
+    const items = this.props.customerList.slice(startIndex, endIndex);
+    this.setState({ page, items });
   }
 
   onDelete(id) {
@@ -104,13 +128,17 @@ class CustomerListPage extends React.Component<CustomerListProps> {
     }
   }
 
+  onEdit(id) {
+    this.context.history.push(`/customer/${id}`);
+  }
+
   handleToggle() {
     this.setState({ searchOpen: !this.state.searchOpen } as TODO);
   }
 
   handleSearch() {
     this.setState({ searchOpen: !this.state.searchOpen });
-    this.props.searchCustomer(''); //this.state.search);
+    this.props.searchCustomer(this.apiAction); //this.state.search);
   }
 
   handleOpen(id) {
@@ -156,47 +184,42 @@ class CustomerListPage extends React.Component<CustomerListProps> {
     }
 
     if (!this.props.deleteSuccess && nextProps.deleteSuccess && !nextProps.errorMessage && !nextProps.isFetching) {
-      this.props.searchCustomer('');
+      this.props.searchCustomer(this.apiAction);
     }
   }
 
   render() {
-    const { errorMessage, customerList, deleteSuccess, isFetching, searchCustomer } = this.props;
-
-    // if (deleteSuccess && !isFetching) {
-    // if (true) {
-    //   searchCustomer();
-    // } else if (!deleteSuccess && errorMessage) {
-    //   this.handleErrorMessage();
-    // }
+    const { errorMessage, customerList } = this.props;
 
     const styles = {
       fab: {
-        // margin: 0,
-        top: 'auto',
+        top: 'auto' as TODO,
         right: 20,
         bottom: 20,
-        left: 'auto',
-        position: 'fixed',
+        left: 'auto' as TODO,
+        position: 'fixed' as TODO,
         marginRight: 20,
+        backgroundColor: pink500, // {pink500}
       },
       fabSearch: {
-        // margin: 0,
         top: 'auto' as TODO,
         right: 100,
         bottom: 20,
         left: 'auto' as TODO,
         position: 'fixed' as TODO,
         marginRight: 20,
-        backgroundColor: 'lightblue' as TODO,
+        backgroundColor: teal500 as TODO,
       },
       editButton: {
-        paddingRight: 25,
+        marginRight: '1em',
+        color: white,
+        backgroundColor: green400,
       },
       editButtonIcon: {
         fill: white,
       },
       deleteButton: {
+        color: 'grey',
         fill: grey500,
       },
       columns: {
@@ -204,7 +227,7 @@ class CustomerListPage extends React.Component<CustomerListProps> {
           width: '10%',
         },
         name: {
-          width: '40%',
+          width: '10%',
         },
         price: {
           width: '20%',
@@ -226,31 +249,25 @@ class CustomerListPage extends React.Component<CustomerListProps> {
       saveButton: {},
     };
 
-    const actions:React.ReactNode = [
-      <Button color="primary" onClick={() => this.handleClose(false)}>
+    const dialogButtons = [
+      <Fab color="primary" variant="extended" onClick={() => this.handleClose(false)}>
         Cancel
-      </Button>,
-      <Button color="primary" onClick={() => this.handleClose(true)}>
+      </Fab>,
+      <Fab color="secondary" variant="extended" onClick={() => this.handleClose(true)}>
         Confirm
-      </Button>,
+      </Fab>,
     ];
-
     return (
       <PageBase title={'Customers (' + customerList.length + ')'} navigation="React CRM / Customer">
         <div>
           <div>
             <Link to="/customer">
-              <Fab
-                // backgroundColor="lightblue"
-                color="secondary"
-                //   style={styles.fab}
-                // backgroundColor={pink500}
-              >
+              <Fab size="small" color="secondary" style={styles.fab}>
                 <ContentAdd />
               </Fab>
             </Link>
             // backgroundColor={teal500}
-            <Fab style={styles.fabSearch} onClick={this.handleToggle}>
+            <Fab size="small" style={styles.fabSearch} onClick={this.handleToggle}>
               <Search />
             </Fab>
           </div>
@@ -260,13 +277,13 @@ class CustomerListPage extends React.Component<CustomerListProps> {
             open={this.state.snackbarOpen}
             message={errorMessage ? errorMessage : ''}
             autoHideDuration={this.state.autoHideDuration}
-            // onRequestClose={this.handleSnackBarClose}
+            onClose={this.handleSnackBarClose}
           />
 
-          <Table>
+          <Table size="small">
             <TableHead>
               <TableRow>
-                <TableCell style={styles.columns.name} />
+                <TableCell component="th" style={styles.columns.name} />
                 <TableCell style={styles.columns.name}>First Name</TableCell>
                 <TableCell style={styles.columns.name}>Last Name</TableCell>
                 <TableCell style={styles.columns.price}>Rewards</TableCell>
@@ -275,65 +292,63 @@ class CustomerListPage extends React.Component<CustomerListProps> {
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.state.pageOfItems.map(item => (
-                <TableRow key={item.id}>
-                  <TableCell style={styles.columns.name}>
-                    <img width={40} src={item.avatar} />
-                  </TableCell>
-                  <TableCell style={styles.columns.name}>{item.firstName}</TableCell>
-                  <TableCell style={styles.columns.name}>{item.lastName}</TableCell>
-                  <TableCell style={styles.columns.price}>{item.rewards}</TableCell>
-                  <TableCell style={styles.columns.category}>{item.membership ? <CheckCircle /> : <Cancel />}</TableCell>
-                  <TableCell style={styles.columns.edit}>
-                    <Link className="button" to={'/customer/' + item.id}>
-                      <Fab color="primary">
+              {this.state.items.length > 0 &&
+                this.state.items.map(item => (
+                  <TableRow key={item.id}>
+                    <TableCell style={styles.columns.name}>
+                      <img width={40} src={item.avatar} />
+                    </TableCell>
+                    <TableCell style={styles.columns.name}>{item.firstName}</TableCell>
+                    <TableCell style={styles.columns.name}>{item.lastName}</TableCell>
+                    <TableCell style={styles.columns.price}>{item.rewards}</TableCell>
+                    <TableCell style={styles.columns.category}>{item.membership ? <CheckCircle /> : <Cancel />}</TableCell>
+                    <TableCell style={styles.columns.edit}>
+                      <Fab size="small" style={styles.editButton} onClick={() => this.onEdit(item.id)}>
                         <ContentCreate />
                       </Fab>
-                    </Link>
 
-                    <Fab color="secondary" onClick={() => this.onDelete(item.id)}>
-                      <ActionDelete />
-                    </Fab>
-                  </TableCell>
-                </TableRow>
-              ))}
+                      <Fab size="small" style={styles.deleteButton} onClick={() => this.onDelete(item.id)}>
+                        <ActionDelete />
+                      </Fab>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
-          <div className={'row center-xs'}>
-            <div className={'col-xs-6'}>
-              <div className={'box'}>
-                {/* <Pagination
-                  items={customerList}
-                  onChangePage={this.onChangePage}
-                /> */}
-              </div>
-            </div>
-          </div>
 
-          <Dialog
-            title="Confirm Dialog "
-            // actions={actions}
-            // modal={true}
-            // contentStyle={styles.dialog}
-            open={this.state.open}
-          >
-            {this.state.dialogText}
+          <Container maxWidth="xs" style={{ paddingTop: '1em' }}>
+            <Pagination
+              count={this.state.totalPages}
+              page={this.state.page}
+              variant="outlined"
+              color="primary"
+              onChange={this.onPageChange}
+            />
+          </Container>
+
+          <Dialog title="Confirm Dialog " style={styles.dialog} open={this.state.open} onClick={() => this.handleClose(false)}>
+            <DialogTitle id="alert-dialog-title">{'Alert'}</DialogTitle>
+
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">{this.state.dialogText}</DialogContentText>
+            </DialogContent>
+
+            <DialogActions>{dialogButtons}</DialogActions>
           </Dialog>
 
           <Drawer
-            // width={300}
-            // openSecondary={true}
+            anchor="right"
             open={this.state.searchOpen}
-            // containerStyle={styles.drawer}
+            onClose={this.handleToggle}
           >
-            {/*<AppBar title="AppBar" />*/}
+            <AppBar title="AppBar" />
             <Button variant="contained" style={styles.saveButton} onClick={this.handleSearch} color="secondary">
               Search
             </Button>
 
             <TextField
-              // hintText="First Name"
-              // floatingLabelText="First Name"
+              placeholder="First Name"
+              label="First Name"
               name="firstName"
               fullWidth={true}
               value={this.state.search.firstName}
@@ -341,8 +356,8 @@ class CustomerListPage extends React.Component<CustomerListProps> {
             />
 
             <TextField
-              // hintText="Last Name"
-              // floatingLabelText="Last Name"
+              placeholder="Last Name"
+              label="Last Name"
               fullWidth={true}
               name="lastName"
               value={this.state.search.lastName}
@@ -355,13 +370,9 @@ class CustomerListPage extends React.Component<CustomerListProps> {
   }
 }
 
-// CustomerListPage.propTypes = {
-
-// };
-
 function mapStateToProps(state) {
   const { customer } = state;
-  const { customerList, isFetching,   errorMessage, user } = customer;
+  const { customerList, isFetching, errorMessage, user } = customer;
 
   return {
     customerList,
@@ -373,8 +384,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    searchCustomer: (filter?:TODO)=>dispatch(thunkSearch(filter)),
-    deleteCustomer: (id:TODO)=>dispatch(thunkSearch(id)),
+    searchCustomer: (action?: TODO) => dispatch(thunkSearch(action)),
+    deleteCustomer: (id: TODO) => dispatch(thunkSearch(id)),
     sendMessage,
   };
 }
