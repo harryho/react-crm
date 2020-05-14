@@ -129,7 +129,8 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
   }
 
   onEdit(id) {
-    this.context.history.push(`/customer/${id}`);
+    // window.history.push(`/customer/${id}`);
+    // window.Location.pathname=`/customer/${id}`;
   }
 
   handleToggle() {
@@ -303,7 +304,7 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
                     <TableCell style={styles.columns.price}>{item.rewards}</TableCell>
                     <TableCell style={styles.columns.category}>{item.membership ? <CheckCircle /> : <Cancel />}</TableCell>
                     <TableCell style={styles.columns.edit}>
-                      <Fab size="small" style={styles.editButton} onClick={() => this.onEdit(item.id)}>
+                      <Fab size="small" style={styles.editButton} href={`customer/${item.id}`}>
                         <ContentCreate />
                       </Fab>
 
@@ -336,11 +337,7 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
             <DialogActions>{dialogButtons}</DialogActions>
           </Dialog>
 
-          <Drawer
-            anchor="right"
-            open={this.state.searchOpen}
-            onClose={this.handleToggle}
-          >
+          <Drawer anchor="right" open={this.state.searchOpen} onClose={this.handleToggle}>
             <AppBar title="AppBar" />
             <Button variant="contained" style={styles.saveButton} onClick={this.handleSearch} color="secondary">
               Search
