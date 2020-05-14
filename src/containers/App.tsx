@@ -1,8 +1,9 @@
 import * as React from 'react';
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
-// import Header from "../components/Header";
-// import LeftDrawer from "../components/LeftDrawer";
-import withWidth, { WithWidth } from "@material-ui/core/withWidth";
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Header from "../components/Header";
+import LeftDrawer from "../components/LeftDrawer";
+import withWidth, { WithWidth  }  from "@material-ui/core/withWidth";
 import {
   createMuiTheme,
   withStyles,
@@ -20,6 +21,8 @@ import { Dispatch } from 'redux';
 import styles from '../styles';
 import { User } from '../types';
 import { tupleExpression } from '@babel/types';
+import { routes } from '../routes';
+
 
 const dispatchProps = {
   loginUser: typeof loginUser,
@@ -29,8 +32,7 @@ const dispatchProps = {
 // class App extends React.Component {
 type AppProps = {
     children: React.ReactChildren,
-    width: number,
-    // dispatch: (ation:Dispatch)=>void,
+    width: 'xs'| 'sm'| 'md'| 'lg'| 'xl'
     isAuthenticated: boolean,
     errorMessage: string,
     user: User,
@@ -59,11 +61,11 @@ type AppProps = {
 
   render() {
     const {
-      // dispatch,
       isAuthenticated,
       errorMessage,
       user,
-      isFetching
+      isFetching,
+      width
     } = this.props;
 
     const firstName = user && user.firstName ? user.firstName : "";
@@ -79,7 +81,7 @@ type AppProps = {
       container: {
         margin: "80px 20px 20px 15px",
         paddingLeft:
-          navDrawerOpen && this.props.width <= 400 // SMALL
+          navDrawerOpen && width ==='sm' // SMALL
             ? paddingLeftDrawerOpen
             : 0,
 
@@ -94,22 +96,22 @@ type AppProps = {
           //   !isFetching &&
              (
               <div>
-                {/* <Header
-                  styles={styles.header}
+                <Header
+                  // className={styles.header}
                   handleChangeRequestNavDrawer={this.handleChangeRequestNavDrawer.bind(
                     this
                   )}
-                /> */}
+                />
 
-                {/* <LeftDrawer
+                <LeftDrawer
                   navDrawerOpen={navDrawerOpen}
-                  menus={Data.menus}
                   // signOutMenus={Data.signOutMenus as TODO}
                   username={`${firstName} ${lastName}`}
                   onLogoutClick={() => logoutUser()}
-                /> */}
+                />
                 <h1>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</h1>
                 <div style={styles.container}>{this.props.children}</div>
+
               </div>
             )}
           {/* {!isAuthenticated && (
@@ -124,17 +126,7 @@ type AppProps = {
   }
 }
 
-// App.propTypes = {
-//   children: element,
-//   width: number,
-//   dispatch: func.isRequired,
-//   isAuthenticated: bool.isRequired,
-//   errorMessage: string,
-//   user: object,
-//   isFetching: bool
-// };
 
-/* eslint-disable */
 function mapStateToProps(state) {
   // const { auth } = state;
   // const { isFetching, isAuthenticated, user } = auth;
@@ -154,5 +146,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default withStyles(styles)(
-  withWidth()(connect(mapStateToProps,
+  // withWidth()
+  (connect(mapStateToProps,
   mapDispatchToProps)(App)));
