@@ -24,7 +24,8 @@ import {
   UPDATE_CUSTOMER,
   DELETE_CUSTOMER,
   GET_CUSTOMER,
-  LIST_CUSTOMER
+  LIST_CUSTOMER,
+  NEW_CUSTOMER
 } from '../store/types';
 import { Entity } from '../types';
 
@@ -75,12 +76,13 @@ export function customerReducer(
     //     isFetching: true,
     //     authenticated: action.authenticated || false
     //   });
+    case NEW_CUSTOMER:
     case GET_CUSTOMER:
-      return Object.assign({}, state, {
-        isFetching: false,
-        customer: action.payload,
-        errorMessage: action.error
-      });
+      // return Object.assign({}, state, {
+      //   isFetching: false,
+      //   customer: action.payload,
+      //   errorMessage: action.error
+      // });
     // case GET_CUSTOMER_FAILURE:
     //   return Object.assign({}, state, {
     //     isFetching: false,

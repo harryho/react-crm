@@ -9,7 +9,6 @@ const blue600 = blue['600'];
 const grey900 = grey['900'];
 
 const themeDefault = createMuiTheme({
-
   palette: {
   },
   appBar: {

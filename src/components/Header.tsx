@@ -19,12 +19,12 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
-  appBar: {
-    position: "fixed",
-    top: 0,
-    overflow: "hidden",
-    maxHeight: 57,
-  },
+  // appBar: {
+  //   position: "fixed",
+  //   top: 0,
+  //   overflow: "hidden",
+  //   maxHeight: 57,
+  // },
   iconsRightContainer: {
     marginLeft: 20,
   },
@@ -36,20 +36,23 @@ const useStyles = makeStyles((theme) => ({
 
 interface HeaderProps {
   handleChangeRequestNavDrawer: () => void;
+  styles: TODO
 }
 // class Header extends React.Component {
-const Header: React.FC<HeaderProps> = ({ handleChangeRequestNavDrawer }) => {
+const Header: React.FC<HeaderProps> = ({ styles, handleChangeRequestNavDrawer }) => {
 
   const handleClick = () => {
     window.open("https://github.com/harryho/react-crm", undefined, undefined, false);
   };
 
-  const style = useStyles();
+  let style = useStyles(styles);
+
+  console.log(styles)
   // const {  handleChangeRequestNavDrawer } = this.props;
 
   return (
     <div>
-      <AppBar position="static">
+      <AppBar position="fixed" style={styles.appBar}>
         <Toolbar>
           <IconButton
             edge="start"

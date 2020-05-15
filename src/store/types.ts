@@ -1,4 +1,4 @@
-import { Entity, Customer } from "../types";
+import { Entity, Customer, UserInfo, User } from "../types";
 
 // Describing the shape of the chat's slice of state
 export interface Message {
@@ -46,13 +46,6 @@ export type SystemActionTypes = UpdateSessionAction;
 
 export type ChatActionTypes = SendMessageAction | DeleteMessageAction;
 
-// export const HTTP_GET="HTTP_GET"
-// export const HTTP_POST="HTTP_POST"
-// export const HTTP_PUT="HTTP_PUT"
-// export const HTTP_DELETE="HTTP_DELETE";
-
-// export type HttpMethod = typeof HTTP_GET | typeof  HTTP_POST |
-//  typeof HTTP_DELETE | typeof HTTP_PUT;
 export enum HttpMethod {
   GET,
   POST,
@@ -67,6 +60,29 @@ export interface ApiAction {
   data?: TODO,
   filters?: TODO,
 }
+
+export const SIGN_IN ="SIGN_IN"
+export const SIGN_OUT ="SIGN_OUT"
+
+export interface AuthState {
+  isFetching: boolean;
+  user: User,
+  isAuthenticated: boolean;
+  errorMessage?: null
+} 
+interface SignInAction {
+  type: typeof SIGN_IN;
+  payload: User,
+  error?: string
+}
+
+interface SignOutAction {
+  type: typeof SIGN_OUT;
+  payload: User,
+  error?: string
+}
+
+export type AuthActionTypes =  SignInAction | SignOutAction;
 
 export const LIST_CUSTOMER = "LIST_CUSTOMER";
 export const GET_CUSTOMER = "GET_CUSTOMER";

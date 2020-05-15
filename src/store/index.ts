@@ -3,11 +3,13 @@ import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { chatReducer, systemReducer } from "./reducers";
 import { customerReducer } from "../reducers/customer";
+import { authReducer } from "../reducers/auth";
 
 const rootReducer = combineReducers({
   system: systemReducer,
   chat: chatReducer,
-  customer: customerReducer
+  customer: customerReducer,
+  auth: authReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

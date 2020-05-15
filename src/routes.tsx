@@ -8,6 +8,7 @@ import FormPage from './containers/FormPage';
 import App from './containers/App';
 import AboutPage from './containers/AboutPage';
 import CustomerListPage from './containers/CustomerListPage';
+import SignInPage from './containers/SignInPage';
 // import CustomerFormPage from './containers/CustomerFormPage';
 
 // import OrderListPage from './containers/OrderListPage';
@@ -44,7 +45,8 @@ export const routes = (
       {/* <Route exact path="/app" component={App0} /> */}
       <Route exact path="/" component={App} />
       <Route exact path="/customers" component={CustomerListPage} />
-      <Route path="about" component={AboutPage} />
+      <Route path="/about" component={AboutPage} />
+      <Route path="/login" component={SignInPage} />
       {/* <Route path="dashboard" component={Dashboard} />
         <Route path="form" component={FormPage} />
         <Route path="customer" component={CustomerFormPage} />

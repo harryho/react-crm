@@ -13,35 +13,38 @@ import ContentFilter from "@material-ui/icons/FilterList";
 import SettingsPower from "@material-ui/icons/SettingsPower";
 import VpnKey from "@material-ui/icons/VpnKey";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  common,
-  //  orange
-} from "@material-ui/core/colors";
+import { teal, pink, grey, blue, common } from "@material-ui/core/colors";
 import { Typography, ListItemIcon, Menu } from "@material-ui/core";
 
 const white = common.white;
+const blue600 = blue["600"];
+const grey900 = grey['500'];
+const drawerWidth = 250;
 const useStyles = makeStyles((theme) => ({
   logo: {
     cursor: "pointer",
     fontSize: 22,
-    // color: Typography.full,
-    // lineHeight: `${spacing.desktopKeylineIncrement}px`,
-    // fontWeight: typography.fontWeightLight,
-    // backgroundColor: blue600,
+    color: common.white,
+    lineHeight: 24,
+    fontWeight: "inherit",
+    backgroundColor: blue600,
     paddingLeft: 40,
     height: 56,
   },
   menuItem: {
     color: white,
-    fontSize: 14,
+    fontWeight: 500,
+    paddingTop: "0.2em",
+    paddingBottom: "0.2em",
+    fontSize: 16
   },
-
   avatarDiv: {
     padding: "15px 0 20px 15px",
-    backgroundImage: "url(" + require("../assets/img/material_bg.png") + ")",
-    // backgroundColor: "rgba(227, 231, 232, 0.83)",
-    height: 45,
+    backgroundImage: "url(" + require("../assets/img/leftdrawer-bg.jpg") + ")",
+    // backgroundColor: "rgba(227, 231, 232, 0.83)",  
+    height: 40,
     backgroundColor: "silver",
+    width: 240,
   },
   avatarIcon: {
     float: "left",
@@ -58,8 +61,15 @@ const useStyles = makeStyles((theme) => ({
     textShadow: "1px 1px #444",
   },
   drawer: {
+    width: drawerWidth,
     color: "darkgrey",
-    backgroundColor: "rgba(227, 231, 232, 0.63)",
+    // backgroundColor: "rgba(227, 231, 232, 0.63)",
+    backgroundColor:  grey900 ,
+    overflow: "auto",
+  },
+  drawerPaper: {
+    // width: drawerWidth,
+    backgroundColor:  grey900 ,// "rgba(227, 231, 232, 0.63)",
     overflow: "auto",
   },
 }));
@@ -91,12 +101,18 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({
     event.preventDefault();
     onLogoutClick();
   };
+  // const container =
+  //   window !== undefined ? () => window.document.body : undefined;
 
   return (
     <Drawer
+      // container={container}
       anchor="left"
-      variant="temporary"
+      variant="persistent"
       open={navDrawerOpen}
+      classes={{
+        paper: styles.drawerPaper,
+      }}
       className={styles.drawer}
     >
       <div className={styles.avatarDiv}>
@@ -139,12 +155,15 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({
           </Menu>
         </span>
       </div>
-      <div>
+      <div >
         {data.menus.map((menu, index) => (
-          <MenuItem key={index} className={styles.menuItem}>
-            <Link to={menu.link}>
-              <ListItemIcon>{menu.icon}</ListItemIcon>
-              <Typography variant="inherit">{menu.text}</Typography>
+          <MenuItem key={index} >
+            <ListItemIcon >{menu.icon}</ListItemIcon>
+            <Link to={menu.link} >
+              <Typography 
+              variant="h6"
+              component="h6"
+              className={styles.menuItem}>{menu.text}</Typography>
             </Link>
           </MenuItem>
         ))}
