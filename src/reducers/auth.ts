@@ -9,7 +9,6 @@ import { User } from "../types";
 
 
 function isSignIned():boolean{
-
   const token =  localStorage.getItem("token")
   return token  ? true : false
 }
