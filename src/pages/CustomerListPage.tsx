@@ -63,7 +63,7 @@ interface CustomerListState {
     firstname: string;
     lastname: string;
   };
-  countArray: number[]
+  countArray: number[];
 }
 
 class CustomerListPage extends React.Component<CustomerListProps, CustomerListState> {
@@ -73,7 +73,6 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     this.handleSearch = this.handleSearch.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.onPageChange = this.onPageChange.bind(this);
-    // this.onEdit = this.onEdit.bind(this);
   }
 
   state: CustomerListState = {
@@ -92,7 +91,7 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
       firstname: '',
       lastname: '',
     },
-    countArray: [1,2,3,4,5]
+    countArray: [1, 2, 3, 4, 5],
   };
 
   apiAction = {
@@ -157,7 +156,6 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
 
   handleSearchFilter(event) {
     const field = event.target.name;
-
     if (event && event.target && field) {
       const search = Object.assign({}, this.state.search);
       search[field] = event.target.value;
@@ -239,7 +237,7 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
         backgroundColor: 'lightgrey',
       },
       row: {
-        margin: "2em",
+        margin: '2em',
         width: '95%',
       },
     };
@@ -256,15 +254,11 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
       <PageBase title={'Customers (' + customerList.length + ')'} navigation="React CRM / Customer">
         {isFetching ? (
           <div>
-                        <Skeleton variant="rect" style={styles.row} height={50} />
-                     
             <Skeleton variant="rect" style={styles.row} height={50} />
-         
             <Skeleton variant="rect" style={styles.row} height={50} />
-       
             <Skeleton variant="rect" style={styles.row} height={50} />
-          
-
+            <Skeleton variant="rect" style={styles.row} height={50} />
+            <Skeleton variant="rect" style={styles.row} height={50} />
           </div>
         ) : (
           <div>
@@ -325,7 +319,6 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
                   ))}
               </TableBody>
             </Table>
-
             <Container maxWidth="xs" style={{ paddingTop: '1em' }}>
               <Pagination
                 count={this.state.totalPages}
