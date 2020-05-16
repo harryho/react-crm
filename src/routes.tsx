@@ -2,19 +2,19 @@ import React from 'react';
 // import { Route, IndexRoute } from "react-router";
 import { Route, BrowserRouter as Router, Link, Switch, Redirect } from 'react-router-dom';
 // import App0 from './App';
-import NotFoundPage from './containers/NotFoundPage.js';
-import FormPage from './containers/FormPage';
-// import Dashboard from './containers/DashboardPage';
-import App from './containers/App';
-import AboutPage from './containers/AboutPage';
-import CustomerListPage from './containers/CustomerListPage';
-import SignInPage from './containers/SignInPage';
-// import CustomerFormPage from './containers/CustomerFormPage';
+import NotFoundPage from './pages/NotFoundPage.js';
+import FormPage from './pages/FormPage';
+// import Dashboard from './pages/DashboardPage';
+import App from './pages/App';
+import AboutPage from './pages/AboutPage';
+import CustomerListPage from './pages/CustomerListPage';
+import SignInPage from './pages/SignInPage';
+// import CustomerFormPage from './pages/CustomerFormPage';
 
-// import OrderListPage from './containers/OrderListPage';
-// import OrderFormPage from './containers/OrderFormPage';
-// import ProductFormPage from './containers/ProductFormPage';
-// import ProductListPage from './containers/ProductListPage';
+// import OrderListPage from './pages/OrderListPage';
+// import OrderFormPage from './pages/OrderFormPage';
+// import ProductFormPage from './pages/ProductFormPage';
+// import ProductListPage from './pages/ProductListPage';
 
 
 export const routes = (

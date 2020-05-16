@@ -16,7 +16,7 @@ import Cancel from '@material-ui/icons/Cancel';
 import PageBase from '../components/PageBase';
 import AppBar from '@material-ui/core/AppBar';
 import { connect } from 'react-redux';
-import { deleteCustomer } from '../actions/customer';
+import { deleteCustomer, getAction } from '../actions/customer';
 import Dialog from '@material-ui/core/Dialog';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
@@ -25,7 +25,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { teal, pink, grey, green, common } from '@material-ui/core/colors';
 import { sendMessage } from '../store/actions';
 import { thunkApiCall } from '../services/thunks';
-import { LIST_CUSTOMER, HttpMethod } from '../store/types';
+import { LIST_CUSTOMER, HttpMethod, DELETE_CUSTOMER } from '../store/types';
 import { Customer } from '../types';
 import { Container, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -94,15 +94,16 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     countArray: [1, 2, 3, 4, 5],
   };
 
-  apiAction = {
-    type: LIST_CUSTOMER,
-    endpoint: 'customers/',
-    method: HttpMethod.GET,
-    filters: this.state.search,
-  };
+  // apiAction = {
+  //   type: LIST_CUSTOMER,
+  //   endpoint: 'customers/',
+  //   method: HttpMethod.GET,
+  //   filters: this.state.search,
+  // };
 
   componentDidMount() {
-    this.props.searchCustomer(this.apiAction);
+    // this.props.searchCustomer(this.apiAction);
+  this.handleSearch();
   }
 
   /* eslint-disable */
@@ -127,6 +128,8 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
   onDelete(id) {
     if (id) {
       this.handleOpen(id);
+    
+
     }
   }
 
@@ -135,8 +138,9 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
   }
 
   handleSearch() {
-    this.setState({ searchOpen: !this.state.searchOpen });
-    this.props.searchCustomer(this.apiAction); //this.state.search);
+    this.setState({ searchOpen: false });
+    const action = getAction(LIST_CUSTOMER, null, null, "")
+    this.props.searchCustomer(action); //this.state.search);
   }
 
   handleOpen(id) {
@@ -149,7 +153,9 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     this.setState({ open: false });
 
     if (isConfirmed && this.state.customerId) {
-      this.props.deleteCustomer(this.state.customerId);
+      const action = getAction(DELETE_CUSTOMER, this.state.customerId, null, "")
+      this.props.deleteCustomer(action);
+      // this.props.deleteCustomer(this.state.customerId);
       this.setState({ customerId: null });
     }
   }
@@ -181,7 +187,8 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     }
 
     if (!this.props.deleteSuccess && nextProps.deleteSuccess && !nextProps.errorMessage && !nextProps.isFetching) {
-      this.props.searchCustomer(this.apiAction);
+      // this.props.searchCustomer(this.apiAction);
+      this.handleSearch()
     }
   }
 
