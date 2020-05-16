@@ -1,30 +1,20 @@
-import {
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGOUT_REQUEST,
-  LOGOUT_SUCCESS
-} from "../constants";
-import { login } from "../middleware/api";
+
+import { SIGN_IN, SIGN_OUT } from "../store/types";
 
 // Login actions
 
-export function signIn(creds) {
+export function signIn(result?: TODO) {
   return {
-    type: LOGIN_REQUEST,
-    isFetching: true,
-    isAuthenticated: false,
-    creds
-  };
+    type: SIGN_IN,
+    payload: result
+  }
 }
 
-export  function signOut(user) {
+export  function signOut(result?: TODO) {
   return {
-    type: LOGIN_SUCCESS,
-    isFetching: false,
-    isAuthenticated: true,
-    token: user.token,
-    user: user
-  };
+    type: SIGN_OUT,
+    payload: result
+  }
 }
 
 // function loginError(message) {

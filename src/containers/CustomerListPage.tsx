@@ -24,7 +24,7 @@ import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import { teal, pink, grey, green, common } from '@material-ui/core/colors';
 import { sendMessage } from '../store/actions';
-import { thunkSearch } from '../services/thunks';
+import { thunkApiCall } from '../services/thunks';
 import { LIST_CUSTOMER, HttpMethod } from '../store/types';
 import { Customer } from '../types';
 import { Container, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
@@ -39,7 +39,7 @@ interface CustomerListProps {
   pageCount: number;
   isFetching: boolean;
   customerList: Customer[];
-  searchCustomer: typeof thunkSearch;
+  searchCustomer: typeof thunkApiCall;
   deleteCustomer: typeof deleteCustomer;
   sendMessage: typeof sendMessage;
   deleteSuccess: boolean;
@@ -70,7 +70,7 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     this.handleSearch = this.handleSearch.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.onPageChange = this.onPageChange.bind(this);
-    this.onEdit = this.onEdit.bind(this);
+    // this.onEdit = this.onEdit.bind(this);
   }
 
   state: CustomerListState = {
@@ -126,10 +126,10 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     }
   }
 
-  onEdit(id) {
-    // window.history.push(`/customer/${id}`);
-    // window.Location.pathname=`/customer/${id}`;
-  }
+  // onEdit(id) {
+  //   // window.history.push(`/customer/${id}`);
+  //   // window.Location.pathname=`/customer/${id}`;
+  // }
 
   handleToggle() {
     this.setState({ searchOpen: !this.state.searchOpen } as TODO);
@@ -239,8 +239,11 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
         },
       },
       dialog: {
-        width: '20%',
+        width: '100%',
         maxWidth: 'none',
+        margin: 'auto',
+        position: 'fixed' as TODO,
+        padding: '0px',
       },
       drawer: {
         backgroundColor: 'lightgrey',
@@ -249,10 +252,10 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     };
 
     const dialogButtons = [
-      <Fab color="primary" variant="extended" onClick={() => this.handleClose(false)}>
+      <Fab key="cancel-btn" color="primary" variant="extended" onClick={() => this.handleClose(false)}>
         Cancel
       </Fab>,
-      <Fab color="secondary" variant="extended" onClick={() => this.handleClose(true)}>
+      <Fab key="confirm-btn" color="secondary" variant="extended" onClick={() => this.handleClose(true)}>
         Confirm
       </Fab>,
     ];
@@ -305,7 +308,6 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
                       <Fab size="small" style={styles.editButton} href={`customer/${item.id}`}>
                         <ContentCreate />
                       </Fab>
-
                       <Fab size="small" style={styles.deleteButton} onClick={() => this.onDelete(item.id)}>
                         <ActionDelete />
                       </Fab>
@@ -325,16 +327,23 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
             />
           </Container>
 
-          <Dialog title="Confirm Dialog " style={styles.dialog} open={this.state.open} onClick={() => this.handleClose(false)}>
-            <DialogTitle id="alert-dialog-title">{'Alert'}</DialogTitle>
+          <React.Fragment>
+            <Dialog
+              key="alert-dialog"
+              title="Confirm Dialog "
+              style={styles.dialog}
+              open={this.state.open}
+              onClick={() => this.handleClose(false)}
+            >
+              <DialogTitle key="alert-dialog-title">{'Alert'}</DialogTitle>
 
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">{this.state.dialogText}</DialogContentText>
-            </DialogContent>
+              <DialogContent key="alert-dialog-content">
+                <DialogContentText key="alert-dialog-description">{this.state.dialogText}</DialogContentText>
+              </DialogContent>
 
-            <DialogActions>{dialogButtons}</DialogActions>
-          </Dialog>
-
+              <DialogActions key="alert-dialog-action">{dialogButtons}</DialogActions>
+            </Dialog>
+          </React.Fragment>
           <Drawer anchor="right" open={this.state.searchOpen} onClose={this.handleToggle}>
             <AppBar title="AppBar" />
             <Button variant="contained" style={styles.saveButton} onClick={this.handleSearch} color="secondary">
@@ -379,8 +388,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    searchCustomer: (action?: TODO) => dispatch(thunkSearch(action)),
-    deleteCustomer: (id: TODO) => dispatch(thunkSearch(id)),
+    searchCustomer: (action?: TODO) => dispatch(thunkApiCall(action)),
+    deleteCustomer: (id: TODO) => dispatch(thunkApiCall(id)),
     sendMessage,
   };
 }

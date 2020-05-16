@@ -1,22 +1,32 @@
-import {
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  // LOGIN_FAILURE,
-  LOGOUT_SUCCESS
-} from "../constants";
+
 import { AuthActionTypes, AuthState, SIGN_IN, SIGN_OUT } from "../store/types";
 import { User } from "../types";
 
 
-function isSignIned():boolean{
-  const token =  localStorage.getItem("token")
-  return token  ? true : false
+function isSignIned(): boolean {
+  const token = localStorage.getItem("react-crm-token")
+  return token ? true : false
 }
 
-function getUser() : User{
-  const user = localStorage.getItem("user") 
-  return user? JSON.parse(user) : {} as User
+function getUser(): User {
+  const user = localStorage.getItem("react-crm-user")
+  return user ? JSON.parse(user) : {} as User
 }
+function getToken(): string | undefined {
+  const token = localStorage.getItem("react-crm-token")
+  return token ? token : undefined
+}
+function setTokenUser(token, user) {
+  localStorage.setItem("react-crm-token", token);
+  localStorage.setItem("react-crm-user", JSON.stringify(user));
+}
+
+function removeToken(){
+      localStorage.removeItem("react-crm-token");
+    localStorage.removeItem("react-crm-user");
+}
+
+
 
 // The auth reducer. The starting state sets authentication
 // based on a token being in local storage. In a real app,
@@ -25,42 +35,36 @@ export function authReducer(
   state: AuthState = {
     isFetching: false,
     isAuthenticated: isSignIned(),// localStorage.getItem("token") ? true : false,
-    user: getUser()
+    user: getUser(),
+    token: getToken()
   },
-  action:AuthActionTypes
+  action: AuthActionTypes
 ) {
+  const payload = action.payload
+
   switch (action.type) {
-    // case LOGIN_REQUEST:
-    //   return Object.assign({}, state, {
-    //     isFetching: true,
-    //     isAuthenticated: false,
-    //     user: action.creds
-    //   });
     case SIGN_IN:
-      if ( action.payload ){
+      if (payload.token && payload.user ) {
+        setTokenUser(payload.token, payload.user)
         return Object.assign({}, state, {
           isFetching: false,
           isAuthenticated: true,
           errorMessage: "",
-          user: action.payload
+          user: action.payload.user,
+          token: action.payload.token
         });
-      } 
+      }
       else {
         return Object.assign({}, state, {
           isFetching: false,
           isAuthenticated: true,
           errorMessage: action.error,
-          user: undefined
+          user: undefined,
+          token: undefined
         });
       }
-      
-    // case LOGIN_FAILURE:
-    //   return Object.assign({}, state, {
-    //     isFetching: false,
-    //     isAuthenticated: false,
-    //     errorMessage: action.message
-    //   });
     case SIGN_OUT:
+
       return Object.assign({}, state, {
         isFetching: true,
         isAuthenticated: false

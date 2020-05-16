@@ -1,47 +1,58 @@
-import * as React from "react";
-import "../styles.scss";
+import * as React from 'react';
+import '../styles.scss';
 // import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
-import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Header from "../components/Header";
-import LeftDrawer from "../components/LeftDrawer";
-import withWidth, { WithWidth } from "@material-ui/core/withWidth";
-import {
-  createMuiTheme,
-  withStyles,
-  createStyles,
-  Theme,
-  WithStyles,
-  StyleRules,
-} from "@material-ui/core/styles";
-import themeDefault from "../theme-default";
-import Data from "../data";
-import { connect } from "react-redux";
-import LoginPage from "./SignInPage";
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import Header from '../components/Header';
+import LeftDrawer from '../components/LeftDrawer';
+import withWidth, { WithWidth } from '@material-ui/core/withWidth';
+import { createMuiTheme, withStyles, createStyles, Theme, WithStyles, StyleRules } from '@material-ui/core/styles';
+import themeDefault from '../theme-default';
+import Data from '../data';
+import { connect } from 'react-redux';
+import LoginPage from './SignInPage';
 // import { loginUser, logoutUser } from "../actions/auth";
-import { Dispatch } from "redux";
-import styles from "../styles";
-import { User } from "../types";
-import { tupleExpression } from "@babel/types";
-import { routes } from "../routes";
+import { Dispatch } from 'redux';
+import styles from '../styles';
+import { User } from '../types';
+import { tupleExpression } from '@babel/types';
 
-import { CssBaseline } from "@material-ui/core";
-import { thunkAuth } from "../services/thunks";
-import { SIGN_IN, HttpMethod, SIGN_OUT } from "../store/types";
+import { CssBaseline } from '@material-ui/core';
+import { thunkAuth } from '../services/thunks';
+import { SIGN_IN, HttpMethod, SIGN_OUT } from '../store/types';
+import CustomerListPage from './CustomerListPage';
+import CustomerFormPage from './CustomerFormPage';
 
-const dispatchProps = {
-  loginUser: typeof thunkAuth,
-  logoutUser: typeof thunkAuth,
-};
+const routes = [
+  {
+    path: '/customers',
+    name: 'Customers',
+    component: CustomerListPage,
+    layout: '/',
+  },
+];
 
-// class App extends React.Component {
+const switchRoutes = (
+  <Switch>
+    {routes.map((prop, key) => {
+      if (prop.layout === '/') {
+        return <Route path={prop.layout + prop.path} component={prop.component} key={key} />;
+      }
+      return null;
+    })}
+    <Redirect from="/" to="/dashboard" />
+  </Switch>
+);
+
 type AppProps = {
   children: React.ReactChildren;
-  width: "xs" | "sm" | "md" | "lg" | "xl";
+  width: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   isAuthenticated: boolean;
   errorMessage: string;
   user: User;
   isFetching: boolean;
+  signInUser: typeof thunkAuth;
+  signOutUser: typeof thunkAuth;
 } & WithStyles<typeof styles> &
   WithWidth;
 
@@ -55,6 +66,7 @@ class App extends React.Component<AppProps, AppState> {
     this.state = {
       navDrawerOpen: true,
     };
+    this.signOut = this.signOut.bind(this);
   }
 
   signInAction = {
@@ -65,10 +77,10 @@ class App extends React.Component<AppProps, AppState> {
   };
   signOutAction = {
     type: SIGN_OUT,
-    endpoint: 'login/',
+    endpoint: 'logout/',
     method: HttpMethod.GET,
-    data: {}
-  }
+    data: {},
+  };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.width !== nextProps.width) {
@@ -82,26 +94,22 @@ class App extends React.Component<AppProps, AppState> {
     });
   }
 
-  signIn(c){
-    this.signInAction.data = c
-    thunkAuth(this.signInAction)
+  signIn(c) {
+    debugger;
+    console.log(c);
+    this.signInAction.data = c;
+    this.props.signInUser(this.signInAction);
   }
 
-  signOut(){
-    thunkAuth(this.signOutAction)
+  signOut() {
+    this.props.signOutUser(this.signOutAction);
   }
 
   render() {
-    const {
-      isAuthenticated,
-      errorMessage,
-      user,
-      isFetching,
-      width,
-    } = this.props;
+    const { isAuthenticated, errorMessage, user, isFetching, width } = this.props;
 
-    const firstName = user && user.firstName ? user.firstName : "";
-    const lastName = user && user.lastName ? user.lastName : "";
+    const firstName = user && user.firstName ? user.firstName : '';
+    const lastName = user && user.lastName ? user.lastName : '';
 
     let { navDrawerOpen } = this.state;
     const paddingLeftDrawerOpen = 240;
@@ -110,16 +118,22 @@ class App extends React.Component<AppProps, AppState> {
       header: {
         appBar: {
           paddingLeft: navDrawerOpen ? paddingLeftDrawerOpen : 0,
-          position: "fixed",
+          position: 'fixed',
           top: 0,
-          overflow: "hidden",
-          maxHeight: 57,
+          overflow: 'hidden',
+          maxHeight: 58,
+          minHeight: 0,
         },
       },
+
+      contenet: {
+        paddingLeft: navDrawerOpen ? paddingLeftDrawerOpen : 0,
+      },
+
       container: {
-        margin: "80px 20px 20px 15px",
+        margin: '80px 20px 20px 15px',
         paddingLeft:
-          navDrawerOpen && width === "sm" // SMALL
+          navDrawerOpen && width === 'sm' // SMALL
             ? paddingLeftDrawerOpen
             : 0,
       },
@@ -129,33 +143,26 @@ class App extends React.Component<AppProps, AppState> {
       <MuiThemeProvider theme={themeDefault}>
         {/* <CssBaseline /> */}
         <div>
-          {
-            !isAuthenticated &&
-              !isFetching &&
+          {isAuthenticated && (
+            // isFetching &&
             <div>
-              <Header
-                styles={appStyles.header}
-                handleChangeRequestNavDrawer={this.handleChangeRequestNavDrawer.bind(
-                  this
-                )}
-              />
-
-              <LeftDrawer
-                navDrawerOpen={navDrawerOpen}
-                // signOutMenus={Data.signOutMenus as TODO}
-                username={`${firstName} ${lastName}`}
-                onLogoutClick={() => this.signOut()}
-              />
-              <h1>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</h1>
-              <div style={appStyles.container}>{this.props.children}</div>
+              <Header styles={appStyles.header} handleChangeRequestNavDrawer={this.handleChangeRequestNavDrawer.bind(this)}></Header>
+              <React.Fragment>
+                <LeftDrawer
+                  navDrawerOpen={navDrawerOpen}
+                  // signOutMenus={Data.signOutMenus as TODO}
+                  username={`${firstName} ${lastName}`}
+                  onLogoutClick={this.signOut}
+                />
+              </React.Fragment>
+              <div style={appStyles.contenet}>
+                {/* {this.props.children} */}
+                <Route exact path={`/customers`} component={CustomerListPage} />
+                <Route path={`/customer/:id`} component={CustomerFormPage} />
+              </div>
             </div>
-          }
-          {!isAuthenticated && (
-            <LoginPage
-              errorMessage={errorMessage}
-              onSignInClick={creds => this.signIn(creds)}
-            />
           )}
+          {!isAuthenticated && <LoginPage errorMessage={errorMessage} onSignInClick={creds => this.signIn(creds)} />}
         </div>
       </MuiThemeProvider>
     );
@@ -167,16 +174,17 @@ function mapStateToProps(state) {
   const { isFetching, isAuthenticated, user } = auth;
 
   return {
-    isAuthenticated: true,
-    errorMessage: "",
-    user: {} as TODO,
+    isAuthenticated,
+    isFetching,
+    // errorMessage,
+    user,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    thunkAuth,
-    // logoutUser,
+    signInUser: (action: TODO) => dispatch(thunkAuth(action)),
+    signOutUser: (action: TODO) => dispatch(thunkAuth(action)),
   };
 }
 

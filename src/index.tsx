@@ -18,10 +18,6 @@ import './styles.scss';
 import ThemeDefault from './theme-default';
 import { MuiThemeProvider, CssBaseline } from '@material-ui/core';
 
-// const browserHistory = createHashHistory()
-// const createStoreWithMiddleware = applyMiddleware(thunkMiddleware, api)(createStore);
-
-// const store = createStoreWithMiddleware(reducers);
 const store = configureStore();
 
 ReactDOM.render(

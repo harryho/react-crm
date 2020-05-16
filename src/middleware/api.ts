@@ -126,15 +126,15 @@ export function login(action: string, _method: HttpMethod, data: TODO): Promise<
     if (data.username === "admin@test.com" && data.password === "password") {
       const { accessToken: accessToken, user } = ds.token;
       setTimeout(resolve, 200, {
-        data: {
-          accessToken: accessToken,
+        // data: {
+          token: accessToken,
           user,
-        },
+        // },
       });
     } else {
       _reject({
         code: 403,
-        text: "Your name or password is wrong",
+         error: "Your name or password is wrong",
       });
     }
   });

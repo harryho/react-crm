@@ -1,26 +1,22 @@
-import React, { useRef } from "react";
+import React, { useRef } from 'react';
 // import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
-import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
+import ThemeDefault from '../theme-default';
+import { Formik, Form, Field } from 'formik';
+import { TextField } from 'formik-material-ui';
 
-// import Card, { CardHeader, CardMedia, CardContent, CardActions } from "@material-ui/core/Card";
-import { Link } from "react-router-dom";
-import ThemeDefault from "../theme-default";
+import { grey, common } from '@material-ui/core/colors';
+import { LinearProgress } from '@material-ui/core';
 
-// import { FormsyText } from "formsy-material-ui/lib";
-// import Formsy from "formsy-react";
-import { Formik, Form, Field } from "formik";
-import { TextField } from "formik-material-ui";
-
-import { grey, common } from "@material-ui/core/colors";
-
-const grey500 = grey["500"];
+const grey500 = grey['500'];
 const white = common.white;
 const styles = {
   paperStyle: {
     width: 300,
-    margin: "auto",
+    margin: 'auto',
     padding: 20,
   },
   switchStyle: {
@@ -32,31 +28,31 @@ const styles = {
   loginContainer: {
     minWidth: 320,
     maxWidth: 400,
-    height: "auto",
-    position: "absolute" as TODO,
-    top: "20%",
+    height: 'auto',
+    position: 'absolute' as TODO,
+    top: '20%',
     left: 0,
     right: 0,
-    margin: "auto",
+    margin: 'auto',
   },
   formHeader: {
-    color: "blue",
-    fontColor: "navy",
+    color: 'blue',
+    fontColor: 'navy',
     fontSize: 20,
     maxWidth: 500,
   },
   ListSubheader: {
-    color: "navy",
-    fontColor: "navy",
+    color: 'navy',
+    fontColor: 'navy',
     fontSize: 16,
     maxWidth: 500,
   },
   paper: {
     padding: 20,
-    overflow: "auto",
+    overflow: 'auto',
   },
   buttonsDiv: {
-    textAlign: "center",
+    textAlign: 'center',
     padding: 10,
   },
   Button: {
@@ -64,7 +60,7 @@ const styles = {
   },
   checkRemember: {
     style: {
-      float: "left",
+      float: 'left',
       maxWidth: 180,
       paddingTop: 5,
     },
@@ -78,10 +74,10 @@ const styles = {
     },
   },
   loginBtn: {
-    float: "right" as TODO,
+    float: 'right' as TODO,
   },
   btn: {
-    background: "#4f81e9",
+    background: '#4f81e9',
     color: white,
     padding: 7,
     borderRadius: 2,
@@ -89,10 +85,10 @@ const styles = {
     fontSize: 13,
   },
   btnFacebook: {
-    background: "#4f81e9",
+    background: '#4f81e9',
   },
   btnGoogle: {
-    background: "#e14441",
+    background: '#e14441',
   },
   btnSpan: {
     marginLeft: 5,
@@ -112,29 +108,8 @@ interface SignInState {
   errorMessage?: string;
 }
 
-// class SignInPage extends React.Component {
-// class SignInPage extends React.Component<SignInPageProps, SignInState> {
-  const SignInPage: React.FC<SignInPageProps> = ({
-    errorMessage,
-    onSignInClick,
-  }) => {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     canSubmit: false,
-  //     username: "Admin@test.com",
-  //     password: "password",
-  //     formError: "",
-  //     errorMessage: "", //props.errorMessage,
-  //   };
-  //   this.handleClick = this.handleClick.bind(this);
-  //   this.handleChange = this.handleChange.bind(this);
-  //   this.enableButton = this.enableButton.bind(this);
-  //   this.notifyFormError = this.notifyFormError.bind(this);
-  //   this.disableButton = this.disableButton.bind(this);
-  // }
-
-  const handleClick = (event) =>{
+const SignInPage: React.FC<SignInPageProps> = ({ errorMessage, onSignInClick }) => {
+  const handleClick = event => {
     event.preventDefault();
     // const username = this.refs.username;
     // const password = this.refs.password;
@@ -144,13 +119,13 @@ interface SignInState {
     //   password: password.getValue().trim(),
     // };
     // this.props.onSignInClick(creds);
-  }
+  };
 
   // handleChange(e: React.ChangeEvent<unknown>, value: string) {
-    // e.target.classList.add("active");
-    // this.setState({
-    //   [e.target.name]: e.target.value,
-    // });
+  // e.target.classList.add("active");
+  // this.setState({
+  //   [e.target.name]: e.target.value,
+  // });
   // }
 
   // enableButton() {
@@ -170,48 +145,44 @@ interface SignInState {
   // }
 
   // render() {
-    // const { errorMessage } = this.props;
+  // const { errorMessage } = this.props;
 
-    return (
-      <MuiThemeProvider theme={ThemeDefault}>
-        <div>
-          <div style={styles.loginContainer}>
-            <Paper style={styles.paper}>
-              <p style={styles.formHeader}>React Redux CRM</p>
-              <p style={styles.ListSubheader}>Version 1.1.0</p>
-              <Formik
-                initialValues={{
-                  username: "Admin@test.com",
-                  password: "password",
-                }}
-                validate={(values) => {
-                  const errors: Partial<SignInState> = {};
-                  if (!values.username) {
-                    errors.username = "Required";
-                  } else if (
-                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
-                      values.username
-                    )
-                  ) {
-                    errors.username = "Invalid email address";
-                  }
-                  return errors;
-                }}
-                onSubmit={(values, { setSubmitting }) => {
-                  // event.preventDefault();
-                  setTimeout(() => {
-                    setSubmitting(false);
-                    alert(JSON.stringify(values, null, 2));
-                  }, 1500);
-                }}
-              >
-                {({ submitForm, isSubmitting }) => (
-                  <Form
-                  // onValid={this.enableButton}
-                  // onInvalid={this.disableButton}
-                  // onValidSubmit={this.handleClick}
-                  // onInvalidSubmit={this.notifyFormError}
-                  >
+  return (
+    <MuiThemeProvider theme={ThemeDefault}>
+      <div>
+        <div style={styles.loginContainer}>
+          <Paper style={styles.paper}>
+            <p style={styles.formHeader}>React Redux CRM</p>
+            <p style={styles.ListSubheader}>Version 1.1.0</p>
+            <Formik
+              initialValues={{
+                username: 'admin@test.com',
+                password: 'password',
+              }}
+              validate={values => {
+                const errors: Partial<SignInState> = {};
+                if (!values.username) {
+                  errors.username = 'Required';
+                } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.username)) {
+                  errors.username = 'Invalid email address';
+                }
+
+                if (!values.password) {
+                  errors.password = 'Required';
+                }
+                return errors;
+              }}
+              onSubmit={(values, { setSubmitting }) => {
+                onSignInClick(values);
+                setTimeout(() => {
+                  setSubmitting(false);
+                  console.log(JSON.stringify(values, null, 2));
+                }, 500);
+              }}
+            >
+              {({ submitForm, isSubmitting }) => (
+                <Form>
+                  <div>
                     <Field
                       variant="outlined"
                       component={TextField}
@@ -225,13 +196,16 @@ interface SignInState {
                         isEmail: true,
                       }}
                       validationerrors={{
-                        isEmail: "Please provide a valid email",
-                        isDefaultRequiredValue: "This is a required field",
+                        isEmail: 'Please provide a valid email',
+                        isDefaultRequiredValue: 'This is a required field',
                       }}
                       required
                     />
+                  </div>
+                  <br />
+                  <div>
                     <Field
-                    variant="outlined"
+                      variant="outlined"
                       component={TextField}
                       hinttext="Password"
                       // ref={this.password}
@@ -244,46 +218,38 @@ interface SignInState {
                         minLength: 3,
                       }}
                       validationerrors={{
-                        minLength: "Please provide a valid password",
-                        isDefaultRequiredValue: "This is a required field",
+                        minLength: 'Please provide a valid password',
+                        isDefaultRequiredValue: 'This is a required field',
                       }}
                       required
                     />
-
-                    <div>
-                      <Link to="/">
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          // onClick={this.handleClick}
-                          onClick={submitForm}
-                          style={styles.loginBtn}
-                          //disabled={!this.state.canSubmit}
-                          disabled={isSubmitting}
-                        >
-                          SignIn
-                        </Button>
-                      </Link>
-                    </div>
-                    <div>
-                      {errorMessage && (
-                        <p style={{ color: "red" }}>{errorMessage}</p>
-                      )}
-                    </div>
-                  </Form>
-                )}
-              </Formik>
-            </Paper>
-          </div>
+                  </div>
+                  {isSubmitting && <LinearProgress />}
+                  <br />
+                  <div>
+                    <Link to="/">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        // onClick={this.handleClick}
+                        onClick={submitForm}
+                        style={styles.loginBtn}
+                        //disabled={!this.state.canSubmit}
+                        disabled={isSubmitting}
+                      >
+                        SignIn
+                      </Button>
+                    </Link>
+                  </div>
+                  <div>{errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}</div>
+                </Form>
+              )}
+            </Formik>
+          </Paper>
         </div>
-      </MuiThemeProvider>
-    )
-  }
-
-
-// SignInPage.propTypes = {
-//   onSignInClick: func.isRequired,
-//   errorMessage: string
-// };
+      </div>
+    </MuiThemeProvider>
+  );
+};
 
 export default SignInPage;

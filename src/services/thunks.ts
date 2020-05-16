@@ -26,39 +26,39 @@ function exampleAPI() {
 }
 
 
-export const thunkAuth= (
+export const thunkAuth = (
   apiAction?: ApiAction
 ): ThunkAction<void, AppState, null, Action<string>> => async dispatch => {
   const { type, endpoint, method, data, filters } = apiAction;
-  const response = await login(endpoint, method, data)
+  let response = data
+  if (type == SIGN_IN) {
+    response = await login(endpoint, method, data)
+  }
+
   console.log(response)
+  // cosnt { user, token, error} = response;
   dispatchSignIn(dispatch, type, response);
 };
 
 
-function dispatchSignIn( dispatch, type,response) {
+function dispatchSignIn(dispatch, type, response) {
 
   switch (type) {
     case SIGN_IN:
       dispatch(
-        signIn(response.data)
+        signIn(response)
       );
       break;
     case SIGN_OUT:
       dispatch(
-         getCustomer(response.data)
-      );
-      break;
-    case DELETE_CUSTOMER:
-      dispatch(
-           deleteCustomer(response.data)
+        signOut(response)
       );
       break;
 
   }
 }
 
-export const thunkSearch = (
+export const thunkApiCall = (
   apiAction?: ApiAction
 ): ThunkAction<void, AppState, null, Action<string>> => async dispatch => {
   const { type, endpoint, method, data, filters } = apiAction;
@@ -69,7 +69,7 @@ export const thunkSearch = (
 };
 
 
-function dispatchReponse( dispatch, type,response) {
+function dispatchReponse(dispatch, type, response) {
 
   switch (type) {
     case LIST_CUSTOMER:
@@ -79,15 +79,14 @@ function dispatchReponse( dispatch, type,response) {
       break;
     case GET_CUSTOMER:
       dispatch(
-         getCustomer(response.data)
+        getCustomer(response.data)
       );
       break;
     case DELETE_CUSTOMER:
       dispatch(
-           deleteCustomer(response.data)
+        deleteCustomer(response.data)
       );
       break;
-
   }
 }
 

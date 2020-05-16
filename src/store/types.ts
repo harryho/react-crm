@@ -67,18 +67,19 @@ export const SIGN_OUT ="SIGN_OUT"
 export interface AuthState {
   isFetching: boolean;
   user: User,
+  token: string | undefined | null,
   isAuthenticated: boolean;
   errorMessage?: null
 } 
 interface SignInAction {
   type: typeof SIGN_IN;
-  payload: User,
+  payload: { user?:User, token?:string}
   error?: string
 }
 
 interface SignOutAction {
   type: typeof SIGN_OUT;
-  payload: User,
+  payload: { user?:User, token?:string},
   error?: string
 }
 
@@ -96,7 +97,7 @@ export interface CustomerState {
   isFetching: boolean;
   customer: Entity,
   customerList: [];
-  errorMessage?: null
+  error?: null
 }
 
 interface GetCustomerAction {

@@ -9,18 +9,24 @@ const grey600 = grey["600"];
 const styles={
   navigation: {
     fontSize: 15,
-    // fontWeight: TypographyStyle.fontWeightLight,
+    fontWeight: 400, //TypographyStyle.fontWeightLight,
     color: grey600,
     paddingBottom: 15,
     display: "block",
   },
   title: {
     fontSize: 24,
-    // fontWeight: TypographyStyle.fontWeightLight,
+    fontWeight: 500, // TypographyStyle.fontWeightLight,
     marginBottom: 20,
   },
   paper: {
-    padding: 30,
+    padding: 10,
+  },
+  main:{
+    padding: 40
+  },
+  clear: {
+    clear: "both" as TODO
   }
 }
 
@@ -32,12 +38,10 @@ interface PageBaseProps  {
 
 
 
-const PageBase: React.FC<PageBaseProps> = ({ title, navigation, children }) => {
-// const PageBase = props => {
-  // const { title, navigation } = props;
-
+const PageBase: React.FC<PageBaseProps> = 
+({ title, navigation, children }) => {
   return (
-    <div>
+    <div style={styles.main}>
       <span style={styles.navigation}>{navigation}</span>
 
       <Paper style={styles.paper}>
@@ -46,7 +50,7 @@ const PageBase: React.FC<PageBaseProps> = ({ title, navigation, children }) => {
         <Divider />
         {children}
 
-        {/* <div style={globalStyles.clear} /> */}
+        <div style={styles.clear} />
       </Paper>
     </div>
   );

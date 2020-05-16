@@ -17,8 +17,8 @@ import { teal, pink, grey, blue, common } from "@material-ui/core/colors";
 import { Typography, ListItemIcon, Menu } from "@material-ui/core";
 
 const white = common.white;
-const blue600 = blue["600"];
-const grey900 = grey['500'];
+const blue600 = blue["900"];
+const grey900 = grey['600'];
 const drawerWidth = 250;
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -31,8 +31,12 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 40,
     height: 56,
   },
+  user:{
+    fontSize: 22,
+    color: common.white,
+  },
   menuItem: {
-    color: white,
+    color: blue600,
     fontWeight: 500,
     paddingTop: "0.2em",
     paddingBottom: "0.2em",
@@ -64,12 +68,12 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
     color: "darkgrey",
     // backgroundColor: "rgba(227, 231, 232, 0.63)",
-    backgroundColor:  grey900 ,
+    backgroundColor:  blue600 ,
     overflow: "auto",
   },
   drawerPaper: {
     // width: drawerWidth,
-    backgroundColor:  grey900 ,// "rgba(227, 231, 232, 0.63)",
+    backgroundColor:  "rgba(227, 231, 232, 0.63)",
     overflow: "auto",
   },
 }));
@@ -113,19 +117,19 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({
       classes={{
         paper: styles.drawerPaper,
       }}
-      className={styles.drawer}
+      className={styles.drawerPaper}
     >
       <div className={styles.avatarDiv}>
         <Avatar src="assets/img/avatar0.png" className={styles.avatarIcon} />
         <span className={styles.avatarSpan}>
-          <Typography variant="inherit"> {username}</Typography>
+          <Typography className={styles.user} variant="inherit"> {username}</Typography>
 
           <IconButton
             aria-label="account of current user"
             aria-controls="menu-appbar"
             aria-haspopup="true"
             onClick={handleMenu}
-            color="inherit"
+            color="secondary"
           >
             <ContentFilter />
           </IconButton>
