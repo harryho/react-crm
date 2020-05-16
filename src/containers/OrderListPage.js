@@ -327,7 +327,7 @@ class OrderListPage extends React.Component {
                   {/*<TableRowColumn style={styles.columns.price}>{item.quantity * item.price}</TableRowColumn>*/}
                   <TableRowColumn style={styles.columns.category}>
                     {item.customer
-                      ? item.customer.firstName + " " + item.customer.lastName
+                      ? item.customer.firstname + " " + item.customer.lastname
                       : ""}
                   </TableRowColumn>
                   <TableRowColumn style={styles.columns.edit}>

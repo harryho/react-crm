@@ -6,7 +6,11 @@ import { callApi, login } from "../middleware/api";
 import { listCustomers, getCustomer, deleteCustomer } from "../actions/customer";
 import { signIn, signOut } from "../actions/auth";
 
-import { LIST_CUSTOMER, GET_CUSTOMER, DELETE_CUSTOMER, ApiAction, SIGN_IN, SIGN_OUT } from "../store/types";
+import { LIST_CUSTOMER, 
+  GET_CUSTOMER, DELETE_CUSTOMER, ApiAction, SIGN_IN, SIGN_OUT, UPDATE_CUSTOMER, NEW_CUSTOMER 
+  , NewAction
+} from "../store/types";
+import { Customer } from "../types";
 
 export const thunkSendMessage = (
   message: string
@@ -58,15 +62,8 @@ function dispatchSignIn(dispatch, type, response) {
   }
 }
 
-export const thunkApiCall = (
-  apiAction?: ApiAction
-): ThunkAction<void, AppState, null, Action<string>> => async dispatch => {
-  const { type, endpoint, method, data, filters } = apiAction;
-  const response = await callApi(endpoint, method, data, filters)
-  console.log(response)
+const isNewAction = (x: any): x is NewAction => x.toString().startsWith("NEW_")
 
-  dispatchReponse(dispatch, type, response);
-};
 
 
 function dispatchReponse(dispatch, type, response) {
@@ -77,11 +74,14 @@ function dispatchReponse(dispatch, type, response) {
         listCustomers(response.data)
       );
       break;
+    case NEW_CUSTOMER:
     case GET_CUSTOMER:
+    case UPDATE_CUSTOMER:
       dispatch(
-        getCustomer(response.data)
+        getCustomer( response.data )
       );
       break;
+
     case DELETE_CUSTOMER:
       dispatch(
         deleteCustomer(response.data)
@@ -89,6 +89,30 @@ function dispatchReponse(dispatch, type, response) {
       break;
   }
 }
+
+function getNewEntity (newAction:NewAction){
+  switch(newAction){
+    case NEW_CUSTOMER:
+      return {data:{} as Customer}
+  }
+}
+
+export const thunkApiCall = (
+  apiAction?: ApiAction
+): ThunkAction<void, AppState, null, Action<string>> => async dispatch => {
+  const { type, endpoint, method, data, filters } = apiAction;
+  let response = {} as TODO ;
+  if (!isNewAction(type) ) {
+   response = await callApi(endpoint, method, data, filters)
+  }
+  else {
+    response = getNewEntity(type)
+  }
+  console.log(response)
+
+  dispatchReponse(dispatch, type, response);
+};
+
 
 
 

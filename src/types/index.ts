@@ -21,8 +21,8 @@ export interface UserInfo extends Entity {
 }
 
 export interface User extends Entity {
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
   email: string;
   avatar: string;
   mobile: string;

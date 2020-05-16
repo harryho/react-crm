@@ -15,7 +15,7 @@ declare interface Window {
   declare const process: any;
   declare const require: any;
 
-  type TODO = any;
+  declare type TODO = any;
 
   
   

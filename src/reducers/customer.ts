@@ -1,6 +1,6 @@
 import {
   CustomerState, CusomerActionTypes, 
-  ADD_CUSTOMER,
+  CREATE_CUSTOMER,
   UPDATE_CUSTOMER,
   DELETE_CUSTOMER,
   GET_CUSTOMER,
@@ -11,7 +11,7 @@ import { Entity } from '../types';
 
 export function customerReducer(
   state: CustomerState = {
-    isFetching: false,
+    isFetching: true,
     customer: {} as Entity,
     customerList: []
   },
@@ -25,21 +25,21 @@ export function customerReducer(
     //     filters: null // action.filters
     //   });
     case LIST_CUSTOMER:
-      
       return Object.assign({}, state, {
         isFetching: false,
         customerList: action.payload,
+        errorMessage: ""
         // ? JSON.parse(action.payload).filter(e => {
         //     if (action.filters) {
-        //       if (action.filters.firstName && action.filters.lastName)
+        //       if (action.filters.firstname && action.filters.lastname)
         //         return (
-        //           e.firstName.indexOf(action.filters.firstName) > -1 &&
-        //           e.lastName.indexOf(action.filters.lastName) > -1
+        //           e.firstname.indexOf(action.filters.firstname) > -1 &&
+        //           e.lastname.indexOf(action.filters.lastname) > -1
         //         );
-        //       else if (action.filters.firstName)
-        //         return e.firstName.indexOf(action.filters.firstName) > -1;
-        //       else if (action.filters.lastName)
-        //         return e.lastName.indexOf(action.filters.lastName) > -1;
+        //       else if (action.filters.firstname)
+        //         return e.firstname.indexOf(action.filters.firstname) > -1;
+        //       else if (action.filters.lastname)
+        //         return e.lastname.indexOf(action.filters.lastname) > -1;
         //     }
         //     return true"error";
         //   })
@@ -96,7 +96,7 @@ export function customerReducer(
     //   return Object.assign({}, state, {
     //     isFetching: true
     //   });
-    // case ADD_CUSTOMER:
+    // case CREATE_CUSTOMER:
     //   return Object.assign({}, state, {
     //     isFetching: false,
     //     addSuccess: true,

@@ -6,10 +6,8 @@ import { createStore, applyMiddleware } from 'redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { routes } from './routes';
 import configureStore from "./store";
-import thunkMiddleware from 'redux-thunk';
-import App from './containers/App';
-import api from './middleware/api';
-import reducers from './reducers';
+
+
 // import './index.css';
 // require("./favicon.ico");
 import './styles.scss';

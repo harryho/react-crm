@@ -2,6 +2,7 @@ import * as React from "react";
 
 const styles = {
   about: {
+    paddingTop: "3em",
     display: "grid",
     justifyContent: "center",
   },

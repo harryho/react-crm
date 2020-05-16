@@ -28,6 +28,7 @@ import { thunkApiCall } from '../services/thunks';
 import { LIST_CUSTOMER, HttpMethod } from '../store/types';
 import { Customer } from '../types';
 import { Container, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const teal500 = teal['500'];
 const pink500 = pink['500'];
@@ -48,6 +49,7 @@ interface CustomerListProps {
 
 interface CustomerListState {
   open: boolean;
+  // isFetching: boolean;
   searchOpen: boolean;
   snackbarOpen: boolean;
   autoHideDuration: 1500;
@@ -58,9 +60,10 @@ interface CustomerListState {
   customerId: null;
   dialogText: string; //'Are you sure to do this?',
   search: {
-    firstName: string;
-    lastName: string;
+    firstname: string;
+    lastname: string;
   };
+  countArray: number[]
 }
 
 class CustomerListPage extends React.Component<CustomerListProps, CustomerListState> {
@@ -74,6 +77,7 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
   }
 
   state: CustomerListState = {
+    // isFetching: true,
     open: false,
     searchOpen: false,
     snackbarOpen: false,
@@ -85,9 +89,10 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     customerList: [],
     dialogText: 'Are you sure to do this?',
     search: {
-      firstName: '',
-      lastName: '',
+      firstname: '',
+      lastname: '',
     },
+    countArray: [1,2,3,4,5]
   };
 
   apiAction = {
@@ -125,11 +130,6 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
       this.handleOpen(id);
     }
   }
-
-  // onEdit(id) {
-  //   // window.history.push(`/customer/${id}`);
-  //   // window.Location.pathname=`/customer/${id}`;
-  // }
 
   handleToggle() {
     this.setState({ searchOpen: !this.state.searchOpen } as TODO);
@@ -188,7 +188,9 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
   }
 
   render() {
-    const { errorMessage, customerList } = this.props;
+    const { errorMessage, customerList, isFetching } = this.props;
+    // const {isFetching} = this.state
+    console.log();
 
     const styles = {
       fab: {
@@ -222,20 +224,8 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
         fill: grey500,
       },
       columns: {
-        id: {
+        width10: {
           width: '10%',
-        },
-        name: {
-          width: '10%',
-        },
-        price: {
-          width: '20%',
-        },
-        category: {
-          width: '20%',
-        },
-        edit: {
-          width: '20%',
         },
       },
       dialog: {
@@ -248,7 +238,10 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
       drawer: {
         backgroundColor: 'lightgrey',
       },
-      saveButton: {},
+      row: {
+        margin: "2em",
+        width: '95%',
+      },
     };
 
     const dialogButtons = [
@@ -261,122 +254,139 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     ];
     return (
       <PageBase title={'Customers (' + customerList.length + ')'} navigation="React CRM / Customer">
-        <div>
+        {isFetching ? (
           <div>
-            <Link to="/customer">
-              <Fab size="small" color="secondary" style={styles.fab}>
-                <ContentAdd />
-              </Fab>
-            </Link>
-            // backgroundColor={teal500}
-            <Fab size="small" style={styles.fabSearch} onClick={this.handleToggle}>
-              <Search />
-            </Fab>
+                        <Skeleton variant="rect" style={styles.row} height={50} />
+                     
+            <Skeleton variant="rect" style={styles.row} height={50} />
+         
+            <Skeleton variant="rect" style={styles.row} height={50} />
+       
+            <Skeleton variant="rect" style={styles.row} height={50} />
+          
+
           </div>
-          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+        ) : (
+          <div>
+            <div>
+              <Link to="/newcustomer">
+                <Fab size="small" color="secondary" style={styles.fab}>
+                  <ContentAdd />
+                </Fab>
+              </Link>
+              <Fab size="small" style={styles.fabSearch} onClick={this.handleToggle}>
+                <Search />
+              </Fab>
+            </div>
+            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
 
-          <Snackbar
-            open={this.state.snackbarOpen}
-            message={errorMessage ? errorMessage : ''}
-            autoHideDuration={this.state.autoHideDuration}
-            onClose={this.handleSnackBarClose}
-          />
-
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell component="th" style={styles.columns.name} />
-                <TableCell style={styles.columns.name}>First Name</TableCell>
-                <TableCell style={styles.columns.name}>Last Name</TableCell>
-                <TableCell style={styles.columns.price}>Rewards</TableCell>
-                <TableCell style={styles.columns.category}>Membership</TableCell>
-                <TableCell style={styles.columns.edit}>Edit</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {this.state.items.length > 0 &&
-                this.state.items.map(item => (
-                  <TableRow key={item.id}>
-                    <TableCell style={styles.columns.name}>
-                      <img width={40} src={item.avatar} />
-                    </TableCell>
-                    <TableCell style={styles.columns.name}>{item.firstName}</TableCell>
-                    <TableCell style={styles.columns.name}>{item.lastName}</TableCell>
-                    <TableCell style={styles.columns.price}>{item.rewards}</TableCell>
-                    <TableCell style={styles.columns.category}>{item.membership ? <CheckCircle /> : <Cancel />}</TableCell>
-                    <TableCell style={styles.columns.edit}>
-                      <Fab size="small" style={styles.editButton} href={`customer/${item.id}`}>
-                        <ContentCreate />
-                      </Fab>
-                      <Fab size="small" style={styles.deleteButton} onClick={() => this.onDelete(item.id)}>
-                        <ActionDelete />
-                      </Fab>
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-
-          <Container maxWidth="xs" style={{ paddingTop: '1em' }}>
-            <Pagination
-              count={this.state.totalPages}
-              page={this.state.page}
-              variant="outlined"
-              color="primary"
-              onChange={this.onPageChange}
-            />
-          </Container>
-
-          <React.Fragment>
-            <Dialog
-              key="alert-dialog"
-              title="Confirm Dialog "
-              style={styles.dialog}
-              open={this.state.open}
-              onClick={() => this.handleClose(false)}
-            >
-              <DialogTitle key="alert-dialog-title">{'Alert'}</DialogTitle>
-
-              <DialogContent key="alert-dialog-content">
-                <DialogContentText key="alert-dialog-description">{this.state.dialogText}</DialogContentText>
-              </DialogContent>
-
-              <DialogActions key="alert-dialog-action">{dialogButtons}</DialogActions>
-            </Dialog>
-          </React.Fragment>
-          <Drawer anchor="right" open={this.state.searchOpen} onClose={this.handleToggle}>
-            <AppBar title="AppBar" />
-            <Button variant="contained" style={styles.saveButton} onClick={this.handleSearch} color="secondary">
-              Search
-            </Button>
-
-            <TextField
-              placeholder="First Name"
-              label="First Name"
-              name="firstName"
-              fullWidth={true}
-              value={this.state.search.firstName}
-              onChange={this.handleSearchFilter}
+            <Snackbar
+              open={this.state.snackbarOpen}
+              message={errorMessage ? errorMessage : ''}
+              autoHideDuration={this.state.autoHideDuration}
+              onClose={this.handleSnackBarClose}
             />
 
-            <TextField
-              placeholder="Last Name"
-              label="Last Name"
-              fullWidth={true}
-              name="lastName"
-              value={this.state.search.lastName}
-              onChange={this.handleSearchFilter}
-            />
-          </Drawer>
-        </div>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell component="th" style={styles.columns.width10} />
+                  <TableCell style={styles.columns.width10}>First Name</TableCell>
+                  <TableCell style={styles.columns.width10}>Last Name</TableCell>
+                  <TableCell style={styles.columns.width10}>Email</TableCell>
+                  <TableCell style={styles.columns.width10}>Mobile</TableCell>
+                  <TableCell style={styles.columns.width10}>Rewards</TableCell>
+                  <TableCell style={styles.columns.width10}>Membership</TableCell>
+                  <TableCell style={styles.columns.width10}>Edit</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {this.state.items.length > 0 &&
+                  this.state.items.map(item => (
+                    <TableRow key={item.id}>
+                      <TableCell style={styles.columns.width10}>
+                        <img width={40} src={item.avatar} />
+                      </TableCell>
+                      <TableCell style={styles.columns.width10}>{item.firstname}</TableCell>
+                      <TableCell style={styles.columns.width10}>{item.lastname}</TableCell>
+                      <TableCell style={styles.columns.width10}>{item.email}</TableCell>
+                      <TableCell style={styles.columns.width10}>{item.mobile}</TableCell>
+                      <TableCell style={styles.columns.width10}>{item.rewards}</TableCell>
+                      <TableCell style={styles.columns.width10}>{item.membership ? <CheckCircle /> : <Cancel />}</TableCell>
+                      <TableCell style={styles.columns.width10}>
+                        <Fab size="small" style={styles.editButton} href={`customer/${item.id}`}>
+                          <ContentCreate />
+                        </Fab>
+                        <Fab size="small" style={styles.deleteButton} onClick={() => this.onDelete(item.id)}>
+                          <ActionDelete />
+                        </Fab>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+
+            <Container maxWidth="xs" style={{ paddingTop: '1em' }}>
+              <Pagination
+                count={this.state.totalPages}
+                page={this.state.page}
+                variant="outlined"
+                color="primary"
+                onChange={this.onPageChange}
+              />
+            </Container>
+
+            <React.Fragment>
+              <Dialog
+                key="alert-dialog"
+                title="Confirm Dialog "
+                style={styles.dialog}
+                open={this.state.open}
+                onClick={() => this.handleClose(false)}
+              >
+                <DialogTitle key="alert-dialog-title">{'Alert'}</DialogTitle>
+
+                <DialogContent key="alert-dialog-content">
+                  <DialogContentText key="alert-dialog-description">{this.state.dialogText}</DialogContentText>
+                </DialogContent>
+
+                <DialogActions key="alert-dialog-action">{dialogButtons}</DialogActions>
+              </Dialog>
+            </React.Fragment>
+            <Drawer anchor="right" open={this.state.searchOpen} onClose={this.handleToggle}>
+              <AppBar title="AppBar" />
+              <Button variant="contained" onClick={this.handleSearch} color="secondary">
+                Search
+              </Button>
+
+              <TextField
+                placeholder="First Name"
+                label="First Name"
+                name="firstname"
+                fullWidth={true}
+                value={this.state.search.firstname}
+                onChange={this.handleSearchFilter}
+              />
+
+              <TextField
+                placeholder="Last Name"
+                label="Last Name"
+                fullWidth={true}
+                name="lastname"
+                value={this.state.search.lastname}
+                onChange={this.handleSearchFilter}
+              />
+            </Drawer>
+          </div>
+        )}
       </PageBase>
     );
   }
 }
 
 function mapStateToProps(state) {
-  const { customer } = state;
-  const { customerList, isFetching, errorMessage, user } = customer;
+  // const { customer } = state;
+  const { customerList, isFetching, errorMessage, user } = state.customer;
 
   return {
     customerList,

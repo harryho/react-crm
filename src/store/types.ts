@@ -89,7 +89,7 @@ export const LIST_CUSTOMER = "LIST_CUSTOMER";
 export const GET_CUSTOMER = "GET_CUSTOMER";
 export const NEW_CUSTOMER = "NEW_CUSTOMER";
 export const UPDATE_CUSTOMER = "UPDATE_CUSTOMER";
-export const ADD_CUSTOMER = "ADD_CUSTOMER";
+export const CREATE_CUSTOMER = "CREATE_CUSTOMER";
 export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
 
 
@@ -129,6 +129,14 @@ interface DeleteCustomerAction {
   error?: string
 }
 
+export type CustomerActions = typeof LIST_CUSTOMER | typeof GET_CUSTOMER
+ | typeof NEW_CUSTOMER  | typeof UPDATE_CUSTOMER | typeof CREATE_CUSTOMER | typeof DELETE_CUSTOMER
+
 export type CusomerActionTypes = NewCustomerAction | GetCustomerAction |
   ListCustomerAction | UpdateCustomerAction | DeleteCustomerAction;
 
+
+
+
+
+export type NewAction = typeof NEW_CUSTOMER 

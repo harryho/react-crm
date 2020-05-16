@@ -12,6 +12,7 @@ import ContentFilter from "@material-ui/icons/FilterList";
 
 import SettingsPower from "@material-ui/icons/SettingsPower";
 import VpnKey from "@material-ui/icons/VpnKey";
+
 import { makeStyles } from "@material-ui/core/styles";
 import { teal, pink, grey, blue, common } from "@material-ui/core/colors";
 import { Typography, ListItemIcon, Menu } from "@material-ui/core";
@@ -105,8 +106,6 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({
     event.preventDefault();
     onLogoutClick();
   };
-  // const container =
-  //   window !== undefined ? () => window.document.body : undefined;
 
   return (
     <Drawer
@@ -149,12 +148,12 @@ const LeftDrawer: React.FC<LeftDrawerProps> = ({
             onClose={handleClose}
           >
             <MenuItem onClick={handleClick}>
-              <SettingsPower />
-              <Typography variant="inherit"> Sign Out</Typography>
+              <SettingsPower /> 
+              <Typography style={{paddingLeft:"1em"}} variant="inherit"> Sign Out</Typography>
             </MenuItem>
             <MenuItem onClick={handleClick}>
               <VpnKey />
-              <Typography variant="inherit"> Change Password</Typography>
+              <Typography style={{paddingLeft:"1em"}} variant="inherit"> Change Password</Typography>
             </MenuItem>
           </Menu>
         </span>

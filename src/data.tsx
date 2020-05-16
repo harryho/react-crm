@@ -8,9 +8,10 @@ import VpnKey from '@material-ui/icons/VpnKey';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import ChevronRight from '@material-ui/icons/ChevronRight';
-
+import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 import { cyan, pink, purple } from '@material-ui/core/colors';
-
+import StoreOutlinedIcon from '@material-ui/icons/StoreOutlined';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 const cyan600 = cyan['600'];
 const pink600 = pink['600'];
 const purple600 = purple['600'];
@@ -18,10 +19,10 @@ const purple600 = purple['600'];
 const data = {
   menus: [
     { text: "DashBoard", icon: <Assessment />, link: "/dashboard" },
-    { text: "Order", icon: <GridOn />, link: "/orders" },
+    { text: "Order", icon: <ShoppingCartOutlinedIcon />, link: "/orders" },
     { text: "Customer", icon: <PermIdentity />, link: "/customers" },
-    { text: "Product", icon: <GridOn />, link: "/products" },
-    { text: "About", icon: <Web />, link: "/about" }
+    { text: "Product", icon: <StoreOutlinedIcon />, link: "/products" },
+    { text: "About", icon: <InfoOutlinedIcon />, link: "/about" }
   ],
   signOutMenus: [
     { text: "Sign out", icon: <SettingsPower />, link: "/login" },

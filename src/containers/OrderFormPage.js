@@ -255,8 +255,8 @@ class OrderFormPage extends React.Component {
                       value={customer.id}
                       style={styles.menuItem}
                       primaryText={
-                        customer.firstName
-                          ? customer.firstName + " " + customer.lastName
+                        customer.firstname
+                          ? customer.firstname + " " + customer.lastname
                           : ""
                       }
                     />

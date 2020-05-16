@@ -22,6 +22,7 @@ import { thunkAuth } from '../services/thunks';
 import { SIGN_IN, HttpMethod, SIGN_OUT } from '../store/types';
 import CustomerListPage from './CustomerListPage';
 import CustomerFormPage from './CustomerFormPage';
+import AboutPage from './AboutPage';
 
 const routes = [
   {
@@ -108,8 +109,8 @@ class App extends React.Component<AppProps, AppState> {
   render() {
     const { isAuthenticated, errorMessage, user, isFetching, width } = this.props;
 
-    const firstName = user && user.firstName ? user.firstName : '';
-    const lastName = user && user.lastName ? user.lastName : '';
+    const firstname = user && user.firstname ? user.firstname : '';
+    const lastname = user && user.lastname ? user.lastname : '';
 
     let { navDrawerOpen } = this.state;
     const paddingLeftDrawerOpen = 240;
@@ -151,7 +152,7 @@ class App extends React.Component<AppProps, AppState> {
                 <LeftDrawer
                   navDrawerOpen={navDrawerOpen}
                   // signOutMenus={Data.signOutMenus as TODO}
-                  username={`${firstName} ${lastName}`}
+                  username={`${firstname} ${lastname}`}
                   onLogoutClick={this.signOut}
                 />
               </React.Fragment>
@@ -159,6 +160,8 @@ class App extends React.Component<AppProps, AppState> {
                 {/* {this.props.children} */}
                 <Route exact path={`/customers`} component={CustomerListPage} />
                 <Route path={`/customer/:id`} component={CustomerFormPage} />
+                <Route path={`/newcustomer/`} component={CustomerFormPage} />
+                <Route path={`/about`} component={AboutPage} />
               </div>
             </div>
           )}
