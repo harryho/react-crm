@@ -2,33 +2,27 @@ import React from 'react';
 import { Link, match, useHistory, useLocation } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Switch from '@material-ui/core/Switch';
-
+import SaveIcon from '@material-ui/icons/Save';
 import Divider from '@material-ui/core/Divider';
 import PageBase from '../components/PageBase';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { connect } from 'react-redux';
 // import { GridList, GridTile } from '@material-ui/core/GridList';
 import Card from '@material-ui/core/Card';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-import {
-  getCustomer,
-  updateCustomer,
-  //  addCustomer,
-  newCustomer,
-  getAction,
-} from '../actions/customer';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import { getAction } from '../actions/customer';
 
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
-
-// import autoBind from "react-autobind";
 
 import { grey } from '@material-ui/core/colors';
 import { thunkApiCall } from '../services/thunks';
 import { Customer, Address, User } from '../types';
 import { LinearProgress, Grid } from '@material-ui/core';
-import { GET_CUSTOMER, HttpMethod, ApiAction, NEW_CUSTOMER } from '../store/types';
+import Snackbar from '@material-ui/core/Snackbar';
+import { GET_CUSTOMER, HttpMethod, ApiAction, NEW_CUSTOMER, LIST_CUSTOMER, UPDATE_CUSTOMER, CREATE_CUSTOMER } from '../store/types';
 
 const grey400 = grey['400'];
 
@@ -66,20 +60,28 @@ const styles = {
   },
 };
 
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 interface CustomerFormProps {
   // router: object;
   match: match;
   customer: Customer;
   getCustomer: typeof thunkApiCall;
   saveCustomer: typeof thunkApiCall;
+  searchCustomer: typeof thunkApiCall;
   updateSuccess: boolean;
   addSuccess: boolean;
   errorMessage?: string;
   isFetching: boolean;
+  updated: boolean;
 }
 
 interface CustomerFormState {
   customer: Customer;
+  snackbarOpen: boolean;
+  autoHideDuration: number;
   // isFetching: boolean;
   // addSuccess:boolean,
   // updateSuccess:boolean,
@@ -98,12 +100,14 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
     this.handleClick = this.handleClick.bind(this);
     // this.enableButton = this.enableButton.bind(this);
     this.notifyFormError = this.notifyFormError.bind(this);
-    // this.disableButton = this.disableButton.bind(this);
+    this.onSnackBarClose = this.onSnackBarClose.bind(this);
   }
 
   state = {
     // isFetching: true,
     customer: {} as Customer,
+    snackbarOpen: false,
+    autoHideDuration: 2000,
   };
 
   UNSAFE_componentWillMount() {
@@ -111,37 +115,56 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
     // if (this.props.routeParams?.id)
     // this.props.getCustomer((this.props.routeParams)?.id));
     // else this.props.newCustomer();
+    // @ts-ignore
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (
-      this.props.customer &&
-      nextProps.customer
-      //  && this.props.customer?.id != nextProps.customer?.id
-    ) {
-      // this.setState({ isFetching: false });
-      this.setState({ customer: Object.assign({}, nextProps.customer) });
-    }
+  // UNSAFE_componentWillReceiveProps(nextProps) {
+  //   if (
+  //     this.props.customer &&
+  //     nextProps.customer
+  //     //  && this.props.customer?.id != nextProps.customer?.id
+  //   ) {
+  //     // this.setState({ isFetching: false });
+  //     this.setState({ customer: Object.assign({}, nextProps.customer) });
+  //   }
 
-    if ((!this.props.addSuccess && nextProps.addSuccess) || (!this.props.updateSuccess && nextProps.updateSuccess)) {
-      // this.props.router.push("/customers");
-      // let history = useHistory();
-      // history.push('/customers');
-      let location = useLocation();
-      location.pathname = '/customers';
-    }
-  }
+  //   if ((!this.props.addSuccess && nextProps.addSuccess) || (!this.props.updateSuccess && nextProps.updateSuccess)) {
+  //     // this.props.router.push("/customers");
+  //     // let history = useHistory();
+  //     // history.push('/customers');
+  //     let location = useLocation();
+  //     location.pathname = '/customers';
+  //   }
+  // }
 
   componentDidMount() {
+    console.log('componentDidMount ', this.props);
     // @ts-ignore
+    // const customerId = this.props.match.params?.id;
+    // let action = {} as ApiAction;
+    // if (customerId) {
+    //   action = getAction(GET_CUSTOMER, customerId); //  Object.assign({}, this.getAction);
+    // } else {
+    //   action = getAction(NEW_CUSTOMER);
+    // }
+    // this.props.getCustomer(action);
     const customerId = this.props.match.params?.id;
     let action = {} as ApiAction;
     if (customerId) {
       action = getAction(GET_CUSTOMER, customerId); //  Object.assign({}, this.getAction);
-    } else {
-      action = getAction(NEW_CUSTOMER);
+      this.props.getCustomer(action);
     }
-    this.props.getCustomer(action);
+    //  else {
+    //   action = getAction(NEW_CUSTOMER);
+    // }
+  }
+
+  componentDidUpdate(prevProps) {
+    console.log('componentDidUpdate ', this.props);
+    if (this.props.updated !== prevProps.updated && this.props.updated === true) {
+      this.setState({ snackbarOpen: true });
+      // this.handleSearch();
+    }
   }
 
   handleChange(event) {
@@ -164,8 +187,28 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
     // else this.props.addCustomer(this.state.customer);
   }
 
+  onSnackBarClose() {
+    this.setState({
+      snackbarOpen: false,
+    });
+  }
+
+  onSave(values: TODO) {
+    console.log(this.state.customer);
+
+    const customer = { ...this.state.customer, ...values };
+    console.log(customer);
+    let action = {} as ApiAction;
+    if (customer.id > 0) {
+      action = getAction(UPDATE_CUSTOMER, null, customer);
+    } else {
+      action = getAction(CREATE_CUSTOMER, null, customer);
+    }
+    this.props.saveCustomer(action);
+  }
+
   render() {
-    const { errorMessage, isFetching, customer  } = this.props;
+    const { errorMessage, isFetching, customer } = this.props;
     // debugger
     // const { } = this.state;
 
@@ -197,6 +240,7 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
             }}
             onSubmit={(values, { setSubmitting }) => {
               // onSignInClick(values);
+              this.onSave(values);
               setTimeout(() => {
                 setSubmitting(false);
                 console.log(JSON.stringify(values, null, 2));
@@ -231,7 +275,6 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
                       validations={{
                         isWords: true,
                       }}
-                      // value={customer.lastname ? customer.lastname : ''}
                       required
                     />
                   </Grid>
@@ -276,12 +319,22 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
                     />
                   </Grid>
                   <Grid item style={styles.cell} xs={12} md={4}>
-                    <Switch checked={customer.membership} color="primary" name="membership" inputProps={{ 'aria-label': 'membership' }} />
+                    {customer.membership && (
+                      <Switch
+                        checked={customer.membership}
+                        color="primary"
+                        name="membership
+                    "
+                        inputProps={{ 'aria-label': 'membership' }}
+                      />
+                    )}
                   </Grid>
                   <Grid item style={styles.cell} xs={12} md={4}>
-                  {customer.avatar &&   <Card style={styles.card}>
-                    <img width={100} src={customer.avatar} />
-                    </Card>}
+                    {customer.avatar && (
+                      <Card style={styles.card}>
+                        <img width={100} src={customer.avatar} />
+                      </Card>
+                    )}
                   </Grid>
                 </Grid>
                 {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
@@ -291,19 +344,27 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
                 <br />
                 <div style={styles.buttons}>
                   <Link to="/customers">
-                    <Button variant="contained">Cancel </Button>
+                    <Button variant="contained">
+                      {/* onClick={this.handleGoBack}> */}
+                      <ArrowBackIosIcon /> Back{' '}
+                    </Button>
                   </Link>
                   <Button
                     variant="contained"
                     style={styles.saveButton}
-                    type="button"
+                    // type="button"
                     onClick={submitForm}
                     color="primary"
                     disabled={isSubmitting}
                   >
-                    Save
+                    <SaveIcon /> Save
                   </Button>
                 </div>
+                <Snackbar open={this.state.snackbarOpen} autoHideDuration={this.state.autoHideDuration} onClose={this.onSnackBarClose}>
+                  <Alert onClose={this.onSnackBarClose} severity="success">
+                    Operation is done successfully!
+                  </Alert>
+                </Snackbar>
               </Form>
             )}
           </Formik>
@@ -315,27 +376,22 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
 // }
 
 function mapStateToProps(state) {
-  const {
-    customer,
-    isFetching,
-    errorMessage,
-    user,
-  } = state.customer;
+  const { customer, isFetching, errorMessage, user, updated } = state.customer;
 
   return {
     customer,
     isFetching,
     errorMessage,
     user,
+    updated,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    // newCustomer: action => dispatch(thunkApiCall(action)),
     getCustomer: action => dispatch(thunkApiCall(action)),
     saveCustomer: action => dispatch(thunkApiCall(action)),
-    // addCustomer: customer => dispatch(addCustomer(customer)),
+    searchCustomer: (action?: TODO) => dispatch(thunkApiCall(action)),
   };
 }
 

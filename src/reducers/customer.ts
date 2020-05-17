@@ -1,5 +1,5 @@
 import {
-  CustomerState, CusomerActionTypes, 
+  CustomerState, CusomerActionTypes,
   CREATE_CUSTOMER,
   UPDATE_CUSTOMER,
   DELETE_CUSTOMER,
@@ -7,28 +7,26 @@ import {
   LIST_CUSTOMER,
   NEW_CUSTOMER
 } from '../store/types';
-import { Entity } from '../types';
+import { Customer, CustomerModel } from '../types';
 
 export function customerReducer(
   state: CustomerState = {
     isFetching: true,
-    customer: {} as Entity,
-    customerList: []
+    customer: new CustomerModel("", "", "", "", "", false, 0) as Customer, // {} as Customer,
+    customerList: [],
+    deleted: false,
+    updated: false,
   },
   action: CusomerActionTypes
 ) {
   console.log(action)
   switch (action.type) {
-    // case LOAD_CUSTOMERS_REQUEST:
-    //   return Object.assign({}, state, {
-    //     isFetching: true,
-    //     filters: null // action.filters
-    //   });
     case LIST_CUSTOMER:
       return Object.assign({}, state, {
         isFetching: false,
         customerList: action.payload,
-        errorMessage: ""
+        errorMessage: "",
+        deleted: false
         // ? JSON.parse(action.payload).filter(e => {
         //     if (action.filters) {
         //       if (action.filters.firstname && action.filters.lastname)
@@ -46,84 +44,46 @@ export function customerReducer(
         // : [],
 
       });
-    // case LOAD_CUSTOMERS_FAILURE:
-    //   return Object.assign({}, state, {
-    //     isFetching: false,
-    //     errorMessage:  action.payload // action.message
-    //   });
-    // case GET_CUSTOMER_REQUEST:
-    //   return Object.assign({}, state, {
-    //     isFetching: true,
-    //     authenticated: action.authenticated || false
-    //   });
     case NEW_CUSTOMER:
+      return Object.assign({}, state, {
+        isFetching: false,
+        customer: action.payload, // new CustomerModel("","","","","",false,0) as Customer, 
+        errorMessage: action.error,
+        deleted: false,
+        updated: false,
+      });
     case GET_CUSTOMER:
+      return Object.assign({}, state, {
+        isFetching: false,
+        customer: action.payload,
+        errorMessage: action.error,
+        deleted: false,
+        updated: false
+      });
+    case CREATE_CUSTOMER:
       // return Object.assign({}, state, {
       //   isFetching: false,
       //   customer: action.payload,
-      //   errorMessage: action.error
+      //   errorMessage: action.error,
+      //   deleted: false,
+      //   updated: false
       // });
-    // case GET_CUSTOMER_FAILURE:
-    //   return Object.assign({}, state, {
-    //     isFetching: false,
-    //     errorMessage: action.message
-    //   });
-    // case UPDATE_CUSTOMER_REQUEST:
-    //   return Object.assign({}, state, {
-    //     isFetching: true
-    //   });
     case UPDATE_CUSTOMER:
       return Object.assign({}, state, {
         isFetching: false,
         customer: action.payload,
-        errorMessage: action.error
+        errorMessage: action.error,
+        deleted: false,
+        updated: true
       });
-    // case UPDATE_CUSTOMER_FAILURE:
-    //   return Object.assign({}, state, {
-    //     isFetching: false,
-    //     customer: {},
-    //     errorMessage: action.error.statusText || action.error.status,
-    //     updateSuccess: false,
-    //     updateError: action.message
-    //   });
-    // case NEW_CUSTOMER_REQUEST:
-    //   return Object.assign({}, state, {
-    //     isFetching: false,
-    //     customer: {},
-    //     errorMessage: action.message
-    //   });
-    // case ADD_CUSTOMER_REQUEST:
-    //   return Object.assign({}, state, {
-    //     isFetching: true
-    //   });
-    // case CREATE_CUSTOMER:
-    //   return Object.assign({}, state, {
-    //     isFetching: false,
-    //     addSuccess: true,
-    //     authenticated: action.authenticated || false
-    //   });
-    // case ADD_CUSTOMER_FAILURE:
-    //   return Object.assign({}, state, {
-    //     isFetching: false,
-    //     errorMessage: action.error.statusText || action.error.status,
-    //     addSuccess: false
-    //   });
-    // case DELETE_CUSTOMER_REQUEST:
-    //   return Object.assign({}, state, {
-    //     isFetching: true
-    //   });
     case DELETE_CUSTOMER:
       return Object.assign({}, state, {
         isFetching: false,
-        errorMessage: action.error
-        
+        errorMessage: action.error,
+        deleted: !action.error && action.payload ? true : false,
+        updated: false
       });
-    // case DELETE_CUSTOMER_FAILURE:
-    //   return Object.assign({}, state, {
-    //     isFetching: false,
-    //     errorMessage: action.error.statusText || action.error.status,
-    //     deleteSuccess: false
-    //   });
+
     default:
       return state;
   }

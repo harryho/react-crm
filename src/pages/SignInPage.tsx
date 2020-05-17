@@ -97,7 +97,7 @@ const styles = {
 
 interface SignInPageProps {
   onSignInClick: (credential: TODO) => void;
-  errorMessage: string;
+  // errorMessage?: string;
 }
 
 interface SignInState {
@@ -108,7 +108,9 @@ interface SignInState {
   errorMessage?: string;
 }
 
-const SignInPage: React.FC<SignInPageProps> = ({ errorMessage, onSignInClick }) => {
+const SignInPage: React.FC<SignInPageProps> = ({
+  //  errorMessage,
+    onSignInClick }) => {
   const handleClick = event => {
     event.preventDefault();
     // const username = this.refs.username;
@@ -241,7 +243,7 @@ const SignInPage: React.FC<SignInPageProps> = ({ errorMessage, onSignInClick }) 
                       </Button>
                     </Link>
                   </div>
-                  <div>{errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}</div>
+                  {/* <div>{errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}</div> */}
                 </Form>
               )}
             </Formik>

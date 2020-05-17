@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
@@ -25,10 +25,11 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { teal, pink, grey, green, common } from '@material-ui/core/colors';
 import { sendMessage } from '../store/actions';
 import { thunkApiCall } from '../services/thunks';
-import { LIST_CUSTOMER, HttpMethod, DELETE_CUSTOMER } from '../store/types';
+import { LIST_CUSTOMER, HttpMethod, DELETE_CUSTOMER, NEW_CUSTOMER } from '../store/types';
 import { Customer } from '../types';
 import { Container, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 
 const teal500 = teal['500'];
 const pink500 = pink['500'];
@@ -36,23 +37,29 @@ const grey500 = grey['500'];
 const green400 = green['400'];
 const white = common.white;
 
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 interface CustomerListProps {
   pageCount: number;
   isFetching: boolean;
   customerList: Customer[];
   searchCustomer: typeof thunkApiCall;
-  deleteCustomer: typeof deleteCustomer;
+  deleteCustomer: typeof thunkApiCall;
+  newCustomer: typeof thunkApiCall;
   sendMessage: typeof sendMessage;
   deleteSuccess: boolean;
   errorMessage: string;
+  deleted: boolean;
 }
 
 interface CustomerListState {
   open: boolean;
-  // isFetching: boolean;
+  isFetching: boolean;
   searchOpen: boolean;
   snackbarOpen: boolean;
-  autoHideDuration: 1500;
+  autoHideDuration: number;
   page: number;
   items: Customer[];
   customerList: Customer[];
@@ -73,14 +80,16 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     this.handleSearch = this.handleSearch.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.onPageChange = this.onPageChange.bind(this);
+    this.onSnackBarClose = this.onSnackBarClose.bind(this);
+    this.handleNewCustomer = this.handleNewCustomer.bind(this)
   }
 
   state: CustomerListState = {
-    // isFetching: true,
+    isFetching: true,
     open: false,
     searchOpen: false,
     snackbarOpen: false,
-    autoHideDuration: 1500,
+    autoHideDuration: 2000,
     page: 1,
     items: [],
     totalPages: 1,
@@ -103,7 +112,7 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
 
   componentDidMount() {
     // this.props.searchCustomer(this.apiAction);
-  this.handleSearch();
+    this.handleSearch();
   }
 
   /* eslint-disable */
@@ -114,7 +123,14 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
       const page = 1;
       const totalPages = Math.ceil(this.props.customerList.length / 10);
       const items = this.props.customerList.slice(0, 10);
-      this.setState({ page, totalPages, items });
+      const isFetching = this.props.isFetching
+      this.setState({ page, totalPages, items, isFetching });
+    }
+    console.log(' this.props.deleted ' + this.props.deleted);
+
+    if (this.props.deleted !== prevProps.deleted && this.props.deleted === true) {
+      this.setState({ snackbarOpen: true });
+      this.handleSearch();
     }
   }
 
@@ -128,8 +144,6 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
   onDelete(id) {
     if (id) {
       this.handleOpen(id);
-    
-
     }
   }
 
@@ -138,8 +152,8 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
   }
 
   handleSearch() {
-    this.setState({ searchOpen: false });
-    const action = getAction(LIST_CUSTOMER, null, null, "")
+    this.setState({ searchOpen: false, isFetching: true });
+    const action = getAction(LIST_CUSTOMER, null, null, '');
     this.props.searchCustomer(action); //this.state.search);
   }
 
@@ -153,7 +167,7 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     this.setState({ open: false });
 
     if (isConfirmed && this.state.customerId) {
-      const action = getAction(DELETE_CUSTOMER, this.state.customerId, null, "")
+      const action = getAction(DELETE_CUSTOMER, this.state.customerId, null, '');
       this.props.deleteCustomer(action);
       // this.props.deleteCustomer(this.state.customerId);
       this.setState({ customerId: null });
@@ -175,26 +189,34 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     });
   }
 
-  handleSnackBarClose() {
+  onSnackBarClose() {
     this.setState({
       snackbarOpen: false,
     });
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps && nextProps.errorMessage && !nextProps.deleteSuccess) {
-      this.setState({ snackbarOpen: true });
-    }
+  handleNewCustomer(){
+    const action = getAction(NEW_CUSTOMER);
+    this.props.newCustomer(action);
+    // @ts-ignore
+    this.props.history.push("/newcustomer")
+  }
 
-    if (!this.props.deleteSuccess && nextProps.deleteSuccess && !nextProps.errorMessage && !nextProps.isFetching) {
-      // this.props.searchCustomer(this.apiAction);
-      this.handleSearch()
-    }
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    // if (nextProps && nextProps.errorMessage && !nextProps.deleteSuccess) {
+    //   this.setState({ snackbarOpen: true });
+    // }
+
+    // if (!this.props.deleteSuccess && nextProps.deleteSuccess && !nextProps.errorMessage && !nextProps.isFetching) {
+    //   // this.props.searchCustomer(this.apiAction);
+    //   this.handleSearch()
+    // }
   }
 
   render() {
-    const { errorMessage, customerList, isFetching } = this.props;
-    // const {isFetching} = this.state
+    const { errorMessage, customerList,  deleted } = this.props;
+    const {isFetching} = this.state;
+
     console.log();
 
     const styles = {
@@ -244,7 +266,7 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
         backgroundColor: 'lightgrey',
       },
       row: {
-        margin: '2em',
+        margin: '1.5em',
         width: '95%',
       },
     };
@@ -270,23 +292,22 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
         ) : (
           <div>
             <div>
-              <Link to="/newcustomer">
-                <Fab size="small" color="secondary" style={styles.fab}>
+              {/* <Link to="/newcustomer"> */}
+                <Fab size="small" color="secondary" style={styles.fab} onClick={this.handleNewCustomer} >
                   <ContentAdd />
                 </Fab>
-              </Link>
+              {/* </Link> */}
               <Fab size="small" style={styles.fabSearch} onClick={this.handleToggle}>
                 <Search />
               </Fab>
             </div>
-            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+            {/* {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} */}
 
-            <Snackbar
-              open={this.state.snackbarOpen}
-              message={errorMessage ? errorMessage : ''}
-              autoHideDuration={this.state.autoHideDuration}
-              onClose={this.handleSnackBarClose}
-            />
+            <Snackbar open={this.state.snackbarOpen} autoHideDuration={this.state.autoHideDuration} onClose={this.onSnackBarClose}>
+              <Alert onClose={this.onSnackBarClose} severity="success">
+                Operation is done successfully!
+              </Alert>
+            </Snackbar>
 
             <Table size="small">
               <TableHead>
@@ -386,20 +407,22 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
 
 function mapStateToProps(state) {
   // const { customer } = state;
-  const { customerList, isFetching, errorMessage, user } = state.customer;
+  const { customerList, isFetching, errorMessage, user, deleted } = state.customer;
 
   return {
     customerList,
     isFetching,
     errorMessage,
     user,
+    deleted,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     searchCustomer: (action?: TODO) => dispatch(thunkApiCall(action)),
-    deleteCustomer: (id: TODO) => dispatch(thunkApiCall(id)),
+    deleteCustomer: (action: TODO) => dispatch(thunkApiCall(action)),
+    newCustomer: (action?: TODO) => dispatch(thunkApiCall(action)),
     sendMessage,
   };
 }

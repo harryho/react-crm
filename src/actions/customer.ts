@@ -26,6 +26,13 @@ export function getCustomer(result?: TODO) {
   }
 }
 
+export function createCustomer(result?: TODO) {
+  return {
+    type: CREATE_CUSTOMER,
+    payload: result
+  }
+}
+
 export function updateCustomer(result?: TODO) {
   return {
     type: UPDATE_CUSTOMER,
@@ -44,8 +51,8 @@ export function deleteCustomer(id) {
 export function newCustomer(result?: TODO) {
   return {
     type: NEW_CUSTOMER,
-    payload: result?.data,
-    errorMessage: result?.error
+    payload: result,
+    // errorMessage: result?.error
   };
 }
 
@@ -56,7 +63,7 @@ export function getAction(action: CustomerActions,
     case NEW_CUSTOMER:
       return {
         type: NEW_CUSTOMER,
-        endpoint: 'customer/',
+        endpoint: 'customers/',
         method: HttpMethod.GET,
       }
     case GET_CUSTOMER:
@@ -74,21 +81,21 @@ export function getAction(action: CustomerActions,
     case UPDATE_CUSTOMER:
       return {
         type: UPDATE_CUSTOMER,
-        endpoint: 'customer/',
+        endpoint: 'customers/',
         method: HttpMethod.PUT,
         data
       }
     case CREATE_CUSTOMER:
       return {
         type: CREATE_CUSTOMER,
-        endpoint: 'customer/',
+        endpoint: 'customers/',
         method: HttpMethod.POST,
         data
       }
     case DELETE_CUSTOMER:
       return {
         type: DELETE_CUSTOMER,
-        endpoint: 'customer/' + id,
+        endpoint: 'customers/' + id,
         method: HttpMethod.DELETE,
 
       }

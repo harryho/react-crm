@@ -3,37 +3,39 @@ import { ThunkAction } from "redux-thunk";
 import { sendMessage } from "../store/actions";
 import { AppState } from "../store";
 import { callApi, login } from "../middleware/api";
-import { listCustomers, getCustomer, deleteCustomer } from "../actions/customer";
+import { listCustomers, getCustomer, deleteCustomer, newCustomer, updateCustomer, createCustomer } from "../actions/customer";
 import { signIn, signOut } from "../actions/auth";
 
 import { LIST_CUSTOMER, 
   GET_CUSTOMER, DELETE_CUSTOMER, ApiAction, SIGN_IN, SIGN_OUT, UPDATE_CUSTOMER, NEW_CUSTOMER 
-  , NewAction
+  , NewAction,
+  CREATE_CUSTOMER
 } from "../store/types";
-import { Customer } from "../types";
+import { Customer, CustomerModel } from "../types";
 
-export const thunkSendMessage = (
-  message: string
-): ThunkAction<void, AppState, null, Action<string>> => async dispatch => {
-  const asyncResp = await exampleAPI();
-  dispatch(
-    sendMessage({
-      message,
-      user: asyncResp,
-      timestamp: new Date().getTime()
-    })
-  );
-};
+// export const thunkSendMessage = (
+//   message: string
+// ): ThunkAction<void, AppState, null, Action<string>> => async dispatch => {
+//   const asyncResp = await exampleAPI();
+//   dispatch(
+//     sendMessage({
+//       message,
+//       user: asyncResp,
+//       timestamp: new Date().getTime()
+//     })
+//   );
+// };
 
-function exampleAPI() {
-  return Promise.resolve("Async Chat Bot");
-}
+// function exampleAPI() {
+//   return Promise.resolve("Async Chat Bot");
+// }
 
 
 export const thunkAuth = (
   apiAction?: ApiAction
 ): ThunkAction<void, AppState, null, Action<string>> => async dispatch => {
   const { type, endpoint, method, data, filters } = apiAction;
+  console.log(type)
   let response = data
   if (type == SIGN_IN) {
     response = await login(endpoint, method, data)
@@ -75,10 +77,23 @@ function dispatchReponse(dispatch, type, response) {
       );
       break;
     case NEW_CUSTOMER:
+      dispatch(
+        newCustomer( response.data )
+      );
+      break;
     case GET_CUSTOMER:
-    case UPDATE_CUSTOMER:
       dispatch(
         getCustomer( response.data )
+      );
+      break;
+    case CREATE_CUSTOMER:
+      dispatch(
+        createCustomer( response.data )
+      );
+      break;
+    case UPDATE_CUSTOMER:
+      dispatch(
+        updateCustomer( response.data )
       );
       break;
 
@@ -96,7 +111,7 @@ function dispatchReponse(dispatch, type, response) {
 function getNewEntity (newAction:NewAction){
   switch(newAction){
     case NEW_CUSTOMER:
-      return {data:{} as Customer}
+      return {data: new CustomerModel("","","","","",false,0) as Customer}
   }
 }
 
@@ -104,6 +119,7 @@ export const thunkApiCall = (
   apiAction?: ApiAction
 ): ThunkAction<void, AppState, null, Action<string>> => async dispatch => {
   const { type, endpoint, method, data, filters } = apiAction;
+  console.log(type)
   let response = {} as TODO ;
   if (!isNewAction(type) ) {
    response = await callApi(endpoint, method, data, filters)

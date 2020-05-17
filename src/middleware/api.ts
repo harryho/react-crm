@@ -8,7 +8,7 @@ import url from 'url';
 import querystring from 'querystring';
 import { HttpMethod } from "../store/types";
 
-const ds = DB
+const ds = Object.assign({},DB)
 const EXPAND = "_expand"
 
 function getModel(action: string) {
@@ -90,7 +90,7 @@ export function getData(action: string, filters): Promise<TODO> {
         });
       }
     }
-    setTimeout(resolve, 1000, { data: result });
+    setTimeout(resolve, 600, { data: result });
   });
 }
 
@@ -107,7 +107,7 @@ export function postData(action: string, data: Entity): Promise<TODO> {
   const { model } = parseRequest(action)
   return new Promise(function (resolve, _reject) {
     ds[model].push(data);
-    setTimeout(resolve, 1000, { data: data });
+    setTimeout(resolve, 500, { data: data });
   });
 }
 
@@ -116,7 +116,7 @@ export function putData(action: string, data: Entity): Promise<TODO> {
   return new Promise(function (resolve, _reject) {
     const idx = ds[model].findIndex((d: { id: number }) => d.id === id);
     ds[model][idx] = Object.assign({}, data);
-    setTimeout(resolve, 1000, { data: data });
+    setTimeout(resolve, 500, { data: data });
   });
 }
 
@@ -124,9 +124,9 @@ export function deleteData(action: string): Promise<TODO> {
   const { model, id } = parseRequest(action)
   return new Promise(function (resolve, _reject) {
     if (id > 0) {
-      ds[model].splice(ds[model].findIndex((d: Entity) => d.id === id));
+      ds[model].splice(ds[model].findIndex((d: Entity) => d.id === id),1);
     }
-    setTimeout(resolve, 1000, { status: 200 });
+    setTimeout(resolve, 500, { data: id });
   });
 }
 

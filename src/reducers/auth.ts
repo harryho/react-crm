@@ -21,7 +21,7 @@ function setTokenUser(token, user) {
   localStorage.setItem("react-crm-user", JSON.stringify(user));
 }
 
-function removeToken(){
+function removeTokenUser(){
       localStorage.removeItem("react-crm-token");
     localStorage.removeItem("react-crm-user");
 }
@@ -41,7 +41,7 @@ export function authReducer(
   action: AuthActionTypes
 ) {
   const payload = action.payload
-
+console.log(payload)
   switch (action.type) {
     case SIGN_IN:
       if (payload.token && payload.user ) {
@@ -64,10 +64,12 @@ export function authReducer(
         });
       }
     case SIGN_OUT:
-
+      removeTokenUser()
       return Object.assign({}, state, {
         isFetching: true,
-        isAuthenticated: false
+        isAuthenticated: false,
+        user: undefined,
+        token: undefined
       });
     default:
       return state;

@@ -1,6 +1,7 @@
 import * as React from "react";
-import { UpdateMessageParam } from "../App";
+// import { UpdateMessageParam } from "../App";
 
+export type UpdateMessageParam = React.SyntheticEvent<{ value: string }>;
 interface ChatInputProps {
   message: string;
   userName: string;

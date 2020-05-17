@@ -19,12 +19,15 @@ body, html, #app, #app > div{
 }
 
 a {
-  color: #ff4081;
+//   color:    #ff4081;
+  color: none;
   text-decoration: none;
+  opacity:1;
 }
 
 a:hover {
-  text-decoration: underline;
+//   text-decoration: underline;
+opacity:0.5;
 }
 
 .m-b-15 {

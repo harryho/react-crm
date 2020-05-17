@@ -24,30 +24,39 @@ import CustomerListPage from './CustomerListPage';
 import CustomerFormPage from './CustomerFormPage';
 import AboutPage from './AboutPage';
 
-const routes = [
-  {
-    path: '/customers',
-    name: 'Customers',
-    component: CustomerListPage,
-    layout: '/',
-  },
-];
+const isSmallsWindowScreen = () => {
+  return window.innerWidth <= 600;
+};
+const drawerWidth = 250;
 
-const switchRoutes = (
-  <Switch>
-    {routes.map((prop, key) => {
-      if (prop.layout === '/') {
-        return <Route path={prop.layout + prop.path} component={prop.component} key={key} />;
-      }
-      return null;
-    })}
-    <Redirect from="/" to="/dashboard" />
-  </Switch>
-);
+const useStyles = (navDrawerOpen: boolean) => {
+  return {
+    appBar: {
+      // paddingLeft: navDrawerOpen ? drawerWidth : 0,
+      position: 'fixed',
+      top: 0,
+      // overflow: 'hidden',
+      maxHeight: 58,
+      minHeight: 0,
+      width: navDrawerOpen  ?  `calc(100% - ${drawerWidth}px)` :`100%`,
+      marginLeft: navDrawerOpen && !isSmallsWindowScreen() ? drawerWidth : 0,
+    },
+    drawer: {
+      width: isSmallsWindowScreen() ? drawerWidth : 0,
+      // flexShrink: 0,
+      overflow:"auto"
+    },
+    content: {
+      // margin: '10px 20px 20px 15px',
+      flexGrow: 1,
+      paddingLeft: navDrawerOpen ? drawerWidth : 0,
+    },
+  };
+};
 
 type AppProps = {
   children: React.ReactChildren;
-  width: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  // width: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   isAuthenticated: boolean;
   errorMessage: string;
   user: User;
@@ -57,15 +66,20 @@ type AppProps = {
 } & WithStyles<typeof styles> &
   WithWidth;
 
-type AppState = {
+interface AppState {
   navDrawerOpen: boolean;
-};
+  isSmallScreen: boolean;
+}
 
 class App extends React.Component<AppProps, AppState> {
   constructor(props) {
     super(props);
+    // this.state = {
+    //   navDrawerOpen: true,
+    // };
     this.state = {
-      navDrawerOpen: true,
+      navDrawerOpen: !isSmallsWindowScreen(),
+      isSmallScreen: isSmallsWindowScreen(),
     };
     this.signOut = this.signOut.bind(this);
   }
@@ -76,6 +90,7 @@ class App extends React.Component<AppProps, AppState> {
     method: HttpMethod.POST,
     data: {},
   };
+
   signOutAction = {
     type: SIGN_OUT,
     endpoint: 'logout/',
@@ -83,15 +98,25 @@ class App extends React.Component<AppProps, AppState> {
     data: {},
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.width !== nextProps.width) {
-      this.setState({ navDrawerOpen: nextProps.width >= 1000 });
-    }
+  // UNSAFE_componentWillReceiveProps(nextProps) {
+  //   if (this.props.width !== nextProps.width) {
+  //     this.setState({ navDrawerOpen: nextProps.width >= 1000 });
+  //   }
+  // }
+  componentDidMount() {
+    window.addEventListener('resize', this.resize.bind(this));
+    this.resize();
   }
 
-  handleChangeRequestNavDrawer() {
+  handleDrawerToggle() {
     this.setState({
       navDrawerOpen: !this.state.navDrawerOpen,
+    });
+  }
+
+  resize() {
+    this.setState({
+      isSmallScreen: isSmallsWindowScreen(),
     });
   }
 
@@ -112,33 +137,8 @@ class App extends React.Component<AppProps, AppState> {
     const firstname = user && user.firstname ? user.firstname : '';
     const lastname = user && user.lastname ? user.lastname : '';
 
-    let { navDrawerOpen } = this.state;
-    const paddingLeftDrawerOpen = 240;
-
-    const appStyles = {
-      header: {
-        appBar: {
-          paddingLeft: navDrawerOpen ? paddingLeftDrawerOpen : 0,
-          position: 'fixed',
-          top: 0,
-          overflow: 'hidden',
-          maxHeight: 58,
-          minHeight: 0,
-        },
-      },
-
-      contenet: {
-        paddingLeft: navDrawerOpen ? paddingLeftDrawerOpen : 0,
-      },
-
-      container: {
-        margin: '80px 20px 20px 15px',
-        paddingLeft:
-          navDrawerOpen && width === 'sm' // SMALL
-            ? paddingLeftDrawerOpen
-            : 0,
-      },
-    };
+    let { navDrawerOpen, isSmallScreen } = this.state;
+    const appStlyes = useStyles(navDrawerOpen);
 
     return (
       <MuiThemeProvider theme={themeDefault}>
@@ -147,16 +147,19 @@ class App extends React.Component<AppProps, AppState> {
           {isAuthenticated && (
             // isFetching &&
             <div>
-              <Header styles={appStyles.header} handleChangeRequestNavDrawer={this.handleChangeRequestNavDrawer.bind(this)}></Header>
-              <React.Fragment>
-                <LeftDrawer
-                  navDrawerOpen={navDrawerOpen}
-                  // signOutMenus={Data.signOutMenus as TODO}
-                  username={`${firstname} ${lastname}`}
-                  onLogoutClick={this.signOut}
-                />
-              </React.Fragment>
-              <div style={appStyles.contenet}>
+              <Header styles={appStlyes} handleChangeRequestNavDrawer={this.handleDrawerToggle.bind(this)}></Header>
+              {/* <React.Fragment> */}
+              <LeftDrawer
+                drawerStyle={appStlyes.drawer}
+                navDrawerOpen={navDrawerOpen}
+                // signOutMenus={Data.signOutMenus as TODO}
+                username={`${firstname} ${lastname}`}
+                onLogoutClick={this.signOut}
+                handleDrawerToggle={this.handleDrawerToggle.bind(this)}
+                isSmallScreem={isSmallScreen}
+              />
+              {/* </React.Fragment> */}
+              <div style={appStlyes.content}>
                 {/* {this.props.children} */}
                 <Route exact path={`/customers`} component={CustomerListPage} />
                 <Route path={`/customer/:id`} component={CustomerFormPage} />
@@ -165,7 +168,7 @@ class App extends React.Component<AppProps, AppState> {
               </div>
             </div>
           )}
-          {!isAuthenticated && <LoginPage errorMessage={errorMessage} onSignInClick={creds => this.signIn(creds)} />}
+          {!isAuthenticated && <LoginPage onSignInClick={creds => this.signIn(creds)} />}
         </div>
       </MuiThemeProvider>
     );

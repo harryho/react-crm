@@ -95,9 +95,11 @@ export const DELETE_CUSTOMER = "DELETE_CUSTOMER";
 
 export interface CustomerState {
   isFetching: boolean;
-  customer: Entity,
+  customer: Customer,
   customerList: [];
   error?: null
+  deleted?: boolean,
+  updated?:boolean
 }
 
 interface GetCustomerAction {
@@ -108,7 +110,7 @@ interface GetCustomerAction {
 
 interface ListCustomerAction {
   type: typeof LIST_CUSTOMER;
-  payload: Entity[]
+  payload: Customer[]
 }
 
 interface NewCustomerAction {
@@ -123,6 +125,12 @@ interface UpdateCustomerAction {
   error?: string
 }
 
+interface CreateCustomerAction {
+  type: typeof CREATE_CUSTOMER;
+  payload: Customer,
+  error?: string
+}
+
 interface DeleteCustomerAction {
   type: typeof DELETE_CUSTOMER;
   payload: number,
@@ -132,7 +140,7 @@ interface DeleteCustomerAction {
 export type CustomerActions = typeof LIST_CUSTOMER | typeof GET_CUSTOMER
  | typeof NEW_CUSTOMER  | typeof UPDATE_CUSTOMER | typeof CREATE_CUSTOMER | typeof DELETE_CUSTOMER
 
-export type CusomerActionTypes = NewCustomerAction | GetCustomerAction |
+export type CusomerActionTypes = NewCustomerAction | GetCustomerAction | CreateCustomerAction |
   ListCustomerAction | UpdateCustomerAction | DeleteCustomerAction;
 
 
