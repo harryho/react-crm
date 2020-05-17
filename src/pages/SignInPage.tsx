@@ -130,18 +130,6 @@ const SignInPage: React.FC<SignInPageProps> = ({
   // });
   // }
 
-  // enableButton() {
-  //   this.setState({
-  //     canSubmit: true,
-  //   });
-  // }
-
-  // disableButton() {
-  //   this.setState({
-  //     canSubmit: false,
-  //   });
-  // }
-
   // notifyFormError(data) {
   //   console.error("Form error:", data);
   // }
@@ -188,19 +176,19 @@ const SignInPage: React.FC<SignInPageProps> = ({
                     <Field
                       variant="outlined"
                       component={TextField}
-                      hinttext="E-mail"
+                      placeholder="test@test.com"
                       // ref={this.username}
                       name="username"
                       // value={this.state.username ? this.state.username : ""}
-                      floatinglabeltext="E-mail"
+                      label="Login ID"
                       fullWidth={true}
-                      validations={{
-                        isEmail: true,
-                      }}
-                      validationerrors={{
-                        isEmail: 'Please provide a valid email',
-                        isDefaultRequiredValue: 'This is a required field',
-                      }}
+                      // validations={{
+                      //   isEmail: true,
+                      // }}
+                      // validationerrors={{
+                      //   isEmail: 'Please provide a valid email',
+                      //   isDefaultRequiredValue: 'This is a required field',
+                      // }}
                       required
                     />
                   </div>
@@ -216,13 +204,13 @@ const SignInPage: React.FC<SignInPageProps> = ({
                       floatinglabeltext="Password"
                       fullWidth={true}
                       type="password"
-                      validations={{
-                        minLength: 3,
-                      }}
-                      validationerrors={{
-                        minLength: 'Please provide a valid password',
-                        isDefaultRequiredValue: 'This is a required field',
-                      }}
+                      // validations={{
+                      //   minLength: 3,
+                      // }}
+                      // validationerrors={{
+                      //   minLength: 'Please provide a valid password',
+                      //   isDefaultRequiredValue: 'This is a required field',
+                      // }}
                       required
                     />
                   </div>

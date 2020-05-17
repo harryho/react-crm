@@ -16,9 +16,6 @@ import {
   loadCategories,
   newProduct
 } from "../actions/product";
-// import { FormsyText, FormsySelect } from "formsy-material-ui/lib";
-// import Formsy from "formsy-react";
-// import Select from 'material-ui/Select';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 import MenuItem from "@material-ui/core/MenuItem";
