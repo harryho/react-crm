@@ -3,8 +3,8 @@ import '../styles.scss';
 // import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import Header from '../components/Header';
-import LeftDrawer from '../components/LeftDrawer';
+import AppNavBar from '../components/AppNavBar';
+import AppNavMenu from '../components/AppNavMenu';
 import withWidth, { WithWidth } from '@material-ui/core/withWidth';
 import { createMuiTheme, withStyles, createStyles, Theme, WithStyles, StyleRules } from '@material-ui/core/styles';
 import themeDefault from '../theme-default';
@@ -32,10 +32,9 @@ const drawerWidth = 250;
 const useStyles = (navDrawerOpen: boolean) => {
   return {
     appBar: {
-      // paddingLeft: navDrawerOpen ? drawerWidth : 0,
       position: 'fixed',
       top: 0,
-      // overflow: 'hidden',
+      overflow: 'hidden',
       maxHeight: 58,
       minHeight: 0,
       width: navDrawerOpen  ?  `calc(100% - ${drawerWidth}px)` :`100%`,
@@ -56,7 +55,6 @@ const useStyles = (navDrawerOpen: boolean) => {
 
 type AppProps = {
   children: React.ReactChildren;
-  // width: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   isAuthenticated: boolean;
   errorMessage: string;
   user: User;
@@ -74,9 +72,6 @@ interface AppState {
 class App extends React.Component<AppProps, AppState> {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   navDrawerOpen: true,
-    // };
     this.state = {
       navDrawerOpen: !isSmallsWindowScreen(),
       isSmallScreen: isSmallsWindowScreen(),
@@ -147,9 +142,10 @@ class App extends React.Component<AppProps, AppState> {
           {isAuthenticated && (
             // isFetching &&
             <div>
-              <Header styles={appStlyes} handleChangeRequestNavDrawer={this.handleDrawerToggle.bind(this)}></Header>
+              <AppNavBar styles={appStlyes}
+               handleDrawerToggle={this.handleDrawerToggle.bind(this)}></AppNavBar>
               {/* <React.Fragment> */}
-              <LeftDrawer
+              <AppNavMenu
                 drawerStyle={appStlyes.drawer}
                 navDrawerOpen={navDrawerOpen}
                 // signOutMenus={Data.signOutMenus as TODO}

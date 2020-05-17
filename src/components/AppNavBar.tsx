@@ -19,30 +19,17 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1,
   },
-  // appBar: {
-  //   position: "fixed",
-  //   top: 0,
-  //   overflow: "hidden",
-  //   maxHeight: 57,
-  // },
-  // iconsRightContainer: {
-  //   marginLeft: 20,
-  // },
-  // iconsLeftContainer: {
-  //   marginLeft: 20,
-  //   marginRight: 10,
-  // },
   toolbar: {
     minHeight: 0,
   },
 }));
 
-interface HeaderProps {
-  handleChangeRequestNavDrawer: () => void;
+interface AppNavBarProps {
+  handleDrawerToggle: () => void;
   styles: TODO;
 }
 // class Header extends React.Component {
-const Header: React.FC<HeaderProps> = ({ styles, handleChangeRequestNavDrawer }) => {
+const AppNavBar: React.FC<AppNavBarProps> = ({ styles, handleDrawerToggle: handleChangeRequestNavDrawer }) => {
   const handleClick = () => {
     window.open('https://github.com/harryho/react-crm', undefined, undefined, false);
   };
@@ -81,4 +68,4 @@ const Header: React.FC<HeaderProps> = ({ styles, handleChangeRequestNavDrawer })
   );
 };
 
-export default Header;
+export default AppNavBar;

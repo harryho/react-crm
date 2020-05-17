@@ -52,16 +52,14 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor:  "rgba(227, 231, 232, 0.63)",
       overflow: "auto",
     },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-    },
+    // content: {
+    //   flexGrow: 1,
+    //   padding: theme.spacing(3),
+    // },
     avatarDiv: {
       padding: '15px 0 10px 10px',
       backgroundImage: 'url(' + require('../assets/img/leftdrawer-bg.jpg') + ')',
-      // backgroundColor: "rgba(227, 231, 232, 0.83)",
       backgroundColor: 'silver',
-
     },
     avatarIcon: {
       float: 'left',
@@ -108,10 +106,8 @@ interface Props {
   drawerStyle: {}
 }
 
-export default function LeftDrawer(props: Props) {
+export default function AppNavMenu(props: Props) {
 
-  // const theme = useTheme();
-  // const [mobileOpen, setMobileOpen] = React.useState(false);
   const styles = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -199,22 +195,9 @@ export default function LeftDrawer(props: Props) {
       </div>
     </div>
   );
-
-  // const container = window !== undefined ? () => window().document.body : undefined;
-
+  
   return (
     <div className={styles.root}>
-      {/* <CssBaseline /> */}
-      {/* <AppBar position="fixed" className={styles.appBar}>
-        <Toolbar>
-          <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} className={styles.menuButton}>
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Responsive drawer
-          </Typography>
-        </Toolbar>
-      </AppBar> */}
       <nav 
       // className={styles.drawer}
       style={drawerStyle}
