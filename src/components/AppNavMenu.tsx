@@ -1,37 +1,21 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-// import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-// import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
-import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
 import { Link } from 'react-router-dom';
 // import Typography from '@material-ui/core/Typography';
-import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import MenuItem from '@material-ui/core/MenuItem';
-import { Typography, ListItemIcon, Menu, CssBaseline } from '@material-ui/core';
+import { Typography, ListItemIcon, Menu } from '@material-ui/core';
 import ContentFilter from '@material-ui/icons/FilterList';
 
 import SettingsPower from '@material-ui/icons/SettingsPower';
 import VpnKey from '@material-ui/icons/VpnKey';
-import { teal, pink, grey, blue, common } from '@material-ui/core/colors';
+import { grey, blue, common } from '@material-ui/core/colors';
 import data from '../data';
 
-
-const white = common.white;
 const blue600 = blue['900'];
-const grey900 = grey['600'];
 const drawerWidth = 250;
-
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,13 +33,9 @@ const useStyles = makeStyles((theme: Theme) =>
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
-      backgroundColor:  "rgba(227, 231, 232, 0.63)",
-      overflow: "auto",
+      backgroundColor: 'rgba(227, 231, 232, 0.63)',
+      overflow: 'auto',
     },
-    // content: {
-    //   flexGrow: 1,
-    //   padding: theme.spacing(3),
-    // },
     avatarDiv: {
       padding: '15px 0 10px 10px',
       backgroundImage: 'url(' + require('../assets/img/leftdrawer-bg.jpg') + ')',
@@ -89,33 +69,28 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-
-
-
 interface Props {
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
    */
   // window?: () => Window;
-  navDrawerOpen:boolean;
+  navDrawerOpen: boolean;
   username: string;
   onLogoutClick: () => void;
-  handleDrawerToggle: ()=>void;
+  handleDrawerToggle: () => void;
   isSmallScreem: boolean;
-  drawerStyle: {}
+  drawerStyle: {};
 }
 
 export default function AppNavMenu(props: Props) {
-
   const styles = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const {username, navDrawerOpen,isSmallScreem , handleDrawerToggle, drawerStyle } = props
+  const { username, navDrawerOpen, isSmallScreem, handleDrawerToggle, drawerStyle } = props;
 
-
-  console.log(navDrawerOpen)
+  console.log(navDrawerOpen);
 
   const handleClick = (event: React.ChangeEvent<unknown>) => {
     event.preventDefault();
@@ -125,11 +100,11 @@ export default function AppNavMenu(props: Props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  
+
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  
+
   const drawer = (
     <div>
       <div className={styles.avatarDiv}>
@@ -166,15 +141,14 @@ export default function AppNavMenu(props: Props) {
           >
             <MenuItem onClick={handleClick}>
               <SettingsPower />
-              <Typography style={{ paddingLeft: '1em' }} variant="inherit">
-                {' '}
+              <Typography style={{ paddingLeft: '1em' }} 
+              variant="inherit">
                 Sign Out
               </Typography>
             </MenuItem>
             <MenuItem onClick={handleClick}>
               <VpnKey />
               <Typography style={{ paddingLeft: '1em' }} variant="inherit">
-                {' '}
                 Change Password
               </Typography>
             </MenuItem>
@@ -195,16 +169,16 @@ export default function AppNavMenu(props: Props) {
       </div>
     </div>
   );
-  
+
   return (
     <div className={styles.root}>
-      <nav 
-      // className={styles.drawer}
-      style={drawerStyle}
-      aria-label="app navigation">
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}  
-        {/* <Hidden smUp implementation="css"> */}
-         {!isSmallScreem ? <Drawer
+      <nav
+        style={drawerStyle}
+        aria-label="app navigation"
+      >
+        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+        {!isSmallScreem ? (
+          <Drawer
             variant="persistent"
             anchor="left"
             open={navDrawerOpen}
@@ -218,7 +192,8 @@ export default function AppNavMenu(props: Props) {
           >
             {drawer}
           </Drawer>
-          :<Drawer
+        ) : (
+          <Drawer
             classes={{
               paper: styles.drawerPaper,
             }}
@@ -227,10 +202,9 @@ export default function AppNavMenu(props: Props) {
             open={navDrawerOpen}
           >
             {drawer}
-          </Drawer>}
-        {/* </Hidden> */}
+          </Drawer>
+        )}
       </nav>
-      
     </div>
   );
 }

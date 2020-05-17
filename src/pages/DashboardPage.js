@@ -1,8 +1,5 @@
 import React from "react";
-const cyan600 = cyan['600'];
-const pink600 = pink['600'];
-const purple600 = purple['600'];
-const orange600 = orange['600'];
+
 import Assessment from '@material-ui/icons/Assessment';
 import Face from '@material-ui/icons/Face';
 import ThumbUp from '@material-ui/icons/ThumbUp';
@@ -11,12 +8,17 @@ import InfoBox from "../components/dashboard/InfoBox";
 import NewOrders from "../components/dashboard/NewOrders";
 import MonthlySales from "../components/dashboard/MonthlySales";
 import BrowserUsage from "../components/dashboard/BrowserUsage";
-// import RecentlyProducts from '../components/dashboard/RecentlyProducts';
 import LineBarChart from "../components/dashboard/LineBarChart";
 import globalStyles from "../styles";
 import Data from "../data";
 
 import { cyan, pink, purple, orange } from '@material-ui/core/colors';
+
+
+const cyan600 = cyan['600'];
+const pink600 = pink['600'];
+const purple600 = purple['600'];
+const orange600 = orange['600'];
 
 const DashboardPage = () => {
   return (

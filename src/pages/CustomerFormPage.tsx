@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, match, useHistory, useLocation } from 'react-router-dom';
+import { Link, match } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Switch from '@material-ui/core/Switch';
 import SaveIcon from '@material-ui/icons/Save';
@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 // import { GridList, GridTile } from '@material-ui/core/GridList';
 import Card from '@material-ui/core/Card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { getAction } from '../actions/customer';
 
@@ -19,10 +18,10 @@ import { TextField } from 'formik-material-ui';
 
 import { grey } from '@material-ui/core/colors';
 import { thunkApiCall } from '../services/thunks';
-import { Customer, Address, User } from '../types';
+import { Customer, User } from '../types';
 import { LinearProgress, Grid } from '@material-ui/core';
 import Snackbar from '@material-ui/core/Snackbar';
-import { GET_CUSTOMER, HttpMethod, ApiAction, NEW_CUSTOMER, LIST_CUSTOMER, UPDATE_CUSTOMER, CREATE_CUSTOMER } from '../store/types';
+import { GET_CUSTOMER, ApiAction, UPDATE_CUSTOMER, CREATE_CUSTOMER } from '../store/types';
 
 const grey400 = grey['400'];
 

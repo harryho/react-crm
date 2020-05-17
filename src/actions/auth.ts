@@ -17,14 +17,8 @@ export  function signOut(result?: TODO) {
   }
 }
 
-// function loginError(message) {
-//   return {
-//     type: LOGIN_FAILURE,
-//     isFetching: false,
-//     isAuthenticated: false,
-//     message: message
-//   };
-// }
+
+
 
 // // Calls the API to get a token and
 // // dispatches actions along the way

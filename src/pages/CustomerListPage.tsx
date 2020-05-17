@@ -103,12 +103,6 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     countArray: [1, 2, 3, 4, 5],
   };
 
-  // apiAction = {
-  //   type: LIST_CUSTOMER,
-  //   endpoint: 'customers/',
-  //   method: HttpMethod.GET,
-  //   filters: this.state.search,
-  // };
 
   componentDidMount() {
     // this.props.searchCustomer(this.apiAction);

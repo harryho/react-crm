@@ -2,22 +2,17 @@ import * as React from 'react';
 import '../styles.scss';
 // import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import AppNavBar from '../components/AppNavBar';
 import AppNavMenu from '../components/AppNavMenu';
-import withWidth, { WithWidth } from '@material-ui/core/withWidth';
-import { createMuiTheme, withStyles, createStyles, Theme, WithStyles, StyleRules } from '@material-ui/core/styles';
+import { WithWidth } from '@material-ui/core/withWidth';
+import { withStyles, WithStyles } from '@material-ui/core/styles';
 import themeDefault from '../theme-default';
-import Data from '../data';
 import { connect } from 'react-redux';
 import LoginPage from './SignInPage';
-// import { loginUser, logoutUser } from "../actions/auth";
-import { Dispatch } from 'redux';
 import styles from '../styles';
 import { User } from '../types';
-import { tupleExpression } from '@babel/types';
 
-import { CssBaseline } from '@material-ui/core';
 import { thunkAuth } from '../services/thunks';
 import { SIGN_IN, HttpMethod, SIGN_OUT } from '../store/types';
 import CustomerListPage from './CustomerListPage';
@@ -37,13 +32,13 @@ const useStyles = (navDrawerOpen: boolean) => {
       overflow: 'hidden',
       maxHeight: 58,
       minHeight: 0,
-      width: navDrawerOpen  ?  `calc(100% - ${drawerWidth}px)` :`100%`,
+      width: navDrawerOpen ? `calc(100% - ${drawerWidth}px)` : `100%`,
       marginLeft: navDrawerOpen && !isSmallsWindowScreen() ? drawerWidth : 0,
     },
     drawer: {
       width: isSmallsWindowScreen() ? drawerWidth : 0,
       // flexShrink: 0,
-      overflow:"auto"
+      overflow: 'auto',
     },
     content: {
       // margin: '10px 20px 20px 15px',
@@ -93,11 +88,6 @@ class App extends React.Component<AppProps, AppState> {
     data: {},
   };
 
-  // UNSAFE_componentWillReceiveProps(nextProps) {
-  //   if (this.props.width !== nextProps.width) {
-  //     this.setState({ navDrawerOpen: nextProps.width >= 1000 });
-  //   }
-  // }
   componentDidMount() {
     window.addEventListener('resize', this.resize.bind(this));
     this.resize();
@@ -127,7 +117,7 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   render() {
-    const { isAuthenticated, errorMessage, user, isFetching, width } = this.props;
+    const { isAuthenticated, user } = this.props;
 
     const firstname = user && user.firstname ? user.firstname : '';
     const lastname = user && user.lastname ? user.lastname : '';
@@ -142,13 +132,11 @@ class App extends React.Component<AppProps, AppState> {
           {isAuthenticated && (
             // isFetching &&
             <div>
-              <AppNavBar styles={appStlyes}
-               handleDrawerToggle={this.handleDrawerToggle.bind(this)}></AppNavBar>
+              <AppNavBar styles={appStlyes} handleDrawerToggle={this.handleDrawerToggle.bind(this)}></AppNavBar>
               {/* <React.Fragment> */}
               <AppNavMenu
                 drawerStyle={appStlyes.drawer}
                 navDrawerOpen={navDrawerOpen}
-                // signOutMenus={Data.signOutMenus as TODO}
                 username={`${firstname} ${lastname}`}
                 onLogoutClick={this.signOut}
                 handleDrawerToggle={this.handleDrawerToggle.bind(this)}
@@ -156,7 +144,6 @@ class App extends React.Component<AppProps, AppState> {
               />
               {/* </React.Fragment> */}
               <div style={appStlyes.content}>
-                {/* {this.props.children} */}
                 <Route exact path={`/customers`} component={CustomerListPage} />
                 <Route path={`/customer/:id`} component={CustomerFormPage} />
                 <Route path={`/newcustomer/`} component={CustomerFormPage} />
@@ -190,7 +177,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default withStyles(styles)(
-  // withWidth()
-  connect(mapStateToProps, mapDispatchToProps)(App)
-);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(App));
