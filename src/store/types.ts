@@ -85,6 +85,8 @@ interface SignOutAction {
 
 export type AuthActionTypes =  SignInAction | SignOutAction;
 
+export type AuthActions = typeof SIGN_IN | typeof SIGN_OUT
+
 export const LIST_CUSTOMER = "LIST_CUSTOMER";
 export const GET_CUSTOMER = "GET_CUSTOMER";
 export const NEW_CUSTOMER = "NEW_CUSTOMER";

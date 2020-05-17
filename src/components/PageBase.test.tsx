@@ -3,6 +3,7 @@ import { shallow } from "enzyme";
 // import { expect } from "chai";
 import PageBase from "./PageBase";
 import {create, act} from 'react-test-renderer';
+
 // describe("<PageBase />", () => {
 //   it("should have a span with the navigation text", () => {
 //     const wrapper = shallow(<PageBase navigation="navigation" />);

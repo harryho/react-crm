@@ -8,7 +8,7 @@ import url from 'url';
 import querystring from 'querystring';
 import { HttpMethod } from "../store/types";
 
-const ds = Object.assign({},DB)
+const ds = Object.assign({}, DB)
 const EXPAND = "_expand"
 
 function getModel(action: string) {
@@ -94,15 +94,6 @@ export function getData(action: string, filters): Promise<TODO> {
   });
 }
 
-// export function saveData(action: string, data: Entity):Promise<TODO>{
-//   if (data.id <=0) {
-//     return  postData(action: string, data: Entity);
-//   }
-//   else{
-//     return  postData(action: string, data: Entity);
-//   }
-// }
-
 export function postData(action: string, data: Entity): Promise<TODO> {
   const { model } = parseRequest(action)
   return new Promise(function (resolve, _reject) {
@@ -124,7 +115,7 @@ export function deleteData(action: string): Promise<TODO> {
   const { model, id } = parseRequest(action)
   return new Promise(function (resolve, _reject) {
     if (id > 0) {
-      ds[model].splice(ds[model].findIndex((d: Entity) => d.id === id),1);
+      ds[model].splice(ds[model].findIndex((d: Entity) => d.id === id), 1);
     }
     setTimeout(resolve, 500, { data: id });
   });
@@ -136,21 +127,20 @@ export function login(action: string, _method: HttpMethod, data: TODO): Promise<
       const { accessToken: accessToken, user } = ds.token;
       setTimeout(resolve, 200, {
         // data: {
-          token: accessToken,
-          user,
+        token: accessToken,
+        user,
         // },
       });
     } else {
       _reject({
         code: 403,
-         error: "Your name or password is wrong",
+        error: "Your name or password is wrong",
       });
     }
   });
 }
 
-export function callApi(endpoint, method:HttpMethod, data?: TODO, filters?: TODO) {
-  let result: TODO;
+export function callApi(endpoint, method: HttpMethod, data?: TODO, filters?: TODO) {
   switch (method) {
     case HttpMethod.GET:
       return getData(endpoint, filters);
@@ -159,7 +149,7 @@ export function callApi(endpoint, method:HttpMethod, data?: TODO, filters?: TODO
     case HttpMethod.POST:
       return postData(endpoint, data)
     case HttpMethod.DELETE:
-      return  deleteData(endpoint)
+      return deleteData(endpoint)
     default:
       return null;
 
@@ -172,7 +162,7 @@ export const CALL_API = Symbol("Call API");
 
 
 // export default store => next => action => {
-  
+
 //   const callAPI = action[CALL_API];
 
 //   // So the middleware doesn't get applied to every single action

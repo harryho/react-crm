@@ -1,5 +1,6 @@
 
-import { SIGN_IN, SIGN_OUT } from "../store/types";
+import { SIGN_IN, SIGN_OUT, AuthActions, ApiAction, HttpMethod } from "../store/types";
+import { Entity } from "../types";
 
 // Login actions
 
@@ -17,6 +18,25 @@ export  function signOut(result?: TODO) {
   }
 }
 
+
+export function getAction(action: AuthActions,
+  id = 0, data?: Entity, query?: string): ApiAction {
+
+  switch (action) {
+    case SIGN_IN:
+      return {
+        type: SIGN_IN,
+        endpoint: 'login/',
+        method: HttpMethod.POST,
+      }
+    case SIGN_OUT:
+      return {
+        type: SIGN_OUT,
+        endpoint: 'logout/'+id,
+        method: HttpMethod.GET,
+      }
+  }
+}
 
 
 
@@ -54,31 +74,4 @@ export  function signOut(result?: TODO) {
 //       })
 //       .catch(err => console.log("Error: ", err));
 //   }
-// }
-
-// // Logout actions
-// function requestLogout() {
-//   return {
-//     type: LOGOUT_REQUEST,
-//     isFetching: true,
-//     isAuthenticated: true
-//   };
-// }
-
-// function receiveLogout() {
-//   return {
-//     type: LOGOUT_SUCCESS,
-//     isFetching: false,
-//     isAuthenticated: false
-//   };
-// }
-
-// // Logs the user out
-// export function logoutUser() {
-//   return dispatch => {
-//     dispatch(requestLogout());
-//     localStorage.removeItem("token");
-//     localStorage.removeItem("user");
-//     dispatch(receiveLogout());
-//   };
 // }
