@@ -2,7 +2,7 @@ import * as React from 'react';
 import '../styles.scss';
 // import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import AppNavBar from '../components/AppNavBar';
 import AppNavDrawer from '../components/AppNavDrawer';
 import { WithWidth } from '@material-ui/core/withWidth';
@@ -15,8 +15,13 @@ import { User } from '../types';
 
 import { thunkAuth } from '../services/thunks';
 import { SIGN_IN, HttpMethod, SIGN_OUT } from '../store/types';
+import DashboardPage from './DashboardPage';
 import CustomerListPage from './CustomerListPage';
 import CustomerFormPage from './CustomerFormPage';
+import OrderFormPage from './OrderFormPage';
+import OrderListPage from './OrderListPage';
+import ProductFormPage from './ProductFormPage';
+import ProductListPage from './ProductListPage';
 import AboutPage from './AboutPage';
 
 const isSmallsWindowScreen = () => {
@@ -144,9 +149,18 @@ class App extends React.Component<AppProps, AppState> {
               />
               {/* </React.Fragment> */}
               <div style={appStlyes.content}>
+              {/* <Redirect exact from={`/`} to={"/dashboard"} />
+              <Route exact path={"/dashboard"}   component={DashboardPage} /> */}
                 <Route exact path={`/customers`} component={CustomerListPage} />
                 <Route path={`/customer/:id`} component={CustomerFormPage} />
                 <Route path={`/newcustomer/`} component={CustomerFormPage} />
+                <Route exact path={`/orders`} component={OrderListPage} />
+                <Route path={`/order/:id`} component={OrderFormPage} />
+                <Route path={`/neworder/`} component={OrderFormPage} />
+                <Route exact path={`/products`} component={ProductListPage} />
+                <Route path={`/product/:id`} component={ProductFormPage} />
+                <Route path={`/newproducts/`} component={ProductFormPage} />
+
                 <Route path={`/about`} component={AboutPage} />
               </div>
             </div>

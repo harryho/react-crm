@@ -54,11 +54,12 @@ export interface Order extends Entity {
 
 export interface Product extends Entity {
   productName: string;
-  categoryId: string;
-  unitInStock: string;
+  categoryId: number;
+  unitInStock: number;
   unitPrice: number;
   category: Category;
   categoryName?: string;
+  avatar?: string;
 }
 
 // export interface State {
@@ -88,13 +89,13 @@ export type SearchFilter = {
 
 export class CustomerModel implements Customer {
   constructor(
-    firstname: string,
-    lastname: string,
-    email: string,
-    avatar: string,
-    mobile: string,
-    membership: boolean,
-    rewards: number
+    firstname: string = "",
+    lastname: string = "",
+    email: string = "",
+    mobile: string = "",
+    rewards: number = 0,
+    membership: boolean = false,
+    avatar?: string
   ) {
     this.id = 0;
     this.firstname = firstname;
@@ -104,6 +105,7 @@ export class CustomerModel implements Customer {
     this.membership = membership;
     this.rewards = rewards;
     this.orderAmount = 0;
+    this.avatar = avatar;
   }
   id: number;
   firstname: string;
@@ -120,16 +122,16 @@ export class CustomerModel implements Customer {
 
 export class OrderModel implements Order {
   constructor(
-    reference: string,
-    customerId: number,
-    customer: Customer,
-    customerName: string,
-    products: Product[],
-    amount: number,
-    quantity: number,
-    orderDate: string,
-    shippedDate: string,
-    shipAddress: Address
+    reference: string = "",
+    customerId: number = 0,
+    customer = {} as Customer,
+    customerName: string = "",
+    products: Product[] = [],
+    amount: number = 0,
+    quantity: number = 0,
+    orderDate?: string,
+    shippedDate?: string,
+    shipAddress?: Address
   ) {
     this.id = 0;
     this.reference = reference;
@@ -157,11 +159,11 @@ export class OrderModel implements Order {
 
 export class ProductModel implements Product {
   constructor(
-    productName: string,
-    categoryId: string,
-    unitInStock: string,
-    unitPrice: number,
-    category: Category,
+    productName: string = "",
+    categoryId: number = 0,
+    unitInStock: number = 0,
+    unitPrice: number = 0,
+    category = {} as Category,
     categoryName?: string
   ) {
     this.id = 0;
@@ -174,8 +176,8 @@ export class ProductModel implements Product {
   }
   id: number;
   productName: string;
-  categoryId: string;
-  unitInStock: string;
+  categoryId: number;
+  unitInStock: number;
   unitPrice: number;
   category: Category;
   categoryName?: string;

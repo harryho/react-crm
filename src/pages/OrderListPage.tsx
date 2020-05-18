@@ -115,6 +115,12 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
   //   props.getAllOrders(this.state.search);
 
   UNSAFE_componentWillMount() {}
+  
+  componentDidMount() {
+    // this.props.searchCustomer(this.apiAction);
+    this.handleSearch();
+  }
+
 
   /* eslint-disable */
   componentDidUpdate(prevProps, prevState) {
@@ -141,7 +147,7 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
       this.handleSearch();
     }
   }
-  
+
   onPageChange(event: React.ChangeEvent<unknown>, page: number) {
     const startIndex = (page - 1) * 10;
     const endIndex = startIndex + 10;

@@ -12,7 +12,7 @@ import { Order, OrderModel } from '../types';
 export function orderReducer(
   state: OrderState = {
     isFetching: true,
-    order: new OrderModel("", "", "", "", "", false, 0) as Order, // {} as Order,
+    order: new OrderModel() as Order, // {} as Order,
     orderList: [],
     deleted: false,
     updated: false,
@@ -26,8 +26,8 @@ export function orderReducer(
         isFetching: false,
         orderList: action.payload,
         errorMessage: "",
-        deleted: false
-      
+        deleted: false,
+        updated:false
 
       });
     case NEW_ORDER:

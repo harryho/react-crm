@@ -16,7 +16,7 @@ import { TextField } from "formik-material-ui";
 
 import { grey } from "@material-ui/core/colors";
 import { thunkApiCall } from "../services/thunks";
-import { Customer, User, Category } from "../types";
+import { Product, User, Category } from "../types";
 import { LinearProgress, Grid } from "@material-ui/core";
 import Snackbar from "@material-ui/core/Snackbar";
 import {
@@ -28,7 +28,6 @@ import {
 import Alert from "@material-ui/lab/Alert";
 
 const grey400 = grey["400"];
-
 
 const styles = {
   toggleDiv: {
@@ -64,35 +63,34 @@ const styles = {
   },
 };
 
-interface CustomerFormProps {
+interface ProductFormProps {
   // router: object;
   match: match;
-  product: Customer;
-  getCustomer: typeof thunkApiCall;
-  saveCustomer: typeof thunkApiCall;
-  searchCustomer: typeof thunkApiCall;
-  newProduct: typeof thunkApiCall,
-  getProduct: typeof thunkApiCall,
-  updateProduct: typeof thunkApiCall,
-  addProduct: typeof thunkApiCall,
-  categoryList: Category[],
-  getCategoryList: typeof thunkApiCall,  
+  product: Product;
+  getProduct: typeof thunkApiCall;
+  saveProduct: typeof thunkApiCall;
+  searchProduct: typeof thunkApiCall;
+  newProduct: typeof thunkApiCall;
+
+  updateProduct: typeof thunkApiCall;
+  addProduct: typeof thunkApiCall;
+  categoryList: Category[];
+  getCategoryList: typeof thunkApiCall;
   addSuccess: boolean;
   errorMessage?: string;
   isFetching: boolean;
   updated: boolean;
 }
 
-interface CustomerFormState {
-  product: Customer;
+interface ProductFormState {
+  product: Product;
   snackbarOpen: boolean;
   autoHideDuration: number;
 }
 
-
 class ProductFormPage extends React.Component<
-CustomerFormProps,
-CustomerFormState
+  ProductFormProps,
+  ProductFormState
 > {
   constructor(props) {
     super(props);
@@ -107,13 +105,12 @@ CustomerFormState
 
   state = {
     // isFetching: true,
-    product: {} as Customer,
+    product: {} as Product,
     snackbarOpen: false,
     autoHideDuration: 2000,
-  }
+  };
 
   UNSAFE_componentWillMount() {
-
     // if (this.props.routeParams && this.props.routeParams.id) {
     //   this.props.getProduct(this.props.routeParams.id);
     //   this.props.getCategoryList();
@@ -139,8 +136,6 @@ CustomerFormState
   //     this.props.router.push("/products");
   //   }
   // }
-
-
 
   handleChange(event) {
     const field = event.target.name;
@@ -192,11 +187,11 @@ CustomerFormState
     } else {
       action = getAction(CREATE_PRODUCT, null, product);
     }
-    this.props.saveCustomer(action);
+    this.props.saveProduct(action);
   }
 
   render() {
-    const { errorMessage, categoryList, product,isFetching } = this.props;
+    const { errorMessage, categoryList, product, isFetching } = this.props;
     // const { isFetching,  } = this.state;
 
     // const styles = {
@@ -230,48 +225,45 @@ CustomerFormState
     //   return <CircularProgress />;
     // } else {
 
-
-      return (
-        <PageBase title="Product" navigation="Application / Product ">
-           {isFetching ? (
+    return (
+      <PageBase title="Product" navigation="Application / Product ">
+        {isFetching ? (
           <div>
             <Skeleton variant="text" />
             <Skeleton variant="rect" style={styles.fullWidth} height={300} />
           </div>
         ) : (
-         <Formik
-         initialValues={{
-          ...product,
-        }}
-        validate={(values) => {
-          const errors: Partial<Customer & User> = {};
-          if (!values.firstname) {
-            errors.firstname = "Required";
-          }
-          if (!values.email) {
-            errors.email = "Required";
-          } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-          ) {
-            errors.email = "Invalid email address";
-          }
-          return errors;
-        }}
-        onSubmit={(values, { setSubmitting }) => {
-          this.onSave(values);
-          setTimeout(() => {
-            setSubmitting(false);
-            console.log(JSON.stringify(values, null, 2));
-          }, 500);
-        }}
-         >
-
-{({ submitForm, isSubmitting }) => (
-           <Form
+          <Formik
+            initialValues={{
+              ...product,
+            }}
+            validate={(values) => {
+              const errors: Partial<Product & User> = {};
+              // if (!values.firstname) {
+              //   errors.firstname = "Required";
+              // }
+              // if (!values.email) {
+              //   errors.email = "Required";
+              // } else if (
+              //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+              // ) {
+              //   errors.email = "Invalid email address";
+              // }
+              return errors;
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              this.onSave(values);
+              setTimeout(() => {
+                setSubmitting(false);
+                console.log(JSON.stringify(values, null, 2));
+              }, 500);
+            }}
           >
-          <Grid container style={styles.container} spacing={3}>
-              <Grid item style={styles.cell} xs={12} md={4}>
-                {/* <FormsySelect
+            {({ submitForm, isSubmitting }) => (
+              <Form>
+                <Grid container style={styles.container} spacing={3}>
+                  <Grid item style={styles.cell} xs={12} md={4}>
+                    {/* <FormsySelect
                   floatingLabelText="Categories"
                   value={product.category ? product.category.id : 0}
                   onChange={this.handleChange}
@@ -287,77 +279,79 @@ CustomerFormState
                     />
                   ))}
                 </FormsySelect> */}
-              </Grid>
-              <Grid item style={styles.cell} xs={12} md={4}>
-                <Field   component={TextField}
-                  hintText="Product"
-                  floatingLabelText="Product"
-                  name="product"
-                  onChange={this.handleChange}
-                  fullWidth={true}
-                  value={product.productName ? product.productName : ""}
-                  validations={{
-                    isWords: true
-                  }}
-                  validationErrors={{
-                    isWords: "Please provide valid product name",
-                    isDefaultRequiredValue: "This is a required field"
-                  }}
-                  required
-                />
-              </Grid>
+                  </Grid>
+                  <Grid item style={styles.cell} xs={12} md={4}>
+                    <Field
+                      component={TextField}
+                      hintText="Product"
+                      floatingLabelText="Product"
+                      name="product"
+                      onChange={this.handleChange}
+                      fullWidth={true}
+                      value={product.productName ? product.productName : ""}
+                      validations={{
+                        isWords: true,
+                      }}
+                      validationErrors={{
+                        isWords: "Please provide valid product name",
+                        isDefaultRequiredValue: "This is a required field",
+                      }}
+                      required
+                    />
+                  </Grid>
 
-              <Grid item style={styles.cell} xs={12} md={4}>
-                <Field   component={TextField}
-                  hintText="Price"
-                  floatingLabelText="Price"
-                  fullWidth={true}
-                  name="price"
-                  onChange={this.handleChange}
-                  validations={{
-                    isNumeric: true
-                  }}
-                  validationErrors={{
-                    isNumeric: "Please provide valid price",
-                    isDefaultRequiredValue: "This is a required field"
-                  }}
-                  value={product.unitPrice}
-                  required
-                />
-              </Grid>
-              <Grid item style={styles.cell} xs={12} md={4}>
-                <Field   component={TextField}
-                  hintText="Quantity"
-                  floatingLabelText="Quantity"
-                  fullWidth={true}
-                  type="number"
-                  name="quantity"
-                  onChange={this.handleChange}
-                  value={product.unitInStock}
-                  validations={{
-                    isInt: true
-                  }}
-                  validationErrors={{
-                    isInt: "Please provide a valid password",
-                    isDefaultRequiredValue: "This is a required field"
-                  }}
-                  required
-                />
-              </Grid>
+                  <Grid item style={styles.cell} xs={12} md={4}>
+                    <Field
+                      component={TextField}
+                      hintText="Price"
+                      floatingLabelText="Price"
+                      fullWidth={true}
+                      name="price"
+                      onChange={this.handleChange}
+                      validations={{
+                        isNumeric: true,
+                      }}
+                      validationErrors={{
+                        isNumeric: "Please provide valid price",
+                        isDefaultRequiredValue: "This is a required field",
+                      }}
+                      value={product.unitPrice}
+                      required
+                    />
+                  </Grid>
+                  <Grid item style={styles.cell} xs={12} md={4}>
+                    <Field
+                      component={TextField}
+                      hintText="Quantity"
+                      floatingLabelText="Quantity"
+                      fullWidth={true}
+                      type="number"
+                      name="quantity"
+                      onChange={this.handleChange}
+                      value={product.unitInStock}
+                      validations={{
+                        isInt: true,
+                      }}
+                      validationErrors={{
+                        isInt: "Please provide a valid password",
+                        isDefaultRequiredValue: "This is a required field",
+                      }}
+                      required
+                    />
+                  </Grid>
 
-              <Grid item style={styles.cell} xs={12} md={4}>
-                {product &&
-                  product.avatar && (
-                    <Card style={styles.card}>
-                      <img width={100} src={product.avatar} />
-                    </Card>
-                  )}
-              </Grid>
-            </Grid>
-            <Divider />
+                  <Grid item style={styles.cell} xs={12} md={4}>
+                    {product && product.avatar && (
+                      <Card style={styles.card}>
+                        <img width={100} src={product.avatar} />
+                      </Card>
+                    )}
+                  </Grid>
+                </Grid>
+                <Divider />
 
-            <div style={styles.buttons}>
-            <Link to="/customers">
+                <div style={styles.buttons}>
+                  <Link to="/customers">
                     <Button variant="contained">
                       {/* onClick={this.handleGoBack}> */}
                       <ArrowBackIosIcon /> Back{" "}
@@ -373,7 +367,7 @@ CustomerFormState
                   >
                     <SaveIcon /> Save
                   </Button>
-              {/* <Link to="/products">
+                  {/* <Link to="/products">
                 <Button variant="contained" label="Cancel" />
               </Link>
 
@@ -385,32 +379,31 @@ CustomerFormState
                 primary={true}
                 disabled={!this.state.canSubmit}
               /> */}
-            </div>
-            {/* {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>} */}
-            </Form>
-)}
-         </Formik>
+                </div>
+                {/* {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>} */}
+              </Form>
+            )}
+          </Formik>
         )}
-        </PageBase>
-      );
-    }
+      </PageBase>
+    );
   }
+}
 
-
-ProductFormPage.propTypes = {
-  router: PropTypes.object,
-  routeParams: PropTypes.object,
-  product: PropTypes.object,
-  newProduct: typeof thunkApiCall,
-  getProduct: typeof thunkApiCall,
-  updateProduct: typeof thunkApiCall,
-  updateSuccess: PropTypes.bool.isRequired,
-  addSuccess: PropTypes.bool.isRequired,
-  addProduct: typeof thunkApiCall,
-  categoryList: PropTypes.array,
-  getCategoryList: typeof thunkApiCall,
-  errorMessage: PropTypes.string
-};
+// ProductFormPage.propTypes = {
+//   router: PropTypes.object,
+//   routeParams: PropTypes.object,
+//   product: PropTypes.object,
+//   newProduct: typeof thunkApiCall,
+//   getProduct: typeof thunkApiCall,
+//   updateProduct: typeof thunkApiCall,
+//   updateSuccess: PropTypes.bool.isRequired,
+//   addSuccess: PropTypes.bool.isRequired,
+//   addProduct: typeof thunkApiCall,
+//   categoryList: PropTypes.array,
+//   getCategoryList: typeof thunkApiCall,
+//   errorMessage: PropTypes.string,
+// };
 
 function mapStateToProps(state) {
   const { productReducer } = state;
@@ -421,7 +414,7 @@ function mapStateToProps(state) {
     updateSuccess,
     addSuccess,
     isAuthenticated,
-    user
+    user,
   } = productReducer;
 
   return {
@@ -431,17 +424,17 @@ function mapStateToProps(state) {
     addSuccess,
     updateSuccess,
     isAuthenticated,
-    user
+    user,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    newProduct: () => dispatch(newProduct()),
-    getProduct: id => dispatch(getProduct(id)),
-    updateProduct: product => dispatch(updateProduct(product)),
-    addProduct: product => dispatch(addProduct(product)),
-    getCategoryList: () => dispatch(loadCategories())
+    newProduct: (action) => dispatch(thunkApiCall(action)),
+    getProduct: (action) => dispatch(thunkApiCall(action)),
+    updateProduct: (action) => dispatch(thunkApiCall(action)),
+    addProduct: (action) => dispatch(thunkApiCall(action)),
+    getCategoryList: (action) => dispatch(thunkApiCall(action)),
   };
 }
 

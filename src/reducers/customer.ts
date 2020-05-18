@@ -12,7 +12,7 @@ import { Customer, CustomerModel } from '../types';
 export function customerReducer(
   state: CustomerState = {
     isFetching: true,
-    customer: new CustomerModel("", "", "", "", "", false, 0) as Customer, // {} as Customer,
+    customer: new CustomerModel() as Customer, // {} as Customer,
     customerList: [],
     deleted: false,
     updated: false,

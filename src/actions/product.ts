@@ -12,7 +12,7 @@ import {
 import { Entity } from "../types";
 
 
-export function listProducts(result?: TODO) {
+export function listProduct(result?: TODO) {
   return {
     type: LIST_PRODUCT,
     payload: result

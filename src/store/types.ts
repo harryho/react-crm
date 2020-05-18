@@ -223,7 +223,7 @@ export type CustomerActionTypes = NewCustomerAction | GetCustomerAction | Create
     export interface ProductState {
       isFetching: boolean;
       product: Product,
-      productList: [];
+      productList: Product[];
       error?: null
       deleted?: boolean,
       updated?:boolean

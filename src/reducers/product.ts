@@ -12,8 +12,8 @@ import { Product, ProductModel } from '../types';
 export function productReducer(
   state: ProductState = {
     isFetching: true,
-    product: new ProductModel("", "", "", "", "", false, 0) as Product, // {} as Product,
-    productList: [],
+    product: new ProductModel() as Product, // {} as Product,
+    productList:[],
     deleted: false,
     updated: false,
   },
@@ -26,8 +26,8 @@ export function productReducer(
         isFetching: false,
         productList: action.payload,
         errorMessage: "",
-        deleted: false
-      
+        deleted: false,
+        updated:false
 
       });
     case NEW_PRODUCT:
@@ -59,7 +59,7 @@ export function productReducer(
       return Object.assign({}, state, {
         isFetching: false,
         errorMessage: action.error,
-        deleted: !action.error && action.payload ? true : false,
+        deleted: (!action.error && action.payload )? true : false,
         updated: false
       });
 

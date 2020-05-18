@@ -12,7 +12,7 @@ import {
 import { Entity } from "../types";
 
 
-export function listOrders(result?: TODO) {
+export function listOrder(result?: TODO) {
   return {
     type: LIST_ORDER,
     payload: result

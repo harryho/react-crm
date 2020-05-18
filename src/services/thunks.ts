@@ -36,7 +36,16 @@ import {
   CREATE_PRODUCT,
   NewAction,
 } from "../store/types";
-import { Customer, CustomerModel } from "../types";
+import {
+  Customer,
+  CustomerModel,
+  OrderModel,
+  Product,
+  ProductModel,
+  Order, 
+} from "../types";
+import { listOrder, newOrder, getOrder, updateOrder,createOrder, deleteOrder } from "../actions/order";
+import { listProduct, newProduct, getProduct, createProduct, updateProduct, deleteProduct } from "../actions/product";
 
 export const thunkAuth = (
   apiAction?: ApiAction
@@ -68,7 +77,15 @@ function getNewEntity(newAction: NewAction) {
   switch (newAction) {
     case NEW_CUSTOMER:
       return {
-        data: new CustomerModel("", "", "", "", "", false, 0) as Customer,
+        data: new CustomerModel() as Customer,
+      };
+    case NEW_ORDER:
+      return {
+        data: new OrderModel() as Order,
+      };
+    case NEW_PRODUCT:
+      return {
+        data: new ProductModel() as Product,
       };
   }
 }
@@ -114,44 +131,44 @@ function dispatchReponse(dispatch, type, response) {
       break;
     //------------------------
     case LIST_ORDER:
-      dispatch(listCustomers(response.data));
+      dispatch(listOrder(response.data));
       break;
     case NEW_ORDER:
-      dispatch(newCustomer(response.data));
+      dispatch(newOrder(response.data));
       break;
     case GET_ORDER:
-      dispatch(getCustomer(response.data));
+      dispatch(getOrder(response.data));
       break;
     case CREATE_ORDER:
-      dispatch(createCustomer(response.data));
+      dispatch(createOrder(response.data));
       break;
     case UPDATE_ORDER:
-      dispatch(updateCustomer(response.data));
+      dispatch(updateOrder(response.data));
       break;
 
     case DELETE_ORDER:
-      dispatch(deleteCustomer(response.data));
+      dispatch(deleteOrder(response.data));
       break;
 
     //------------------------
     case LIST_PRODUCT:
-      dispatch(listCustomers(response.data));
+      dispatch(listProduct(response.data));
       break;
     case NEW_PRODUCT:
-      dispatch(newCustomer(response.data));
+      dispatch(newProduct(response.data));
       break;
     case GET_PRODUCT:
-      dispatch(getCustomer(response.data));
+      dispatch(getProduct(response.data));
       break;
     case CREATE_PRODUCT:
-      dispatch(createCustomer(response.data));
+      dispatch(createProduct(response.data));
       break;
     case UPDATE_PRODUCT:
-      dispatch(updateCustomer(response.data));
+      dispatch(updateProduct(response.data));
       break;
 
     case DELETE_PRODUCT:
-      dispatch(deleteCustomer(response.data));
+      dispatch(deleteProduct(response.data));
       break;
   }
 }
