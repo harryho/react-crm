@@ -24,7 +24,7 @@ const data = {
     { text: "Product", icon: <StoreOutlinedIcon />, link: "/products" },
     { text: "About", icon: <InfoOutlinedIcon />, link: "/about" }
   ],
-  signOutMenus: [
+  userMenus: [
     { text: "Sign out", icon: <SettingsPower />, link: "/login" },
     { text: "Change password", icon: <VpnKey />, link: "" }
   ],

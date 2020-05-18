@@ -4,7 +4,7 @@ import '../styles.scss';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { Route } from 'react-router-dom';
 import AppNavBar from '../components/AppNavBar';
-import AppNavMenu from '../components/AppNavMenu';
+import AppNavDrawer from '../components/AppNavDrawer';
 import { WithWidth } from '@material-ui/core/withWidth';
 import { withStyles, WithStyles } from '@material-ui/core/styles';
 import themeDefault from '../theme-default';
@@ -134,7 +134,7 @@ class App extends React.Component<AppProps, AppState> {
             <div>
               <AppNavBar styles={appStlyes} handleDrawerToggle={this.handleDrawerToggle.bind(this)}></AppNavBar>
               {/* <React.Fragment> */}
-              <AppNavMenu
+              <AppNavDrawer
                 drawerStyle={appStlyes.drawer}
                 navDrawerOpen={navDrawerOpen}
                 username={`${firstname} ${lastname}`}

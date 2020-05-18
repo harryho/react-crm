@@ -13,9 +13,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
+  // menuButton: {
+  //   marginRight: theme.spacing(2),
+  // },
   title: {
     flexGrow: 1,
   },
@@ -43,7 +43,9 @@ const AppNavBar: React.FC<AppNavBarProps> = ({ styles, handleDrawerToggle: handl
     <div>
       <AppBar position="fixed" style={styles.appBar}>
         <Toolbar className={styles.toolbar}>
-          <IconButton edge="start" className={style.menuButton} onClick={handleChangeRequestNavDrawer} color="inherit" aria-label="menu">
+          <IconButton edge="start" 
+          // className={style.menuButton} 
+          onClick={handleChangeRequestNavDrawer} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
           <Typography variant="h5" className={style.title}>
