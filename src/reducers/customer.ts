@@ -1,5 +1,5 @@
 import {
-  CustomerState, CusomerActionTypes,
+  CustomerState, CustomerActionTypes,
   CREATE_CUSTOMER,
   UPDATE_CUSTOMER,
   DELETE_CUSTOMER,
@@ -17,7 +17,7 @@ export function customerReducer(
     deleted: false,
     updated: false,
   },
-  action: CusomerActionTypes
+  action: CustomerActionTypes
 ) {
   console.log(action)
   switch (action.type) {

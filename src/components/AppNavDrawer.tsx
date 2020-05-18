@@ -67,18 +67,7 @@ export default function AppNavDrawer(props: Props) {
     <>
       <AppUserMenu username={username} onLogoutClick={onLogoutClick}  />
       <AppDrawerMenu />
-      {/* <div>
-        {data.menus.map((menu, index) => (
-          <MenuItem key={index}>
-            <ListItemIcon>{menu.icon}</ListItemIcon>
-            <Link to={menu.link}>
-              <Typography variant="h6" component="h6" className={styles.menuItem}>
-                {menu.text}
-              </Typography>
-            </Link>
-          </MenuItem>
-        ))}
-      </div> */}
+
     </>
   );
 

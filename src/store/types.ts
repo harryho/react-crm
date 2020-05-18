@@ -1,4 +1,4 @@
-import { Entity, Customer, UserInfo, User } from "../types";
+import { Entity, Customer, UserInfo, User, Order, Product } from "../types";
 
 // Describing the shape of the chat's slice of state
 export interface Message {
@@ -142,11 +142,134 @@ interface DeleteCustomerAction {
 export type CustomerActions = typeof LIST_CUSTOMER | typeof GET_CUSTOMER
  | typeof NEW_CUSTOMER  | typeof UPDATE_CUSTOMER | typeof CREATE_CUSTOMER | typeof DELETE_CUSTOMER
 
-export type CusomerActionTypes = NewCustomerAction | GetCustomerAction | CreateCustomerAction |
+export type CustomerActionTypes = NewCustomerAction | GetCustomerAction | CreateCustomerAction |
   ListCustomerAction | UpdateCustomerAction | DeleteCustomerAction;
 
 
 
 
 
-export type NewAction = typeof NEW_CUSTOMER 
+
+  export const LIST_ORDER = "LIST_ORDER";
+  export const GET_ORDER = "GET_ORDER";
+  export const NEW_ORDER = "NEW_ORDER";
+  export const UPDATE_ORDER = "UPDATE_ORDER";
+  export const CREATE_ORDER = "CREATE_ORDER";
+  export const DELETE_ORDER = "DELETE_ORDER";
+  
+  
+  export interface OrderState {
+    isFetching: boolean;
+    order: Order,
+    orderList: [];
+    error?: null
+    deleted?: boolean,
+    updated?:boolean
+  }
+  
+  interface GetOrderAction {
+    type: typeof GET_ORDER;
+    payload: Order,
+    error?: string
+  }
+  
+  interface ListOrderAction {
+    type: typeof LIST_ORDER;
+    payload: Order[]
+  }
+  
+  interface NewOrderAction {
+    type: typeof NEW_ORDER;
+    payload: Order,
+    error?: string
+  }
+  
+  interface UpdateOrderAction {
+    type: typeof UPDATE_ORDER;
+    payload: Order,
+    error?: string
+  }
+  
+  interface CreateOrderAction {
+    type: typeof CREATE_ORDER;
+    payload: Order,
+    error?: string
+  }
+  
+  interface DeleteOrderAction {
+    type: typeof DELETE_ORDER;
+    payload: number,
+    error?: string
+  }
+  
+  export type OrderActions = typeof LIST_ORDER | typeof GET_ORDER
+   | typeof NEW_ORDER  | typeof UPDATE_ORDER | typeof CREATE_ORDER | typeof DELETE_ORDER
+  
+  export type OrderActionTypes = NewOrderAction | GetOrderAction | CreateOrderAction |
+    ListOrderAction | UpdateOrderAction | DeleteOrderAction;
+  
+  
+
+
+
+    export const LIST_PRODUCT = "LIST_PRODUCT";
+    export const GET_PRODUCT = "GET_PRODUCT";
+    export const NEW_PRODUCT = "NEW_PRODUCT";
+    export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
+    export const CREATE_PRODUCT = "CREATE_PRODUCT";
+    export const DELETE_PRODUCT = "DELETE_PRODUCT";
+    
+    
+    export interface ProductState {
+      isFetching: boolean;
+      product: Product,
+      productList: [];
+      error?: null
+      deleted?: boolean,
+      updated?:boolean
+    }
+    
+    interface GetProductAction {
+      type: typeof GET_PRODUCT;
+      payload: Product,
+      error?: string
+    }
+    
+    interface ListProductAction {
+      type: typeof LIST_PRODUCT;
+      payload: Product[]
+    }
+    
+    interface NewProductAction {
+      type: typeof NEW_PRODUCT;
+      payload: Product,
+      error?: string
+    }
+    
+    interface UpdateProductAction {
+      type: typeof UPDATE_PRODUCT;
+      payload: Product,
+      error?: string
+    }
+    
+    interface CreateProductAction {
+      type: typeof CREATE_PRODUCT;
+      payload: Product,
+      error?: string
+    }
+    
+    interface DeleteProductAction {
+      type: typeof DELETE_PRODUCT;
+      payload: number,
+      error?: string
+    }
+    
+    export type ProductActions = typeof LIST_PRODUCT | typeof GET_PRODUCT
+     | typeof NEW_PRODUCT  | typeof UPDATE_PRODUCT | typeof CREATE_PRODUCT | typeof DELETE_PRODUCT
+    
+    export type ProductActionTypes = NewProductAction | GetProductAction | CreateProductAction |
+      ListProductAction | UpdateProductAction | DeleteProductAction;
+    
+
+    export type NewAction = typeof NEW_PRODUCT | typeof NEW_CUSTOMER
+    | typeof NEW_ORDER

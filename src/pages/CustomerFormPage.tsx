@@ -1,29 +1,33 @@
-import React from 'react';
-import { Link, match } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
-import Switch from '@material-ui/core/Switch';
-import SaveIcon from '@material-ui/icons/Save';
-import Divider from '@material-ui/core/Divider';
-import PageBase from '../components/PageBase';
-import Skeleton from '@material-ui/lab/Skeleton';
-import { connect } from 'react-redux';
-// import { GridList, GridTile } from '@material-ui/core/GridList';
-import Card from '@material-ui/core/Card';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
-import { getAction } from '../actions/customer';
+import React from "react";
+import { Link, match } from "react-router-dom";
+import Button from "@material-ui/core/Button";
+import Switch from "@material-ui/core/Switch";
+import SaveIcon from "@material-ui/icons/Save";
+import Divider from "@material-ui/core/Divider";
+import PageBase from "../components/PageBase";
+import Skeleton from "@material-ui/lab/Skeleton";
+import { connect } from "react-redux";
+import Card from "@material-ui/core/Card";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import { getAction } from "../actions/customer";
 
-import { Formik, Form, Field } from 'formik';
-import { TextField } from 'formik-material-ui';
+import { Formik, Form, Field } from "formik";
+import { TextField } from "formik-material-ui";
 
-import { grey } from '@material-ui/core/colors';
-import { thunkApiCall } from '../services/thunks';
-import { Customer, User } from '../types';
-import { LinearProgress, Grid } from '@material-ui/core';
-import Snackbar from '@material-ui/core/Snackbar';
-import { GET_CUSTOMER, ApiAction, UPDATE_CUSTOMER, CREATE_CUSTOMER } from '../store/types';
+import { grey } from "@material-ui/core/colors";
+import { thunkApiCall } from "../services/thunks";
+import { Customer, User } from "../types";
+import { LinearProgress, Grid } from "@material-ui/core";
+import Snackbar from "@material-ui/core/Snackbar";
+import {
+  GET_CUSTOMER,
+  ApiAction,
+  UPDATE_CUSTOMER,
+  CREATE_CUSTOMER,
+} from "../store/types";
+import Alert from "@material-ui/lab/Alert";
 
-const grey400 = grey['400'];
+const grey400 = grey["400"];
 
 const styles = {
   toggleDiv: {
@@ -37,7 +41,7 @@ const styles = {
   },
   buttons: {
     marginTop: 30,
-    float: 'right' as TODO,
+    float: "right" as TODO,
   },
   saveButton: {
     marginLeft: 5,
@@ -49,19 +53,15 @@ const styles = {
     marginBottom: 5,
   },
   container: {
-    marginTop: '2em',
+    marginTop: "2em",
   },
   cell: {
-    padding: '1em',
+    padding: "1em",
   },
   fullWidth: {
-    width: '100%',
+    width: "100%",
   },
 };
-
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 interface CustomerFormProps {
   // router: object;
@@ -81,19 +81,15 @@ interface CustomerFormState {
   customer: Customer;
   snackbarOpen: boolean;
   autoHideDuration: number;
-  // isFetching: boolean;
-  // addSuccess:boolean,
-  // updateSuccess:boolean,
-  // errorMessage?:string,
-  // isAuthenticated:boolean,
-  // user:User
 }
 
 // class CustomerFormPage extends React.Component {
-class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormState> {
+class CustomerFormPage extends React.Component<
+  CustomerFormProps,
+  CustomerFormState
+> {
   constructor(props) {
     super(props);
-    // autoBind(this);
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -117,52 +113,24 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
     // @ts-ignore
   }
 
-  // UNSAFE_componentWillReceiveProps(nextProps) {
-  //   if (
-  //     this.props.customer &&
-  //     nextProps.customer
-  //     //  && this.props.customer?.id != nextProps.customer?.id
-  //   ) {
-  //     // this.setState({ isFetching: false });
-  //     this.setState({ customer: Object.assign({}, nextProps.customer) });
-  //   }
-
-  //   if ((!this.props.addSuccess && nextProps.addSuccess) || (!this.props.updateSuccess && nextProps.updateSuccess)) {
-  //     // this.props.router.push("/customers");
-  //     // let history = useHistory();
-  //     // history.push('/customers');
-  //     let location = useLocation();
-  //     location.pathname = '/customers';
-  //   }
-  // }
-
   componentDidMount() {
-    console.log('componentDidMount ', this.props);
+    console.log("componentDidMount ", this.props);
     // @ts-ignore
-    // const customerId = this.props.match.params?.id;
-    // let action = {} as ApiAction;
-    // if (customerId) {
-    //   action = getAction(GET_CUSTOMER, customerId); //  Object.assign({}, this.getAction);
-    // } else {
-    //   action = getAction(NEW_CUSTOMER);
-    // }
-    // this.props.getCustomer(action);
     const customerId = this.props.match.params?.id;
-    let action = {} as ApiAction;
+    let action: ApiAction;
     if (customerId) {
       action = getAction(GET_CUSTOMER, customerId); //  Object.assign({}, this.getAction);
       this.props.getCustomer(action);
     }
-    //  else {
-    //   action = getAction(NEW_CUSTOMER);
-    // }
   }
 
   componentDidUpdate(prevProps) {
-    console.log('componentDidUpdate ', this.props);
-    if (this.props.updated !== prevProps.updated && this.props.updated === true) {
+    console.log("componentDidUpdate ", this.props);
+    if (
+      this.props.updated !== prevProps.updated &&
+      this.props.updated === true
+    ) {
       this.setState({ snackbarOpen: true });
-      // this.handleSearch();
     }
   }
 
@@ -177,7 +145,7 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
   }
 
   notifyFormError(data) {
-    console.error('Form error:', data);
+    console.error("Form error:", data);
   }
 
   handleClick(event) {
@@ -197,7 +165,7 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
 
     const customer = { ...this.state.customer, ...values };
     console.log(customer);
-    let action = {} as ApiAction;
+    let action: ApiAction;
     if (customer.id > 0) {
       action = getAction(UPDATE_CUSTOMER, null, customer);
     } else {
@@ -208,8 +176,6 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
 
   render() {
     const { errorMessage, isFetching, customer } = this.props;
-    // debugger
-    // const { } = this.state;
 
     console.log(customer, isFetching);
 
@@ -225,20 +191,21 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
             initialValues={{
               ...customer,
             }}
-            validate={values => {
+            validate={(values) => {
               const errors: Partial<Customer & User> = {};
               if (!values.firstname) {
-                errors.firstname = 'Required';
+                errors.firstname = "Required";
               }
               if (!values.email) {
-                errors.email = 'Required';
-              } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-                errors.email = 'Invalid email address';
+                errors.email = "Required";
+              } else if (
+                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+              ) {
+                errors.email = "Invalid email address";
               }
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
-              // onSignInClick(values);
               this.onSave(values);
               setTimeout(() => {
                 setSubmitting(false);
@@ -322,9 +289,8 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
                       <Switch
                         checked={customer.membership}
                         color="primary"
-                        name="membership
-                    "
-                        inputProps={{ 'aria-label': 'membership' }}
+                        name="membership"
+                        inputProps={{ "aria-label": "membership" }}
                       />
                     )}
                   </Grid>
@@ -336,7 +302,7 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
                     )}
                   </Grid>
                 </Grid>
-                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+                {/* {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>} */}
                 <br />
                 <Divider />
                 {isSubmitting && <LinearProgress />}
@@ -345,7 +311,7 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
                   <Link to="/customers">
                     <Button variant="contained">
                       {/* onClick={this.handleGoBack}> */}
-                      <ArrowBackIosIcon /> Back{' '}
+                      <ArrowBackIosIcon /> Back{" "}
                     </Button>
                   </Link>
                   <Button
@@ -359,7 +325,11 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
                     <SaveIcon /> Save
                   </Button>
                 </div>
-                <Snackbar open={this.state.snackbarOpen} autoHideDuration={this.state.autoHideDuration} onClose={this.onSnackBarClose}>
+                <Snackbar
+                  open={this.state.snackbarOpen}
+                  autoHideDuration={this.state.autoHideDuration}
+                  onClose={this.onSnackBarClose}
+                >
                   <Alert onClose={this.onSnackBarClose} severity="success">
                     Operation is done successfully!
                   </Alert>
@@ -375,12 +345,15 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
 // }
 
 function mapStateToProps(state) {
-  const { customer, isFetching, errorMessage, user, updated } = state.customer;
+  const { customer, isFetching,
+    //  errorMessage, 
+     user, updated } = state.customer;
+
 
   return {
     customer,
     isFetching,
-    errorMessage,
+    // errorMessage,
     user,
     updated,
   };
@@ -388,8 +361,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getCustomer: action => dispatch(thunkApiCall(action)),
-    saveCustomer: action => dispatch(thunkApiCall(action)),
+    getCustomer: (action) => dispatch(thunkApiCall(action)),
+    saveCustomer: (action) => dispatch(thunkApiCall(action)),
     searchCustomer: (action?: TODO) => dispatch(thunkApiCall(action)),
   };
 }

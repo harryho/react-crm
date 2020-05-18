@@ -17,11 +17,6 @@ interface DumpProps {
   // story: StoryFnReactReturnType
 }
 
-// function AppUserMenu(props: DumpProps) {
-//   return <>
-//   user menus
-//   </>;
-// }
 function AppDrawerMenu(props: DumpProps) {
   return(
   <>
@@ -40,8 +35,7 @@ storiesOf("Welcome", module).add("AppNavDrawer", () => (
 storiesOf("AppNavDrawer", module)
   .addDecorator((getStory) => <Provider store={store}>{getStory()}</Provider>)
   .addDecorator((getStory) => <MemoryRouter>{getStory()}</MemoryRouter>)
-  // .addDecorator((getStory) => <AppUserMenu>{getStory()}</AppUserMenu>)
-  .addDecorator((getStory) => <AppDrawerMenu>{getStory()}</AppDrawerMenu>)
+ .addDecorator((getStory) => <AppDrawerMenu>{getStory()}</AppDrawerMenu>)
   .add(
     "with user menu and nav menus",
     () => (

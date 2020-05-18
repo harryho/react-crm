@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
@@ -16,30 +15,26 @@ import Cancel from '@material-ui/icons/Cancel';
 import PageBase from '../components/PageBase';
 import AppBar from '@material-ui/core/AppBar';
 import { connect } from 'react-redux';
-import { deleteCustomer, getAction } from '../actions/customer';
+import { getAction } from '../actions/customer';
 import Dialog from '@material-ui/core/Dialog';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import { teal, pink, grey, green, common } from '@material-ui/core/colors';
-import { sendMessage } from '../store/actions';
 import { thunkApiCall } from '../services/thunks';
-import { LIST_CUSTOMER, HttpMethod, DELETE_CUSTOMER, NEW_CUSTOMER } from '../store/types';
+import { LIST_CUSTOMER, DELETE_CUSTOMER, NEW_CUSTOMER } from '../store/types';
 import { Customer } from '../types';
 import { Container, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import Alert from '../components/Alert'
 
-const teal500 = teal['500'];
+const teal500 = teal['500'];  
 const pink500 = pink['500'];
 const grey500 = grey['500'];
 const green400 = green['400'];
 const white = common.white;
 
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 interface CustomerListProps {
   pageCount: number;
@@ -48,7 +43,6 @@ interface CustomerListProps {
   searchCustomer: typeof thunkApiCall;
   deleteCustomer: typeof thunkApiCall;
   newCustomer: typeof thunkApiCall;
-  sendMessage: typeof sendMessage;
   deleteSuccess: boolean;
   errorMessage: string;
   deleted: boolean;
@@ -69,8 +63,7 @@ interface CustomerListState {
   search: {
     firstname: string;
     lastname: string;
-  };
-  countArray: number[];
+  }
 }
 
 class CustomerListPage extends React.Component<CustomerListProps, CustomerListState> {
@@ -99,8 +92,7 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     search: {
       firstname: '',
       lastname: '',
-    },
-    countArray: [1, 2, 3, 4, 5],
+    }
   };
 
 
@@ -128,7 +120,7 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     }
   }
 
-  onPageChange(event: React.ChangeEvent<unknown>, page: number) {
+  onPageChange(_event: React.ChangeEvent<unknown>, page: number) {
     const startIndex = (page - 1) * 10;
     const endIndex = startIndex + 10;
     const items = this.props.customerList.slice(startIndex, endIndex);
@@ -196,22 +188,10 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     this.props.history.push("/newcustomer")
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    // if (nextProps && nextProps.errorMessage && !nextProps.deleteSuccess) {
-    //   this.setState({ snackbarOpen: true });
-    // }
-
-    // if (!this.props.deleteSuccess && nextProps.deleteSuccess && !nextProps.errorMessage && !nextProps.isFetching) {
-    //   // this.props.searchCustomer(this.apiAction);
-    //   this.handleSearch()
-    // }
-  }
 
   render() {
-    const { errorMessage, customerList,  deleted } = this.props;
+    const { customerList } = this.props;
     const {isFetching} = this.state;
-
-    console.log();
 
     const styles = {
       fab: {
@@ -286,11 +266,11 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
         ) : (
           <div>
             <div>
-              {/* <Link to="/newcustomer"> */}
+      
                 <Fab size="small" color="secondary" style={styles.fab} onClick={this.handleNewCustomer} >
                   <ContentAdd />
                 </Fab>
-              {/* </Link> */}
+      
               <Fab size="small" style={styles.fabSearch} onClick={this.handleToggle}>
                 <Search />
               </Fab>
@@ -417,7 +397,6 @@ function mapDispatchToProps(dispatch) {
     searchCustomer: (action?: TODO) => dispatch(thunkApiCall(action)),
     deleteCustomer: (action: TODO) => dispatch(thunkApiCall(action)),
     newCustomer: (action?: TODO) => dispatch(thunkApiCall(action)),
-    sendMessage,
   };
 }
 
