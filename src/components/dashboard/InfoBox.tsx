@@ -50,14 +50,15 @@ const InfoBox = (props:InfoBoxProps) =>{
         height: 48,
         width: 48,
         marginTop: 20,
-        maxWidth: "100%"
+        maxWidth: "100%",
+        color: white
       }
     };
 
     return (
       <Paper>
         <span style={styles.iconSpan}>
-          <Icon color={white} style={styles.icon} />
+          <Icon  style={styles.icon}  />
         </span>
 
         <div style={styles.content}>

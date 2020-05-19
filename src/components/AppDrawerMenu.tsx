@@ -27,14 +27,14 @@ export default function AppDrawerMenu() {
   return (
     <div>
       {data.menus.map((menu, index) => (
-        <MenuItem key={index}>
-          <ListItemIcon>{menu.icon}</ListItemIcon>
-          <Link to={menu.link}>
-            <Typography variant="h6" component="h6" className={styles.menuItem}>
+        <Link to={menu.link} className="MuiListItem-button">
+          <MenuItem key={index} className="MuiListItem-button">
+            <ListItemIcon >{menu.icon}</ListItemIcon>
+            <Typography  variant="h6" component="h6" className={styles.menuItem}>
               {menu.text}
             </Typography>
-          </Link>
-        </MenuItem>
+          </MenuItem>
+        </Link>
       ))}
     </div>
   );

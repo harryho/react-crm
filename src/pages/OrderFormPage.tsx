@@ -623,7 +623,7 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                 onClick={() => this.handleClick(event, "AddProduct")}
                 primary={true}
               /> */}
-                <Link to="/customers">
+                <Link to="/orders">
                   <Button variant="contained">
                     {/* onClick={this.handleGoBack}> */}
                     <ArrowBackIosIcon /> Back{" "}

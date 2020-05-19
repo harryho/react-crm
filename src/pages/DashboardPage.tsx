@@ -14,6 +14,7 @@ import Data from "../data";
 
 import { cyan, pink, purple, orange, grey } from "@material-ui/core/colors";
 import { Grid } from "@material-ui/core";
+import PageBase from "../components/PageBase";
 
 const cyan600 = cyan["600"];
 const pink600 = pink["600"];
@@ -26,21 +27,27 @@ const styles = {
     fontSize: 15,
     fontWeight: 400, //TypographyStyle.fontWeightLight,
     color: grey600,
-    paddingBottom: 15,
+    // paddingBottom: 15,
     display: "block",
   },
   container: {
-    marginTop: "2em",
+    marginTop: "3em",
   },
   cell: {
     padding: "1em",
   },
+  content:{
+    paddingTop:60,
+    padding:20,
+  }
 };
 
 const DashboardPage = () => {
   return (
-    <div>
-      <h3 style={styles.navigation}>Application / Dashboard</h3>
+    <div style={styles.content}>
+      {/* <h3 style={styles.navigation}>Application / Dashboard</h3> */}
+
+      {/* <PageBase title="Dashboard" navigation="Application / Dashboard "> */}
       <Grid container style={styles.container} spacing={3}>
         <Grid item style={styles.cell} xs={12} md={3}>
           <InfoBox
@@ -82,6 +89,7 @@ const DashboardPage = () => {
           <BrowserUsage data={Data.dashBoardPage.browserUsage} />
         </Grid>
       </Grid>
+      {/* </PageBase> */}
     </div>
   );
 };

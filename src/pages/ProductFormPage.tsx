@@ -351,7 +351,7 @@ class ProductFormPage extends React.Component<
                 <Divider />
 
                 <div style={styles.buttons}>
-                  <Link to="/customers">
+                  <Link to="/products">
                     <Button variant="contained">
                       {/* onClick={this.handleGoBack}> */}
                       <ArrowBackIosIcon /> Back{" "}

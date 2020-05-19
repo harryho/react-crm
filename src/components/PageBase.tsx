@@ -23,8 +23,9 @@ const styles={
     padding: 10,
   },
   main:{
-    padding: 40,
-    paddingTop: 80
+    paddingTop: 80,
+    paddingLeft: 30,
+    paddingRight: 30
   },
   clear: {
     clear: "both" as TODO

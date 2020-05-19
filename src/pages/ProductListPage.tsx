@@ -41,6 +41,63 @@ const grey500 = grey["500"];
 const green400 = green["400"];
 const white = common.white;
 
+
+
+const styles = {
+  fab: {
+    // margin: 0,
+    top: "auto",
+    right: 20,
+    bottom: 20,
+    left: "auto",
+    position: "fixed" as TODO,
+    marginRight: 20,
+  },
+  fabSearch: {
+    // margin: 0,
+    top: "auto",
+    right: 100,
+    bottom: 20,
+    left: "auto",
+    position: "fixed" as TODO,
+    marginRight: 20,
+    backgroundColor: "lightblue" as TODO,
+  },
+  editButton: {
+    marginRight: "1em",
+    color: white,
+    backgroundColor: green400,
+  },
+  editButtonIcon: {
+    fill: white,
+  },
+  deleteButton: {
+    color: "grey",
+    fill: grey500,
+  },
+  columns: {
+    width10: {
+      width: '10%',
+    },
+  },
+  dialog: {
+    width: "20%",
+    maxWidth: "none",
+  },
+  drawer: {
+    backgroundColor: "lightgrey",
+  },
+  row: {
+    margin: "1.5em",
+    width: "95%",
+  },
+  pagination: {
+    width: "250px",
+    margin: "0 auto",
+    paddingTop: 10,
+  },
+};
+
 interface ProductListProps {
   pageCount: number;
   isFetching: boolean;
@@ -241,53 +298,6 @@ class ProductListPage extends React.Component<
   render() {
     const { errorMessage, productList, isFetching } = this.props;
 
-    const styles = {
-      fab: {
-        // margin: 0,
-        top: "auto",
-        right: 20,
-        bottom: 20,
-        left: "auto",
-        position: "fixed" as TODO,
-        marginRight: 20,
-      },
-      fabSearch: {
-        // margin: 0,
-        top: "auto",
-        right: 100,
-        bottom: 20,
-        left: "auto",
-        position: "fixed" as TODO,
-        marginRight: 20,
-        backgroundColor: "lightblue" as TODO,
-      },
-      editButton: {
-        paddingRight: 25,
-      },
-      editButtonIcon: {
-        fill: white,
-      },
-      deleteButton: {
-        fill: grey500,
-      },
-      columns: {
-        width10: {
-          width: '10%',
-        },
-      },
-      dialog: {
-        width: "20%",
-        maxWidth: "none",
-      },
-      drawer: {
-        backgroundColor: "lightgrey",
-      },
-      row: {
-        margin: "1.5em",
-        width: "95%",
-      },
-    };
-
     const dialogButtons = [
       <Fab
         key="cancel-btn"
@@ -351,7 +361,7 @@ class ProductListPage extends React.Component<
                   </Alert>
                 </Snackbar>
 
-            <Table>
+            <Table size="small">
               <TableHead>
                 <TableRow>
                   <TableCell style={styles.columns.width10}>Product</TableCell>
@@ -417,19 +427,7 @@ class ProductListPage extends React.Component<
                 ))}
               </TableBody>
             </Table>
-            {/* <div className={"row center-xs"}>
-            <div className={"col-xs-6"}>
-              <div className={"box"}>
-                {productList && (
-                  <Pagination
-                    items={productList}
-                    onChangePage={this.onChangePage}
-                  />
-                )}
-              </div>
-            </div>
-          </div> */}
-            <Container maxWidth="xs" style={{ paddingTop: "1em" }}>
+            <Container style={styles.pagination}>
               <Pagination
                 count={this.state.totalPages}
                 page={this.state.page}
@@ -438,6 +436,15 @@ class ProductListPage extends React.Component<
                 onChange={this.onPageChange}
               />
             </Container>
+            {/* <Container maxWidth="xs" style={{ paddingTop: "1em" }}>
+              <Pagination
+                count={this.state.totalPages}
+                page={this.state.page}
+                variant="outlined"
+                color="primary"
+                onChange={this.onPageChange}
+              />
+            </Container> */}
             {/* <Dialog
             title="Confirm Dialog "
             actions={actions}

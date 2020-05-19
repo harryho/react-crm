@@ -41,6 +41,63 @@ const grey500 = grey["500"];
 const green400 = green["400"];
 const white = common.white;
 
+const styles = {
+  fab: {
+    top: "auto" as TODO,
+    right: 20,
+    bottom: 20,
+    left: "auto" as TODO,
+    position: "fixed" as TODO,
+    marginRight: 20,
+    backgroundColor: pink500, // {pink500}
+  },
+  fabSearch: {
+    top: "auto" as TODO,
+    right: 100,
+    bottom: 20,
+    left: "auto" as TODO,
+    position: "fixed" as TODO,
+    marginRight: 20,
+    backgroundColor: teal500 as TODO,
+  },
+  editButton: {
+    marginRight: "1em",
+    color: white,
+    backgroundColor: green400,
+  },
+  editButtonIcon: {
+    fill: white,
+  },
+  deleteButton: {
+    color: "grey",
+    fill: grey500,
+  },
+  columns: {
+    width10: {
+      width: "10%",
+    },
+  },
+  dialog: {
+    width: "100%",
+    maxWidth: "none",
+    margin: "auto",
+    position: "fixed" as TODO,
+    padding: "0px",
+  },
+  drawer: {
+    backgroundColor: "lightgrey",
+  },
+  row: {
+    margin: "1.5em",
+    width: "95%",
+  },
+  pagination: {
+    width: "250px",
+    margin: "0 auto",
+    paddingTop: 10,
+  },
+};
+
 interface OrderListProps {
   pageCount: number;
   isFetching: boolean;
@@ -250,57 +307,7 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
     const { errorMessage, orderList } = this.props;
     const { isFetching } = this.state;
 
-    const styles = {
-      fab: {
-        top: "auto" as TODO,
-        right: 20,
-        bottom: 20,
-        left: "auto" as TODO,
-        position: "fixed" as TODO,
-        marginRight: 20,
-        backgroundColor: pink500, // {pink500}
-      },
-      fabSearch: {
-        top: "auto" as TODO,
-        right: 100,
-        bottom: 20,
-        left: "auto" as TODO,
-        position: "fixed" as TODO,
-        marginRight: 20,
-        backgroundColor: teal500 as TODO,
-      },
-      editButton: {
-        marginRight: "1em",
-        color: white,
-        backgroundColor: green400,
-      },
-      editButtonIcon: {
-        fill: white,
-      },
-      deleteButton: {
-        color: "grey",
-        fill: grey500,
-      },
-      columns: {
-        width10: {
-          width: "10%",
-        },
-      },
-      dialog: {
-        width: "100%",
-        maxWidth: "none",
-        margin: "auto",
-        position: "fixed" as TODO,
-        padding: "0px",
-      },
-      drawer: {
-        backgroundColor: "lightgrey",
-      },
-      row: {
-        margin: "1.5em",
-        width: "95%",
-      },
-    };
+   
 
     const dialogButtons = [
       <Fab
@@ -362,7 +369,7 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
                 Operation is done successfully!
               </Alert>
             </Snackbar>
-            <Table>
+            <Table size="small">
               <TableHead>
                 <TableRow>
                   <TableCell style={styles.columns.width10}>
@@ -379,7 +386,7 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
                   </TableCell>
                   <TableCell style={styles.columns.width10}>Customer</TableCell>
                   {/*<TableCell style={styles.columns.category}>Membership</TableCell>*/}
-                  <TableCell style={styles.columns.width10}>Edit</TableCell>
+                  <TableCell style={styles.columns.width10}>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -485,14 +492,6 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
     );
   }
 }
-
-// OrderListPage.propTypes = {
-//   orderList: array,
-//   getAllOrders: func.isRequired,
-//   deleteOrder: func.isRequired,
-//   deleteSuccess: bool.isRequired,
-//   errorMessage: string
-// };
 
 function mapStateToProps(state) {
   const { orderList, isFetching, errorMessage, user, deleted } = state.order;
