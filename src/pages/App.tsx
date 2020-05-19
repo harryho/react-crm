@@ -67,6 +67,7 @@ type AppProps = {
 interface AppState {
   navDrawerOpen: boolean;
   isSmallScreen: boolean;
+  showDashboard:boolean;
 }
 
 class App extends React.Component<AppProps, AppState> {
@@ -75,6 +76,7 @@ class App extends React.Component<AppProps, AppState> {
     this.state = {
       navDrawerOpen: !isSmallsWindowScreen(),
       isSmallScreen: isSmallsWindowScreen(),
+      showDashboard: false
     };
     this.signOut = this.signOut.bind(this);
   }
@@ -94,9 +96,21 @@ class App extends React.Component<AppProps, AppState> {
   };
 
   componentDidMount() {
+    console.log( this.props)
     window.addEventListener('resize', this.resize.bind(this));
     this.resize();
+    // @ts-ignore 
+    const pathname =this.props.location.pathname
+    const showDashboard = pathname === "/" || pathname.endsWith("dashboard")
+    this.setState({showDashboard})
   }
+
+  // componentDidUpdate(){
+  //       // @ts-ignore 
+  //       const pathname =this.props.location.pathname
+  //       const showDashboard = pathname === "/" || pathname.endsWith("dashboard")
+  //       this.setState({showDashboard})
+  // }
 
   handleDrawerToggle() {
     this.setState({
@@ -130,6 +144,10 @@ class App extends React.Component<AppProps, AppState> {
     let { navDrawerOpen, isSmallScreen } = this.state;
     const appStlyes = useStyles(navDrawerOpen);
 
+   // @ts-ignore 
+   const pathname =this.props.location.pathname
+   const showDashboard = pathname === "/" || pathname.endsWith("dashboard")
+
     return (
       <MuiThemeProvider theme={themeDefault}>
         {/* <CssBaseline /> */}
@@ -149,8 +167,9 @@ class App extends React.Component<AppProps, AppState> {
               />
               {/* </React.Fragment> */}
               <div style={appStlyes.content}>
-              {/* <Redirect exact from={`/`} to={"/dashboard"} />
-              <Route exact path={"/dashboard"}   component={DashboardPage} /> */}
+            
+              {/* <Route exact path={"/dashboard"}   component={DashboardPage} /> */}
+              {showDashboard && <DashboardPage />}
                 <Route exact path={`/customers`} component={CustomerListPage} />
                 <Route path={`/customer/:id`} component={CustomerFormPage} />
                 <Route path={`/newcustomer/`} component={CustomerFormPage} />
@@ -158,10 +177,11 @@ class App extends React.Component<AppProps, AppState> {
                 <Route path={`/order/:id`} component={OrderFormPage} />
                 <Route path={`/neworder/`} component={OrderFormPage} />
                 <Route exact path={`/products`} component={ProductListPage} />
-                <Route path={`/product/:id`} component={ProductFormPage} />
-                <Route path={`/newproducts/`} component={ProductFormPage} />
+                <Route path={`product/:id`} component={ProductFormPage} />
+                <Route path={`/newproduct`} component={ProductFormPage} />
 
                 <Route path={`/about`} component={AboutPage} />
+                {/* <Redirect exact from={`/home`} to={"/dashboard"} /> */}
               </div>
             </div>
           )}

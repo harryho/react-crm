@@ -22,8 +22,8 @@ export const routes = (
     <Switch>
       {/* <Route exact path="/app" component={App0} /> */}
       <Route path="/" component={App} />
-      <Route path="/customers" component={CustomerListPage} />
-      <Route path="/about" component={AboutPage} />
+      {/* <Route path="/customers" component={CustomerListPage} /> */}
+      {/* <Route path="/about" component={AboutPage} /> */}
       <Route path="/login" component={SignInPage} />
       {/* <Route path="dashboard" component={Dashboard} />
         <Route path="form" component={FormPage} />
@@ -37,7 +37,7 @@ export const routes = (
         <Route path="products" component={ProductListPage} />
       
         <Route path="*" component={NotFoundPage} /> */}
-             <Redirect from="/"     to="/app/dashboard" />
+             {/* <Redirect exact from="/"     to="/dashboard" /> */}
     </Switch>
   </div>
 );

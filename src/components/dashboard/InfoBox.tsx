@@ -1,14 +1,26 @@
-import React, { PropTypes } from "react";
+import React from "react";
 import Paper from "@material-ui/core/Paper";
-const white = common.white;
-const grey800 = grey['800'];
-import { typography } from "@material-ui/core/styles";
+
+// import { typography } from "@material-ui/core/styles";
 
 import { common, grey } from '@material-ui/core/colors';
 
-class InfoBox extends React.Component {
-  render() {
-    const { color, title, value, Icon } = this.props;
+
+const white = common.white;
+const grey800 = grey['800'];
+
+interface InfoBoxProps  {
+  Icon: any, // eslint-disable-line
+  spanBgColor: string,
+  title: string,
+  value: string
+};
+
+// class InfoBox extends React.Component {
+
+const InfoBox = (props:InfoBoxProps) =>{
+  // render() {
+    const { spanBgColor, title, value, Icon } = props;
 
     const styles = {
       content: {
@@ -18,21 +30,21 @@ class InfoBox extends React.Component {
       },
       number: {
         display: "block",
-        fontWeight: typography.fontWeightMedium,
+        fontWeight: 500, // typography.fontWeightMedium,
         fontSize: 18,
         color: grey800
       },
       text: {
         fontSize: 20,
-        fontWeight: typography.fontWeightLight,
+        fontWeight:500, //  typography.fontWeightLight,
         color: grey800
       },
       iconSpan: {
-        float: "left",
+        float: "left" as TODO,
         height: 90,
         width: 90,
-        textAlign: "center",
-        backgroundColor: color
+        textAlign: "center" as TODO,
+        backgroundColor: spanBgColor as TODO
       },
       icon: {
         height: 48,
@@ -54,14 +66,14 @@ class InfoBox extends React.Component {
         </div>
       </Paper>
     );
-  }
+  // }
 }
 
-InfoBox.propTypes = {
-  Icon: PropTypes.any, // eslint-disable-line
-  color: PropTypes.string,
-  title: PropTypes.string,
-  value: PropTypes.string
-};
+// InfoBox.propTypes = {
+//   Icon: any, // eslint-disable-line
+//   color: string,
+//   title: string,
+//   value: string
+// };
 
 export default InfoBox;

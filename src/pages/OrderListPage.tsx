@@ -115,7 +115,7 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
   //   props.getAllOrders(this.state.search);
 
   UNSAFE_componentWillMount() {}
-  
+
   componentDidMount() {
     // this.props.searchCustomer(this.apiAction);
     this.handleSearch();
@@ -220,7 +220,7 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
     const action = getAction(NEW_ORDER);
     this.props.newOrder(action);
     // @ts-ignore
-    this.props.history.push("/newcustomer");
+    this.props.history.push("/neworder");
   }
 
   handleSearchFilter(event) {
@@ -410,7 +410,7 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
                       <Fab
                         size="small"
                         style={styles.editButton}
-                        href={`customer/${item.id}`}
+                        href={`order/${item.id}`}
                       >
                         <ContentCreate />
                       </Fab>

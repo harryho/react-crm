@@ -1,4 +1,4 @@
-import React, { PropTypes } from "react";
+import React from "react";
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -9,7 +9,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend
+  Legend,
 } from "recharts";
 import Paper from "@material-ui/core/Paper";
 import GlobalStyles from "../../styles";
@@ -25,26 +25,39 @@ import GlobalStyles from "../../styles";
 
 // const LineBarAreaComposedChart = React.createClass({
 // render () {
-const LineBarChart = props => {
+
+interface LineBarChartProps {
+  data: TODO;
+}
+
+const LineBarChart = (props: LineBarChartProps) => {
   const styles = {
     paper: {
       minHeight: 344,
-      padding: 10
+      padding: 10,
     },
     legend: {
-      paddingTop: 20
+      paddingTop: 20,
     },
     pieChartDiv: {
       height: 290,
-      textAlign: "center"
-    }
+      textAlign: "center" as TODO,
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: 500, //  TypographyStyle.fontWeightLight,
+      marginBottom: 20,
+    },
+    clear: {
+      clear: "both" as TODO,
+    },
   };
 
   return (
     <Paper style={styles.paper}>
-      <span style={GlobalStyles.title}>Website Analysis</span>
+      <span style={styles.title}>Website Analysis</span>
 
-      <div style={GlobalStyles.clear} />
+      <div style={styles.clear} />
 
       <div className="row">
         <div className="col-xs-12">
@@ -74,8 +87,8 @@ const LineBarChart = props => {
   );
 };
 
-LineBarChart.propTypes = {
-  data: PropTypes.array
-};
+// LineBarChart.propTypes = {
+//   data: PropTypes.array
+// };
 
 export default LineBarChart;

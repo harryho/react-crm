@@ -705,9 +705,9 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
 }
 
 function mapStateToProps(state) {
-  const { customerReducer, orderReducer, productReducer } = state;
-  const { productList, categoryList } = productReducer;
-  const { customerList } = customerReducer;
+  // const { customerReducer, orderReducer, productReducer } = state;
+  const { productList, categoryList } = state.product;
+  const { customerList } = state.customer;
   const {
     order,
     isFetching,
@@ -715,7 +715,7 @@ function mapStateToProps(state) {
     addSuccess,
     isAuthenticated,
     user,
-  } = orderReducer;
+  } = state.order;
 
   return {
     order: order || {},

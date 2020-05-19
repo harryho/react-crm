@@ -401,7 +401,7 @@ class ProductListPage extends React.Component<
                       <Fab
                         size="small"
                         style={styles.editButton}
-                        href={`customer/${item.id}`}
+                        href={`product/${item.id}`}
                       >
                         <ContentCreate />
                       </Fab>

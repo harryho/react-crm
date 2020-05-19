@@ -113,14 +113,6 @@ const SignInPage: React.FC<SignInPageProps> = ({
     onSignInClick }) => {
   const handleClick = event => {
     event.preventDefault();
-    // const username = this.refs.username;
-    // const password = this.refs.password;
-
-    // const creds = {
-    //   username: username.getValue().trim(),
-    //   password: password.getValue().trim(),
-    // };
-    // this.props.onSignInClick(creds);
   };
 
   // handleChange(e: React.ChangeEvent<unknown>, value: string) {
@@ -164,10 +156,10 @@ const SignInPage: React.FC<SignInPageProps> = ({
               }}
               onSubmit={(values, { setSubmitting }) => {
                 onSignInClick(values);
-                setTimeout(() => {
-                  setSubmitting(false);
-                  console.log(JSON.stringify(values, null, 2));
-                }, 500);
+                // setTimeout(() => {
+                  // setSubmitting(false);
+                  // console.log(JSON.stringify(values, null, 2));
+                // }, 500);
               }}
             >
               {({ submitForm, isSubmitting }) => (
@@ -182,13 +174,7 @@ const SignInPage: React.FC<SignInPageProps> = ({
                       // value={this.state.username ? this.state.username : ""}
                       label="Login ID"
                       fullWidth={true}
-                      // validations={{
-                      //   isEmail: true,
-                      // }}
-                      // validationerrors={{
-                      //   isEmail: 'Please provide a valid email',
-                      //   isDefaultRequiredValue: 'This is a required field',
-                      // }}
+
                       required
                     />
                   </div>
@@ -197,20 +183,14 @@ const SignInPage: React.FC<SignInPageProps> = ({
                     <Field
                       variant="outlined"
                       component={TextField}
-                      hinttext="Password"
-                      // ref={this.password}
+                      placeholder="Password"
+  
                       name="password"
-                      // value={this.state.password ? this.state.password : ""}
-                      floatinglabeltext="Password"
+
+                      label="Password"
                       fullWidth={true}
                       type="password"
-                      // validations={{
-                      //   minLength: 3,
-                      // }}
-                      // validationerrors={{
-                      //   minLength: 'Please provide a valid password',
-                      //   isDefaultRequiredValue: 'This is a required field',
-                      // }}
+
                       required
                     />
                   </div>
@@ -221,10 +201,10 @@ const SignInPage: React.FC<SignInPageProps> = ({
                       <Button
                         variant="contained"
                         color="primary"
-                        // onClick={this.handleClick}
+
                         onClick={submitForm}
                         style={styles.loginBtn}
-                        //disabled={!this.state.canSubmit}
+ 
                         disabled={isSubmitting}
                       >
                         SignIn
