@@ -19,7 +19,7 @@ export function orderReducer(
   },
   action: OrderActionTypes
 ) {
-  console.log(action)
+  // console.log(action)
   switch (action.type) {
     case LIST_ORDER:
       return Object.assign({}, state, {
@@ -39,6 +39,7 @@ export function orderReducer(
         updated: false,
       });
     case GET_ORDER:
+      console.log(action)
       return Object.assign({}, state, {
         isFetching: false,
         order: action.payload,

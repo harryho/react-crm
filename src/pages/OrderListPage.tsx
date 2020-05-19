@@ -159,18 +159,6 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
     },
   };
 
-  // this.onChangePage = this.onChangePage.bind(this);
-  // this.onDelete = this.onDelete.bind(this);
-
-  // this.handleToggle = this.handleToggle.bind(this);
-  // this.handleSearchFilter = this.handleSearchFilter.bind(this);
-  // this.handleSearch = this.handleSearch.bind(this);
-  // this.handleErrorMessage = this.handleErrorMessage.bind(this);
-  // this.handleSnackBarClose = this.handleSnackBarClose.bind(this);
-
-  // if (this.props.orderList || this.props.orderList.length < 1)
-  //   props.getAllOrders(this.state.search);
-
   UNSAFE_componentWillMount() {}
 
   componentDidMount() {
@@ -212,14 +200,6 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
     this.setState({ page, items });
   }
 
-  // onChangePage(items) {
-  //   if (
-  //     !this.props.isFetching &&
-  //     this.state.items &&
-  //     this.props.orderList
-  //   )
-  //     this.setState({ items: items });
-  // }
 
   onDelete(id) {
     if (id) {
@@ -236,11 +216,6 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
     const action = getAction(LIST_ORDER, null, null, "");
     this.props.searchOrder(action); //this.state.search);
   }
-
-  // handleSearch() {
-  //   this.setState({ searchOpen: !this.state.searchOpen });
-  //   this.props.getAllOrders(this.state.search);
-  // }
 
   handleOpen(id) {
     this.setState({ dialogText: "Are you sure to delete this data?" });
@@ -259,19 +234,6 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
     }
   }
 
-  // handleClose(isConfirmed) {
-  //   this.setState({ open: false });
-
-  //   if (isConfirmed && this.state.orderId) {
-  //     this.props.deleteOrder(this.state.orderId);
-  //     this.setState({ orderId: null });
-  //   }
-  // }
-
-  // handleSearch() {
-  //   this.setState({ searchOpen: !this.state.searchOpen });
-  //   this.props.getAllOrders(this.state.search);
-  // }
 
   handleNewOrder() {
     const action = getAction(NEW_ORDER);
@@ -407,8 +369,7 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
                     <TableCell style={styles.columns.width10}>
                       {item.shippedDate}
                     </TableCell>
-                    {/*<TableCell style={styles.columns.width10}>{item.quantity * item.price}</TableCell>*/}
-                    <TableCell style={styles.columns.width10}>
+                     <TableCell style={styles.columns.width10}>
                       {item.customer
                         ? item.customer.firstname + " " + item.customer.lastname
                         : ""}

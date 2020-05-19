@@ -544,6 +544,7 @@ function mapDispatchToProps(dispatch) {
     searchProduct: (action) => dispatch(thunkApiCall(action)),
     getAllProducts:  (action) => dispatch(thunkApiCall(action)),
     deleteProduct:  (action) => dispatch(thunkApiCall(action)),
+    newProduct: (action) => dispatch(thunkApiCall(action)),
   };
 }
 

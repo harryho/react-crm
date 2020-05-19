@@ -121,16 +121,6 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
     autoHideDuration: 2000,
   };
 
-  // UNSAFE_componentWillMount() {
-  //   if (this.props.routeParams && this.props.routeParams.id) {
-  //     this.props.getOrder(this.props.routeParams.id);
-  //     this.props.getAllOrders();
-  //     this.props.getCategoryList();
-  //   } else {
-  //     this.props.newOrder();
-  //   }
-  // }
-
   // UNSAFE_componentWillReceiveProps(nextProps) {
   //   if (
   //     (this.props.order &&
@@ -165,13 +155,6 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
     }
   }
 
-  // disableButton() {
-  //   if (this.state.order.products <= 0) {
-  //     this.setState({
-  //       canSubmit: false
-  //     });
-  //   }
-  // }
 
   notifyFormError(data) {
     console.error("Form error:", data);
@@ -194,11 +177,6 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
     });
   }
 
-  // enableButton() {
-  //   this.setState({
-  //     canSubmit: true
-  //   });
-  // }
 
   handleChange(event, date) {
     const field = event ? event.target.name : null;
@@ -272,58 +250,6 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
   render() {
     const { isFetching, order } = this.props;
 
-    // const { isFetching, order } = this.state;
-
-    // const styles = {
-    //   toggleDiv: {
-    //     maxWidth: 300,
-    //     marginTop: 0,
-    //     marginBottom: 5
-    //   },
-    //   toggleLabel: {
-    //     color: grey400,
-    //     fontWeight: 100
-    //   },
-    //   buttons: {
-    //     marginTop: 30,
-    //     float: "right"
-    //   },
-    //   saveButton: {
-    //     marginLeft: 5
-    //   },
-    //   card: {
-    //     width: 120
-    //   },
-    //   productList: {
-    //     color: "navy",
-    //     paddingTop: 20,
-    //     fontWeight: "bold"
-    //   },
-    //   productItem: {
-    //     background: "lightblue",
-    //     paddingLeft: 20
-    //   },
-    //   productDeleteIcon: {
-    //     float: "right",
-    //     marginTop: -30,
-    //     paddingRight: 20
-    //   },
-    //   menuItem: {
-    //     fontSize: 14
-    //   },
-    //   customWidth: {
-    //     width: 250
-    //   },
-    //   dialog: {
-    //     width: "20%",
-    //     maxWidth: "none",
-    //     minWidth: 300
-    //   }
-    // };
-
-    // if (isFetching) {
-    //   return <CircularProgress />;
-    // } else {
 
     return (
       <PageBase title="Order" navigation="Application / Order ">
@@ -364,7 +290,7 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
               <Grid container style={styles.container} spacing={3}>
                 <Grid item style={styles.cell} xs={12} md={4}>
                   {/* <FormsySelect
-                    floatingLabelText="Customer"
+                    label="Customer"
                     value={order.customer ? order.customer.id : 0}
                     onChange={this.handleChange}
                     style={styles.customWidth}
@@ -388,8 +314,8 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                 <Grid item style={styles.cell} xs={12} md={4}>
                   <Field
                     component={TextField}
-                    hintText="Reference"
-                    floatingLabelText="Reference"
+                    placeholder="Reference"
+                    label="Reference"
                     name="reference"
                     onChange={this.handleChange}
                     fullWidth={true}
@@ -408,8 +334,8 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                 <Grid item style={styles.cell} xs={12} md={4}>
                   <Field
                     component={TextField}
-                    hintText="Amount"
-                    floatingLabelText="Amount"
+                    placeholder="Amount"
+                    label="Amount"
                     fullWidth={true}
                     name="price"
                     onChange={this.handleChange}
@@ -428,8 +354,8 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                 <Grid item style={styles.cell} xs={12} md={4}>
                   <Field
                     component={TextField}
-                    hintText="Quantity"
-                    floatingLabelText="Quantity"
+                    placeholder="Quantity"
+                    label="Quantity"
                     fullWidth={true}
                     type="number"
                     name="quantity"
@@ -447,8 +373,8 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                 </Grid>
                 <Grid item style={styles.cell} xs={12} md={4}>
                   {/* <FormsyDate
-                    hintText="Order Date"
-                    floatingLabelText="Order Date"
+                    placeholder="Order Date"
+                    label="Order Date"
                     disabled={true}
                     name="orderDate"
                     onChange={this.handleChange}
@@ -461,8 +387,8 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
 
                 <Grid item style={styles.cell} xs={12} md={4}>
                   {/* <FormsyDate
-                    hintText="Shipped Date"
-                    floatingLabelText="Shipped Date"
+                    placeholder="Shipped Date"
+                    label="Shipped Date"
                     fullWidth={false}
                     name="shippedDate"
                     onChange={this.handleChange}
@@ -478,8 +404,8 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                 <Grid item style={styles.cell} xs={12} md={4}>
                   <Field
                     component={TextField}
-                    hintText="Address"
-                    floatingLabelText="Address"
+                    placeholder="Address"
+                    label="Address"
                     name="shipAddress.address"
                     onChange={this.handleChange}
                     fullWidth={true}
@@ -502,8 +428,8 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                 <Grid item style={styles.cell} xs={12} md={4}>
                   <Field
                     component={TextField}
-                    hintText="City"
-                    floatingLabelText="City"
+                    placeholder="City"
+                    label="City"
                     name="reference"
                     onChange={this.handleChange}
                     fullWidth={true}
@@ -526,8 +452,8 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                 <Grid item style={styles.cell} xs={12} md={4}>
                   <Field
                     component={TextField}
-                    hintText="Country"
-                    floatingLabelText="Country"
+                    placeholder="Country"
+                    label="Country"
                     name="reference"
                     onChange={this.handleChange}
                     fullWidth={true}
@@ -550,8 +476,8 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                 <Grid item style={styles.cell} xs={12} md={4}>
                   <Field
                     component={TextField}
-                    hintText="Zip Code"
-                    floatingLabelText="Zip Code"
+                    placeholder="Zip Code"
+                    label="Zip Code"
                     name="reference"
                     onChange={this.handleChange}
                     fullWidth={true}
@@ -652,7 +578,7 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
             >
               <div>
                 <FormsySelect
-                  floatingLabelText="Categories"
+                  label="Categories"
                   // onChange={this.handleChange}
                   style={styles.customWidth}
                   name="categoryId"
@@ -669,7 +595,7 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                 </FormsySelect>
 
                 <FormsySelect
-                  floatingLabelText="Products"
+                  label="Products"
                   // onChange={this.handleChange}
                   style={styles.customWidth}
                   name="categoryId"

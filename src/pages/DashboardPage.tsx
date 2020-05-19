@@ -45,9 +45,6 @@ const styles = {
 const DashboardPage = () => {
   return (
     <div style={styles.content}>
-      {/* <h3 style={styles.navigation}>Application / Dashboard</h3> */}
-
-      {/* <PageBase title="Dashboard" navigation="Application / Dashboard "> */}
       <Grid container style={styles.container} spacing={3}>
         <Grid item style={styles.cell} xs={12} md={3}>
           <InfoBox
@@ -89,7 +86,6 @@ const DashboardPage = () => {
           <BrowserUsage data={Data.dashBoardPage.browserUsage} />
         </Grid>
       </Grid>
-      {/* </PageBase> */}
     </div>
   );
 };

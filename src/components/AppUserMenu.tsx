@@ -18,17 +18,6 @@ const drawerWidth = 250;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    // root: {
-    //   display: "flex",
-    // },
-    // menuButton: {
-    //   marginRight: theme.spacing(2),
-    //   [theme.breakpoints.up("sm")]: {
-    //     display: "none",
-    //   },
-    // },
-    // necessary for content to be below app bar
-    // toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
       backgroundColor: "rgba(227, 231, 232, 0.63)",

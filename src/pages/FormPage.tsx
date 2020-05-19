@@ -37,12 +37,12 @@ const FormPage:React.FC=()=> {
     <PageBase title="Form Page" navigation="Application / Form Page">
       <form>
         <TextField
-        //  hintText="Name" 
-        //  floatingLabelText="Name" 
+        //  placeholder="Name" 
+        //  label="Name" 
          fullWidth={true} />
 
         {/* <Select
-         floatingLabelText="City"
+         label="City"
           value="" fullWidth={true}>
           <MenuItem key={0} primaryText="London" />
           <MenuItem key={1} primaryText="Paris" />
@@ -50,8 +50,8 @@ const FormPage:React.FC=()=> {
         </Select> */}
 
         {/* <DatePicker
-          hintText="Expiration Date"
-          floatingLabelText="Expiration Date"
+          placeholder="Expiration Date"
+          label="Expiration Date"
           fullWidth={true}
         /> */}
 

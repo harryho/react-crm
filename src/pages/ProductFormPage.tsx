@@ -79,6 +79,7 @@ interface ProductFormProps {
   addSuccess: boolean;
   errorMessage?: string;
   isFetching: boolean;
+  deleted: boolean;
   updated: boolean;
 }
 
@@ -119,23 +120,16 @@ class ProductFormPage extends React.Component<
     // }
   }
 
-  // UNSAFE_componentWillReceiveProps(nextProps) {
-  //   if (
-  //     this.props.product &&
-  //     nextProps.product &&
-  //     this.props.product.id != nextProps.product.id
-  //   ) {
-  //     this.setState({ isFetching: false });
-  //     this.setState({ product: Object.assign({}, nextProps.product) });
-  //   }
-
-  //   if (
-  //     (!this.props.addSuccess && nextProps.addSuccess) ||
-  //     (!this.props.updateSuccess && nextProps.updateSuccess)
-  //   ) {
-  //     this.props.router.push("/products");
-  //   }
-  // }
+  componentDidMount() {
+    console.log("componentDidMount ", this.props);
+    // @ts-ignore
+    const productId = this.props.match.params?.id;
+    let action: ApiAction;
+    if (productId) {
+      action = getAction(GET_PRODUCT, productId); //  Object.assign({}, this.getAction);
+      this.props.getProduct(action);
+    }
+  }
 
   handleChange(event) {
     const field = event.target.name;
@@ -146,18 +140,6 @@ class ProductFormPage extends React.Component<
       this.setState({ product: product });
     }
   }
-
-  // enableButton() {
-  //   this.setState({
-  //     canSubmit: true
-  //   });
-  // }
-
-  // disableButton() {
-  //   this.setState({
-  //     canSubmit: false
-  //   });
-  // }
 
   notifyFormError(data) {
     console.error("Form error:", data);
@@ -192,38 +174,7 @@ class ProductFormPage extends React.Component<
 
   render() {
     const { errorMessage, categoryList, product, isFetching } = this.props;
-    // const { isFetching,  } = this.state;
-
-    // const styles = {
-    //   toggleDiv: {
-    //     maxWidth: 300,
-    //     marginTop: 0,
-    //     marginBottom: 5
-    //   },
-    //   toggleLabel: {
-    //     color: grey400,
-    //     fontWeight: 100
-    //   },
-    //   buttons: {
-    //     marginTop: 30,
-    //     float: "right"
-    //   },
-    //   saveButton: {
-    //     marginLeft: 5
-    //   },
-    //   card: {
-    //     width: 120
-    //   },
-    //   menuItem: {
-    //     fontSize: 14
-    //   },
-    //   customWidth: {
-    //     width: 250
-    //   }
-    // };
-    // if (isFetching) {
-    //   return <CircularProgress />;
-    // } else {
+    
 
     return (
       <PageBase title="Product" navigation="Application / Product ">
@@ -264,7 +215,7 @@ class ProductFormPage extends React.Component<
                 <Grid container style={styles.container} spacing={3}>
                   <Grid item style={styles.cell} xs={12} md={4}>
                     {/* <FormsySelect
-                  floatingLabelText="Categories"
+                  label="Categories"
                   value={product.category ? product.category.id : 0}
                   onChange={this.handleChange}
                   style={styles.customWidth}
@@ -283,19 +234,19 @@ class ProductFormPage extends React.Component<
                   <Grid item style={styles.cell} xs={12} md={4}>
                     <Field
                       component={TextField}
-                      hintText="Product"
-                      floatingLabelText="Product"
-                      name="product"
+                      placeholder="Product"
+                      label="Product"
+                      name="productName"
                       onChange={this.handleChange}
                       fullWidth={true}
                       value={product.productName ? product.productName : ""}
                       validations={{
                         isWords: true,
                       }}
-                      validationErrors={{
-                        isWords: "Please provide valid product name",
-                        isDefaultRequiredValue: "This is a required field",
-                      }}
+                      // validationErrors={{
+                      //   isWords: "Please provide valid product name",
+                      //   isDefaultRequiredValue: "This is a required field",
+                      // }}
                       required
                     />
                   </Grid>
@@ -303,18 +254,18 @@ class ProductFormPage extends React.Component<
                   <Grid item style={styles.cell} xs={12} md={4}>
                     <Field
                       component={TextField}
-                      hintText="Price"
-                      floatingLabelText="Price"
+                      placeholder="Price"
+                      label="Price"
                       fullWidth={true}
-                      name="price"
+                      name="unitPrice"
                       onChange={this.handleChange}
                       validations={{
                         isNumeric: true,
                       }}
-                      validationErrors={{
-                        isNumeric: "Please provide valid price",
-                        isDefaultRequiredValue: "This is a required field",
-                      }}
+                      // validationErrors={{
+                      //   isNumeric: "Please provide valid price",
+                      //   isDefaultRequiredValue: "This is a required field",
+                      // }}
                       value={product.unitPrice}
                       required
                     />
@@ -322,20 +273,20 @@ class ProductFormPage extends React.Component<
                   <Grid item style={styles.cell} xs={12} md={4}>
                     <Field
                       component={TextField}
-                      hintText="Quantity"
-                      floatingLabelText="Quantity"
+                      placeholder="Quantity"
+                      label="Quantity"
                       fullWidth={true}
                       type="number"
-                      name="quantity"
+                      name="unitInStock"
                       onChange={this.handleChange}
                       value={product.unitInStock}
                       validations={{
                         isInt: true,
                       }}
-                      validationErrors={{
-                        isInt: "Please provide a valid password",
-                        isDefaultRequiredValue: "This is a required field",
-                      }}
+                      // validationErrors={{
+                      //   isInt: "Please provide a valid password",
+                      //   isDefaultRequiredValue: "This is a required field",
+                      // }}
                       required
                     />
                   </Grid>
@@ -367,18 +318,6 @@ class ProductFormPage extends React.Component<
                   >
                     <SaveIcon /> Save
                   </Button>
-                  {/* <Link to="/products">
-                <Button variant="contained" label="Cancel" />
-              </Link>
-
-              <Button variant="contained"
-                label="Save"
-                style={styles.saveButton}
-                type="button"
-                onClick={() => this.handleClick(event)}
-                primary={true}
-                disabled={!this.state.canSubmit}
-              /> */}
                 </div>
                 {/* {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>} */}
               </Form>
@@ -390,23 +329,8 @@ class ProductFormPage extends React.Component<
   }
 }
 
-// ProductFormPage.propTypes = {
-//   router: PropTypes.object,
-//   routeParams: PropTypes.object,
-//   product: PropTypes.object,
-//   newProduct: typeof thunkApiCall,
-//   getProduct: typeof thunkApiCall,
-//   updateProduct: typeof thunkApiCall,
-//   updateSuccess: PropTypes.bool.isRequired,
-//   addSuccess: PropTypes.bool.isRequired,
-//   addProduct: typeof thunkApiCall,
-//   categoryList: PropTypes.array,
-//   getCategoryList: typeof thunkApiCall,
-//   errorMessage: PropTypes.string,
-// };
-
 function mapStateToProps(state) {
-  const { productReducer } = state;
+  // const { productReducer } = state;
   const {
     product,
     isFetching,
@@ -415,15 +339,20 @@ function mapStateToProps(state) {
     addSuccess,
     isAuthenticated,
     user,
-  } = productReducer;
+    deleted,
+    updated,
+  } = state.product;
 
   return {
-    product: product || {},
+    // product: product || {},
+    product,
     isFetching,
     categoryList,
     addSuccess,
     updateSuccess,
     isAuthenticated,
+    deleted,
+    updated,
     user,
   };
 }

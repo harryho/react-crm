@@ -177,7 +177,7 @@ class App extends React.Component<AppProps, AppState> {
                 <Route path={`/order/:id`} component={OrderFormPage} />
                 <Route path={`/neworder/`} component={OrderFormPage} />
                 <Route exact path={`/products`} component={ProductListPage} />
-                <Route path={`product/:id`} component={ProductFormPage} />
+                <Route path={`/product/:id`} component={ProductFormPage} />
                 <Route path={`/newproduct`} component={ProductFormPage} />
 
                 <Route path={`/about`} component={AboutPage} />

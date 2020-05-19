@@ -19,7 +19,7 @@ export function productReducer(
   },
   action: ProductActionTypes
 ) {
-  console.log(action)
+  // console.log(action)
   switch (action.type) {
     case LIST_PRODUCT:
       return Object.assign({}, state, {

@@ -109,6 +109,7 @@ export const thunkApiCall = (
 const isNewAction = (x: any): x is NewAction => x.toString().startsWith("NEW_");
 
 function dispatchReponse(dispatch, type, response) {
+  console.log(type) 
   switch (type) {
     case LIST_CUSTOMER:
       dispatch(listCustomers(response.data));
