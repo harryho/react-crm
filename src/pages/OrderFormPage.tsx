@@ -77,16 +77,11 @@ interface OrderFormProps {
   getOrder: typeof thunkApiQCall;
   saveOrder: typeof thunkApiCall;
   searchOrder: typeof thunkApiCall;
-  // updateSuccess: boolean;
-  // addSuccess: boolean;
-  // errorMessage?: string;
   isFetching: boolean;
   updated: boolean;
   newOrder: typeof thunkApiCall;
   updateOrder: typeof thunkApiCall;
   getProductList: typeof thunkApiCall;
-  // updateSuccess: bool.typeof thunkApiCall;
-  // addSuccess: bool.typeof thunkApiCall;
   addOrder: typeof thunkApiCall;
   orderList: Order[];
   categoryList: Category[];
@@ -106,10 +101,8 @@ interface OrderFormState {
 class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
   constructor(props) {
     super(props);
-
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    // this.enableButton = this.enableButton.bind(this);
     this.notifyFormError = this.notifyFormError.bind(this);
     this.onSnackBarClose = this.onSnackBarClose.bind(this);
   }
@@ -163,12 +156,10 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
         let _order = Object.assign({}, order);
         order.shippedDate = date.toLocaleDateString();
         this.setState({ order: order });
-        // this.enableButton();
       } else if (event && event.target && field) {
         let _order = Object.assign({}, order);
         _order[field] = event.target.value;
         this.setState({ order: _order });
-        // this.enableButton();
       }
     }
   }
@@ -180,8 +171,6 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
         1
       );
       this.setState({ order: this.state.order });
-      // if (this.state.order.products.length > 0)
-      // this.enableButton();
     }
   }
 

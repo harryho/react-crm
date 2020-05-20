@@ -57,8 +57,4 @@ const MonthlySales = (props: MonthlySalesProps) => {
   );
 };
 
-// MonthlySales.propTypes = {
-//   data: PropTypes.array,
-// };
-
 export default MonthlySales;

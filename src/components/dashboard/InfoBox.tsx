@@ -16,8 +16,6 @@ interface InfoBoxProps  {
   value: string
 };
 
-// class InfoBox extends React.Component {
-
 const InfoBox = (props:InfoBoxProps) =>{
   // render() {
     const { spanBgColor, title, value, Icon } = props;
@@ -69,12 +67,5 @@ const InfoBox = (props:InfoBoxProps) =>{
     );
   // }
 }
-
-// InfoBox.propTypes = {
-//   Icon: any, // eslint-disable-line
-//   color: string,
-//   title: string,
-//   value: string
-// };
 
 export default InfoBox;

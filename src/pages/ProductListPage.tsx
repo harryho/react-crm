@@ -10,10 +10,7 @@ import ContentCreate from "@material-ui/icons/Create";
 import ActionDelete from "@material-ui/icons/Delete";
 import ContentAdd from "@material-ui/icons/Add";
 import Search from "@material-ui/icons/Search";
-import CheckCircle from "@material-ui/icons/CheckCircle";
-import Cancel from "@material-ui/icons/Cancel";
 import PageBase from "../components/PageBase";
-import AppBar from "@material-ui/core/AppBar";
 import { connect } from "react-redux";
 import { getAction } from "../actions/product";
 import Dialog from "@material-ui/core/Dialog";
@@ -23,7 +20,7 @@ import TextField from "@material-ui/core/TextField";
 import Snackbar from "@material-ui/core/Snackbar";
 import { teal, pink, grey, green, common } from "@material-ui/core/colors";
 import { thunkApiCall } from "../services/thunks";
-import { DELETE_PRODUCT, NEW_PRODUCT, LIST_PRODUCT, ApiAction } from "../store/types";
+import { NEW_PRODUCT, LIST_PRODUCT, ApiAction } from "../store/types";
 import { Product } from "../types";
 import {
   Container,
@@ -35,8 +32,6 @@ import {
 import Skeleton from "@material-ui/lab/Skeleton";
 import Alert from "../components/Alert";
 
-const teal500 = teal["500"];
-const pink500 = pink["500"];
 const grey500 = grey["500"];
 const green400 = green["400"];
 const white = common.white;
@@ -266,7 +261,7 @@ class ProductListPage extends React.Component<
   }
 
   render() {
-    const { errorMessage, productList, isFetching } = this.props;
+    const { productList, isFetching } = this.props;
 
     const dialogButtons = [
       <Fab

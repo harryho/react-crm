@@ -1,31 +1,23 @@
-import React from 'react';
-import Drawer from '@material-ui/core/Drawer';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import React from "react";
+import Drawer from "@material-ui/core/Drawer";
+import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
-import { blue, common } from '@material-ui/core/colors';
-import AppUserMenu from './AppUserMenu';
-import AppDrawerMenu from './AppDrawerMenu'
+import { blue, common } from "@material-ui/core/colors";
+import AppUserMenu from "./AppUserMenu";
+import AppDrawerMenu from "./AppDrawerMenu";
 
-const blue600 = blue['900'];
+const blue600 = blue["900"];
 const drawerWidth = 250;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: 'flex',
+      display: "flex",
     },
-    // menuButton: {
-    //   marginRight: theme.spacing(2),
-    //   [theme.breakpoints.up('sm')]: {
-    //     display: 'none',
-    //   },
-    // },
-    // necessary for content to be below app bar
-    toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
-      backgroundColor: 'rgba(227, 231, 232, 0.63)',
-      overflow: 'auto',
+      backgroundColor: "rgba(227, 231, 232, 1)",
+      overflow: "auto",
     },
     user: {
       fontSize: 22,
@@ -34,8 +26,8 @@ const useStyles = makeStyles((theme: Theme) =>
     menuItem: {
       color: blue600,
       fontWeight: 500,
-      paddingTop: '0.2em',
-      paddingBottom: '0.2em',
+      paddingTop: "0.2em",
+      paddingBottom: "0.2em",
       fontSize: 16,
     },
   })
@@ -48,7 +40,7 @@ interface Props {
   handleDrawerToggle: () => void;
   isSmallScreem: boolean;
   drawerStyle: {};
-  children?:TODO
+  children?: TODO;
 }
 
 export default function AppNavDrawer(props: Props) {
@@ -56,27 +48,27 @@ export default function AppNavDrawer(props: Props) {
 
   // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   // const open = Boolean(anchorEl);
-  const { username, navDrawerOpen, isSmallScreem, 
+  const {
+    username,
+    navDrawerOpen,
+    isSmallScreem,
     onLogoutClick,
-    handleDrawerToggle, drawerStyle } = props;
+    handleDrawerToggle,
+    drawerStyle,
+  } = props;
 
   console.log(navDrawerOpen);
 
-
   const drawer = (
     <>
-      <AppUserMenu username={username} onLogoutClick={onLogoutClick}  />
+      <AppUserMenu username={username} onLogoutClick={onLogoutClick} />
       <AppDrawerMenu />
-
     </>
   );
 
   return (
     <div className={styles.root}>
-      <nav
-        style={drawerStyle}
-        aria-label="app navigation"
-      >
+      <nav style={drawerStyle} aria-label="app navigation">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         {!isSmallScreem ? (
           <Drawer

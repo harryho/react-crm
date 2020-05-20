@@ -2,7 +2,6 @@ import React from "react";
 import Paper from "@material-ui/core/Paper";
 
 import { LineChart, Line, ResponsiveContainer } from "recharts";
-// import { typography } from "@material-ui/core/styles";
 
 import { common, purple } from '@material-ui/core/colors';
 

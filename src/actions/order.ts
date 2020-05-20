@@ -10,7 +10,6 @@ import {
   CREATE_ORDER,
   LIST_CATEGORY,
   LIST_PRODUCT,
-  EDIT_PRODUCT,
   EDIT_ORDER,
   ApiQActions
 } from "../store/types";
@@ -70,7 +69,7 @@ export function editOrder(result?: TODO) {
 }
 
 export function getAction(action: OrderActions,
-  id = 0, data?: Entity, query?: string): ApiAction | ApiQActions {
+  id = 0, data?: Entity , query?: string): ApiAction | ApiQActions {
 
   switch (action) {
     case NEW_ORDER:

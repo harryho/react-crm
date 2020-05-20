@@ -1,22 +1,19 @@
 import React from "react";
-import Drawer from "@material-ui/core/Drawer";
 import IconButton from "@material-ui/core/IconButton";
-import { Link } from "react-router-dom";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import MenuItem from "@material-ui/core/MenuItem";
-import { Typography, ListItemIcon, Menu } from "@material-ui/core";
+import { Typography, Menu } from "@material-ui/core";
 import ContentFilter from "@material-ui/icons/FilterList";
 
 import SettingsPower from "@material-ui/icons/SettingsPower";
 import VpnKey from "@material-ui/icons/VpnKey";
-import { grey, blue, common } from "@material-ui/core/colors";
-import data from "../data";
+import { blue, common } from "@material-ui/core/colors";
 
 const blue600 = blue["900"];
 const drawerWidth = 250;
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     drawerPaper: {
       width: drawerWidth,
@@ -57,11 +54,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface Props {
-  username: string;
-  onLogoutClick: () => void;
-  userMenus?: TODO;
-}
 export default function AppUserMenu ({
   username,
   onLogoutClick,
@@ -85,9 +77,9 @@ export default function AppUserMenu ({
     setAnchorEl(event.currentTarget);
   };
 
-  return (
+  return ( 
     <div className={styles.avatarDiv}>
-      <Avatar src="assets/img/avatar0.png" className={styles.avatarIcon} />
+      <Avatar src={require("../assets/img/avatar0.png")}  className={styles.avatarIcon} />
       <span className={styles.avatarSpan}>
         <Typography className={styles.user} variant="inherit">
           {" "}

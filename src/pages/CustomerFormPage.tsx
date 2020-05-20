@@ -105,14 +105,6 @@ class CustomerFormPage extends React.Component<
     autoHideDuration: 2000,
   };
 
-  UNSAFE_componentWillMount() {
-    console.log(this.props);
-    // if (this.props.routeParams?.id)
-    // this.props.getCustomer((this.props.routeParams)?.id));
-    // else this.props.newCustomer();
-    // @ts-ignore
-  }
-
   componentDidMount() {
     console.log("componentDidMount ", this.props);
     // @ts-ignore

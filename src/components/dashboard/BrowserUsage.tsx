@@ -5,7 +5,6 @@ import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List/List";
 import ListItem from "@material-ui/core/ListItem";
 import { ListItemText, ListItemAvatar, Grid } from "@material-ui/core";
-// import GlobalStyles from "../../styles";
 
 interface BrowserUsageProps {
   data: TODO;
@@ -37,11 +36,7 @@ const BrowserUsage = (props: BrowserUsageProps) => {
   return (
     <Paper style={styles.paper}>
       <span style={styles.title}>Browser Usage</span>
-
       <div style={styles.clear} />
-
-      {/* <div className="row">
-        <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8"> */}
 
       <Grid container spacing={2}>
         <Grid item xs={12} md={8}>
@@ -73,9 +68,6 @@ const BrowserUsage = (props: BrowserUsageProps) => {
                 {props.data.map((item, index) => (
                   <ListItem
                     key={item.name}
-                    // imgProps={
-                    //   (<Avatar icon={item.icon} backgroundColor={item.color} />)
-                    // }
                   >
                     <ListItemAvatar>
                       <Avatar style={{ backgroundColor: item.color }}>

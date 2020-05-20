@@ -10,8 +10,6 @@ import ContentCreate from "@material-ui/icons/Create";
 import ActionDelete from "@material-ui/icons/Delete";
 import ContentAdd from "@material-ui/icons/Add";
 import Search from "@material-ui/icons/Search";
-import CheckCircle from "@material-ui/icons/CheckCircle";
-import Cancel from "@material-ui/icons/Cancel";
 import PageBase from "../components/PageBase";
 import AppBar from "@material-ui/core/AppBar";
 import { connect } from "react-redux";
@@ -272,7 +270,7 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
   }
 
   render() {
-    const { errorMessage, orderList } = this.props;
+    const { orderList } = this.props;
     const { isFetching } = this.state;
 
     const dialogButtons = [

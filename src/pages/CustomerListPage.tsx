@@ -13,7 +13,7 @@ import Search from "@material-ui/icons/Search";
 import CheckCircle from "@material-ui/icons/CheckCircle";
 import Cancel from "@material-ui/icons/Cancel";
 import PageBase from "../components/PageBase";
-import AppBar from "@material-ui/core/AppBar";
+// import AppBar from "@material-ui/core/AppBar";
 import { connect } from "react-redux";
 import { getAction } from "../actions/customer";
 import Dialog from "@material-ui/core/Dialog";
@@ -33,6 +33,7 @@ import {
   DialogTitle,
   Grid,
   TableFooter,
+  Divider,
 } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Alert from "../components/Alert";
@@ -61,13 +62,17 @@ const styles = {
     position: "fixed" as TODO,
     marginRight: 20,
     backgroundColor: "lightblue" as TODO,
+
+  },
+  searchButton:{
+    marginRight:20,
   },
   editButton: {
     marginRight: "1em",
     color: white,
     backgroundColor: green400,
     width: 36,
-    height:36,
+    height: 36,
   },
   editButtonIcon: {
     fill: white,
@@ -76,7 +81,7 @@ const styles = {
     color: "grey",
     fill: grey500,
     width: 36,
-    height:36,
+    height: 36,
   },
   columns: {
     width10: {
@@ -92,6 +97,10 @@ const styles = {
   },
   drawer: {
     backgroundColor: "lightgrey",
+  },
+  searchDrawer: {
+    width: "250px",
+    // backgroundColor: "lightgrey",
   },
   row: {
     margin: "1.5em",
@@ -400,7 +409,7 @@ class CustomerListPage extends React.Component<
 
             <Container style={styles.pagination}>
               <Pagination
-              size="small"
+                size="small"
                 count={this.state.totalPages}
                 page={this.state.page}
                 variant="outlined"
@@ -408,7 +417,6 @@ class CustomerListPage extends React.Component<
                 onChange={this.onPageChange}
               />
             </Container>
-
             <React.Fragment>
               <Dialog
                 key="alert-dialog"
@@ -418,7 +426,6 @@ class CustomerListPage extends React.Component<
                 onClick={() => this.handleClose(false)}
               >
                 <DialogTitle key="alert-dialog-title">{"Alert"}</DialogTitle>
-
                 <DialogContent key="alert-dialog-content">
                   <DialogContentText key="alert-dialog-description">
                     {this.state.dialogText}
@@ -430,38 +437,61 @@ class CustomerListPage extends React.Component<
                 </DialogActions>
               </Dialog>
             </React.Fragment>
-            <Drawer
-              anchor="right"
-              open={this.state.searchOpen}
-              onClose={this.handleToggle}
-            >
-              <AppBar title="AppBar" />
-              <Button
-                variant="contained"
-                onClick={this.handleSearch}
-                color="secondary"
+            <React.Fragment>
+              <Drawer
+                anchor="right"
+                open={this.state.searchOpen}
+                onClose={this.handleToggle}
               >
-                Search
-              </Button>
-
-              <TextField
-                placeholder="First Name"
-                label="First Name"
-                name="firstname"
-                fullWidth={true}
-                value={this.state.search.firstname}
-                onChange={this.handleSearchFilter}
-              />
-
-              <TextField
-                placeholder="Last Name"
-                label="Last Name"
-                fullWidth={true}
-                name="lastname"
-                value={this.state.search.lastname}
-                onChange={this.handleSearchFilter}
-              />
-            </Drawer>
+            
+                <Grid container style={styles.searchDrawer} spacing={1}>
+                  <Grid item xs={12}>
+                  {/* <AppBar title="AppBar" >  */}
+                  {/* style={styles.searchDrawer}> */}
+                 <h5>Search</h5> 
+                {/* </AppBar> */}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      placeholder="First Name"
+                      label="First Name"
+                      name="firstname"
+                      fullWidth={true}
+                      value={this.state.search.firstname}
+                      onChange={this.handleSearchFilter}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      placeholder="Last Name"
+                      label="Last Name"
+                      fullWidth={true}
+                      name="lastname"
+                      value={this.state.search.lastname}
+                      onChange={this.handleSearchFilter}
+                    />
+                  </Grid>
+                  <Divider />
+                  <Grid item xs={12}>
+                  <Button
+                    variant="contained"
+                    onClick={this.handleSearch}
+                    color="secondary"
+                   style={styles.searchButton}
+                  >
+                    Search
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={this.handleSearch}
+                    color="default"
+                  >
+                    Cancel
+                  </Button>
+                  </Grid>
+                </Grid>
+              </Drawer>
+            </React.Fragment>
           </div>
         )}
       </PageBase>

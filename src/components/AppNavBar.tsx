@@ -13,9 +13,6 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
-  // menuButton: {
-  //   marginRight: theme.spacing(2),
-  // },
   title: {
     flexGrow: 1,
   },
@@ -29,7 +26,7 @@ interface AppNavBarProps {
   styles: TODO;
 }
 // class Header extends React.Component {
-const AppNavBar: React.FC<AppNavBarProps> = ({ styles, handleDrawerToggle: handleChangeRequestNavDrawer }) => {
+const AppNavBar: React.FC<AppNavBarProps> = ({ styles, handleDrawerToggle}) => {
   const handleClick = () => {
     window.open('https://github.com/harryho/react-crm', undefined, undefined, false);
   };
@@ -37,7 +34,6 @@ const AppNavBar: React.FC<AppNavBarProps> = ({ styles, handleDrawerToggle: handl
   let style = useStyles(styles);
 
   console.log(styles);
-  // const {  handleChangeRequestNavDrawer } = this.props;
 
   return (
     <div>
@@ -45,11 +41,11 @@ const AppNavBar: React.FC<AppNavBarProps> = ({ styles, handleDrawerToggle: handl
         <Toolbar className={styles.toolbar}>
           <IconButton edge="start" 
           // className={style.menuButton} 
-          onClick={handleChangeRequestNavDrawer} color="inherit" aria-label="menu">
+          onClick={handleDrawerToggle} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
           <Typography variant="h5" className={style.title}>
-            Demo App
+            Demo
           </Typography>
           <Tooltip title="GitHub" aria-label="add">
             <IconButton
