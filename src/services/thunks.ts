@@ -36,6 +36,9 @@ import {
   CREATE_PRODUCT,
   NewAction,
   LIST_CATEGORY,
+  ApiQActions,
+  EDIT_PRODUCT,
+  EDIT_ORDER,
 } from "../store/types";
 import {
   Customer,
@@ -43,17 +46,36 @@ import {
   OrderModel,
   Product,
   ProductModel,
-  Order, 
+  Order,
 } from "../types";
-import { listOrder, newOrder, getOrder, updateOrder,createOrder, deleteOrder } from "../actions/order";
-import { listProduct, newProduct, getProduct, createProduct, updateProduct, deleteProduct, listCategory } from "../actions/product";
+import {
+  listOrder,
+  newOrder,
+  getOrder,
+  updateOrder,
+  createOrder,
+  deleteOrder,
+  editOrder,
+} from "../actions/order";
+import {
+  listProduct,
+  newProduct,
+  getProduct,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  listCategory,
+  editProduct,
+} from "../actions/product";
 
 export const thunkAuth = (
   apiAction?: ApiAction
 ): ThunkAction<void, AppState, null, Action<string>> => async (dispatch) => {
+  let response;
+
   const { type, endpoint, method, data, filters } = apiAction;
   console.log(type);
-  let response = data;
+  response = data;
   if (type == SIGN_IN) {
     response = await login(endpoint, method, data);
   }
@@ -74,6 +96,42 @@ function dispatchSignIn(dispatch, type, response) {
   }
 }
 
+export const thunkApiCall = (
+  apiAction?: ApiAction // | ApiAction[]
+): ThunkAction<void, AppState, null, Action<string>> => async (dispatch) => {
+  let response: TODO;
+  const { type, endpoint, method, data, filters } = apiAction;
+  console.log(type);
+  if (!isNewAction(type)) {
+    response = await callApi(endpoint, method, data, filters);
+  } else {
+    response = getNewEntity(type);
+  }
+  console.log(response);
+  dispatchReponse(dispatch, type, response);
+};
+
+export const thunkApiQCall = (
+  apiQAction?: ApiQActions // ApiAction[]
+): ThunkAction<void, AppState, null, Action<string>> => async (dispatch) => {
+  const response = {};
+  const { type, actions } = apiQAction;
+  console.log(type);
+
+  // if (!isNewAction(type)) {
+  //   response = await callApi(endpoint, method, data, filters);
+  // } else {
+  //   response = getNewEntity(type);
+  // }
+  for (const key in actions) {
+    const res = await callEndPoint(actions[key]);
+    response[key] = res.data;
+  }
+
+  console.log(response);
+  dispatchReponse(dispatch, type, response);
+};
+
 function getNewEntity(newAction: NewAction) {
   switch (newAction) {
     case NEW_CUSTOMER:
@@ -91,26 +149,21 @@ function getNewEntity(newAction: NewAction) {
   }
 }
 
-export const thunkApiCall = (
-  apiAction?: ApiAction
-): ThunkAction<void, AppState, null, Action<string>> => async (dispatch) => {
-  const { type, endpoint, method, data, filters } = apiAction;
-  console.log(type);
+async function callEndPoint(apiAction: ApiAction) {
   let response: TODO;
+  const { type, endpoint, method, data, filters } = apiAction;
   if (!isNewAction(type)) {
     response = await callApi(endpoint, method, data, filters);
   } else {
     response = getNewEntity(type);
   }
-  console.log(response);
-
-  dispatchReponse(dispatch, type, response);
-};
+  return response;
+}
 
 const isNewAction = (x: any): x is NewAction => x.toString().startsWith("NEW_");
 
 function dispatchReponse(dispatch, type, response) {
-  console.log(type) 
+  console.log(type);
   switch (type) {
     case LIST_CUSTOMER:
       dispatch(listCustomers(response.data));
@@ -147,11 +200,12 @@ function dispatchReponse(dispatch, type, response) {
     case UPDATE_ORDER:
       dispatch(updateOrder(response.data));
       break;
-
     case DELETE_ORDER:
       dispatch(deleteOrder(response.data));
       break;
-
+    case EDIT_ORDER:
+      dispatch(editOrder(response));
+      break;
     //------------------------
     case LIST_PRODUCT:
       dispatch(listProduct(response.data));
@@ -161,6 +215,9 @@ function dispatchReponse(dispatch, type, response) {
       break;
     case GET_PRODUCT:
       dispatch(getProduct(response.data));
+      break;
+    case EDIT_PRODUCT:
+      dispatch(editProduct(response));
       break;
     case CREATE_PRODUCT:
       dispatch(createProduct(response.data));
@@ -173,8 +230,8 @@ function dispatchReponse(dispatch, type, response) {
       dispatch(deleteProduct(response.data));
       break;
 
-      case LIST_CATEGORY:
-        dispatch(listCategory(response.data));
-        break;
+    case LIST_CATEGORY:
+      dispatch(listCategory(response.data));
+      break;
   }
 }

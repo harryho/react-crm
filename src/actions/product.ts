@@ -8,52 +8,52 @@ import {
   ProductActions,
   ApiAction,
   CREATE_PRODUCT,
-  LIST_CATEGORY
+  LIST_CATEGORY,
+  EDIT_PRODUCT,
+  ApiQActions,
 } from "../store/types";
 import { Entity } from "../types";
-
 
 export function listCategory(result?: TODO) {
   return {
     type: LIST_CATEGORY,
-    payload: result
-  }
+    payload: result,
+  };
 }
 
 export function listProduct(result?: TODO) {
   return {
     type: LIST_PRODUCT,
-    payload: result
-  }
+    payload: result,
+  };
 }
 
 export function getProduct(result?: TODO) {
   return {
     type: GET_PRODUCT,
-    payload: result
-  }
+    payload: result,
+  };
 }
 
 export function createProduct(result?: TODO) {
   return {
     type: CREATE_PRODUCT,
-    payload: result
-  }
+    payload: result,
+  };
 }
 
 export function updateProduct(result?: TODO) {
   return {
     type: UPDATE_PRODUCT,
-    payload: result
-  }
+    payload: result,
+  };
 }
 
 export function deleteProduct(id) {
-
   return {
     type: DELETE_PRODUCT,
-    payload: id
-  }
+    payload: id,
+  };
 }
 
 export function newProduct(result?: TODO) {
@@ -64,55 +64,84 @@ export function newProduct(result?: TODO) {
   };
 }
 
-export function getAction(action: ProductActions,
-  id = 0, data?: Entity, query?: string): ApiAction {
+export function editProduct(result?: TODO) {
+  return {
+    type: EDIT_PRODUCT,
+    payload: result,
+    // errorMessage: result?.error
+  };
+}
 
+export function getAction(
+  action: ProductActions,
+  id = 0,
+  data?: Entity,
+  query?: string
+): ApiAction | ApiQActions {
   switch (action) {
     case NEW_PRODUCT:
       return {
         type: NEW_PRODUCT,
-        endpoint: 'products/',
+        endpoint: "products/",
         method: HttpMethod.GET,
-      }
+      };
     case GET_PRODUCT:
       return {
         type: GET_PRODUCT,
-        endpoint: 'products/' + id,
+        endpoint: "products/" + id + "?_expand=category",
         method: HttpMethod.GET,
-      }
+      };
+    case EDIT_PRODUCT:
+      const actions = {
+        product: {
+          type: GET_PRODUCT,
+          endpoint: "products/" + id + "?_expand=category",
+          method: HttpMethod.GET,
+        },
+        categoryList: {
+          type: LIST_CATEGORY,
+          endpoint: "categories/",
+          method: HttpMethod.GET,
+        },
+      };
+      return {
+        type: EDIT_PRODUCT,
+        actions,
+        method: HttpMethod.GET,
+        // response: { product: {} as Entity, categoryList: [] },
+      };
+
     case LIST_PRODUCT:
       return {
         type: LIST_PRODUCT,
-        endpoint: 'products/',
+        endpoint: "products?_expand=category",
         method: HttpMethod.GET,
-      }
+      };
     case UPDATE_PRODUCT:
       return {
         type: UPDATE_PRODUCT,
-        endpoint: 'products/',
+        endpoint: "products/",
         method: HttpMethod.PUT,
-        data
-      }
+        data,
+      };
     case CREATE_PRODUCT:
       return {
         type: CREATE_PRODUCT,
-        endpoint: 'products/',
+        endpoint: "products/",
         method: HttpMethod.POST,
-        data
-      }
+        data,
+      };
     case DELETE_PRODUCT:
       return {
         type: DELETE_PRODUCT,
-        endpoint: 'products/' + id,
+        endpoint: "products/" + id,
         method: HttpMethod.DELETE,
-
-      }
-      case LIST_CATEGORY:
-        return {
-          type: LIST_CATEGORY,
-          endpoint: 'categories/',
-          method: HttpMethod.GET,
-        }
+      };
+    case LIST_CATEGORY:
+      return {
+        type: LIST_CATEGORY,
+        endpoint: "categories/",
+        method: HttpMethod.GET,
+      };
   }
-
 }

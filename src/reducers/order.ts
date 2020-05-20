@@ -1,13 +1,15 @@
 import {
-  OrderState, OrderActionTypes,
+  OrderState,
+  OrderActionTypes,
   CREATE_ORDER,
   UPDATE_ORDER,
   DELETE_ORDER,
   GET_ORDER,
   LIST_ORDER,
-  NEW_ORDER
-} from '../store/types';
-import { Order, OrderModel } from '../types';
+  NEW_ORDER,
+  EDIT_ORDER,
+} from "../store/types";
+import { Order, OrderModel } from "../types";
 
 export function orderReducer(
   state: OrderState = {
@@ -27,26 +29,38 @@ export function orderReducer(
         orderList: action.payload,
         errorMessage: "",
         deleted: false,
-        updated:false
-
+        updated: false,
       });
     case NEW_ORDER:
       return Object.assign({}, state, {
         isFetching: false,
-        order: action.payload, // new OrderModel("","","","","",false,0) as Order, 
+        order: action.payload, // new OrderModel("","","","","",false,0) as Order,
         errorMessage: action.error,
         deleted: false,
         updated: false,
       });
     case GET_ORDER:
-      console.log(action)
+      console.log(action);
       return Object.assign({}, state, {
         isFetching: false,
         order: action.payload,
         errorMessage: action.error,
         deleted: false,
-        updated: false
+        updated: false,
       });
+    case EDIT_ORDER:
+      console.log(action);
+      const { order, productList, categoryList } = action.payload;
+      return Object.assign({}, state, {
+        isFetching: false,
+        order,
+        productList,
+        categoryList,
+        errorMessage: action.error,
+        deleted: false,
+        updated: false,
+      });
+
     case CREATE_ORDER:
     case UPDATE_ORDER:
       return Object.assign({}, state, {
@@ -54,14 +68,14 @@ export function orderReducer(
         order: action.payload,
         errorMessage: action.error,
         deleted: false,
-        updated: true
+        updated: true,
       });
     case DELETE_ORDER:
       return Object.assign({}, state, {
         isFetching: false,
         errorMessage: action.error,
         deleted: !action.error && action.payload ? true : false,
-        updated: false
+        updated: false,
       });
 
     default:

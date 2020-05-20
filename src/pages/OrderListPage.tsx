@@ -23,7 +23,7 @@ import TextField from "@material-ui/core/TextField";
 import Snackbar from "@material-ui/core/Snackbar";
 import { teal, pink, grey, green, common } from "@material-ui/core/colors";
 import { thunkApiCall } from "../services/thunks";
-import { LIST_ORDER, DELETE_ORDER, NEW_ORDER } from "../store/types";
+import { LIST_ORDER, DELETE_ORDER, NEW_ORDER, ApiAction } from "../store/types";
 import { Order } from "../types";
 import {
   Container,
@@ -64,6 +64,8 @@ const styles = {
     marginRight: "1em",
     color: white,
     backgroundColor: green400,
+    width: 36,
+    height: 36,
   },
   editButtonIcon: {
     fill: white,
@@ -71,6 +73,8 @@ const styles = {
   deleteButton: {
     color: "grey",
     fill: grey500,
+    width: 36,
+    height: 36,
   },
   columns: {
     width10: {
@@ -92,7 +96,7 @@ const styles = {
     width: "95%",
   },
   pagination: {
-    width: "250px",
+    width: "220px",
     margin: "0 auto",
     paddingTop: 10,
   },
@@ -166,7 +170,6 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
     this.handleSearch();
   }
 
-
   /* eslint-disable */
   componentDidUpdate(prevProps, prevState) {
     // // reset page if items array has changed
@@ -200,7 +203,6 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
     this.setState({ page, items });
   }
 
-
   onDelete(id) {
     if (id) {
       this.handleOpen(id);
@@ -213,7 +215,7 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
 
   handleSearch() {
     this.setState({ searchOpen: false, isFetching: true });
-    const action = getAction(LIST_ORDER, null, null, "");
+    const action = getAction(LIST_ORDER, null, null, "") as ApiAction;
     this.props.searchOrder(action); //this.state.search);
   }
 
@@ -227,16 +229,20 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
     this.setState({ open: false });
 
     if (isConfirmed && this.state.orderId) {
-      const action = getAction(DELETE_ORDER, this.state.orderId, null, "");
+      const action = getAction(
+        DELETE_ORDER,
+        this.state.orderId,
+        null,
+        ""
+      ) as ApiAction;
       this.props.deleteOrder(action);
       // this.props.deleteOrder(this.state.orderId);
       this.setState({ orderId: null });
     }
   }
 
-
   handleNewOrder() {
-    const action = getAction(NEW_ORDER);
+    const action = getAction(NEW_ORDER) as ApiAction;
     this.props.newOrder(action);
     // @ts-ignore
     this.props.history.push("/neworder");
@@ -268,8 +274,6 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
   render() {
     const { errorMessage, orderList } = this.props;
     const { isFetching } = this.state;
-
-   
 
     const dialogButtons = [
       <Fab
@@ -369,7 +373,7 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
                     <TableCell style={styles.columns.width10}>
                       {item.shippedDate}
                     </TableCell>
-                     <TableCell style={styles.columns.width10}>
+                    <TableCell style={styles.columns.width10}>
                       {item.customer
                         ? item.customer.firstname + " " + item.customer.lastname
                         : ""}
@@ -394,8 +398,9 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
                 ))}
               </TableBody>
             </Table>
-            <Container maxWidth="xs" style={{ paddingTop: "1em" }}>
+            <Container style={styles.pagination}>
               <Pagination
+                size="small"
                 count={this.state.totalPages}
                 page={this.state.page}
                 variant="outlined"

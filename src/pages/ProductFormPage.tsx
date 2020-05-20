@@ -15,7 +15,7 @@ import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-material-ui";
 
 import { grey } from "@material-ui/core/colors";
-import { thunkApiCall } from "../services/thunks";
+import { thunkApiCall, thunkApiQCall } from "../services/thunks";
 import { Product, User, Category } from "../types";
 import { LinearProgress, Grid, Select, MenuItem } from "@material-ui/core";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -25,6 +25,8 @@ import {
   UPDATE_PRODUCT,
   CREATE_PRODUCT,
   LIST_CATEGORY,
+  EDIT_PRODUCT,
+  ApiQActions,
 } from "../store/types";
 import Alert from "@material-ui/lab/Alert";
 
@@ -68,11 +70,10 @@ interface ProductFormProps {
   // router: object;
   match: match;
   product: Product;
-  getProduct: typeof thunkApiCall;
+  getProduct: typeof thunkApiQCall;
   saveProduct: typeof thunkApiCall;
   searchProduct: typeof thunkApiCall;
   newProduct: typeof thunkApiCall;
-
   updateProduct: typeof thunkApiCall;
   addProduct: typeof thunkApiCall;
   categoryList: Category[];
@@ -112,25 +113,16 @@ class ProductFormPage extends React.Component<
     autoHideDuration: 2000,
   };
 
-  UNSAFE_componentWillMount() {
-    // if (this.props.routeParams && this.props.routeParams.id) {
-    //   this.props.getProduct(this.props.routeParams.id);
-    //   this.props.getCategoryList();
-    // } else {
-    //   this.props.newProduct();
-    // }
-  }
-
   componentDidMount() {
     console.log("componentDidMount ", this.props);
     // @ts-ignore
     const productId = this.props.match.params?.id;
-    let action: ApiAction;
+    let action: ApiQActions;
     if (productId) {
-      action = getAction(GET_PRODUCT, productId); //  Object.assign({}, this.getAction);
+      action = getAction(EDIT_PRODUCT, productId) as ApiQActions; //  Object.assign({}, this.getAction);
       this.props.getProduct(action);
-      const action2 = getAction(LIST_CATEGORY);
-      this.props.getCategoryList(action2);
+      // const action2 = getAction(LIST_CATEGORY);
+      // this.props.getCategoryList(action2);
     }
   }
 
@@ -166,11 +158,11 @@ class ProductFormPage extends React.Component<
 
     const product = { ...this.state.product, ...values };
     console.log(product);
-    let action: ApiAction;
+    let action: ApiAction; // | ApiQActions;
     if (product.id > 0) {
-      action = getAction(UPDATE_PRODUCT, null, product);
+      action = getAction(UPDATE_PRODUCT, null, product) as ApiAction;
     } else {
-      action = getAction(CREATE_PRODUCT, null, product);
+      action = getAction(CREATE_PRODUCT, null, product) as ApiAction;
     }
     this.props.saveProduct(action);
   }
@@ -217,7 +209,10 @@ class ProductFormPage extends React.Component<
                 <Grid container style={styles.container} spacing={3}>
                   <Grid item style={styles.cell} xs={12} md={4}>
                     <Select
-                      label="Categories"
+                      label="Category"
+                      placeholder="Category"
+                      variant="outlined"
+                      fullWidth={true}
                       // value={product.category ? product.category.id : 0}
                       // onChange={this.handleChange}
                       // style={styles.customWidth}
@@ -236,45 +231,34 @@ class ProductFormPage extends React.Component<
                   </Grid>
                   <Grid item style={styles.cell} xs={12} md={4}>
                     <Field
+                      variant="outlined"
                       component={TextField}
                       placeholder="Product"
                       label="Product"
                       name="productName"
                       onChange={this.handleChange}
                       fullWidth={true}
-                      value={product.productName ? product.productName : ""}
-                      // validations={{
-                      //   isWords: true,
-                      // }}
-                      // validationErrors={{
-                      //   isWords: "Please provide valid product name",
-                      //   isDefaultRequiredValue: "This is a required field",
-                      // }}
+                      // value={product.productName ? product.productName : ""}
                       required
                     />
                   </Grid>
 
                   <Grid item style={styles.cell} xs={12} md={4}>
                     <Field
+                      variant="outlined"
                       component={TextField}
                       placeholder="Price"
                       label="Price"
                       fullWidth={true}
                       name="unitPrice"
                       onChange={this.handleChange}
-                      validations={{
-                        isNumeric: true,
-                      }}
-                      // validationErrors={{
-                      //   isNumeric: "Please provide valid price",
-                      //   isDefaultRequiredValue: "This is a required field",
-                      // }}
-                      value={product.unitPrice}
+                      // value={product.unitPrice}
                       required
                     />
                   </Grid>
                   <Grid item style={styles.cell} xs={12} md={4}>
                     <Field
+                      variant="outlined"
                       component={TextField}
                       placeholder="Quantity"
                       label="Quantity"
@@ -282,14 +266,6 @@ class ProductFormPage extends React.Component<
                       type="number"
                       name="unitInStock"
                       onChange={this.handleChange}
-                      value={product.unitInStock}
-                      validations={{
-                        isInt: true,
-                      }}
-                      // validationErrors={{
-                      //   isInt: "Please provide a valid password",
-                      //   isDefaultRequiredValue: "This is a required field",
-                      // }}
                       required
                     />
                   </Grid>
@@ -363,7 +339,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     newProduct: (action) => dispatch(thunkApiCall(action)),
-    getProduct: (action) => dispatch(thunkApiCall(action)),
+    getProduct: (action) => dispatch(thunkApiQCall(action)),
     updateProduct: (action) => dispatch(thunkApiCall(action)),
     addProduct: (action) => dispatch(thunkApiCall(action)),
     getCategoryList: (action) => dispatch(thunkApiCall(action)),

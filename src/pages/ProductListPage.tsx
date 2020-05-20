@@ -23,7 +23,7 @@ import TextField from "@material-ui/core/TextField";
 import Snackbar from "@material-ui/core/Snackbar";
 import { teal, pink, grey, green, common } from "@material-ui/core/colors";
 import { thunkApiCall } from "../services/thunks";
-import { DELETE_PRODUCT, NEW_PRODUCT, LIST_PRODUCT } from "../store/types";
+import { DELETE_PRODUCT, NEW_PRODUCT, LIST_PRODUCT, ApiAction } from "../store/types";
 import { Product } from "../types";
 import {
   Container,
@@ -41,11 +41,8 @@ const grey500 = grey["500"];
 const green400 = green["400"];
 const white = common.white;
 
-
-
 const styles = {
   fab: {
-    // margin: 0,
     top: "auto",
     right: 20,
     bottom: 20,
@@ -54,7 +51,6 @@ const styles = {
     marginRight: 20,
   },
   fabSearch: {
-    // margin: 0,
     top: "auto",
     right: 100,
     bottom: 20,
@@ -67,6 +63,8 @@ const styles = {
     marginRight: "1em",
     color: white,
     backgroundColor: green400,
+    width: 36,
+    height: 36,
   },
   editButtonIcon: {
     fill: white,
@@ -74,10 +72,12 @@ const styles = {
   deleteButton: {
     color: "grey",
     fill: grey500,
+    width: 36,
+    height: 36,
   },
   columns: {
     width10: {
-      width: '10%',
+      width: "10%",
     },
   },
   dialog: {
@@ -92,7 +92,7 @@ const styles = {
     width: "95%",
   },
   pagination: {
-    width: "250px",
+    width: "220px",
     margin: "0 auto",
     paddingTop: 10,
   },
@@ -123,7 +123,7 @@ interface ProductListState {
   productId: number;
   dialogText: string; //'Are you sure to do this?',
   search: {
-    product: string
+    product: string;
   };
 }
 
@@ -154,7 +154,7 @@ class ProductListPage extends React.Component<
     productList: [],
     dialogText: "Are you sure to do this?",
     search: {
-     product:""
+      product: "",
     },
   };
 
@@ -169,21 +169,6 @@ class ProductListPage extends React.Component<
     // }
     this.handleSearch();
   }
-
-  // UNSAFE_componentWillReceiveProps(nextProps) {
-  //   if (nextProps && nextProps.errorMessage && !nextProps.deleteSuccess) {
-  //     this.setState({ snackbarOpen: true });
-  //   }
-
-  //   if (
-  //     !this.props.deleteSuccess &&
-  //     nextProps.deleteSuccess &&
-  //     !nextProps.errorMessage &&
-  //     !nextProps.isFetching
-  //   ) {
-  //     this.props.getAllProducts();
-  //   }
-  // }
 
   componentDidUpdate(prevProps) {
     // reset page if items array has changed
@@ -213,15 +198,6 @@ class ProductListPage extends React.Component<
     this.setState({ page, items });
   }
 
-  // onChangePage(items) {
-  //   if (
-  //     !this.props.isFetching &&
-  //     this.state.items &&
-  //     this.props.productList
-  //   )
-  //     this.setState({ items: items });
-  // }
-
   onDelete(id) {
     if (id) {
       this.handleOpen(id);
@@ -236,7 +212,7 @@ class ProductListPage extends React.Component<
     // this.setState({ searchOpen: !this.state.searchOpen });
     // this.props.getAllProducts(this.state.search);
     // this.setState({ searchOpen: false, isFetching: true });
-    const action = getAction(LIST_PRODUCT, null, null, "");
+    const action = getAction(LIST_PRODUCT, null, null, "") as ApiAction;
     this.props.searchProduct(action); //this.state.search);
   }
 
@@ -261,16 +237,11 @@ class ProductListPage extends React.Component<
   }
 
   handleNewProduct() {
-    const action = getAction(NEW_PRODUCT);
+    const action = getAction(NEW_PRODUCT)as ApiAction;
     this.props.newProduct(action);
     // @ts-ignore
     this.props.history.push("/newproduct");
   }
-
-  // handleSearch() {
-  //   this.setState({ searchOpen: !this.state.searchOpen });
-  //   this.props.getAllProducts(this.state.search);
-  // }
 
   handleSearchFilter(event) {
     const field = event.target.name;
@@ -278,7 +249,6 @@ class ProductListPage extends React.Component<
     if (event && event.target && field) {
       const search = Object.assign({}, this.state.search);
       search[field] = event.target.value;
-
       this.setState({ search: search });
     }
   }
@@ -332,35 +302,30 @@ class ProductListPage extends React.Component<
           </div>
         ) : (
           <div>
-            {/* <Link to="/product">
-              <Fab style={styles.fab} backgroundColor={pink500}>
-                <ContentAdd />
-              </Fab>
-            </Link>
             <Fab
+              size="small"
+              color="secondary"
+              style={styles.fab}
+              onClick={this.handleNewProduct}
+            >
+              <ContentAdd />
+            </Fab>
+            <Fab
+              size="small"
               style={styles.fabSearch}
-              backgroundColor={teal500}
-              onTouchTap={this.handleToggle}
+              onClick={this.handleToggle}
             >
               <Search />
-            </Fab> */}
-            <Fab size="small" color="secondary" style={styles.fab} onClick={this.handleNewProduct} >
-                  <ContentAdd />
-                </Fab>
-      
-              <Fab size="small" style={styles.fabSearch} onClick={this.handleToggle}>
-                <Search />
-              </Fab>
-              <Snackbar
-                  open={this.state.snackbarOpen}
-                  autoHideDuration={this.state.autoHideDuration}
-                  onClose={this.onSnackBarClose}
-                >
-                  <Alert onClose={this.onSnackBarClose} severity="success">
-                    Operation is done successfully!
-                  </Alert>
-                </Snackbar>
-
+            </Fab>
+            <Snackbar
+              open={this.state.snackbarOpen}
+              autoHideDuration={this.state.autoHideDuration}
+              onClose={this.onSnackBarClose}
+            >
+              <Alert onClose={this.onSnackBarClose} severity="success">
+                Operation is done successfully!
+              </Alert>
+            </Snackbar>
             <Table size="small">
               <TableHead>
                 <TableRow>
@@ -387,27 +352,6 @@ class ProductListPage extends React.Component<
                       {item.unitInStock}
                     </TableCell>
                     <TableCell style={styles.columns.width10}>
-                      {/* <Link className="button" to={"/product/" + item.id}>
-                      <Fab
-                        zDepth={0}
-                        mini={true}
-                        style={styles.editButton}
-                        backgroundColor={green400}
-                        iconStyle={styles.editButtonIcon}
-                      >
-                        <ContentCreate />
-                      </Fab>
-                    </Link>
-
-                    <Fab
-                      zDepth={0}
-                      mini={true}
-                      backgroundColor={grey200}
-                      iconStyle={styles.deleteButton}
-                      onTouchTap={() => this.onDelete(item.id)}
-                    >
-                      <ActionDelete />
-                    </Fab> */}
                       <Fab
                         size="small"
                         style={styles.editButton}
@@ -429,6 +373,7 @@ class ProductListPage extends React.Component<
             </Table>
             <Container style={styles.pagination}>
               <Pagination
+                size="small"
                 count={this.state.totalPages}
                 page={this.state.page}
                 variant="outlined"
@@ -436,24 +381,6 @@ class ProductListPage extends React.Component<
                 onChange={this.onPageChange}
               />
             </Container>
-            {/* <Container maxWidth="xs" style={{ paddingTop: "1em" }}>
-              <Pagination
-                count={this.state.totalPages}
-                page={this.state.page}
-                variant="outlined"
-                color="primary"
-                onChange={this.onPageChange}
-              />
-            </Container> */}
-            {/* <Dialog
-            title="Confirm Dialog "
-            actions={actions}
-            modal={true}
-            contentStyle={styles.dialog}
-            open={this.state.open}
-          >
-            {this.state.dialogText}
-          </Dialog> */}
             <Dialog
               key="alert-dialog"
               title="Confirm Dialog "
@@ -510,16 +437,7 @@ class ProductListPage extends React.Component<
   }
 }
 
-// ProductListPage.propTypes = {
-//   productList: PropTypes.array,
-//   getAllProducts: PropTypes.func.isRequired,
-//   deleteProduct: PropTypes.func.isRequired,
-//   deleteSuccess: PropTypes.bool.isRequired,
-//   errorMessage: PropTypes.string
-// };
-
 function mapStateToProps(state) {
-  // const { productReducer } = state;
   const {
     productList,
     deleteSuccess,
@@ -542,8 +460,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     searchProduct: (action) => dispatch(thunkApiCall(action)),
-    getAllProducts:  (action) => dispatch(thunkApiCall(action)),
-    deleteProduct:  (action) => dispatch(thunkApiCall(action)),
+    getAllProducts: (action) => dispatch(thunkApiCall(action)),
+    deleteProduct: (action) => dispatch(thunkApiCall(action)),
     newProduct: (action) => dispatch(thunkApiCall(action)),
   };
 }

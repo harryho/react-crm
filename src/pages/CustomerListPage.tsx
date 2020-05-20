@@ -66,6 +66,8 @@ const styles = {
     marginRight: "1em",
     color: white,
     backgroundColor: green400,
+    width: 36,
+    height:36,
   },
   editButtonIcon: {
     fill: white,
@@ -73,6 +75,8 @@ const styles = {
   deleteButton: {
     color: "grey",
     fill: grey500,
+    width: 36,
+    height:36,
   },
   columns: {
     width10: {
@@ -94,7 +98,7 @@ const styles = {
     width: "95%",
   },
   pagination: {
-    width: "200px",
+    width: "220px",
     margin: "0 auto",
     paddingTop: 10,
   },
@@ -396,6 +400,7 @@ class CustomerListPage extends React.Component<
 
             <Container style={styles.pagination}>
               <Pagination
+              size="small"
                 count={this.state.totalPages}
                 page={this.state.page}
                 variant="outlined"

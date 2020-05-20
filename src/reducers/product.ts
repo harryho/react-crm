@@ -5,7 +5,8 @@ import {
   DELETE_PRODUCT,
   GET_PRODUCT,
   LIST_PRODUCT,
-  NEW_PRODUCT
+  NEW_PRODUCT,
+  EDIT_PRODUCT
 } from '../store/types';
 import { Product, ProductModel } from '../types';
 
@@ -41,7 +42,17 @@ export function productReducer(
     case GET_PRODUCT:
       return Object.assign({}, state, {
         isFetching: false,
-        product: action.payload,
+        product:action.payload,
+        errorMessage: action.error,
+        deleted: false,
+        updated: false
+      });
+    case EDIT_PRODUCT:
+      const {product, categoryList} = action.payload
+      return Object.assign({}, state, {
+        isFetching: false,
+        product,
+        categoryList,
         errorMessage: action.error,
         deleted: false,
         updated: false

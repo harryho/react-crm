@@ -9,16 +9,16 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import { connect } from "react-redux";
 import Card from "@material-ui/core/Card";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-
+import ActionDelete from "@material-ui/icons/Delete";
 import { getAction } from "../actions/order";
 
 import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-material-ui";
 
 import { grey } from "@material-ui/core/colors";
-import { thunkApiCall } from "../services/thunks";
+import { thunkApiCall, thunkApiQCall } from "../services/thunks";
 import { Customer, User, Category, Product, Order } from "../types";
-import { Grid } from "@material-ui/core";
+import { Grid, IconButton } from "@material-ui/core";
 import Snackbar from "@material-ui/core/Snackbar";
 
 import {
@@ -26,6 +26,8 @@ import {
   GET_ORDER,
   UPDATE_ORDER,
   CREATE_ORDER,
+  EDIT_ORDER,
+  ApiQActions,
 } from "../store/types";
 
 const grey400 = grey["400"];
@@ -69,11 +71,10 @@ const styles = {
   },
 };
 
-
 interface OrderFormProps {
   match: match;
   order: Order;
-  getOrder: typeof thunkApiCall;
+  getOrder: typeof thunkApiQCall;
   saveOrder: typeof thunkApiCall;
   searchOrder: typeof thunkApiCall;
   // updateSuccess: boolean;
@@ -121,40 +122,16 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
     autoHideDuration: 2000,
   };
 
-  // UNSAFE_componentWillReceiveProps(nextProps) {
-  //   if (
-  //     (this.props.order &&
-  //       nextProps.order &&
-  //       this.props.order.id != nextProps.order.id) ||
-  //     this.props.order != nextProps.order
-  //   ) {
-  //     this.setState({ isFetching: false });
-  //     this.setState({ order: Object.assign({}, nextProps.order) });
-  //   }
-
-  //   if (nextProps.productList) {
-  //     this.setState({ productList: Object.assign({}, nextProps.productList) });
-  //   }
-
-  //   if (
-  //     (!this.props.addSuccess && nextProps.addSuccess) ||
-  //     (!this.props.updateSuccess && nextProps.updateSuccess)
-  //   ) {
-  //     this.props.router.push("/orders");
-  //   }
-  // }
-
   componentDidMount() {
     console.log("componentDidMount ", this.props);
     // @ts-ignore
     const orderId = this.props.match.params?.id;
-    let action: ApiAction;
+    let action: ApiQActions;
     if (orderId) {
-      action = getAction(GET_ORDER, orderId); //  Object.assign({}, this.getAction);
+      action = getAction(EDIT_ORDER, orderId) as ApiQActions; //  Object.assign({}, this.getAction);
       this.props.getOrder(action);
     }
   }
-
 
   notifyFormError(data) {
     console.error("Form error:", data);
@@ -176,7 +153,6 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
       snackbarOpen: false,
     });
   }
-
 
   handleChange(event, date) {
     const field = event ? event.target.name : null;
@@ -240,16 +216,15 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
     console.log(order);
     let action: ApiAction;
     if (order.id > 0) {
-      action = getAction(UPDATE_ORDER, null, order);
+      action = getAction(UPDATE_ORDER, null, order) as ApiAction;
     } else {
-      action = getAction(CREATE_ORDER, null, order);
+      action = getAction(CREATE_ORDER, null, order) as ApiAction;
     }
     this.props.saveOrder(action);
   }
 
   render() {
-    const { isFetching, order } = this.props;
-
+    const { isFetching, order, categoryList, productList } = this.props;
 
     return (
       <PageBase title="Order" navigation="Application / Order ">
@@ -285,11 +260,11 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
               }, 500);
             }}
           >
-                     {({ submitForm, isSubmitting }) => (
-            <Form>
-              <Grid container style={styles.container} spacing={3}>
-                <Grid item style={styles.cell} xs={12} md={4}>
-                  {/* <FormsySelect
+            {({ submitForm, isSubmitting }) => (
+              <Form>
+                <Grid container style={styles.container} spacing={3}>
+                  <Grid item style={styles.cell} xs={12} md={4}>
+                    {/* <FormsySelect
                     label="Customer"
                     value={order.customer ? order.customer.id : 0}
                     onChange={this.handleChange}
@@ -310,69 +285,62 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                       />
                     ))}
                   </FormsySelect> */}
-                </Grid>
-                <Grid item style={styles.cell} xs={12} md={4}>
-                  <Field
-                    component={TextField}
-                    placeholder="Reference"
-                    label="Reference"
-                    name="reference"
-                    onChange={this.handleChange}
-                    fullWidth={true}
-                    value={order.reference ? order.reference : ""}
-                    validations={{
-                      isWords: true,
-                    }}
-                    validationErrors={{
-                      isWords: "Please provide valid reference name",
-                      isDefaultRequiredValue: "This is a required field",
-                    }}
-                    required
-                  />
-                </Grid>
+                  </Grid>
+                  <Grid item style={styles.cell} xs={12} md={4}>
+                    <Field
+                      component={TextField}
+                      placeholder="Reference"
+                      label="Reference"
+                      name="reference"
+                      onChange={this.handleChange}
+                      fullWidth={true}
+                      value={order.reference ? order.reference : ""}
+                      // validations={{
+                      //   isWords: true,
+                      // }}
+                      // validationErrors={{
+                      //   isWords: "Please provide valid reference name",
+                      //   isDefaultRequiredValue: "This is a required field",
+                      // }}
+                      required
+                    />
+                  </Grid>
 
-                <Grid item style={styles.cell} xs={12} md={4}>
-                  <Field
-                    component={TextField}
-                    placeholder="Amount"
-                    label="Amount"
-                    fullWidth={true}
-                    name="price"
-                    onChange={this.handleChange}
-                    validations={{
-                      isNumeric: true,
-                    }}
-                    validationErrors={{
-                      isNumeric: "Please provide valid price",
-                      isDefaultRequiredValue: "This is a required field",
-                    }}
-                    value={order.amount}
-                    required
-                  />
-                </Grid>
+                  <Grid item style={styles.cell} xs={12} md={4}>
+                    <Field
+                      component={TextField}
+                      placeholder="Amount"
+                      label="Amount"
+                      fullWidth={true}
+                      name="price"
+                      onChange={this.handleChange}
+                      value={order.amount}
+                      required
+                    />
+                  </Grid>
 
-                <Grid item style={styles.cell} xs={12} md={4}>
-                  <Field
-                    component={TextField}
-                    placeholder="Quantity"
-                    label="Quantity"
-                    fullWidth={true}
-                    type="number"
-                    name="quantity"
-                    onChange={this.handleChange}
-                    value={order.products ? order.products.length : 0}
-                    validations={{
-                      isInt: true,
-                    }}
-                    validationErrors={{
-                      isInt: "Please provide a valid password",
-                      isDefaultRequiredValue: "This is a required field",
-                    }}
-                    required
-                  />
-                </Grid>
-                <Grid item style={styles.cell} xs={12} md={4}>
-                  {/* <FormsyDate
+                  <Grid item style={styles.cell} xs={12} md={4}>
+                    <Field
+                      component={TextField}
+                      placeholder="Quantity"
+                      label="Quantity"
+                      fullWidth={true}
+                      type="number"
+                      name="quantity"
+                      onChange={this.handleChange}
+                      value={order.products ? order.products.length : 0}
+                      // validations={{
+                      //   isInt: true,
+                      // }}
+                      // validationErrors={{
+                      //   isInt: "Please provide a valid password",
+                      //   isDefaultRequiredValue: "This is a required field",
+                      // }}
+                      required
+                    />
+                  </Grid>
+                  <Grid item style={styles.cell} xs={12} md={4}>
+                    {/* <FormsyDate
                     placeholder="Order Date"
                     label="Order Date"
                     disabled={true}
@@ -383,10 +351,10 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                     }
                     required
                   /> */}
-                </Grid>
+                  </Grid>
 
-                <Grid item style={styles.cell} xs={12} md={4}>
-                  {/* <FormsyDate
+                  <Grid item style={styles.cell} xs={12} md={4}>
+                    {/* <FormsyDate
                     placeholder="Shipped Date"
                     label="Shipped Date"
                     fullWidth={false}
@@ -399,138 +367,139 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                     }
                     required
                   /> */}
+                  </Grid>
+
+                  <Grid item style={styles.cell} xs={12} md={4}>
+                    <Field
+                      component={TextField}
+                      placeholder="Address"
+                      label="Address"
+                      name="shipAddress.address"
+                      onChange={this.handleChange}
+                      fullWidth={true}
+                      value={
+                        order.shipAddress && order.shipAddress.address
+                          ? order.shipAddress.address
+                          : ""
+                      }
+                      validations={{
+                        isWords: true,
+                      }}
+                      validationErrors={{
+                        isWords: "Please provide valid address",
+                        isDefaultRequiredValue: "This is a required field",
+                      }}
+                      required
+                    />
+                  </Grid>
+
+                  <Grid item style={styles.cell} xs={12} md={4}>
+                    <Field
+                      component={TextField}
+                      placeholder="City"
+                      label="City"
+                      name="reference"
+                      onChange={this.handleChange}
+                      fullWidth={true}
+                      value={
+                        order.shipAddress && order.shipAddress.city
+                          ? order.shipAddress.city
+                          : ""
+                      }
+                      validations={{
+                        isWords: true,
+                      }}
+                      validationErrors={{
+                        isWords: "Please provide valid city",
+                        isDefaultRequiredValue: "This is a required field",
+                      }}
+                      required
+                    />
+                  </Grid>
+
+                  <Grid item style={styles.cell} xs={12} md={4}>
+                    <Field
+                      component={TextField}
+                      placeholder="Country"
+                      label="Country"
+                      name="reference"
+                      onChange={this.handleChange}
+                      fullWidth={true}
+                      value={
+                        order.shipAddress && order.shipAddress.country
+                          ? order.shipAddress.country
+                          : ""
+                      }
+                      validations={{
+                        isWords: true,
+                      }}
+                      validationErrors={{
+                        isWords: "Please provide valid country",
+                        isDefaultRequiredValue: "This is a required field",
+                      }}
+                      required
+                    />
+                  </Grid>
+
+                  <Grid item style={styles.cell} xs={12} md={4}>
+                    <Field
+                      component={TextField}
+                      placeholder="Zip Code"
+                      label="Zip Code"
+                      name="reference"
+                      onChange={this.handleChange}
+                      fullWidth={true}
+                      value={
+                        order.shipAddress && order.shipAddress.zipcode
+                          ? order.shipAddress.zipcode
+                          : ""
+                      }
+                      validations={{
+                        isWords: true,
+                      }}
+                      validationErrors={{
+                        isWords: "Please provide valid zip code",
+                        isDefaultRequiredValue: "This is a required field",
+                      }}
+                      required
+                    />
+                  </Grid>
                 </Grid>
 
-                <Grid item style={styles.cell} xs={12} md={4}>
-                  <Field
-                    component={TextField}
-                    placeholder="Address"
-                    label="Address"
-                    name="shipAddress.address"
-                    onChange={this.handleChange}
-                    fullWidth={true}
-                    value={
-                      order.shipAddress && order.shipAddress.address
-                        ? order.shipAddress.address
-                        : ""
-                    }
-                    validations={{
-                      isWords: true,
-                    }}
-                    validationErrors={{
-                      isWords: "Please provide valid address",
-                      isDefaultRequiredValue: "This is a required field",
-                    }}
-                    required
-                  />
-                </Grid>
+                <p style={styles.productList}>Product List: </p>
+                <Divider />
 
-                <Grid item style={styles.cell} xs={12} md={4}>
-                  <Field
-                    component={TextField}
-                    placeholder="City"
-                    label="City"
-                    name="reference"
-                    onChange={this.handleChange}
-                    fullWidth={true}
-                    value={
-                      order.shipAddress && order.shipAddress.city
-                        ? order.shipAddress.city
-                        : ""
-                    }
-                    validations={{
-                      isWords: true,
-                    }}
-                    validationErrors={{
-                      isWords: "Please provide valid city",
-                      isDefaultRequiredValue: "This is a required field",
-                    }}
-                    required
-                  />
-                </Grid>
-
-                <Grid item style={styles.cell} xs={12} md={4}>
-                  <Field
-                    component={TextField}
-                    placeholder="Country"
-                    label="Country"
-                    name="reference"
-                    onChange={this.handleChange}
-                    fullWidth={true}
-                    value={
-                      order.shipAddress && order.shipAddress.country
-                        ? order.shipAddress.country
-                        : ""
-                    }
-                    validations={{
-                      isWords: true,
-                    }}
-                    validationErrors={{
-                      isWords: "Please provide valid country",
-                      isDefaultRequiredValue: "This is a required field",
-                    }}
-                    required
-                  />
-                </Grid>
-
-                <Grid item style={styles.cell} xs={12} md={4}>
-                  <Field
-                    component={TextField}
-                    placeholder="Zip Code"
-                    label="Zip Code"
-                    name="reference"
-                    onChange={this.handleChange}
-                    fullWidth={true}
-                    value={
-                      order.shipAddress && order.shipAddress.zipcode
-                        ? order.shipAddress.zipcode
-                        : ""
-                    }
-                    validations={{
-                      isWords: true,
-                    }}
-                    validationErrors={{
-                      isWords: "Please provide valid zip code",
-                      isDefaultRequiredValue: "This is a required field",
-                    }}
-                    required
-                  />
-                </Grid>
-              </Grid>
-
-              <p style={styles.productList}>Product List: </p>
-              <Divider />
-
-              {/* {order.products && (
-              <div>
-                <GridList cols={1} cellHeight={60}>
-                  {order.products.map((product, index) => (
-                    <GridTile key={index}>
-                      <div style={styles.productItem}>
-                        <span>
-                          {product.productName}
-                          <p>
-                            {" "}
-                            Price: AUD ${product.unitPrice}
-                            <IconButton
-                              style={styles.productDeleteIcon}
-                              onClick={() => this.removeProduct(product)}
-                            >
-                              <ActionDelete />
-                            </IconButton>
-                          </p>
-                        </span>
-                      </div>
+                {order.products && (
+                  <div>
+                    <Grid container>
+                      {/* cols={1} cellHeight={60}> */}
+                      {order.products.map((product, index) => (
+                        <Grid item key={index} style={styles.productList}>
+                          <div style={styles.productList}>
+                            <span>
+                              {product.productName}
+                              <p>
+                                {" "}
+                                Price: AUD ${product.unitPrice}
+                                <IconButton
+                                  // style={styles.productDeleteIcon}
+                                  onClick={() => this.removeProduct(product)}
+                                >
+                                  <ActionDelete />
+                                </IconButton>
+                              </p>
+                            </span>
+                          </div>
+                        </Grid>
+                      ))}
                     </Grid>
-                  ))}
-                </GridList>
-              </div>
-            )} */}
+                  </div>
+                )}
 
-              <Divider />
+                <Divider />
 
-              <div style={styles.buttons}>
-                {/* <Link to="/orders">
+                <div style={styles.buttons}>
+                  {/* <Link to="/orders">
                 <Button variant="contained" label="Cancel" />
               </Link>
 
@@ -549,26 +518,26 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                 onClick={() => this.handleClick(event, "AddProduct")}
                 primary={true}
               /> */}
-                <Link to="/orders">
-                  <Button variant="contained">
-                    {/* onClick={this.handleGoBack}> */}
-                    <ArrowBackIosIcon /> Back{" "}
+                  <Link to="/orders">
+                    <Button variant="contained">
+                      {/* onClick={this.handleGoBack}> */}
+                      <ArrowBackIosIcon /> Back{" "}
+                    </Button>
+                  </Link>
+                  <Button
+                    variant="contained"
+                    style={styles.saveButton}
+                    // type="button"
+                    onClick={submitForm}
+                    color="primary"
+                    disabled={isSubmitting}
+                  >
+                    <SaveIcon /> Save
                   </Button>
-                </Link>
-                <Button
-                  variant="contained"
-                  style={styles.saveButton}
-                  // type="button"
-                  onClick={submitForm}
-                  color="primary"
-                  disabled={isSubmitting}
-                >
-                  <SaveIcon /> Save
-                </Button>
-              </div>
-              {/* {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>} */}
+                </div>
+                {/* {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>} */}
 
-              {/* <Dialog
+                {/* <Dialog
               title="Add Product"
               open={this.state.open}
               contentStyle={styles.dialog}
@@ -621,8 +590,8 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                 </span>
               </div>
             </Dialog> */}
-            </Form>
-                     )}
+              </Form>
+            )}
           </Formik>
         )}
       </PageBase>
@@ -659,7 +628,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     newOrder: (action) => dispatch(thunkApiCall(action)),
-    getOrder: (action) => dispatch(thunkApiCall(action)),
+    getOrder: (action) => dispatch(thunkApiQCall(action)),
     updateOrder: (action) => dispatch(thunkApiCall(action)),
     addOrder: (action) => dispatch(thunkApiCall(action)),
     getCategoryList: (action) => dispatch(thunkApiCall(action)),
