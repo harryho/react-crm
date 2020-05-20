@@ -7,10 +7,18 @@ import {
   HttpMethod,
   ProductActions,
   ApiAction,
-  CREATE_PRODUCT
+  CREATE_PRODUCT,
+  LIST_CATEGORY
 } from "../store/types";
 import { Entity } from "../types";
 
+
+export function listCategory(result?: TODO) {
+  return {
+    type: LIST_CATEGORY,
+    payload: result
+  }
+}
 
 export function listProduct(result?: TODO) {
   return {
@@ -99,6 +107,12 @@ export function getAction(action: ProductActions,
         method: HttpMethod.DELETE,
 
       }
+      case LIST_CATEGORY:
+        return {
+          type: LIST_CATEGORY,
+          endpoint: 'categories/',
+          method: HttpMethod.GET,
+        }
   }
 
 }

@@ -17,13 +17,14 @@ import { TextField } from "formik-material-ui";
 import { grey } from "@material-ui/core/colors";
 import { thunkApiCall } from "../services/thunks";
 import { Product, User, Category } from "../types";
-import { LinearProgress, Grid } from "@material-ui/core";
+import { LinearProgress, Grid, Select, MenuItem } from "@material-ui/core";
 import Snackbar from "@material-ui/core/Snackbar";
 import {
   GET_PRODUCT,
   ApiAction,
   UPDATE_PRODUCT,
   CREATE_PRODUCT,
+  LIST_CATEGORY,
 } from "../store/types";
 import Alert from "@material-ui/lab/Alert";
 
@@ -128,6 +129,8 @@ class ProductFormPage extends React.Component<
     if (productId) {
       action = getAction(GET_PRODUCT, productId); //  Object.assign({}, this.getAction);
       this.props.getProduct(action);
+      const action2 = getAction(LIST_CATEGORY);
+      this.props.getCategoryList(action2);
     }
   }
 
@@ -174,7 +177,6 @@ class ProductFormPage extends React.Component<
 
   render() {
     const { errorMessage, categoryList, product, isFetching } = this.props;
-    
 
     return (
       <PageBase title="Product" navigation="Application / Product ">
@@ -204,32 +206,33 @@ class ProductFormPage extends React.Component<
             }}
             onSubmit={(values, { setSubmitting }) => {
               this.onSave(values);
-              setTimeout(() => {
-                setSubmitting(false);
-                console.log(JSON.stringify(values, null, 2));
-              }, 500);
+              // setTimeout(() => {
+              //   setSubmitting(false);
+              //   console.log(JSON.stringify(values, null, 2));
+              // }, 500);
             }}
           >
             {({ submitForm, isSubmitting }) => (
               <Form>
                 <Grid container style={styles.container} spacing={3}>
                   <Grid item style={styles.cell} xs={12} md={4}>
-                    {/* <FormsySelect
-                  label="Categories"
-                  value={product.category ? product.category.id : 0}
-                  onChange={this.handleChange}
-                  style={styles.customWidth}
-                  name="categoryId"
-                >
-                  {categoryList.map((category, index) => (
-                    <MenuItem
-                      key={index}
-                      value={category.id}
-                      style={styles.menuItem}
-                      primaryText={category.categoryName}
-                    />
-                  ))}
-                </FormsySelect> */}
+                    <Select
+                      label="Categories"
+                      // value={product.category ? product.category.id : 0}
+                      // onChange={this.handleChange}
+                      // style={styles.customWidth}
+                      name="categoryId"
+                    >
+                      {categoryList.map((category, index) => (
+                        <MenuItem
+                          key={index}
+                          value={category.id}
+                          // style={styles.menuItem}
+                        >
+                          {category.categoryName}
+                        </MenuItem>
+                      ))}
+                    </Select>
                   </Grid>
                   <Grid item style={styles.cell} xs={12} md={4}>
                     <Field
@@ -240,9 +243,9 @@ class ProductFormPage extends React.Component<
                       onChange={this.handleChange}
                       fullWidth={true}
                       value={product.productName ? product.productName : ""}
-                      validations={{
-                        isWords: true,
-                      }}
+                      // validations={{
+                      //   isWords: true,
+                      // }}
                       // validationErrors={{
                       //   isWords: "Please provide valid product name",
                       //   isDefaultRequiredValue: "This is a required field",

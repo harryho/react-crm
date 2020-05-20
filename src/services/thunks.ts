@@ -35,6 +35,7 @@ import {
   NEW_PRODUCT,
   CREATE_PRODUCT,
   NewAction,
+  LIST_CATEGORY,
 } from "../store/types";
 import {
   Customer,
@@ -45,7 +46,7 @@ import {
   Order, 
 } from "../types";
 import { listOrder, newOrder, getOrder, updateOrder,createOrder, deleteOrder } from "../actions/order";
-import { listProduct, newProduct, getProduct, createProduct, updateProduct, deleteProduct } from "../actions/product";
+import { listProduct, newProduct, getProduct, createProduct, updateProduct, deleteProduct, listCategory } from "../actions/product";
 
 export const thunkAuth = (
   apiAction?: ApiAction
@@ -171,5 +172,9 @@ function dispatchReponse(dispatch, type, response) {
     case DELETE_PRODUCT:
       dispatch(deleteProduct(response.data));
       break;
+
+      case LIST_CATEGORY:
+        dispatch(listCategory(response.data));
+        break;
   }
 }

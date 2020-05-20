@@ -1,4 +1,4 @@
-import { Entity, Customer, UserInfo, User, Order, Product } from "../types";
+import { Entity, Customer, UserInfo, User, Order, Product, Category } from "../types";
 
 // Describing the shape of the chat's slice of state
 export interface Message {
@@ -218,7 +218,7 @@ export type CustomerActionTypes = NewCustomerAction | GetCustomerAction | Create
     export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
     export const CREATE_PRODUCT = "CREATE_PRODUCT";
     export const DELETE_PRODUCT = "DELETE_PRODUCT";
-    
+    export const LIST_CATEGORY = "LIST_CATEGORY";
     
     export interface ProductState {
       isFetching: boolean;
@@ -263,13 +263,18 @@ export type CustomerActionTypes = NewCustomerAction | GetCustomerAction | Create
       payload: number,
       error?: string
     }
+
+    interface ListCategoryAction {
+      type: typeof LIST_CATEGORY;
+      payload: Category[]
+    }
     
-    export type ProductActions = typeof LIST_PRODUCT | typeof GET_PRODUCT
+    export type ProductActions = typeof LIST_CATEGORY |  typeof LIST_PRODUCT | typeof GET_PRODUCT
      | typeof NEW_PRODUCT  | typeof UPDATE_PRODUCT | typeof CREATE_PRODUCT | typeof DELETE_PRODUCT
     
-    export type ProductActionTypes = NewProductAction | GetProductAction | CreateProductAction |
+    export type ProductActionTypes = ListCategoryAction |  NewProductAction | GetProductAction | CreateProductAction |
       ListProductAction | UpdateProductAction | DeleteProductAction;
     
 
     export type NewAction = typeof NEW_PRODUCT | typeof NEW_CUSTOMER
-    | typeof NEW_ORDER
+    | typeof NEW_ORDER  
