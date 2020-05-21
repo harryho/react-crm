@@ -14,7 +14,6 @@ import Data from "../data";
 
 import { cyan, pink, purple, orange, grey } from "@material-ui/core/colors";
 import { Grid } from "@material-ui/core";
-import PageBase from "../components/PageBase";
 
 const cyan600 = cyan["600"];
 const pink600 = pink["600"];

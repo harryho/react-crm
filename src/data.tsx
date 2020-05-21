@@ -1,8 +1,6 @@
 import React from "react";
 import Assessment from '@material-ui/icons/Assessment';
-import GridOn from '@material-ui/icons/GridOn';
 import PermIdentity from '@material-ui/icons/PermIdentity';
-import Web from '@material-ui/icons/Web';
 import SettingsPower from '@material-ui/icons/SettingsPower';
 import VpnKey from '@material-ui/icons/VpnKey';
 import ExpandLess from '@material-ui/icons/ExpandLess';
@@ -19,8 +17,8 @@ const purple600 = purple['600'];
 const data = {
   menus: [
     { text: "DashBoard", icon: <Assessment />, link: "/dashboard" },
-    { text: "Order", icon: <ShoppingCartOutlinedIcon />, link: "/orders" },
     { text: "Customer", icon: <PermIdentity />, link: "/customers" },
+    { text: "Order", icon: <ShoppingCartOutlinedIcon />, link: "/orders" },
     { text: "Product", icon: <StoreOutlinedIcon />, link: "/products" },
     { text: "About", icon: <InfoOutlinedIcon />, link: "/about" }
   ],

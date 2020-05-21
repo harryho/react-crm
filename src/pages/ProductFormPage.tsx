@@ -213,9 +213,6 @@ class ProductFormPage extends React.Component<
                       placeholder="Category"
                       variant="outlined"
                       fullWidth={true}
-                      // value={product.category ? product.category.id : 0}
-                      // onChange={this.handleChange}
-                      // style={styles.customWidth}
                       name="categoryId"
                     >
                       {categoryList.map((category, index) => (
@@ -252,7 +249,6 @@ class ProductFormPage extends React.Component<
                       fullWidth={true}
                       name="unitPrice"
                       onChange={this.handleChange}
-                      // value={product.unitPrice}
                       required
                     />
                   </Grid>
@@ -299,9 +295,20 @@ class ProductFormPage extends React.Component<
                   </Button>
                 </div>
                 {/* {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>} */}
+                <Snackbar
+                  open={this.state.snackbarOpen}
+                  autoHideDuration={this.state.autoHideDuration}
+                  onClose={this.onSnackBarClose}
+                >
+                  <Alert onClose={this.onSnackBarClose} severity="success">
+                    The operation completed successfully !
+                  </Alert>
+                </Snackbar>
               </Form>
+              
             )}
           </Formik>
+          
         )}
       </PageBase>
     );

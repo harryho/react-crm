@@ -70,8 +70,8 @@ const styles = {
     marginRight: "1em",
     color: white,
     backgroundColor: green400,
-    width: 36,
-    height: 36,
+    // width: 36,
+    // height: 36,
   },
   editButtonIcon: {
     fill: white,
@@ -79,21 +79,21 @@ const styles = {
   deleteButton: {
     color: "grey",
     fill: grey500,
-    width: 36,
-    height: 36,
+    // width: 36,
+    // height: 36,
   },
   columns: {
     width10: {
       width: "10%",
     },
   },
-  dialog: {
-    width: "100%",
-    maxWidth: "none",
-    margin: "auto",
-    position: "fixed" as TODO,
-    padding: "0px",
-  },
+  // dialog: {
+  //   width: "100%",
+  //   maxWidth: "none",
+  //   margin: "auto",
+  //   position: "fixed" as TODO,
+  //   padding: "0px",
+  // },
   drawer: {
     backgroundColor: "lightgrey",
   },
@@ -337,7 +337,7 @@ class CustomerListPage extends React.Component<
               onClose={this.onSnackBarClose}
             >
               <Alert onClose={this.onSnackBarClose} severity="success">
-                Operation is done successfully!
+                The operation completed successfully !
               </Alert>
             </Snackbar>
 
@@ -420,7 +420,9 @@ class CustomerListPage extends React.Component<
               <Dialog
                 key="alert-dialog"
                 title="Confirm Dialog "
-                style={styles.dialog}
+                // style={styles.dialog}
+                fullWidth
+                maxWidth="xs"
                 open={this.state.open}
                 onClick={() => this.handleClose(false)}
               >

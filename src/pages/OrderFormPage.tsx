@@ -26,6 +26,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 // import { DatePicker } from '@material-ui/pickers';
 
 import { ApiAction, GET_ORDER, UPDATE_ORDER, CREATE_ORDER, EDIT_ORDER, ApiQActions } from '../store/types';
+import Alert from '@material-ui/lab/Alert';
 
 const grey400 = grey['400'];
 
@@ -544,6 +545,15 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                   </DialogActions>
                 </Dialog>
                 </React.Fragment>
+                <Snackbar
+                  open={this.state.snackbarOpen}
+                  autoHideDuration={this.state.autoHideDuration}
+                  onClose={this.onSnackBarClose}
+                >
+                  <Alert onClose={this.onSnackBarClose} severity="success">
+                    The operation completed successfully !
+                  </Alert>
+                </Snackbar>
               </Form>
             )}
           </Formik>

@@ -1,99 +1,92 @@
-import React from "react";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableHead from "@material-ui/core/TableHead";
-import TableCell from "@material-ui/core/TableCell";
-import Pagination from "@material-ui/lab/Pagination";
-import TableRow from "@material-ui/core/TableRow";
-import Fab from "@material-ui/core/Fab";
-import ContentCreate from "@material-ui/icons/Create";
-import ActionDelete from "@material-ui/icons/Delete";
-import ContentAdd from "@material-ui/icons/Add";
-import Search from "@material-ui/icons/Search";
-import PageBase from "../components/PageBase";
-import { connect } from "react-redux";
-import { getAction } from "../actions/product";
-import Dialog from "@material-ui/core/Dialog";
-import Drawer from "@material-ui/core/Drawer";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Snackbar from "@material-ui/core/Snackbar";
-import { teal, pink, grey, green, common } from "@material-ui/core/colors";
-import { thunkApiCall } from "../services/thunks";
-import { NEW_PRODUCT, LIST_PRODUCT, ApiAction } from "../store/types";
-import { Product } from "../types";
-import {
-  Container,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Grid,
-} from "@material-ui/core";
-import Skeleton from "@material-ui/lab/Skeleton";
-import Alert from "../components/Alert";
+import React from 'react';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableHead from '@material-ui/core/TableHead';
+import TableCell from '@material-ui/core/TableCell';
+import Pagination from '@material-ui/lab/Pagination';
+import TableRow from '@material-ui/core/TableRow';
+import Fab from '@material-ui/core/Fab';
+import ContentCreate from '@material-ui/icons/Create';
+import ActionDelete from '@material-ui/icons/Delete';
+import ContentAdd from '@material-ui/icons/Add';
+import Search from '@material-ui/icons/Search';
+import PageBase from '../components/PageBase';
+import { connect } from 'react-redux';
+import { getAction } from '../actions/product';
+import Dialog from '@material-ui/core/Dialog';
+import Drawer from '@material-ui/core/Drawer';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Snackbar from '@material-ui/core/Snackbar';
+import { teal, pink, grey, green, common } from '@material-ui/core/colors';
+import { thunkApiCall } from '../services/thunks';
+import { NEW_PRODUCT, LIST_PRODUCT, ApiAction } from '../store/types';
+import { Product } from '../types';
+import { Container, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid } from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
+import Alert from '../components/Alert';
 
-const grey500 = grey["500"];
-const green400 = green["400"];
+const grey500 = grey['500'];
+const green400 = green['400'];
 const white = common.white;
 
 const styles = {
   fab: {
-    top: "auto",
+    top: 'auto',
     right: 20,
     bottom: 20,
-    left: "auto",
-    position: "fixed" as TODO,
+    left: 'auto',
+    position: 'fixed' as TODO,
     marginRight: 20,
   },
   fabSearch: {
-    top: "auto",
+    top: 'auto',
     right: 100,
     bottom: 20,
-    left: "auto",
-    position: "fixed" as TODO,
+    left: 'auto',
+    position: 'fixed' as TODO,
     marginRight: 20,
-    backgroundColor: "lightblue" as TODO,
+    backgroundColor: 'lightblue' as TODO,
   },
   editButton: {
-    marginRight: "1em",
+    marginRight: '1em',
     color: white,
     backgroundColor: green400,
-    width: 36,
-    height: 36,
+    // width: 36,
+    // height: 36,
   },
   editButtonIcon: {
     fill: white,
   },
   deleteButton: {
-    color: "grey",
+    color: 'grey',
     fill: grey500,
-    width: 36,
-    height: 36,
+    // width: 36,
+    // height: 36,
   },
   columns: {
     width10: {
-      width: "10%",
+      width: '10%',
     },
   },
-  dialog: {
-    width: "20%",
-    maxWidth: "none",
-  },
+  // dialog: {
+  //   width: "20%",
+  //   maxWidth: "none",
+  // },
   drawer: {
-    backgroundColor: "lightgrey",
+    backgroundColor: 'lightgrey',
   },
   row: {
-    margin: "1.5em",
-    width: "95%",
+    margin: '1.5em',
+    width: '95%',
   },
   pagination: {
     width: 350,
-    margin: "0 auto",
+    margin: '0 auto',
     paddingTop: 10,
   },
   searchDrawer: {
-    width: "250px",
+    width: '250px',
     // backgroundColor: "lightgrey",
   },
 };
@@ -127,10 +120,7 @@ interface ProductListState {
   };
 }
 
-class ProductListPage extends React.Component<
-  ProductListProps,
-  ProductListState
-> {
+class ProductListPage extends React.Component<ProductListProps, ProductListState> {
   constructor(props) {
     super(props);
     this.handleToggle = this.handleToggle.bind(this);
@@ -152,9 +142,9 @@ class ProductListPage extends React.Component<
     totalPages: 1,
     productId: null,
     productList: [],
-    dialogText: "Are you sure to do this?",
+    dialogText: 'Are you sure to do this?',
     search: {
-      product: "",
+      product: '',
     },
   };
 
@@ -180,12 +170,9 @@ class ProductListPage extends React.Component<
       const isFetching = this.props.isFetching;
       this.setState({ page, totalPages, items, isFetching });
     }
-    console.log(" this.props.deleted " + this.props.deleted);
+    console.log(' this.props.deleted ' + this.props.deleted);
 
-    if (
-      this.props.deleted !== prevProps.deleted &&
-      this.props.deleted === true
-    ) {
+    if (this.props.deleted !== prevProps.deleted && this.props.deleted === true) {
       this.setState({ snackbarOpen: true });
       this.handleSearch();
     }
@@ -212,12 +199,12 @@ class ProductListPage extends React.Component<
     // this.setState({ searchOpen: !this.state.searchOpen });
     // this.props.getAllProducts(this.state.search);
     // this.setState({ searchOpen: false, isFetching: true });
-    const action = getAction(LIST_PRODUCT, null, null, "") as ApiAction;
+    const action = getAction(LIST_PRODUCT, null, null, '') as ApiAction;
     this.props.searchProduct(action); //this.state.search);
   }
 
   handleOpen(id) {
-    this.setState({ dialogText: "Are you sure to delete this data?" });
+    this.setState({ dialogText: 'Are you sure to delete this data?' });
     this.setState({ open: true });
     this.setState({ productId: id });
   }
@@ -237,10 +224,10 @@ class ProductListPage extends React.Component<
   }
 
   handleNewProduct() {
-    const action = getAction(NEW_PRODUCT)as ApiAction;
+    const action = getAction(NEW_PRODUCT) as ApiAction;
     this.props.newProduct(action);
     // @ts-ignore
-    this.props.history.push("/newproduct");
+    this.props.history.push('/newproduct');
   }
 
   handleSearchFilter(event) {
@@ -269,29 +256,16 @@ class ProductListPage extends React.Component<
     const { productList, isFetching } = this.props;
 
     const dialogButtons = [
-      <Fab
-        key="cancel-btn"
-        color="primary"
-        variant="extended"
-        onClick={() => this.handleClose(false)}
-      >
+      <Fab key="cancel-btn" color="primary" variant="extended" onClick={() => this.handleClose(false)}>
         Cancel
       </Fab>,
-      <Fab
-        key="confirm-btn"
-        color="secondary"
-        variant="extended"
-        onClick={() => this.handleClose(true)}
-      >
+      <Fab key="confirm-btn" color="secondary" variant="extended" onClick={() => this.handleClose(true)}>
         Confirm
       </Fab>,
     ];
 
     return (
-      <PageBase
-        title={"Products (" + productList.length + ")"}
-        navigation="React CRM / Product"
-      >
+      <PageBase title={'Products (' + productList.length + ')'} navigation="React CRM / Product">
         {isFetching ? (
           <div>
             <Skeleton variant="rect" style={styles.row} height={50} />
@@ -302,28 +276,15 @@ class ProductListPage extends React.Component<
           </div>
         ) : (
           <div>
-            <Fab
-              size="small"
-              color="secondary"
-              style={styles.fab}
-              onClick={this.handleNewProduct}
-            >
+            <Fab size="small" color="secondary" style={styles.fab} onClick={this.handleNewProduct}>
               <ContentAdd />
             </Fab>
-            <Fab
-              size="small"
-              style={styles.fabSearch}
-              onClick={this.handleToggle}
-            >
+            <Fab size="small" style={styles.fabSearch} onClick={this.handleToggle}>
               <Search />
             </Fab>
-            <Snackbar
-              open={this.state.snackbarOpen}
-              autoHideDuration={this.state.autoHideDuration}
-              onClose={this.onSnackBarClose}
-            >
+            <Snackbar open={this.state.snackbarOpen} autoHideDuration={this.state.autoHideDuration} onClose={this.onSnackBarClose}>
               <Alert onClose={this.onSnackBarClose} severity="success">
-                Operation is done successfully!
+                The operation completed successfully !
               </Alert>
             </Snackbar>
             <Table size="small">
@@ -337,33 +298,17 @@ class ProductListPage extends React.Component<
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.state.items.map((item) => (
+                {this.state.items.map(item => (
                   <TableRow key={item.id}>
+                    <TableCell style={styles.columns.width10}>{item.productName}</TableCell>
+                    <TableCell style={styles.columns.width10}>{item.category ? item.category.categoryName : ''}</TableCell>
+                    <TableCell style={styles.columns.width10}>$ ${item.unitPrice}</TableCell>
+                    <TableCell style={styles.columns.width10}>{item.unitInStock}</TableCell>
                     <TableCell style={styles.columns.width10}>
-                      {item.productName}
-                    </TableCell>
-                    <TableCell style={styles.columns.width10}>
-                      {item.category ? item.category.categoryName : ""}
-                    </TableCell>
-                    <TableCell style={styles.columns.width10}>
-                      $ ${item.unitPrice}
-                    </TableCell>
-                    <TableCell style={styles.columns.width10}>
-                      {item.unitInStock}
-                    </TableCell>
-                    <TableCell style={styles.columns.width10}>
-                      <Fab
-                        size="small"
-                        style={styles.editButton}
-                        href={`product/${item.id}`}
-                      >
+                      <Fab size="small" style={styles.editButton} href={`product/${item.id}`}>
                         <ContentCreate />
                       </Fab>
-                      <Fab
-                        size="small"
-                        style={styles.deleteButton}
-                        onClick={() => this.onDelete(item.id)}
-                      >
+                      <Fab size="small" style={styles.deleteButton} onClick={() => this.onDelete(item.id)}>
                         <ActionDelete />
                       </Fab>
                     </TableCell>
@@ -384,53 +329,41 @@ class ProductListPage extends React.Component<
             <Dialog
               key="alert-dialog"
               title="Confirm Dialog "
-              style={styles.dialog}
+              // style={styles.dialog}
+              fullWidth
+              maxWidth="xs"
               open={this.state.open}
               onClick={() => this.handleClose(false)}
             >
-              <DialogTitle key="alert-dialog-title">{"Alert"}</DialogTitle>
+              <DialogTitle key="alert-dialog-title">{'Alert'}</DialogTitle>
 
               <DialogContent key="alert-dialog-content">
-                <DialogContentText key="alert-dialog-description">
-                  {this.state.dialogText}
-                </DialogContentText>
+                <DialogContentText key="alert-dialog-description">{this.state.dialogText}</DialogContentText>
               </DialogContent>
 
-              <DialogActions key="alert-dialog-action">
-                {dialogButtons}
-              </DialogActions>
+              <DialogActions key="alert-dialog-action">{dialogButtons}</DialogActions>
             </Dialog>
-            <Drawer
-              anchor="right"
-              open={this.state.searchOpen}
-              onClose={this.handleToggle}
-            >
-                      <Grid container style={styles.searchDrawer} spacing={1}>
-                  <Grid item xs={12}>
-                 <h5>Search</h5> 
-                 </Grid>
-                  <Grid item xs={12}>
-            
-
-              <TextField
-                placeholder="Product"
-                label="Product"
-                name="product"
-                fullWidth={true}
-                value={this.state.search.product}
-                onChange={this.handleSearchFilter}
-              />
-          </Grid>
-                  <Grid item xs={12}>
-<Button
-                variant="contained"
-                onClick={this.handleSearch}
-                color="secondary"
-              >
-                Search
-              </Button>
-              </Grid>
+            <Drawer anchor="right" open={this.state.searchOpen} onClose={this.handleToggle}>
+              <Grid container style={styles.searchDrawer} spacing={1}>
+                <Grid item xs={12}>
+                  <h5>Search</h5>
                 </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    placeholder="Product"
+                    label="Product"
+                    name="product"
+                    fullWidth={true}
+                    value={this.state.search.product}
+                    onChange={this.handleSearchFilter}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button variant="contained" onClick={this.handleSearch} color="secondary">
+                    Search
+                  </Button>
+                </Grid>
+              </Grid>
             </Drawer>
           </div>
         )}
@@ -440,14 +373,7 @@ class ProductListPage extends React.Component<
 }
 
 function mapStateToProps(state) {
-  const {
-    productList,
-    deleteSuccess,
-    isFetching,
-    isAuthenticated,
-    errorMessage,
-    user,
-  } = state.product;
+  const { productList, deleteSuccess, isFetching, isAuthenticated, errorMessage, user } = state.product;
 
   return {
     productList,
@@ -461,10 +387,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    searchProduct: (action) => dispatch(thunkApiCall(action)),
-    getAllProducts: (action) => dispatch(thunkApiCall(action)),
-    deleteProduct: (action) => dispatch(thunkApiCall(action)),
-    newProduct: (action) => dispatch(thunkApiCall(action)),
+    searchProduct: action => dispatch(thunkApiCall(action)),
+    getAllProducts: action => dispatch(thunkApiCall(action)),
+    deleteProduct: action => dispatch(thunkApiCall(action)),
+    newProduct: action => dispatch(thunkApiCall(action)),
   };
 }
 

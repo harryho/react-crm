@@ -62,17 +62,6 @@ export interface Product extends Entity {
   avatar?: string;
 }
 
-// export interface State {
-//   items: Entity[],
-//   pagination: Pagination,
-//   loading: boolean,
-//   mode: string,
-//   snackbar: boolean,
-//   notice: string,
-//   customer: Customer,
-//   orders: Order[],
-//   orderList: Order[],
-// }
 
 export type SearchFilter = {
   equals?: TODO;
