@@ -9,13 +9,13 @@ import configureStore from "./store";
 
 
 // import './index.css';
-// require("./favicon.ico");
+
 import './styles.scss';
-// import "font-awesome/css/font-awesome.css";
-// import "flexboxgrid/css/flexboxgrid.css";
+
 import ThemeDefault from './theme-default';
 import { MuiThemeProvider, CssBaseline } from '@material-ui/core';
 
+require("./favicon.ico");
 const store = configureStore();
 
 ReactDOM.render(

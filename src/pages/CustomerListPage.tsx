@@ -446,8 +446,6 @@ class CustomerListPage extends React.Component<
             
                 <Grid container style={styles.searchDrawer} spacing={1}>
                   <Grid item xs={12}>
-                  {/* <AppBar title="AppBar" >  */}
-                  {/* style={styles.searchDrawer}> */}
                  <h5>Search</h5> 
                 {/* </AppBar> */}
                   </Grid>
@@ -500,7 +498,6 @@ class CustomerListPage extends React.Component<
 }
 
 function mapStateToProps(state) {
-  // const { customer } = state;
   const {
     customerList,
     isFetching,

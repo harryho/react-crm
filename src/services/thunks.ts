@@ -118,11 +118,6 @@ export const thunkApiQCall = (
   const { type, actions } = apiQAction;
   console.log(type);
 
-  // if (!isNewAction(type)) {
-  //   response = await callApi(endpoint, method, data, filters);
-  // } else {
-  //   response = getNewEntity(type);
-  // }
   for (const key in actions) {
     const res = await callEndPoint(actions[key]);
     response[key] = res.data;

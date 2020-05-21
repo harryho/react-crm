@@ -1,11 +1,9 @@
 import React from "react";
-import IconButton from "@material-ui/core/IconButton";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
-import MenuItem from "@material-ui/core/MenuItem";
-import { Typography, Menu } from "@material-ui/core";
-import ContentFilter from "@material-ui/icons/FilterList";
 
+import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import MenuItem from "@material-ui/core/MenuItem";
+import { Typography, Menu, Avatar,IconButton} from "@material-ui/core";
+import ContentFilter from "@material-ui/icons/FilterList";
 import SettingsPower from "@material-ui/icons/SettingsPower";
 import VpnKey from "@material-ui/icons/VpnKey";
 import { blue, common } from "@material-ui/core/colors";
@@ -54,7 +52,12 @@ const useStyles = makeStyles(() =>
   })
 );
 
-export default function AppUserMenu ({
+interface AppUserMenuProps {
+  username:string;
+  onLogoutClick: ()=>void;
+}
+
+export default function AppUserMenu <AppUserMenuProps>({
   username,
   onLogoutClick,
   // userMenus = data.userMenus,

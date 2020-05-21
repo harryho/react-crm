@@ -1,7 +1,6 @@
 import React from "react";
 import Drawer from "@material-ui/core/Drawer";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-
 import { blue, common } from "@material-ui/core/colors";
 import AppUserMenu from "./AppUserMenu";
 import AppDrawerMenu from "./AppDrawerMenu";
@@ -45,9 +44,6 @@ interface Props {
 
 export default function AppNavDrawer(props: Props) {
   const styles = useStyles();
-
-  // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  // const open = Boolean(anchorEl);
   const {
     username,
     navDrawerOpen,

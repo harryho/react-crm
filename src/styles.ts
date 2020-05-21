@@ -58,14 +58,14 @@ const styles: (theme: Theme) => StyleRules<string> = (theme) =>
     },
     navigation: {
       fontSize: 15,
-      // fontWeight: TypographyStyle.fontWeightLight,
+      fontWeight: 500, // TypographyStyle.fontWeightLight,
       color: grey600,
       paddingBottom: 15,
       display: "block",
     },
     title: {
       fontSize: 24,
-      // fontWeight: TypographyStyle.fontWeightLight,
+      fontWeight: 500, //TypographyStyle.fontWeightLight,
       marginBottom: 20,
     },
     paper: {
