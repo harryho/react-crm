@@ -97,7 +97,7 @@ function dispatchSignIn(dispatch, type, response) {
 }
 
 export const thunkApiCall = (
-  apiAction?: ApiAction // | ApiAction[]
+  apiAction?: ApiAction 
 ): ThunkAction<void, AppState, null, Action<string>> => async (dispatch) => {
   let response: TODO;
   const { type, endpoint, method, data, filters } = apiAction;
@@ -112,7 +112,7 @@ export const thunkApiCall = (
 };
 
 export const thunkApiQCall = (
-  apiQAction?: ApiQActions // ApiAction[]
+  apiQAction?: ApiQActions 
 ): ThunkAction<void, AppState, null, Action<string>> => async (dispatch) => {
   const response = {};
   const { type, actions } = apiQAction;
