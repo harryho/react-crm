@@ -13,7 +13,6 @@ import Search from "@material-ui/icons/Search";
 import CheckCircle from "@material-ui/icons/CheckCircle";
 import Cancel from "@material-ui/icons/Cancel";
 import PageBase from "../components/PageBase";
-// import AppBar from "@material-ui/core/AppBar";
 import { connect } from "react-redux";
 import { getAction } from "../actions/customer";
 import Dialog from "@material-ui/core/Dialog";
@@ -107,7 +106,7 @@ const styles = {
     width: "95%",
   },
   pagination: {
-    width: "220px",
+    width: 350,
     margin: "0 auto",
     paddingTop: 10,
   },
@@ -409,7 +408,7 @@ class CustomerListPage extends React.Component<
 
             <Container style={styles.pagination}>
               <Pagination
-                size="small"
+                // size="small"
                 count={this.state.totalPages}
                 page={this.state.page}
                 variant="outlined"
@@ -447,7 +446,7 @@ class CustomerListPage extends React.Component<
                 <Grid container style={styles.searchDrawer} spacing={1}>
                   <Grid item xs={12}>
                  <h5>Search</h5> 
-                {/* </AppBar> */}
+     
                   </Grid>
                   <Grid item xs={12}>
                     <TextField

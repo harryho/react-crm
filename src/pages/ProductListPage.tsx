@@ -28,6 +28,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Grid,
 } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Alert from "../components/Alert";
@@ -87,9 +88,13 @@ const styles = {
     width: "95%",
   },
   pagination: {
-    width: "220px",
+    width: 350,
     margin: "0 auto",
     paddingTop: 10,
+  },
+  searchDrawer: {
+    width: "250px",
+    // backgroundColor: "lightgrey",
   },
 };
 
@@ -368,7 +373,7 @@ class ProductListPage extends React.Component<
             </Table>
             <Container style={styles.pagination}>
               <Pagination
-                size="small"
+                // size="small"
                 count={this.state.totalPages}
                 page={this.state.page}
                 variant="outlined"
@@ -400,21 +405,12 @@ class ProductListPage extends React.Component<
               open={this.state.searchOpen}
               onClose={this.handleToggle}
             >
-              {/*<AppBar title="AppBar" />*/}
-              {/* <Button variant="contained"
-              label="Search"
-              style={styles.saveButton}
-              type="button"
-              onClick={this.handleSearch}
-              secondary={true}
-            /> */}
-              <Button
-                variant="contained"
-                onClick={this.handleSearch}
-                color="secondary"
-              >
-                Search
-              </Button>
+                      <Grid container style={styles.searchDrawer} spacing={1}>
+                  <Grid item xs={12}>
+                 <h5>Search</h5> 
+                 </Grid>
+                  <Grid item xs={12}>
+            
 
               <TextField
                 placeholder="Product"
@@ -424,6 +420,17 @@ class ProductListPage extends React.Component<
                 value={this.state.search.product}
                 onChange={this.handleSearchFilter}
               />
+          </Grid>
+                  <Grid item xs={12}>
+<Button
+                variant="contained"
+                onClick={this.handleSearch}
+                color="secondary"
+              >
+                Search
+              </Button>
+              </Grid>
+                </Grid>
             </Drawer>
           </div>
         )}
