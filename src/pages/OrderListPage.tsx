@@ -363,7 +363,7 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
                       {item.products.length}
                     </TableCell>
                     <TableCell style={styles.columns.width10}>
-                      AUD ${item.amount}
+                      $ ${item.amount}
                     </TableCell>
                     <TableCell style={styles.columns.width10}>
                       {item.orderDate}

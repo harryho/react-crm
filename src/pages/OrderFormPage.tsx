@@ -424,7 +424,7 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                     <List dense={false}>
                       {order.products.map((product, index) => (
                         <ListItem key={index}>
-                          <ListItemText primary={product.productName} secondary={`Price: AUD ${product.unitPrice}`} />
+                          <ListItemText primary={product.productName} secondary={`Price: $ ${product.unitPrice}`} />
                           <IconButton onClick={() => this.removeProduct(product)}>
                             <ActionDelete />
                           </IconButton>

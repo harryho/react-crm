@@ -341,7 +341,7 @@ class ProductListPage extends React.Component<
                       {item.category ? item.category.categoryName : ""}
                     </TableCell>
                     <TableCell style={styles.columns.width10}>
-                      AUD ${item.unitPrice}
+                      $ ${item.unitPrice}
                     </TableCell>
                     <TableCell style={styles.columns.width10}>
                       {item.unitInStock}
