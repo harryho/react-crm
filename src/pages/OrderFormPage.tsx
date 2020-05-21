@@ -1,36 +1,33 @@
-import React from "react";
-import { Link, match } from "react-router-dom";
-import Button from "@material-ui/core/Button";
-import Switch from "@material-ui/core/Switch";
-import SaveIcon from "@material-ui/icons/Save";
-import Divider from "@material-ui/core/Divider";
-import PageBase from "../components/PageBase";
-import Skeleton from "@material-ui/lab/Skeleton";
-import { connect } from "react-redux";
-import Card from "@material-ui/core/Card";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import ActionDelete from "@material-ui/icons/Delete";
-import { getAction } from "../actions/order";
+// import 'date-fns';
+import React from 'react';
+import { Link, match } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import Switch from '@material-ui/core/Switch';
+import SaveIcon from '@material-ui/icons/Save';
+import Divider from '@material-ui/core/Divider';
+import PageBase from '../components/PageBase';
+import Skeleton from '@material-ui/lab/Skeleton';
+import { connect } from 'react-redux';
+import Card from '@material-ui/core/Card';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ContentCreate from '@material-ui/icons/Create';
+import ActionDelete from '@material-ui/icons/Delete';
+import { getAction } from '../actions/order';
 
-import { Formik, Form, Field } from "formik";
-import { TextField } from "formik-material-ui";
+import { Formik, Form, Field } from 'formik';
+import { TextField } from 'formik-material-ui';
 
-import { grey } from "@material-ui/core/colors";
-import { thunkApiCall, thunkApiQCall } from "../services/thunks";
-import { Customer, User, Category, Product, Order } from "../types";
-import { Grid, IconButton } from "@material-ui/core";
-import Snackbar from "@material-ui/core/Snackbar";
+import { grey } from '@material-ui/core/colors';
+import { thunkApiCall, thunkApiQCall } from '../services/thunks';
+import { Customer, User, Category, Product, Order } from '../types';
+import { Grid, IconButton, List, ListItem, ListItemText, Select, Dialog, MenuItem, DialogTitle, DialogActions, DialogContent } from '@material-ui/core';
+import Snackbar from '@material-ui/core/Snackbar';
+// import DateFnsUtils from '@date-io/date-fns';
+// import { DatePicker } from '@material-ui/pickers';
 
-import {
-  ApiAction,
-  GET_ORDER,
-  UPDATE_ORDER,
-  CREATE_ORDER,
-  EDIT_ORDER,
-  ApiQActions,
-} from "../store/types";
+import { ApiAction, GET_ORDER, UPDATE_ORDER, CREATE_ORDER, EDIT_ORDER, ApiQActions } from '../store/types';
 
-const grey400 = grey["400"];
+const grey400 = grey['400'];
 
 const styles = {
   toggleDiv: {
@@ -44,7 +41,7 @@ const styles = {
   },
   buttons: {
     marginTop: 30,
-    float: "right" as TODO,
+    float: 'right' as TODO,
   },
   saveButton: {
     marginLeft: 5,
@@ -56,18 +53,27 @@ const styles = {
     marginBottom: 5,
   },
   container: {
-    marginTop: "2em",
+    marginTop: '2em',
   },
   cell: {
-    padding: "1em",
+    padding: '1em',
   },
   fullWidth: {
-    width: "100%",
+    width: '100%',
   },
   productList: {
-    color: "navy" as TODO,
+    color: 'navy' as TODO,
     paddingTop: 20,
-    fontWeight: "bold" as TODO,
+    fontWeight: 'bold' as TODO,
+  },
+  textField: {
+    marginLeft: 4, // theme.spacing(1),
+    marginRight: 4, //theme.spacing(1),
+    width: '100%',
+  },
+  dialog: {
+    width: 400,
+    maxWidth: 'none',
   },
 };
 
@@ -105,6 +111,7 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
     this.handleClick = this.handleClick.bind(this);
     this.notifyFormError = this.notifyFormError.bind(this);
     this.onSnackBarClose = this.onSnackBarClose.bind(this);
+    this.addProduct = this.addProduct.bind(this);
   }
 
   state = {
@@ -116,7 +123,7 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
   };
 
   componentDidMount() {
-    console.log("componentDidMount ", this.props);
+    console.log('componentDidMount ', this.props);
     // @ts-ignore
     const orderId = this.props.match.params?.id;
     let action: ApiQActions;
@@ -127,13 +134,13 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
   }
 
   notifyFormError(data) {
-    console.error("Form error:", data);
+    console.error('Form error:', data);
   }
 
   handleClick(event, action) {
     event.preventDefault();
     console.log(event);
-    if (action && action === "AddProduct") {
+    if (action && action === 'AddProduct') {
       // this.setState({ open: true });
     } else {
       // if (this.state.order.id) this.props.updateOrder(this.state.order);
@@ -152,7 +159,7 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
     const { order } = this.state;
 
     if (order) {
-      if (typeof date === "object") {
+      if (typeof date === 'object') {
         let _order = Object.assign({}, order);
         order.shippedDate = date.toLocaleDateString();
         this.setState({ order: order });
@@ -166,16 +173,17 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
 
   removeProduct(product) {
     if (product) {
-      this.state.order.products.splice(
-        this.state.order.products.indexOf(product),
-        1
-      );
+      this.state.order.products.splice(this.state.order.products.indexOf(product), 1);
       this.setState({ order: this.state.order });
     }
   }
 
   handleCancel() {
     this.setState({ open: false });
+  }
+
+  addProduct() {
+    this.setState({ open: true });
   }
 
   handleOk() {
@@ -227,7 +235,7 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
             initialValues={{
               ...order,
             }}
-            validate={(values) => {
+            validate={values => {
               const errors: Partial<Order & User> = {};
               // if (!values.firstname) {
               //   errors.firstname = "Required";
@@ -274,6 +282,17 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                       />
                     ))}
                   </FormsySelect> */}
+
+                    <Field
+                      component={TextField}
+                      placeholder="Customer"
+                      label="Customer"
+                      name="customer.firstname"
+                      // onChange={this.handleChange}
+                      disabled
+                      fullWidth={true}
+                      required
+                    />
                   </Grid>
                   <Grid item style={styles.cell} xs={12} md={4}>
                     <Field
@@ -283,14 +302,6 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                       name="reference"
                       onChange={this.handleChange}
                       fullWidth={true}
-                      value={order.reference ? order.reference : ""}
-                      // validations={{
-                      //   isWords: true,
-                      // }}
-                      // validationErrors={{
-                      //   isWords: "Please provide valid reference name",
-                      //   isDefaultRequiredValue: "This is a required field",
-                      // }}
                       required
                     />
                   </Grid>
@@ -303,7 +314,7 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                       fullWidth={true}
                       name="price"
                       onChange={this.handleChange}
-                      value={order.amount}
+                      // value={order.amount}
                       required
                     />
                   </Grid>
@@ -316,46 +327,40 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                       fullWidth={true}
                       type="number"
                       name="quantity"
-                      onChange={this.handleChange}
-                      value={order.products ? order.products.length : 0}
-                      // validations={{
-                      //   isInt: true,
-                      // }}
-                      // validationErrors={{
-                      //   isInt: "Please provide a valid password",
-                      //   isDefaultRequiredValue: "This is a required field",
-                      // }}
+                      // onChange={this.handleChange}
                       required
                     />
                   </Grid>
                   <Grid item style={styles.cell} xs={12} md={4}>
-                    {/* <FormsyDate
-                    placeholder="Order Date"
-                    label="Order Date"
-                    disabled={true}
-                    name="orderDate"
-                    onChange={this.handleChange}
-                    value={
-                      order.orderDate ? new Date(order.orderDate) : new Date()
-                    }
-                    required
-                  /> */}
+                    <Field
+                      component={TextField}
+                      id="orderDate"
+                      placeholder="Order Date"
+                      label="Order Date"
+                      type="date"
+                      name="orderDate"
+                      // defaultValue="2010-"
+                      style={styles.textField}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
                   </Grid>
 
                   <Grid item style={styles.cell} xs={12} md={4}>
-                    {/* <FormsyDate
-                    placeholder="Shipped Date"
-                    label="Shipped Date"
-                    fullWidth={false}
-                    name="shippedDate"
-                    onChange={this.handleChange}
-                    value={
-                      order.shippedDate
-                        ? new Date(order.shippedDate)
-                        : new Date()
-                    }
-                    required
-                  /> */}
+                    <Field
+                      component={TextField}
+                      id="shippedDate"
+                      placeholder="Shipped Date"
+                      label="Shipped Date"
+                      type="date"
+                      name="shippedDate"
+                      // defaultValue="2010-"
+                      style={styles.textField}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
                   </Grid>
 
                   <Grid item style={styles.cell} xs={12} md={4}>
@@ -366,18 +371,7 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                       name="shipAddress.address"
                       onChange={this.handleChange}
                       fullWidth={true}
-                      value={
-                        order.shipAddress && order.shipAddress.address
-                          ? order.shipAddress.address
-                          : ""
-                      }
-                      validations={{
-                        isWords: true,
-                      }}
-                      validationErrors={{
-                        isWords: "Please provide valid address",
-                        isDefaultRequiredValue: "This is a required field",
-                      }}
+                      value={order.shipAddress && order.shipAddress.address ? order.shipAddress.address : ''}
                       required
                     />
                   </Grid>
@@ -387,21 +381,10 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                       component={TextField}
                       placeholder="City"
                       label="City"
-                      name="reference"
+                      name="city"
                       onChange={this.handleChange}
                       fullWidth={true}
-                      value={
-                        order.shipAddress && order.shipAddress.city
-                          ? order.shipAddress.city
-                          : ""
-                      }
-                      validations={{
-                        isWords: true,
-                      }}
-                      validationErrors={{
-                        isWords: "Please provide valid city",
-                        isDefaultRequiredValue: "This is a required field",
-                      }}
+                      value={order.shipAddress && order.shipAddress.city ? order.shipAddress.city : ''}
                       required
                     />
                   </Grid>
@@ -411,21 +394,10 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                       component={TextField}
                       placeholder="Country"
                       label="Country"
-                      name="reference"
+                      name="country"
                       onChange={this.handleChange}
                       fullWidth={true}
-                      value={
-                        order.shipAddress && order.shipAddress.country
-                          ? order.shipAddress.country
-                          : ""
-                      }
-                      validations={{
-                        isWords: true,
-                      }}
-                      validationErrors={{
-                        isWords: "Please provide valid country",
-                        isDefaultRequiredValue: "This is a required field",
-                      }}
+                      value={order.shipAddress && order.shipAddress.country ? order.shipAddress.country : ''}
                       required
                     />
                   </Grid>
@@ -435,21 +407,10 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                       component={TextField}
                       placeholder="Zip Code"
                       label="Zip Code"
-                      name="reference"
+                      name="zipcode"
                       onChange={this.handleChange}
                       fullWidth={true}
-                      value={
-                        order.shipAddress && order.shipAddress.zipcode
-                          ? order.shipAddress.zipcode
-                          : ""
-                      }
-                      validations={{
-                        isWords: true,
-                      }}
-                      validationErrors={{
-                        isWords: "Please provide valid zip code",
-                        isDefaultRequiredValue: "This is a required field",
-                      }}
+                      value={order.shipAddress && order.shipAddress.zipcode ? order.shipAddress.zipcode : ''}
                       required
                     />
                   </Grid>
@@ -460,28 +421,16 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
 
                 {order.products && (
                   <div>
-                    <Grid container>
-                      {/* cols={1} cellHeight={60}> */}
+                    <List dense={false}>
                       {order.products.map((product, index) => (
-                        <Grid item key={index} style={styles.productList}>
-                          <div style={styles.productList}>
-                            <span>
-                              {product.productName}
-                              <p>
-                                {" "}
-                                Price: AUD ${product.unitPrice}
-                                <IconButton
-                                  // style={styles.productDeleteIcon}
-                                  onClick={() => this.removeProduct(product)}
-                                >
-                                  <ActionDelete />
-                                </IconButton>
-                              </p>
-                            </span>
-                          </div>
-                        </Grid>
+                        <ListItem key={index}>
+                          <ListItemText primary={product.productName} secondary={`Price: AUD ${product.unitPrice}`} />
+                          <IconButton onClick={() => this.removeProduct(product)}>
+                            <ActionDelete />
+                          </IconButton>
+                        </ListItem>
                       ))}
-                    </Grid>
+                    </List>
                   </div>
                 )}
 
@@ -510,7 +459,7 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                   <Link to="/orders">
                     <Button variant="contained">
                       {/* onClick={this.handleGoBack}> */}
-                      <ArrowBackIosIcon /> Back{" "}
+                      <ArrowBackIosIcon /> Back{' '}
                     </Button>
                   </Link>
                   <Button
@@ -523,62 +472,78 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                   >
                     <SaveIcon /> Save
                   </Button>
+                  <Button
+                    variant="contained"
+
+                    style={styles.saveButton}
+                    onClick={this.addProduct}
+                    color="secondary"
+                  >
+                    <ContentCreate /> Add
+                  </Button>
                 </div>
                 {/* {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>} */}
 
-                {/* <Dialog
-              title="Add Product"
-              open={this.state.open}
-              contentStyle={styles.dialog}
-              ignoreBackdropClick
-              ignoreEscapeKeyUp
-              maxWidth="xs"
-            >
-              <div>
-                <FormsySelect
-                  label="Categories"
-                  // onChange={this.handleChange}
-                  style={styles.customWidth}
-                  name="categoryId"
-                  onChange={this.handleCategoryChange}
+                <React.Fragment>
+                <Dialog
+                  title="Add Product"
+                  open={this.state.open}
+                  style={styles.dialog}
+                  // ignoreBackdropClick
+                  // ignoreEscapeKeyUp
+                  maxWidth="lg"
+                  fullWidth
                 >
-                  {categoryList.map((category, index) => (
-                    <MenuItem
-                      key={index}
-                      value={category.id}
-                      style={styles.menuItem}
-                      primaryText={category.categoryName}
-                    />
-                  ))}
-                </FormsySelect>
+                  <DialogTitle key="alert-dialog-title">{'Alert'}</DialogTitle>
+                  <DialogContent key="alert-dialog-content" style={{display:"inline-flex"}}>
+                    <Select style={{width:200}}
+                      label="Categories"
+                      // onChange={this.handleChange}
+                      // style={styles.customWidth}
+                      name="categoryId"
+                      // onChange={this.handleCategoryChange}
+                    >
+                      {categoryList.map((category, index) => (
+                        <MenuItem
+                          key={index}
+                          value={category.id}
+                          // style={styles.menuItem}
+                          // primaryText={category.categoryName}
+                        >
+                          {category.categoryName}
+                        </MenuItem>
+                      ))}
+                    </Select>
 
-                <FormsySelect
-                  label="Products"
-                  // onChange={this.handleChange}
-                  style={styles.customWidth}
-                  name="categoryId"
-                  onChange={this.handleProductChange}
-                >
-                  {productList.map((product, index) => (
-                    <MenuItem
-                      key={index}
-                      value={product.id}
-                      style={styles.menuItem}
-                      primaryText={product.productName}
-                    />
-                  ))}
-                </FormsySelect>
-
-                <span>
-                  <Button variant="contained" onClick={this.handleCancel} color="primary">
-                    Cancel
-                  </Button>
-                  <Button variant="contained" onClick={this.handleOk} color="primary">
-                    Ok
-                  </Button>
-                </span>
-              </div>
-            </Dialog> */}
+                    <Select style={{width:200}}
+                      label="Products"
+                      // onChange={this.handleChange}
+                      // style={styles.customWidth}
+                      name="categoryId"
+                      // onChange={this.handleProductChange}
+                    >
+                      {productList.map((product, index) => (
+                        <MenuItem
+                          key={index}
+                          value={product.id}
+                          // style={styles.menuItem}
+                          // primaryText={product.productName}
+                        >
+                          {product.productName}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </DialogContent>
+                  <DialogActions key="alert-dialog-action">
+                    <Button variant="contained" onClick={this.handleCancel} color="primary">
+                      Cancel
+                    </Button>
+                    <Button variant="contained" onClick={this.handleOk} color="primary">
+                      Ok
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+                </React.Fragment>
               </Form>
             )}
           </Formik>
@@ -590,16 +555,9 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
 
 function mapStateToProps(state) {
   // const { customerReducer, orderReducer, productReducer } = state;
-  const { productList, categoryList } = state.product;
+  // const { productList, categoryList } = state.product;
   const { customerList } = state.customer;
-  const {
-    order,
-    isFetching,
-    updateSuccess,
-    addSuccess,
-    isAuthenticated,
-    user,
-  } = state.order;
+  const { order, isFetching, updateSuccess, addSuccess, isAuthenticated, user, productList, categoryList } = state.order;
 
   return {
     order: order || {},
@@ -616,13 +574,13 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    newOrder: (action) => dispatch(thunkApiCall(action)),
-    getOrder: (action) => dispatch(thunkApiQCall(action)),
-    updateOrder: (action) => dispatch(thunkApiCall(action)),
-    addOrder: (action) => dispatch(thunkApiCall(action)),
-    getCategoryList: (action) => dispatch(thunkApiCall(action)),
-    getProductList: (action) => dispatch(thunkApiCall(action)),
-    getAllCustomers: (action) => dispatch(thunkApiCall(action)),
+    newOrder: action => dispatch(thunkApiCall(action)),
+    getOrder: action => dispatch(thunkApiQCall(action)),
+    updateOrder: action => dispatch(thunkApiCall(action)),
+    addOrder: action => dispatch(thunkApiCall(action)),
+    getCategoryList: action => dispatch(thunkApiCall(action)),
+    getProductList: action => dispatch(thunkApiCall(action)),
+    getAllCustomers: action => dispatch(thunkApiCall(action)),
   };
 }
 
