@@ -104,6 +104,7 @@ class ProductFormPage extends React.Component<
     // this.enableButton = this.enableButton.bind(this);
     this.notifyFormError = this.notifyFormError.bind(this);
     this.onSnackBarClose = this.onSnackBarClose.bind(this);
+    
   }
 
   state = {

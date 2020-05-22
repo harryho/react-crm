@@ -341,7 +341,6 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
             <Dialog
               key="alert-dialog"
               title="Confirm Dialog"
-              // style={styles.dialog}
               fullWidth
               maxWidth="xs"
               open={this.state.open}
@@ -374,6 +373,13 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
                 <Grid item xs={12}>
                   <Button variant="contained" onClick={this.handleSearch} color="secondary">
                     Search
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={this.handleSearch}
+                    color="default"
+                  >
+                    Cancel
                   </Button>
                 </Grid>
               </Grid>

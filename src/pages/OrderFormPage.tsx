@@ -20,7 +20,20 @@ import { TextField } from 'formik-material-ui';
 import { grey } from '@material-ui/core/colors';
 import { thunkApiCall, thunkApiQCall } from '../services/thunks';
 import { Customer, User, Category, Product, Order } from '../types';
-import { Grid, IconButton, List, ListItem, ListItemText, Select, Dialog, MenuItem, DialogTitle, DialogActions, DialogContent } from '@material-ui/core';
+import {
+  Grid,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Select,
+  Dialog,
+  MenuItem,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  LinearProgress,
+} from '@material-ui/core';
 import Snackbar from '@material-ui/core/Snackbar';
 // import DateFnsUtils from '@date-io/date-fns';
 // import { DatePicker } from '@material-ui/pickers';
@@ -90,7 +103,7 @@ interface OrderFormProps {
   updateOrder: typeof thunkApiCall;
   getProductList: typeof thunkApiCall;
   addOrder: typeof thunkApiCall;
-  orderList: Order[];
+  // orderList: Order[];
   categoryList: Category[];
   productList: Product[];
   getAllOrders: typeof thunkApiCall;
@@ -103,6 +116,11 @@ interface OrderFormState {
   order: Order;
   snackbarOpen: boolean;
   autoHideDuration: number;
+  productId: number;
+  dialogText: string; //'Are you sure to do this?',
+  // categoryList: Category[];
+  productList: Product[];
+  product: Product;
 }
 
 class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
@@ -113,6 +131,11 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
     this.notifyFormError = this.notifyFormError.bind(this);
     this.onSnackBarClose = this.onSnackBarClose.bind(this);
     this.addProduct = this.addProduct.bind(this);
+    this.removeProduct = this.removeProduct.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.onAddProduct = this.onAddProduct.bind(this);
+    this.onSelectProduct = this.onSelectProduct.bind(this);
+    this.onSave = this.onSave.bind(this);
   }
 
   state = {
@@ -121,6 +144,10 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
     order: {} as Order,
     snackbarOpen: false,
     autoHideDuration: 2000,
+    productId: null,
+    productList: [],
+    dialogText: 'Are you sure to do this?',
+    product: {} as Product,
   };
 
   componentDidMount() {
@@ -172,11 +199,43 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
     }
   }
 
+  /* eslint-disable */
+  componentDidUpdate(prevProps) {
+    // reset page if items array has changed
+    if (this.props.order !== prevProps.order) {
+      this.setState({ order: this.props.order });
+      // const page = 1;
+    }
+    if (this.props.productList !== prevProps.productList) {
+      this.setState({ productList: this.props.productList });
+    }
+
+    if (this.props.updated !== prevProps.updated && this.props.updated === true) {
+      this.setState({ snackbarOpen: true });
+    }
+  }
+
   removeProduct(product) {
-    if (product) {
+    const { order } = this.state;
+    if (order && order.products && order.products.length) {
       this.state.order.products.splice(this.state.order.products.indexOf(product), 1);
       this.setState({ order: this.state.order });
     }
+  }
+
+  onAddProduct() {
+    const { order, product } = this.state;
+    // if (order && order.products && order.products.length) {
+    // this.state.order.products.splice(this.state.order.products.indexOf(product), 1);
+    if (!order.products) {
+      order.products = [];
+    }
+    if (product && product.id) {
+      order.products.push(product);
+      this.setState({ order: this.state.order, product: {} as Product });
+    }
+
+    // }
   }
 
   handleCancel() {
@@ -197,6 +256,18 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
     // this.enableButton();
   }
 
+  onDelete(id) {
+    if (id) {
+      this.handleOpen(id);
+    }
+  }
+
+  handleOpen(id) {
+    this.setState({ dialogText: 'Are you sure to delete this data?' });
+    this.setState({ open: true });
+    this.setState({ productId: id });
+  }
+
   handleCategoryChange(event, index, values) {
     // this.props.getProductList({
     //   categoryId: this.props.categoryList[values].id,
@@ -205,6 +276,13 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
 
   handleProductChange(event, index, values) {
     // this.setState({ product: this.props.productList[values] });
+  }
+
+  onSelectProduct(event: React.ChangeEvent<{ value: TODO }>) {
+    const productId = event.target.value;
+
+    console.log(productId);
+    this.setState({ product: this.props.productList[productId] });
   }
 
   onSave(values: TODO) {
@@ -222,7 +300,8 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
   }
 
   render() {
-    const { isFetching, order, categoryList, productList } = this.props;
+    const { isFetching, categoryList, productList } = this.props;
+    const { order } = this.state;
 
     return (
       <PageBase title="Order" navigation="Application / Order ">
@@ -262,34 +341,11 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
               <Form>
                 <Grid container style={styles.container} spacing={3}>
                   <Grid item style={styles.cell} xs={12} md={4}>
-                    {/* <FormsySelect
-                    label="Customer"
-                    value={order.customer ? order.customer.id : 0}
-                    onChange={this.handleChange}
-                    style={styles.customWidth}
-                    name="customerId"
-                  >
-                    {customerList.map((customer, index) => (
-                      <MenuItem
-                        key={index}
-                        name="customerId"
-                        value={customer.id}
-                        style={styles.menuItem}
-                        primaryText={
-                          customer.firstname
-                            ? customer.firstname + " " + customer.lastname
-                            : ""
-                        }
-                      />
-                    ))}
-                  </FormsySelect> */}
-
                     <Field
                       component={TextField}
                       placeholder="Customer"
                       label="Customer"
                       name="customer.firstname"
-                      // onChange={this.handleChange}
                       disabled
                       fullWidth={true}
                       required
@@ -315,7 +371,6 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                       fullWidth={true}
                       name="price"
                       onChange={this.handleChange}
-                      // value={order.amount}
                       required
                     />
                   </Grid>
@@ -328,7 +383,6 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                       fullWidth={true}
                       type="number"
                       name="quantity"
-                      // onChange={this.handleChange}
                       required
                     />
                   </Grid>
@@ -436,27 +490,8 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                 )}
 
                 <Divider />
-
+                {isSubmitting && <LinearProgress />}
                 <div style={styles.buttons}>
-                  {/* <Link to="/orders">
-                <Button variant="contained" label="Cancel" />
-              </Link>
-
-              <Button variant="contained"
-                label="Save"
-                style={styles.saveButton}
-                type="button"
-                onClick={() => this.handleClick(event)}
-                primary={true}
-                disabled={!this.state.canSubmit}
-              />
-              <Button variant="contained"
-                label="Add"
-                style={styles.saveButton}
-                type="button"
-                onClick={() => this.handleClick(event, "AddProduct")}
-                primary={true}
-              /> */}
                   <Link to="/orders">
                     <Button variant="contained">
                       {/* onClick={this.handleGoBack}> */}
@@ -473,83 +508,58 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                   >
                     <SaveIcon /> Save
                   </Button>
-                  <Button
-                    variant="contained"
-
-                    style={styles.saveButton}
-                    onClick={this.addProduct}
-                    color="secondary"
-                  >
+                  <Button variant="contained" style={styles.saveButton} onClick={this.addProduct} color="secondary">
                     <ContentCreate /> Add
                   </Button>
                 </div>
                 {/* {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>} */}
 
                 <React.Fragment>
-                <Dialog
-                  title="Add Product"
-                  open={this.state.open}
-                  style={styles.dialog}
-                  // ignoreBackdropClick
-                  // ignoreEscapeKeyUp
-                  maxWidth="lg"
-                  fullWidth
-                >
-                  <DialogTitle key="alert-dialog-title">{'Alert'}</DialogTitle>
-                  <DialogContent key="alert-dialog-content" style={{display:"inline-flex"}}>
-                    <Select style={{width:200}}
-                      label="Categories"
-                      // onChange={this.handleChange}
-                      // style={styles.customWidth}
-                      name="categoryId"
-                      // onChange={this.handleCategoryChange}
-                    >
-                      {categoryList.map((category, index) => (
-                        <MenuItem
-                          key={index}
-                          value={category.id}
-                          // style={styles.menuItem}
-                          // primaryText={category.categoryName}
-                        >
-                          {category.categoryName}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                  <Dialog title="Add Product" open={this.state.open} maxWidth="xs" fullWidth>
+                    <DialogTitle key="alert-dialog-title">{'Alert'}</DialogTitle>
+                    <DialogContent key="alert-dialog-content" style={{ display: 'inline-flex' }}>
+                      <Select
+                        style={{ width: 200, marginRight: 10 }}
+                        label="Categories"
+                        name="categoryId"
+                      >
+                        {categoryList.map((category, index) => (
+                          <MenuItem
+                            key={index}
+                            value={category.id}
+                          >
+                            {category.categoryName}
+                          </MenuItem>
+                        ))}
+                      </Select>
 
-                    <Select style={{width:200}}
-                      label="Products"
-                      // onChange={this.handleChange}
-                      // style={styles.customWidth}
-                      name="categoryId"
-                      // onChange={this.handleProductChange}
-                    >
-                      {productList.map((product, index) => (
-                        <MenuItem
-                          key={index}
-                          value={product.id}
-                          // style={styles.menuItem}
-                          // primaryText={product.productName}
-                        >
-                          {product.productName}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </DialogContent>
-                  <DialogActions key="alert-dialog-action">
-                    <Button variant="contained" onClick={this.handleCancel} color="primary">
-                      Cancel
-                    </Button>
-                    <Button variant="contained" onClick={this.handleOk} color="primary">
-                      Ok
-                    </Button>
-                  </DialogActions>
-                </Dialog>
+                      <Select
+                        style={{ width: 200 }}
+                        label="Products"
+                        name="categoryId"
+                        onChange={this.onSelectProduct}
+                      >
+                        {productList.map((product, index) => (
+                          <MenuItem
+                            key={index}
+                            value={index}
+                          >
+                            {product.productName}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </DialogContent>
+                    <DialogActions key="alert-dialog-action">
+                      <Button variant="contained" onClick={this.handleCancel} color="primary">
+                        Cancel
+                      </Button>
+                      <Button variant="contained" onClick={this.onAddProduct} color="primary">
+                        Ok
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
                 </React.Fragment>
-                <Snackbar
-                  open={this.state.snackbarOpen}
-                  autoHideDuration={this.state.autoHideDuration}
-                  onClose={this.onSnackBarClose}
-                >
+                <Snackbar open={this.state.snackbarOpen} autoHideDuration={this.state.autoHideDuration} onClose={this.onSnackBarClose}>
                   <Alert onClose={this.onSnackBarClose} severity="success">
                     The operation completed successfully !
                   </Alert>
@@ -564,8 +574,6 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
 }
 
 function mapStateToProps(state) {
-  // const { customerReducer, orderReducer, productReducer } = state;
-  // const { productList, categoryList } = state.product;
   const { customerList } = state.customer;
   const { order, isFetching, updateSuccess, addSuccess, isAuthenticated, user, productList, categoryList } = state.order;
 
@@ -588,6 +596,7 @@ function mapDispatchToProps(dispatch) {
     getOrder: action => dispatch(thunkApiQCall(action)),
     updateOrder: action => dispatch(thunkApiCall(action)),
     addOrder: action => dispatch(thunkApiCall(action)),
+    saveOrder: action => dispatch(thunkApiCall(action)),
     getCategoryList: action => dispatch(thunkApiCall(action)),
     getProductList: action => dispatch(thunkApiCall(action)),
     getAllCustomers: action => dispatch(thunkApiCall(action)),

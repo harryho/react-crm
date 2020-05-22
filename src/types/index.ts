@@ -62,6 +62,7 @@ export interface Product extends Entity {
   avatar?: string;
 }
 
+export type ViewModel = Customer | Order | Product | Category  
 
 export type SearchFilter = {
   equals?: TODO;

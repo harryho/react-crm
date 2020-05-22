@@ -1,73 +1,63 @@
-import React from "react";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableHead from "@material-ui/core/TableHead";
-import TableCell from "@material-ui/core/TableCell";
-import Pagination from "@material-ui/lab/Pagination";
-import TableRow from "@material-ui/core/TableRow";
-import Fab from "@material-ui/core/Fab";
-import ContentCreate from "@material-ui/icons/Create";
-import ActionDelete from "@material-ui/icons/Delete";
-import ContentAdd from "@material-ui/icons/Add";
-import Search from "@material-ui/icons/Search";
-import CheckCircle from "@material-ui/icons/CheckCircle";
-import Cancel from "@material-ui/icons/Cancel";
-import PageBase from "../components/PageBase";
-import { connect } from "react-redux";
-import { getAction } from "../actions/customer";
-import Dialog from "@material-ui/core/Dialog";
-import Drawer from "@material-ui/core/Drawer";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Snackbar from "@material-ui/core/Snackbar";
-import { teal, pink, grey, green, common } from "@material-ui/core/colors";
-import { thunkApiCall } from "../services/thunks";
-import { LIST_CUSTOMER, DELETE_CUSTOMER, NEW_CUSTOMER } from "../store/types";
-import { Customer } from "../types";
-import {
-  Container,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Grid,
-  TableFooter,
-  Divider,
-} from "@material-ui/core";
-import Skeleton from "@material-ui/lab/Skeleton";
-import Alert from "../components/Alert";
+import React from 'react';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableHead from '@material-ui/core/TableHead';
+import TableCell from '@material-ui/core/TableCell';
+import Pagination from '@material-ui/lab/Pagination';
+import TableRow from '@material-ui/core/TableRow';
+import Fab from '@material-ui/core/Fab';
+import ContentCreate from '@material-ui/icons/Create';
+import ActionDelete from '@material-ui/icons/Delete';
+import ContentAdd from '@material-ui/icons/Add';
+import Search from '@material-ui/icons/Search';
+import CheckCircle from '@material-ui/icons/CheckCircle';
+import Cancel from '@material-ui/icons/Cancel';
+import PageBase from '../components/PageBase';
+import { connect } from 'react-redux';
+import { getAction } from '../actions/customer';
+import Dialog from '@material-ui/core/Dialog';
+import Drawer from '@material-ui/core/Drawer';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Snackbar from '@material-ui/core/Snackbar';
+import { pink, grey, green, common } from '@material-ui/core/colors';
+import { thunkApiCall } from '../services/thunks';
+import { LIST_CUSTOMER, DELETE_CUSTOMER, NEW_CUSTOMER } from '../store/types';
+import { Customer } from '../types';
+import { Container, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Divider } from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
+import Alert from '../components/Alert';
+import DataTable from '../components/DataTable';
 
-const teal500 = teal["500"];
-const pink500 = pink["500"];
-const grey500 = grey["500"];
-const green400 = green["400"];
+const pink500 = pink['500'];
+const grey500 = grey['500'];
+const green400 = green['400'];
 const white = common.white;
 
 const styles = {
   fab: {
-    top: "auto" as TODO,
+    top: 'auto' as TODO,
     right: 20,
     bottom: 20,
-    left: "auto" as TODO,
-    position: "fixed" as TODO,
+    left: 'auto' as TODO,
+    position: 'fixed' as TODO,
     marginRight: 20,
     backgroundColor: pink500, // {pink500}
   },
   fabSearch: {
-    top: "auto" as TODO,
+    top: 'auto' as TODO,
     right: 100,
     bottom: 20,
-    left: "auto" as TODO,
-    position: "fixed" as TODO,
+    left: 'auto' as TODO,
+    position: 'fixed' as TODO,
     marginRight: 20,
-    backgroundColor: "lightblue" as TODO,
-
+    backgroundColor: 'lightblue' as TODO,
   },
-  searchButton:{
-    marginRight:20,
+  searchButton: {
+    marginRight: 20,
   },
   editButton: {
-    marginRight: "1em",
+    marginRight: '1em',
     color: white,
     backgroundColor: green400,
     // width: 36,
@@ -77,42 +67,38 @@ const styles = {
     fill: white,
   },
   deleteButton: {
-    color: "grey",
+    color: 'grey',
     fill: grey500,
     // width: 36,
     // height: 36,
   },
-  columns: {
-    width10: {
-      width: "10%",
-    },
-  },
-  // dialog: {
-  //   width: "100%",
-  //   maxWidth: "none",
-  //   margin: "auto",
-  //   position: "fixed" as TODO,
-  //   padding: "0px",
-  // },
+
   drawer: {
-    backgroundColor: "lightgrey",
+    backgroundColor: 'lightgrey',
   },
   searchDrawer: {
-    width: "250px",
+    overflow: 'hidden',
+    width: 280,
+    // backgroundColor: "lightgrey",
+  },
+  searchGrid: {
+    width: 250,
     // backgroundColor: "lightgrey",
   },
   row: {
-    margin: "1.5em",
-    width: "95%",
-  },
-  pagination: {
-    width: 350,
-    margin: "0 auto",
-    paddingTop: 10,
-  },
+    margin: '1.5em',
+    width: '95%',
+  }
 };
 
-interface CustomerListProps {
+const defaultProps = {
+  dataKeys: ['avatar', 'firstname', 'lastname', 'email', 'mobile', 'membership'],
+  headers: ['', 'First Name', 'Last Name', 'Email', 'Mobile', 'Membership', 'Actions'],
+};
+
+type DefaultProps = typeof defaultProps;
+
+type CustomerListProps = {
   pageCount: number;
   isFetching: boolean;
   customerList: Customer[];
@@ -122,7 +108,7 @@ interface CustomerListProps {
   deleteSuccess: boolean;
   errorMessage: string;
   deleted: boolean;
-}
+} & DefaultProps
 
 interface CustomerListState {
   open: boolean;
@@ -134,7 +120,7 @@ interface CustomerListState {
   items: Customer[];
   customerList: Customer[];
   totalPages: number;
-  customerId: null;
+  customerId: number;
   dialogText: string; //'Are you sure to do this?',
   search: {
     firstname: string;
@@ -142,10 +128,8 @@ interface CustomerListState {
   };
 }
 
-class CustomerListPage extends React.Component<
-  CustomerListProps,
-  CustomerListState
-> {
+class CustomerListPage extends React.Component<CustomerListProps , CustomerListState> {
+  static defaultProps = defaultProps;
   constructor(props) {
     super(props);
     this.handleToggle = this.handleToggle.bind(this);
@@ -154,7 +138,11 @@ class CustomerListPage extends React.Component<
     this.onPageChange = this.onPageChange.bind(this);
     this.onSnackBarClose = this.onSnackBarClose.bind(this);
     this.handleNewCustomer = this.handleNewCustomer.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
+
+  // static defaultProps = customerListDefaultProps;
 
   state: CustomerListState = {
     isFetching: true,
@@ -167,10 +155,10 @@ class CustomerListPage extends React.Component<
     totalPages: 1,
     customerId: null,
     customerList: [],
-    dialogText: "Are you sure to do this?",
+    dialogText: 'Are you sure to do this?',
     search: {
-      firstname: "",
-      lastname: "",
+      firstname: '',
+      lastname: '',
     },
   };
 
@@ -190,12 +178,9 @@ class CustomerListPage extends React.Component<
       const isFetching = this.props.isFetching;
       this.setState({ page, totalPages, items, isFetching });
     }
-    console.log(" this.props.deleted " + this.props.deleted);
+    console.log(' this.props.deleted ' + this.props.deleted);
 
-    if (
-      this.props.deleted !== prevProps.deleted &&
-      this.props.deleted === true
-    ) {
+    if (this.props.deleted !== prevProps.deleted && this.props.deleted === true) {
       this.setState({ snackbarOpen: true });
       this.handleSearch();
     }
@@ -208,9 +193,12 @@ class CustomerListPage extends React.Component<
     this.setState({ page, items });
   }
 
-  onDelete(id) {
-    if (id) {
-      this.handleOpen(id);
+  onDelete(_event: React.ChangeEvent<unknown>, value: number) {
+    if (value != null && value > 0) {
+      // this.handleOpen(id);
+      this.setState({ dialogText: 'Are you sure to delete this data?' });
+      this.setState({ open: true });
+      this.setState({ customerId: value });
     }
   }
 
@@ -220,12 +208,12 @@ class CustomerListPage extends React.Component<
 
   handleSearch() {
     this.setState({ searchOpen: false, isFetching: true });
-    const action = getAction(LIST_CUSTOMER, null, null, "");
+    const action = getAction(LIST_CUSTOMER, null, null, '');
     this.props.searchCustomer(action); //this.state.search);
   }
 
   handleOpen(id) {
-    this.setState({ dialogText: "Are you sure to delete this data?" });
+    this.setState({ dialogText: 'Are you sure to delete this data?' });
     this.setState({ open: true });
     this.setState({ customerId: id });
   }
@@ -234,12 +222,7 @@ class CustomerListPage extends React.Component<
     this.setState({ open: false });
 
     if (isConfirmed && this.state.customerId) {
-      const action = getAction(
-        DELETE_CUSTOMER,
-        this.state.customerId,
-        null,
-        ""
-      );
+      const action = getAction(DELETE_CUSTOMER, this.state.customerId, null, '');
       this.props.deleteCustomer(action);
       // this.props.deleteCustomer(this.state.customerId);
       this.setState({ customerId: null });
@@ -271,36 +254,25 @@ class CustomerListPage extends React.Component<
     const action = getAction(NEW_CUSTOMER);
     this.props.newCustomer(action);
     // @ts-ignore
-    this.props.history.push("/newcustomer");
+    this.props.history.push('/newcustomer');
   }
 
   render() {
-    const { customerList } = this.props;
-    const { isFetching } = this.state;
+    const { customerList, headers, dataKeys } = this.props;
+    const { isFetching, page, totalPages, items } = this.state;
+
+    console.log(headers);
 
     const dialogButtons = [
-      <Fab
-        key="cancel-btn"
-        color="primary"
-        variant="extended"
-        onClick={() => this.handleClose(false)}
-      >
+      <Fab key="cancel-btn" color="primary" variant="extended" onClick={() => this.handleClose(false)}>
         Cancel
       </Fab>,
-      <Fab
-        key="confirm-btn"
-        color="secondary"
-        variant="extended"
-        onClick={() => this.handleClose(true)}
-      >
+      <Fab key="confirm-btn" color="secondary" variant="extended" onClick={() => this.handleClose(true)}>
         Confirm
       </Fab>,
     ];
     return (
-      <PageBase
-        title={"Customers (" + customerList.length + ")"}
-        navigation="React CRM / Customer"
-      >
+      <PageBase title={'Customers (' + customerList.length + ')'} navigation="React CRM / Customer">
         {isFetching ? (
           <div>
             <Skeleton variant="rect" style={styles.row} height={50} />
@@ -312,143 +284,52 @@ class CustomerListPage extends React.Component<
         ) : (
           <div>
             <div>
-              <Fab
-                size="small"
-                color="secondary"
-                style={styles.fab}
-                onClick={this.handleNewCustomer}
-              >
+              <Fab size="small" color="secondary" style={styles.fab} onClick={this.handleNewCustomer}>
                 <ContentAdd />
               </Fab>
 
-              <Fab
-                size="small"
-                style={styles.fabSearch}
-                onClick={this.handleToggle}
-              >
+              <Fab size="small" style={styles.fabSearch} onClick={this.handleToggle}>
                 <Search />
               </Fab>
             </div>
             {/* {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} */}
-
-            <Snackbar
-              open={this.state.snackbarOpen}
-              autoHideDuration={this.state.autoHideDuration}
-              onClose={this.onSnackBarClose}
-            >
+            <Snackbar open={this.state.snackbarOpen} autoHideDuration={this.state.autoHideDuration} onClose={this.onSnackBarClose}>
               <Alert onClose={this.onSnackBarClose} severity="success">
                 The operation completed successfully !
               </Alert>
             </Snackbar>
-
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell component="th" style={styles.columns.width10} />
-                  <TableCell style={styles.columns.width10}>
-                    First Name
-                  </TableCell>
-                  <TableCell style={styles.columns.width10}>
-                    Last Name
-                  </TableCell>
-                  <TableCell style={styles.columns.width10}>Email</TableCell>
-                  <TableCell style={styles.columns.width10}>Mobile</TableCell>
-                  <TableCell style={styles.columns.width10}>Rewards</TableCell>
-                  <TableCell style={styles.columns.width10}>
-                    Membership
-                  </TableCell>
-                  <TableCell style={styles.columns.width10}>Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.state.items.length > 0 &&
-                  this.state.items.map((item) => (
-                    <TableRow key={item.id}>
-                      <TableCell style={styles.columns.width10}>
-                        <img width={35} src={item.avatar} />
-                      </TableCell>
-                      <TableCell style={styles.columns.width10}>
-                        {item.firstname}
-                      </TableCell>
-                      <TableCell style={styles.columns.width10}>
-                        {item.lastname}
-                      </TableCell>
-                      <TableCell style={styles.columns.width10}>
-                        {item.email}
-                      </TableCell>
-                      <TableCell style={styles.columns.width10}>
-                        {item.mobile}
-                      </TableCell>
-                      <TableCell style={styles.columns.width10}>
-                        {item.rewards}
-                      </TableCell>
-                      <TableCell style={styles.columns.width10}>
-                        {item.membership ? <CheckCircle /> : <Cancel />}
-                      </TableCell>
-                      <TableCell style={styles.columns.width10}>
-                        <Fab
-                          size="small"
-                          style={styles.editButton}
-                          href={`customer/${item.id}`}
-                        >
-                          <ContentCreate />
-                        </Fab>
-                        <Fab
-                          size="small"
-                          style={styles.deleteButton}
-                          onClick={() => this.onDelete(item.id)}
-                        >
-                          <ActionDelete />
-                        </Fab>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-
-            <Container style={styles.pagination}>
-              <Pagination
-                // size="small"
-                count={this.state.totalPages}
-                page={this.state.page}
-                variant="outlined"
-                color="primary"
-                onChange={this.onPageChange}
-              />
-            </Container>
+            <DataTable
+              items={items}
+              dataKeys={dataKeys}
+              headers={headers}
+              page={page}
+              totalPages={totalPages}
+              onDelete={this.onDelete}
+              onPageChange={this.onPageChange}
+            />
+            
             <React.Fragment>
               <Dialog
                 key="alert-dialog"
                 title="Confirm Dialog "
-                // style={styles.dialog}
                 fullWidth
                 maxWidth="xs"
                 open={this.state.open}
                 onClick={() => this.handleClose(false)}
               >
-                <DialogTitle key="alert-dialog-title">{"Alert"}</DialogTitle>
+                <DialogTitle key="alert-dialog-title">{'Alert'}</DialogTitle>
                 <DialogContent key="alert-dialog-content">
-                  <DialogContentText key="alert-dialog-description">
-                    {this.state.dialogText}
-                  </DialogContentText>
+                  <DialogContentText key="alert-dialog-description">{this.state.dialogText}</DialogContentText>
                 </DialogContent>
 
-                <DialogActions key="alert-dialog-action">
-                  {dialogButtons}
-                </DialogActions>
+                <DialogActions key="alert-dialog-action">{dialogButtons}</DialogActions>
               </Dialog>
             </React.Fragment>
             <React.Fragment>
-              <Drawer
-                anchor="right"
-                open={this.state.searchOpen}
-                onClose={this.handleToggle}
-              >
-            
-                <Grid container style={styles.searchDrawer} spacing={1}>
+              <Drawer anchor="right" open={this.state.searchOpen} onClose={this.handleToggle} style={styles.searchDrawer}>
+                <Grid container spacing={2} style={styles.searchGrid}>
                   <Grid item xs={12}>
-                 <h5>Search</h5> 
-     
+                    <h5>Search</h5>
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
@@ -472,21 +353,12 @@ class CustomerListPage extends React.Component<
                   </Grid>
                   <Divider />
                   <Grid item xs={12}>
-                  <Button
-                    variant="contained"
-                    onClick={this.handleSearch}
-                    color="secondary"
-                   style={styles.searchButton}
-                  >
-                    Search
-                  </Button>
-                  <Button
-                    variant="contained"
-                    onClick={this.handleSearch}
-                    color="default"
-                  >
-                    Cancel
-                  </Button>
+                    <Button variant="contained" onClick={this.handleSearch} color="secondary" style={styles.searchButton}>
+                      Search
+                    </Button>
+                    <Button variant="contained" onClick={this.handleSearch} color="default">
+                      Cancel
+                    </Button>
                   </Grid>
                 </Grid>
               </Drawer>
@@ -499,13 +371,7 @@ class CustomerListPage extends React.Component<
 }
 
 function mapStateToProps(state) {
-  const {
-    customerList,
-    isFetching,
-    errorMessage,
-    user,
-    deleted,
-  } = state.customer;
+  const { customerList, isFetching, errorMessage, user, deleted } = state.customer;
 
   return {
     customerList,
