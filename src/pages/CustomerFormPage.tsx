@@ -165,8 +165,6 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
       <PageBase title="Customer" navigation="Application / Customer ">
         {isFetching ? (
           <div>
-            {/* <Skeleton variant="text" />
-            <Skeleton variant="rect" style={styles.fullWidth} height={300} /> */}
             <SkeletonForm />
           </div>
         ) : (

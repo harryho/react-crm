@@ -102,7 +102,6 @@ interface OrderFormProps {
   updateOrder: typeof thunkApiCall;
   getProductList: typeof thunkApiCall;
   addOrder: typeof thunkApiCall;
-  // orderList: Order[];
   categoryList: Category[];
   productList: Product[];
   getAllOrders: typeof thunkApiCall;
@@ -117,7 +116,6 @@ interface OrderFormState {
   autoHideDuration: number;
   productId: number;
   dialogText: string; //'Are you sure to do this?',
-  // categoryList: Category[];
   productList: Product[];
   product: Product;
 }
@@ -233,8 +231,6 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
       order.products.push(product);
       this.setState({ order: this.state.order, product: {} as Product });
     }
-
-    // }
   }
 
   handleCancel() {

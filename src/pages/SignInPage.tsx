@@ -110,24 +110,11 @@ interface SignInState {
 
 const SignInPage: React.FC<SignInPageProps> = ({
   //  errorMessage,
-    onSignInClick }) => {
+  onSignInClick,
+}) => {
   const handleClick = event => {
     event.preventDefault();
   };
-
-  // handleChange(e: React.ChangeEvent<unknown>, value: string) {
-  // e.target.classList.add("active");
-  // this.setState({
-  //   [e.target.name]: e.target.value,
-  // });
-  // }
-
-  // notifyFormError(data) {
-  //   console.error("Form error:", data);
-  // }
-
-  // render() {
-  // const { errorMessage } = this.props;
 
   return (
     <MuiThemeProvider theme={ThemeDefault}>
@@ -157,8 +144,8 @@ const SignInPage: React.FC<SignInPageProps> = ({
               onSubmit={(values, { setSubmitting }) => {
                 onSignInClick(values);
                 // setTimeout(() => {
-                  // setSubmitting(false);
-                  // console.log(JSON.stringify(values, null, 2));
+                // setSubmitting(false);
+                // console.log(JSON.stringify(values, null, 2));
                 // }, 500);
               }}
             >
@@ -174,7 +161,6 @@ const SignInPage: React.FC<SignInPageProps> = ({
                       // value={this.state.username ? this.state.username : ""}
                       label="Login ID"
                       fullWidth={true}
-
                       required
                     />
                   </div>
@@ -184,13 +170,10 @@ const SignInPage: React.FC<SignInPageProps> = ({
                       variant="outlined"
                       component={TextField}
                       placeholder="Password"
-  
                       name="password"
-
                       label="Password"
                       fullWidth={true}
                       type="password"
-
                       required
                     />
                   </div>
@@ -198,15 +181,7 @@ const SignInPage: React.FC<SignInPageProps> = ({
                   <br />
                   <div>
                     <Link to="/">
-                      <Button
-                        variant="contained"
-                        color="primary"
-
-                        onClick={submitForm}
-                        style={styles.loginBtn}
- 
-                        disabled={isSubmitting}
-                      >
+                      <Button variant="contained" color="primary" onClick={submitForm} style={styles.loginBtn} disabled={isSubmitting}>
                         SignIn
                       </Button>
                     </Link>

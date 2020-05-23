@@ -10,7 +10,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
-import { teal, pink, grey, green, common } from '@material-ui/core/colors';
+import { pink } from '@material-ui/core/colors';
 import { thunkApiCall } from '../services/thunks';
 import { LIST_ORDER, DELETE_ORDER, NEW_ORDER, ApiAction } from '../store/types';
 import { Order } from '../types';
@@ -57,7 +57,7 @@ const styles = {
 };
 
 const defaultProps = {
-  model:"order",
+  model: 'order',
   dataKeys: ['reference', 'quantity', 'amount', 'customer.firstname', 'orderDate', 'shippedDate'],
   headers: ['Reference', 'Quantity', 'Amount', 'Customer', 'Order Date', 'Shipping Date'],
 };
@@ -86,7 +86,7 @@ interface OrderListState {
   items: Order[];
   orderList: Order[];
   totalPages: number;
-  orderId:  number;
+  orderId: number;
   dialogText: string; //'Are you sure to do this?',
   search: {
     product: string;
@@ -106,7 +106,7 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
     this.onPageChange = this.onPageChange.bind(this);
     this.onDelete = this.onDelete.bind(this);
   }
-  
+
   static defaultProps = defaultProps;
 
   state: OrderListState = {
@@ -188,7 +188,6 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
     if (isConfirmed && this.state.orderId) {
       const action = getAction(DELETE_ORDER, this.state.orderId, null, '') as ApiAction;
       this.props.deleteOrder(action);
-      // this.props.deleteOrder(this.state.orderId);
       this.setState({ orderId: null });
     }
   }
@@ -224,9 +223,7 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
   }
 
   render() {
-
-
-    const { orderList, headers, dataKeys ,model} = this.props;
+    const { orderList, headers, dataKeys, model } = this.props;
     const { isFetching, page, totalPages, items } = this.state;
 
     const dialogButtons = [
@@ -260,7 +257,7 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
               </Alert>
             </Snackbar>
             <DataTable
-            model={model}
+              model={model}
               items={items}
               dataKeys={dataKeys}
               headers={headers}
