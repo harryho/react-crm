@@ -1,5 +1,4 @@
-import React, { useRef } from 'react';
-// import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+import React from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -8,23 +7,11 @@ import ThemeDefault from '../theme-default';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 
-import { grey, common } from '@material-ui/core/colors';
+// import { grey, common } from '@material-ui/core/colors';
 import { LinearProgress } from '@material-ui/core';
 
-const grey500 = grey['500'];
-const white = common.white;
 const styles = {
-  paperStyle: {
-    width: 300,
-    margin: 'auto',
-    padding: 20,
-  },
-  switchStyle: {
-    marginBottom: 16,
-  },
-  submitStyle: {
-    marginTop: 32,
-  },
+  
   loginContainer: {
     minWidth: 320,
     maxWidth: 400,
@@ -51,47 +38,8 @@ const styles = {
     padding: 20,
     overflow: 'auto',
   },
-  buttonsDiv: {
-    textAlign: 'center',
-    padding: 10,
-  },
-  Button: {
-    color: grey500,
-  },
-  checkRemember: {
-    style: {
-      float: 'left',
-      maxWidth: 180,
-      paddingTop: 5,
-    },
-    labelStyle: {
-      color: grey500,
-    },
-    iconStyle: {
-      color: grey500,
-      borderColor: grey500,
-      fill: grey500,
-    },
-  },
   loginBtn: {
     float: 'right' as TODO,
-  },
-  btn: {
-    background: '#4f81e9',
-    color: white,
-    padding: 7,
-    borderRadius: 2,
-    margin: 2,
-    fontSize: 13,
-  },
-  btnFacebook: {
-    background: '#4f81e9',
-  },
-  btnGoogle: {
-    background: '#e14441',
-  },
-  btnSpan: {
-    marginLeft: 5,
   },
 };
 
@@ -122,7 +70,7 @@ const SignInPage: React.FC<SignInPageProps> = ({
         <div style={styles.loginContainer}>
           <Paper style={styles.paper}>
             <p style={styles.formHeader}>React Redux CRM</p>
-            <p style={styles.ListSubheader}>Version 1.1.0</p>
+            <p style={styles.ListSubheader}>Version 2.0.0</p>
             <Formik
               initialValues={{
                 username: 'admin@test.com',
@@ -186,8 +134,7 @@ const SignInPage: React.FC<SignInPageProps> = ({
                       </Button>
                     </Link>
                   </div>
-                  {/* <div>{errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}</div> */}
-                </Form>
+               </Form>
               )}
             </Formik>
           </Paper>

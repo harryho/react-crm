@@ -59,7 +59,7 @@ const styles = {
 const defaultProps = {
   model: 'product',
   dataKeys: ['name', 'category.name', 'unitPrice', 'numInStock'],
-  headers: ['Product Name', 'Category Name', 'Price', 'Unit In Stock'],
+  headers: ['Product Name', 'Category Name', 'Price', 'Unit In Stock', 'Actions'],
 };
 
 type DefaultProps = typeof defaultProps;

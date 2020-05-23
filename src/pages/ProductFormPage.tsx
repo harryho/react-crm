@@ -1,36 +1,28 @@
-import React from "react";
-import { Link, match } from "react-router-dom";
-import Button from "@material-ui/core/Button";
-import Switch from "@material-ui/core/Switch";
-import SaveIcon from "@material-ui/icons/Save";
-import Divider from "@material-ui/core/Divider";
-import PageBase from "../components/PageBase";
-import Skeleton from "@material-ui/lab/Skeleton";
-import { connect } from "react-redux";
-import Card from "@material-ui/core/Card";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import { getAction } from "../actions/product";
+import React from 'react';
+import { Link, match } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import Switch from '@material-ui/core/Switch';
+import SaveIcon from '@material-ui/icons/Save';
+import Divider from '@material-ui/core/Divider';
+import PageBase from '../components/PageBase';
+import Skeleton from '@material-ui/lab/Skeleton';
+import { connect } from 'react-redux';
+import Card from '@material-ui/core/Card';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import { getAction } from '../actions/product';
 
-import { Formik, Form, Field } from "formik";
-import { TextField } from "formik-material-ui";
+import { Formik, Form, Field } from 'formik';
+import { TextField } from 'formik-material-ui';
 
-import { grey } from "@material-ui/core/colors";
-import { thunkApiCall, thunkApiQCall } from "../services/thunks";
-import { Product, User, Category } from "../types";
-import { LinearProgress, Grid, Select, MenuItem } from "@material-ui/core";
-import Snackbar from "@material-ui/core/Snackbar";
-import {
-  GET_PRODUCT,
-  ApiAction,
-  UPDATE_PRODUCT,
-  CREATE_PRODUCT,
-  LIST_CATEGORY,
-  EDIT_PRODUCT,
-  ApiQActions,
-} from "../store/types";
-import Alert from "@material-ui/lab/Alert";
+import { grey } from '@material-ui/core/colors';
+import { thunkApiCall, thunkApiQCall } from '../services/thunks';
+import { Product, User, Category } from '../types';
+import { LinearProgress, Grid, Select, MenuItem } from '@material-ui/core';
+import Snackbar from '@material-ui/core/Snackbar';
+import { GET_PRODUCT, ApiAction, UPDATE_PRODUCT, CREATE_PRODUCT, LIST_CATEGORY, EDIT_PRODUCT, ApiQActions } from '../store/types';
+import Alert from '@material-ui/lab/Alert';
 
-const grey400 = grey["400"];
+const grey400 = grey['400'];
 
 const styles = {
   toggleDiv: {
@@ -44,7 +36,7 @@ const styles = {
   },
   buttons: {
     marginTop: 30,
-    float: "right" as TODO,
+    float: 'right' as TODO,
   },
   saveButton: {
     marginLeft: 5,
@@ -56,13 +48,13 @@ const styles = {
     marginBottom: 5,
   },
   container: {
-    marginTop: "2em",
+    marginTop: '2em',
   },
   cell: {
-    padding: "1em",
+    padding: '1em',
   },
   fullWidth: {
-    width: "100%",
+    width: '100%',
   },
 };
 
@@ -91,10 +83,7 @@ interface ProductFormState {
   autoHideDuration: number;
 }
 
-class ProductFormPage extends React.Component<
-  ProductFormProps,
-  ProductFormState
-> {
+class ProductFormPage extends React.Component<ProductFormProps, ProductFormState> {
   constructor(props) {
     super(props);
     // autoBind(this);
@@ -104,7 +93,6 @@ class ProductFormPage extends React.Component<
     // this.enableButton = this.enableButton.bind(this);
     this.notifyFormError = this.notifyFormError.bind(this);
     this.onSnackBarClose = this.onSnackBarClose.bind(this);
-    
   }
 
   state = {
@@ -115,7 +103,7 @@ class ProductFormPage extends React.Component<
   };
 
   componentDidMount() {
-    console.log("componentDidMount ", this.props);
+    console.log('componentDidMount ', this.props);
     // @ts-ignore
     const productId = this.props.match.params?.id;
     let action: ApiQActions;
@@ -124,6 +112,12 @@ class ProductFormPage extends React.Component<
       this.props.getProduct(action);
       // const action2 = getAction(LIST_CATEGORY);
       // this.props.getCategoryList(action2);
+    }
+  }
+  componentDidUpdate(prevProps) {
+    console.log('componentDidUpdate ', this.props);
+    if (this.props.updated !== prevProps.updated && this.props.updated === true) {
+      this.setState({ snackbarOpen: true });
     }
   }
 
@@ -138,7 +132,7 @@ class ProductFormPage extends React.Component<
   }
 
   notifyFormError(data) {
-    console.error("Form error:", data);
+    console.error('Form error:', data);
   }
 
   handleClick(event) {
@@ -183,7 +177,7 @@ class ProductFormPage extends React.Component<
             initialValues={{
               ...product,
             }}
-            validate={(values) => {
+            validate={values => {
               const errors: Partial<Product & User> = {};
               // if (!values.firstname) {
               //   errors.firstname = "Required";
@@ -199,6 +193,10 @@ class ProductFormPage extends React.Component<
             }}
             onSubmit={(values, { setSubmitting }) => {
               this.onSave(values);
+              setTimeout(() => {
+                setSubmitting(false);
+                console.log(JSON.stringify(values, null, 2));
+              }, 500);
               // setTimeout(() => {
               //   setSubmitting(false);
               //   console.log(JSON.stringify(values, null, 2));
@@ -209,12 +207,15 @@ class ProductFormPage extends React.Component<
               <Form>
                 <Grid container style={styles.container} spacing={3}>
                   <Grid item style={styles.cell} xs={12} md={4}>
-                    <Select
+                    <Field
+                      select
+                      component={TextField}
+                      as="select"
                       label="Category"
                       placeholder="Category"
                       variant="outlined"
                       fullWidth={true}
-                      name="categoryId"
+                      name="category.id"
                     >
                       {categoryList.map((category, index) => (
                         <MenuItem
@@ -225,7 +226,7 @@ class ProductFormPage extends React.Component<
                           {category.name}
                         </MenuItem>
                       ))}
-                    </Select>
+                    </Field>
                   </Grid>
                   <Grid item style={styles.cell} xs={12} md={4}>
                     <Field
@@ -275,13 +276,16 @@ class ProductFormPage extends React.Component<
                     )}
                   </Grid>
                 </Grid>
+                <br />
                 <Divider />
+                {isSubmitting && <LinearProgress />}
+                <br />
 
                 <div style={styles.buttons}>
                   <Link to="/products">
                     <Button variant="contained">
                       {/* onClick={this.handleGoBack}> */}
-                      <ArrowBackIosIcon /> Back{" "}
+                      <ArrowBackIosIcon /> Back{' '}
                     </Button>
                   </Link>
                   <Button
@@ -295,21 +299,14 @@ class ProductFormPage extends React.Component<
                     <SaveIcon /> Save
                   </Button>
                 </div>
-                {/* {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>} */}
-                <Snackbar
-                  open={this.state.snackbarOpen}
-                  autoHideDuration={this.state.autoHideDuration}
-                  onClose={this.onSnackBarClose}
-                >
+                <Snackbar open={this.state.snackbarOpen} autoHideDuration={this.state.autoHideDuration} onClose={this.onSnackBarClose}>
                   <Alert onClose={this.onSnackBarClose} severity="success">
                     The operation completed successfully !
                   </Alert>
                 </Snackbar>
               </Form>
-              
             )}
           </Formik>
-          
         )}
       </PageBase>
     );
@@ -318,17 +315,7 @@ class ProductFormPage extends React.Component<
 
 function mapStateToProps(state) {
   // const { productReducer } = state;
-  const {
-    product,
-    isFetching,
-    categoryList,
-    updateSuccess,
-    addSuccess,
-    isAuthenticated,
-    user,
-    deleted,
-    updated,
-  } = state.product;
+  const { product, isFetching, categoryList, updateSuccess, addSuccess, isAuthenticated, user, deleted, updated } = state.product;
 
   return {
     // product: product || {},
@@ -346,11 +333,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    newProduct: (action) => dispatch(thunkApiCall(action)),
-    getProduct: (action) => dispatch(thunkApiQCall(action)),
-    updateProduct: (action) => dispatch(thunkApiCall(action)),
-    addProduct: (action) => dispatch(thunkApiCall(action)),
-    getCategoryList: (action) => dispatch(thunkApiCall(action)),
+    newProduct: action => dispatch(thunkApiCall(action)),
+    getProduct: action => dispatch(thunkApiQCall(action)),
+    saveProduct: action => dispatch(thunkApiCall(action)),
+    // updateProduct: action => dispatch(thunkApiCall(action)),
+    // addProduct: action => dispatch(thunkApiCall(action)),
+    getCategoryList: action => dispatch(thunkApiCall(action)),
   };
 }
 
