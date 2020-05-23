@@ -1,60 +1,117 @@
-# TreactBook
+# React Redux CRM
 
-* Starter project built on React, TypeScript, Redux, Storybook and Jest
+> A reusable CRM project for real-world business based on React 16, React-Redux & Material-UI 4
 
-* This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the very first version, feel free to use for any app. Contributions are always welcome!
 
-* The chat demo comes from the [Redux tutorial](https://redux.js.org/recipes/usage-with-typescript). The definition of store is slightly simpllified.
+The goal of this starter project is to create reusable project for real-world business. To achieve this target, we need a solution which should include simple authentication process, restful API with token support and simple but elegant UI design.
+
+### Features
+
+- This project is built on the top of React/Redux.
+- The UI component are mainly built on Material-UI.
+- This project uses Redux-Thunk to support back-end API.
+- The backend API is just readonly dump service.
+- Use Formik to manage the form submission
+- Integrate with storybook for react.
+- The project is built on TypeScript 3.x
+- ~~Use Formsy to manage form submission~~
+- ~~To simulate real-world business, this starter project chooses Json-Server as fake Restful API. (You can simple replace it with your own API)~~
+
+### Live Demo
+
+[Demo](https://react-app-demo.harryho.org) The demo is just a proof of concept. It doesn't have back-end API and all features of master branch.
+
+### Screenshots
+
+![Screenshot1](screenshots/screenshot-1.jpg)
+
+![Screenshot2](screenshots/screenshot-2.jpg)
+
+![Screenshot3](screenshots/screenshot-3.jpg)
+
+![Screenshot4](screenshots/screenshot-4.jpg)
+
+## Build Setup
+
+```bash
+# Clone project
+git clone https://github.com/harryho/react-crm.git
 
 
-## Caveat
-* Use Node 11.13+ and do __NOT__ use Node 12
+# install the packages with npm
+cd react-crm
+npm install
 
-## Storybook 
+# start the server with hot reload at localhost:4000
+npm start
+# or yarn
+yarn start
 
-### `yarn storybook`
+# Storybook
+## Start storybook
+npm run storybook
+## Build storybook
+npm run build-storybook
 
-Storybook should start, on a random open port in dev-mode.
+## build for production
+npm run build
 
-## React App
+```
 
-In the project directory, you can run:
 
-### `yarn start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Docker 
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+```
+## Run / Test release without building new image
+npm run build
 
-### `yarn test`
+# Launch nginx image to test latest release
+docker pull nginx:alpine
+docker run -p 8080:80 -v \
+    <your_aboslute_path>/dist:/usr/share/nginx/html nginx:alpine
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+# Build release image
+docker build . -t  rc-prd:2.0
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Launch the development image in the backgroud
+docker run -d --publish 8080:80  --name rc2 rc-prd:2.0
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+# Check the log
+docker logs rc2  -f
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Welcome to fork or clone!
 
-### `yarn eject`
+For detailed explanation on how things work, checkout following links please.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- [React](https://facebook.github.io/react/)
+- [Redux](http://redux.js.org/)
+- [Material-UI](http://www.material-ui.com/)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Alternatives
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+There are another two similar projects respectively built on the Vue.js and Angular. If you have interests in those technical stacks. You can find and clone those repositories below.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- [Ng-MD-App](https://github.com/harryho/ng-md-app.git).
+- [Ng4Crm](https://github.com/harryho/ng4crm.git). (It is no longer maintained with latest Angular)
+- [Vue-Crm](https://github.com/harryho/vue-crm.git).
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Change log
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- May 2020 -  Merge the branch rctsx to master
+
+  After the merge, the whole project moved to new techncial stack - TypeScript 3. Also, the Material-UI is upgraded to 4.x version.
+
+
+- Dec 2018 - Rebase demo branch to master
+
+  New master doesn't rely on Json-Server as fake API. It will only have Readonly fake API. It means any new or updated data will be stored to any physical file. All test data will be rolled back after system restart.
+
+- May 2018 -  Create an archived branch json-server
+
+  This branch was the master which used Json-Server as fake API. Considering the hiccup of setting Json-Server up and maintenance, it will be replaced by fake service ( Readonly fake API). You still can find clone this branch by branch name **json-server**, but it will be no longer updated. It is an archived branch.
+
