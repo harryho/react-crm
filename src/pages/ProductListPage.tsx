@@ -1,13 +1,5 @@
 import React from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableHead from '@material-ui/core/TableHead';
-import TableCell from '@material-ui/core/TableCell';
-import Pagination from '@material-ui/lab/Pagination';
-import TableRow from '@material-ui/core/TableRow';
 import Fab from '@material-ui/core/Fab';
-import ContentCreate from '@material-ui/icons/Create';
-import ActionDelete from '@material-ui/icons/Delete';
 import ContentAdd from '@material-ui/icons/Add';
 import Search from '@material-ui/icons/Search';
 import PageBase from '../components/PageBase';
@@ -18,80 +10,61 @@ import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
-import { teal, pink, grey, green, common } from '@material-ui/core/colors';
+import { pink, grey, green, common } from '@material-ui/core/colors';
 import { thunkApiCall } from '../services/thunks';
 import { NEW_PRODUCT, LIST_PRODUCT, ApiAction } from '../store/types';
 import { Product } from '../types';
-import { Container, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid } from '@material-ui/core';
-import Skeleton from '@material-ui/lab/Skeleton';
+import { DialogActions, DialogContent, DialogContentText, DialogTitle, Grid } from '@material-ui/core';
 import Alert from '../components/Alert';
+import DataTable from '../components/DataTable';
+import SkeletonList from '../components/SkeletonList';
 
-const grey500 = grey['500'];
-const green400 = green['400'];
-const white = common.white;
+const pink500 = pink['500'];
 
 const styles = {
   fab: {
-    top: 'auto',
+    top: 'auto' as TODO,
     right: 20,
     bottom: 20,
-    left: 'auto',
+    left: 'auto' as TODO,
     position: 'fixed' as TODO,
     marginRight: 20,
+    backgroundColor: pink500, // {pink500}
   },
   fabSearch: {
-    top: 'auto',
+    top: 'auto' as TODO,
     right: 100,
     bottom: 20,
-    left: 'auto',
+    left: 'auto' as TODO,
     position: 'fixed' as TODO,
     marginRight: 20,
     backgroundColor: 'lightblue' as TODO,
   },
-  editButton: {
-    marginRight: '1em',
-    color: white,
-    backgroundColor: green400,
-    // width: 36,
-    // height: 36,
+  searchButton: {
+    marginRight: 20,
   },
-  editButtonIcon: {
-    fill: white,
-  },
-  deleteButton: {
-    color: 'grey',
-    fill: grey500,
-    // width: 36,
-    // height: 36,
-  },
-  columns: {
-    width10: {
-      width: '10%',
-    },
-  },
-  // dialog: {
-  //   width: "20%",
-  //   maxWidth: "none",
-  // },
   drawer: {
     backgroundColor: 'lightgrey',
   },
-  row: {
-    margin: '1.5em',
-    width: '95%',
-  },
-  pagination: {
-    width: 350,
-    margin: '0 auto',
-    paddingTop: 10,
-  },
   searchDrawer: {
-    width: '250px',
+    overflow: 'hidden',
+    width: 280,
+  },
+  searchGrid: {
+    width: 250,
     // backgroundColor: "lightgrey",
   },
 };
 
-interface ProductListProps {
+const defaultProps = {
+  model: 'product',
+  dataKeys: ['name', 'category.name', 'unitPrice', 'numInStock'],
+  headers: ['Product Name', 'Category Name', 'Price', 'Unit In Stock'],
+};
+
+type DefaultProps = typeof defaultProps;
+
+type ProductListProps = {
   pageCount: number;
   isFetching: boolean;
   productList: Product[];
@@ -101,7 +74,7 @@ interface ProductListProps {
   deleteSuccess: boolean;
   errorMessage: string;
   deleted: boolean;
-}
+} & DefaultProps;
 
 interface ProductListState {
   open: boolean;
@@ -131,6 +104,8 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
     this.handleNewProduct = this.handleNewProduct.bind(this);
   }
 
+  static defaultProps = defaultProps;
+
   state: ProductListState = {
     isFetching: true,
     open: false,
@@ -148,15 +123,8 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
     },
   };
 
-  UNSAFE_componentWillMount() {}
-
   /* eslint-disable */
   componentDidMount() {
-    // reset page if items array has changed
-    // if (this.props.productList !== prevProps.productList) {
-    //   //this.setPage(this.props.initialPage);
-    //   this.onChangePage(this.props.productList.slice(0, 10));
-    // }
     this.handleSearch();
   }
 
@@ -185,9 +153,12 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
     this.setState({ page, items });
   }
 
-  onDelete(id) {
-    if (id) {
-      this.handleOpen(id);
+  onDelete(_event: React.ChangeEvent<unknown>, value: number) {
+    if (value != null && value > 0) {
+      // this.handleOpen(id);
+      this.setState({ dialogText: 'Are you sure to delete this data?' });
+      this.setState({ open: true });
+      this.setState({ productId: value });
     }
   }
 
@@ -196,9 +167,6 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
   }
 
   handleSearch() {
-    // this.setState({ searchOpen: !this.state.searchOpen });
-    // this.props.getAllProducts(this.state.search);
-    // this.setState({ searchOpen: false, isFetching: true });
     const action = getAction(LIST_PRODUCT, null, null, '') as ApiAction;
     this.props.searchProduct(action); //this.state.search);
   }
@@ -253,7 +221,8 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
   }
 
   render() {
-    const { productList, isFetching } = this.props;
+    const { productList, headers, dataKeys, model } = this.props;
+    const { isFetching, page, totalPages, items } = this.state;
 
     const dialogButtons = [
       <Fab key="cancel-btn" color="primary" variant="extended" onClick={() => this.handleClose(false)}>
@@ -268,11 +237,7 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
       <PageBase title={'Products (' + productList.length + ')'} navigation="React CRM / Product">
         {isFetching ? (
           <div>
-            <Skeleton variant="rect" style={styles.row} height={50} />
-            <Skeleton variant="rect" style={styles.row} height={50} />
-            <Skeleton variant="rect" style={styles.row} height={50} />
-            <Skeleton variant="rect" style={styles.row} height={50} />
-            <Skeleton variant="rect" style={styles.row} height={50} />
+            <SkeletonList />
           </div>
         ) : (
           <div>
@@ -287,60 +252,29 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
                 The operation completed successfully !
               </Alert>
             </Snackbar>
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell style={styles.columns.width10}>Product</TableCell>
-                  <TableCell style={styles.columns.width10}>Category</TableCell>
-                  <TableCell style={styles.columns.width10}>Price</TableCell>
-                  <TableCell style={styles.columns.width10}>Quantity</TableCell>
-                  <TableCell style={styles.columns.width10}>Edit</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.state.items.map(item => (
-                  <TableRow key={item.id}>
-                    <TableCell style={styles.columns.width10}>{item.productName}</TableCell>
-                    <TableCell style={styles.columns.width10}>{item.category ? item.category.categoryName : ''}</TableCell>
-                    <TableCell style={styles.columns.width10}>$ ${item.unitPrice}</TableCell>
-                    <TableCell style={styles.columns.width10}>{item.unitInStock}</TableCell>
-                    <TableCell style={styles.columns.width10}>
-                      <Fab size="small" style={styles.editButton} href={`product/${item.id}`}>
-                        <ContentCreate />
-                      </Fab>
-                      <Fab size="small" style={styles.deleteButton} onClick={() => this.onDelete(item.id)}>
-                        <ActionDelete />
-                      </Fab>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            <Container style={styles.pagination}>
-              <Pagination
-                // size="small"
-                count={this.state.totalPages}
-                page={this.state.page}
-                variant="outlined"
-                color="primary"
-                onChange={this.onPageChange}
-              />
-            </Container>
+            <DataTable
+              model={model}
+              items={items}
+              dataKeys={dataKeys}
+              headers={headers}
+              page={page}
+              totalPages={totalPages}
+              onDelete={this.onDelete}
+              onPageChange={this.onPageChange}
+            />
+
             <Dialog
               key="alert-dialog"
               title="Confirm Dialog "
-              // style={styles.dialog}
               fullWidth
               maxWidth="xs"
               open={this.state.open}
               onClick={() => this.handleClose(false)}
             >
               <DialogTitle key="alert-dialog-title">{'Alert'}</DialogTitle>
-
               <DialogContent key="alert-dialog-content">
                 <DialogContentText key="alert-dialog-description">{this.state.dialogText}</DialogContentText>
               </DialogContent>
-
               <DialogActions key="alert-dialog-action">{dialogButtons}</DialogActions>
             </Dialog>
             <Drawer anchor="right" open={this.state.searchOpen} onClose={this.handleToggle}>

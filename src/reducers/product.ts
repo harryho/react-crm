@@ -29,7 +29,6 @@ export function productReducer(
         errorMessage: "",
         deleted: false,
         updated:false
-
       });
     case NEW_PRODUCT:
       return Object.assign({}, state, {

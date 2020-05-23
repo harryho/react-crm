@@ -1,17 +1,7 @@
 import React from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableHead from '@material-ui/core/TableHead';
-import TableCell from '@material-ui/core/TableCell';
-import Pagination from '@material-ui/lab/Pagination';
-import TableRow from '@material-ui/core/TableRow';
 import Fab from '@material-ui/core/Fab';
-import ContentCreate from '@material-ui/icons/Create';
-import ActionDelete from '@material-ui/icons/Delete';
 import ContentAdd from '@material-ui/icons/Add';
 import Search from '@material-ui/icons/Search';
-import CheckCircle from '@material-ui/icons/CheckCircle';
-import Cancel from '@material-ui/icons/Cancel';
 import PageBase from '../components/PageBase';
 import { connect } from 'react-redux';
 import { getAction } from '../actions/customer';
@@ -20,19 +10,16 @@ import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
-import { pink, grey, green, common } from '@material-ui/core/colors';
+import { pink } from '@material-ui/core/colors';
 import { thunkApiCall } from '../services/thunks';
 import { LIST_CUSTOMER, DELETE_CUSTOMER, NEW_CUSTOMER } from '../store/types';
 import { Customer } from '../types';
-import { Container, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Divider } from '@material-ui/core';
-import Skeleton from '@material-ui/lab/Skeleton';
+import { DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Divider } from '@material-ui/core';
 import Alert from '../components/Alert';
 import DataTable from '../components/DataTable';
+import SkeletonList from '../components/SkeletonList';
 
 const pink500 = pink['500'];
-const grey500 = grey['500'];
-const green400 = green['400'];
-const white = common.white;
 
 const styles = {
   fab: {
@@ -56,42 +43,21 @@ const styles = {
   searchButton: {
     marginRight: 20,
   },
-  editButton: {
-    marginRight: '1em',
-    color: white,
-    backgroundColor: green400,
-    // width: 36,
-    // height: 36,
-  },
-  editButtonIcon: {
-    fill: white,
-  },
-  deleteButton: {
-    color: 'grey',
-    fill: grey500,
-    // width: 36,
-    // height: 36,
-  },
-
   drawer: {
     backgroundColor: 'lightgrey',
   },
   searchDrawer: {
     overflow: 'hidden',
     width: 280,
-    // backgroundColor: "lightgrey",
   },
   searchGrid: {
     width: 250,
     // backgroundColor: "lightgrey",
   },
-  row: {
-    margin: '1.5em',
-    width: '95%',
-  }
 };
 
 const defaultProps = {
+  model: "customer",
   dataKeys: ['avatar', 'firstname', 'lastname', 'email', 'mobile', 'membership'],
   headers: ['', 'First Name', 'Last Name', 'Email', 'Mobile', 'Membership', 'Actions'],
 };
@@ -108,7 +74,7 @@ type CustomerListProps = {
   deleteSuccess: boolean;
   errorMessage: string;
   deleted: boolean;
-} & DefaultProps
+} & DefaultProps;
 
 interface CustomerListState {
   open: boolean;
@@ -128,8 +94,8 @@ interface CustomerListState {
   };
 }
 
-class CustomerListPage extends React.Component<CustomerListProps , CustomerListState> {
-  static defaultProps = defaultProps;
+class CustomerListPage extends React.Component<CustomerListProps, CustomerListState> {
+
   constructor(props) {
     super(props);
     this.handleToggle = this.handleToggle.bind(this);
@@ -142,7 +108,7 @@ class CustomerListPage extends React.Component<CustomerListProps , CustomerListS
     this.onDelete = this.onDelete.bind(this);
   }
 
-  // static defaultProps = customerListDefaultProps;
+  static defaultProps = defaultProps;
 
   state: CustomerListState = {
     isFetching: true,
@@ -258,7 +224,7 @@ class CustomerListPage extends React.Component<CustomerListProps , CustomerListS
   }
 
   render() {
-    const { customerList, headers, dataKeys } = this.props;
+    const { customerList, headers, dataKeys,model } = this.props;
     const { isFetching, page, totalPages, items } = this.state;
 
     console.log(headers);
@@ -275,11 +241,7 @@ class CustomerListPage extends React.Component<CustomerListProps , CustomerListS
       <PageBase title={'Customers (' + customerList.length + ')'} navigation="React CRM / Customer">
         {isFetching ? (
           <div>
-            <Skeleton variant="rect" style={styles.row} height={50} />
-            <Skeleton variant="rect" style={styles.row} height={50} />
-            <Skeleton variant="rect" style={styles.row} height={50} />
-            <Skeleton variant="rect" style={styles.row} height={50} />
-            <Skeleton variant="rect" style={styles.row} height={50} />
+            <SkeletonList />
           </div>
         ) : (
           <div>
@@ -299,6 +261,7 @@ class CustomerListPage extends React.Component<CustomerListProps , CustomerListS
               </Alert>
             </Snackbar>
             <DataTable
+             model={model}
               items={items}
               dataKeys={dataKeys}
               headers={headers}
@@ -307,7 +270,7 @@ class CustomerListPage extends React.Component<CustomerListProps , CustomerListS
               onDelete={this.onDelete}
               onPageChange={this.onPageChange}
             />
-            
+
             <React.Fragment>
               <Dialog
                 key="alert-dialog"

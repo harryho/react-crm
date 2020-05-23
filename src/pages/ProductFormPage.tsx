@@ -222,7 +222,7 @@ class ProductFormPage extends React.Component<
                           value={category.id}
                           // style={styles.menuItem}
                         >
-                          {category.categoryName}
+                          {category.name}
                         </MenuItem>
                       ))}
                     </Select>
@@ -233,10 +233,10 @@ class ProductFormPage extends React.Component<
                       component={TextField}
                       placeholder="Product"
                       label="Product"
-                      name="productName"
+                      name="name"
                       onChange={this.handleChange}
                       fullWidth={true}
-                      // value={product.productName ? product.productName : ""}
+                      // value={product.name ? product.name : ""}
                       required
                     />
                   </Grid>
@@ -261,7 +261,7 @@ class ProductFormPage extends React.Component<
                       label="Quantity"
                       fullWidth={true}
                       type="number"
-                      name="unitInStock"
+                      name="numInStock"
                       onChange={this.handleChange}
                       required
                     />

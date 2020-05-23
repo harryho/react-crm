@@ -55,6 +55,7 @@ const styles = {
 };
 
 interface DataTableProps {
+    model: string,
   items: { [key: string]: TODO }[];
   totalPages: number;
   page: number;
@@ -64,18 +65,29 @@ interface DataTableProps {
   onDelete: (_event: React.ChangeEvent<unknown>, id?: number) => void;
 }
 
-const DataTable: React.FC<DataTableProps> = ({ items, dataKeys, totalPages, page, headers, onPageChange, onDelete }) => {
+const DataTable: React.FC<DataTableProps> = ({ model, items, dataKeys, totalPages, page, headers, onPageChange, onDelete }) => {
   const renderData = (dataKey: string, data: TODO) => {
     if (dataKey === 'avatar') {
       return <img width={35} src={data[dataKey]} />;
     } else if (dataKey === 'membership') {
       return data[dataKey] ? <CheckCircle /> : <Cancel />;
     } else {
+        if (dataKey.includes("."))
+        {
+            const keys = dataKey.split(".")
+
+            return <>{data[keys[0]][keys[1]]}</>;
+        }
+        else
       return <>{data[dataKey]}</>;
     }
   };
 
   const headerCount = headers.length;
+
+  console.log(items)
+  console.log(dataKeys)
+  console.log(headers)
 
   return (
     <React.Fragment>
@@ -101,7 +113,7 @@ const DataTable: React.FC<DataTableProps> = ({ items, dataKeys, totalPages, page
                     </TableCell>
                   ))}
                 <TableCell key={item.id} style={styles.columns.width10}>
-                  <Fab size="small" style={styles.editButton} href={`customer/${item.id}`}>
+                  <Fab size="small" style={styles.editButton} href={`${model}/${item.id}`}>
                     <ContentCreate />
                   </Fab>
                   <Fab size="small" style={styles.deleteButton} value={item.id} onClick={e => onDelete(e, item.id)}>

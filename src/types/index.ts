@@ -5,7 +5,7 @@ export interface Entity {
 }
 
 export interface Category extends Entity {
-  categoryName: string;
+  name: string;
   parentId: string;
 }
 
@@ -53,12 +53,11 @@ export interface Order extends Entity {
 }
 
 export interface Product extends Entity {
-  productName: string;
+  name: string;
   categoryId: number;
-  unitInStock: number;
+  numInStock: number;
   unitPrice: number;
   category: Category;
-  categoryName?: string;
   avatar?: string;
 }
 
@@ -149,26 +148,25 @@ export class OrderModel implements Order {
 
 export class ProductModel implements Product {
   constructor(
-    productName: string = "",
+    name: string = "",
     categoryId: number = 0,
-    unitInStock: number = 0,
+    numInStock: number = 0,
     unitPrice: number = 0,
     category = {} as Category,
-    categoryName?: string
   ) {
     this.id = 0;
-    this.productName = productName;
+    this.name = name;
     this.categoryId = categoryId;
-    this.unitInStock = unitInStock;
+    this.numInStock = numInStock;
     this.unitPrice = unitPrice;
     this.category = category;
-    this.categoryName = categoryName;
+  
   }
   id: number;
-  productName: string;
+  name: string;
   categoryId: number;
-  unitInStock: number;
+  numInStock: number;
   unitPrice: number;
   category: Category;
-  categoryName?: string;
+
 }

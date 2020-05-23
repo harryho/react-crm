@@ -1,33 +1,29 @@
-import React from "react";
-import { Link, match } from "react-router-dom";
-import Button from "@material-ui/core/Button";
-import Switch from "@material-ui/core/Switch";
-import SaveIcon from "@material-ui/icons/Save";
-import Divider from "@material-ui/core/Divider";
-import PageBase from "../components/PageBase";
-import Skeleton from "@material-ui/lab/Skeleton";
-import { connect } from "react-redux";
-import Card from "@material-ui/core/Card";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import { getAction } from "../actions/customer";
+import React from 'react';
+import { Link, match } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import Switch from '@material-ui/core/Switch';
+import SaveIcon from '@material-ui/icons/Save';
+import Divider from '@material-ui/core/Divider';
+import PageBase from '../components/PageBase';
+import Skeleton from '@material-ui/lab/Skeleton';
+import { connect } from 'react-redux';
+import Card from '@material-ui/core/Card';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import { getAction } from '../actions/customer';
 
-import { Formik, Form, Field } from "formik";
-import { TextField } from "formik-material-ui";
+import { Formik, Form, Field } from 'formik';
+import { TextField } from 'formik-material-ui';
 
-import { grey } from "@material-ui/core/colors";
-import { thunkApiCall } from "../services/thunks";
-import { Customer, User } from "../types";
-import { LinearProgress, Grid } from "@material-ui/core";
-import Snackbar from "@material-ui/core/Snackbar";
-import {
-  GET_CUSTOMER,
-  ApiAction,
-  UPDATE_CUSTOMER,
-  CREATE_CUSTOMER,
-} from "../store/types";
-import Alert from "@material-ui/lab/Alert";
+import { grey } from '@material-ui/core/colors';
+import { thunkApiCall } from '../services/thunks';
+import { Customer, User } from '../types';
+import { LinearProgress, Grid } from '@material-ui/core';
+import Snackbar from '@material-ui/core/Snackbar';
+import { GET_CUSTOMER, ApiAction, UPDATE_CUSTOMER, CREATE_CUSTOMER } from '../store/types';
+import Alert from '@material-ui/lab/Alert';
+import SkeletonForm from '../components/SkeletonForm';
 
-const grey400 = grey["400"];
+const grey400 = grey['400'];
 
 const styles = {
   toggleDiv: {
@@ -41,7 +37,7 @@ const styles = {
   },
   buttons: {
     marginTop: 30,
-    float: "right" as TODO,
+    float: 'right' as TODO,
   },
   saveButton: {
     marginLeft: 5,
@@ -53,13 +49,13 @@ const styles = {
     marginBottom: 5,
   },
   container: {
-    marginTop: "2em",
+    marginTop: '2em',
   },
   cell: {
-    padding: "1em",
+    padding: '1em',
   },
   fullWidth: {
-    width: "100%",
+    width: '100%',
   },
 };
 
@@ -84,10 +80,7 @@ interface CustomerFormState {
 }
 
 // class CustomerFormPage extends React.Component {
-class CustomerFormPage extends React.Component<
-  CustomerFormProps,
-  CustomerFormState
-> {
+class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormState> {
   constructor(props) {
     super(props);
 
@@ -106,7 +99,7 @@ class CustomerFormPage extends React.Component<
   };
 
   componentDidMount() {
-    console.log("componentDidMount ", this.props);
+    console.log('componentDidMount ', this.props);
     // @ts-ignore
     const customerId = this.props.match.params?.id;
     let action: ApiAction;
@@ -117,11 +110,8 @@ class CustomerFormPage extends React.Component<
   }
 
   componentDidUpdate(prevProps) {
-    console.log("componentDidUpdate ", this.props);
-    if (
-      this.props.updated !== prevProps.updated &&
-      this.props.updated === true
-    ) {
+    console.log('componentDidUpdate ', this.props);
+    if (this.props.updated !== prevProps.updated && this.props.updated === true) {
       this.setState({ snackbarOpen: true });
     }
   }
@@ -137,7 +127,7 @@ class CustomerFormPage extends React.Component<
   }
 
   notifyFormError(data) {
-    console.error("Form error:", data);
+    console.error('Form error:', data);
   }
 
   handleClick(event) {
@@ -175,25 +165,24 @@ class CustomerFormPage extends React.Component<
       <PageBase title="Customer" navigation="Application / Customer ">
         {isFetching ? (
           <div>
-            <Skeleton variant="text" />
-            <Skeleton variant="rect" style={styles.fullWidth} height={300} />
+            {/* <Skeleton variant="text" />
+            <Skeleton variant="rect" style={styles.fullWidth} height={300} /> */}
+            <SkeletonForm />
           </div>
         ) : (
           <Formik
             initialValues={{
               ...customer,
             }}
-            validate={(values) => {
+            validate={values => {
               const errors: Partial<Customer & User> = {};
               if (!values.firstname) {
-                errors.firstname = "Required";
+                errors.firstname = 'Required';
               }
               if (!values.email) {
-                errors.email = "Required";
-              } else if (
-                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-              ) {
-                errors.email = "Invalid email address";
+                errors.email = 'Required';
+              } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                errors.email = 'Invalid email address';
               }
               return errors;
             }}
@@ -216,9 +205,6 @@ class CustomerFormPage extends React.Component<
                       label="First Name"
                       name="firstname"
                       fullWidth={true}
-                      validations={{
-                        isWords: true,
-                      }}
                       required
                     />
                   </Grid>
@@ -230,9 +216,6 @@ class CustomerFormPage extends React.Component<
                       label="Last Name"
                       fullWidth={true}
                       name="lastname"
-                      validations={{
-                        isWords: true,
-                      }}
                       required
                     />
                   </Grid>
@@ -245,10 +228,6 @@ class CustomerFormPage extends React.Component<
                       fullWidth={true}
                       type="number"
                       name="rewards"
-                      // value={customer.rewards}
-                      validations={{
-                        isInt: true,
-                      }}
                       required
                     />
                   </Grid>
@@ -278,12 +257,7 @@ class CustomerFormPage extends React.Component<
                   </Grid>
                   <Grid item style={styles.cell} xs={12} md={4}>
                     {customer.membership && (
-                      <Switch
-                        checked={customer.membership}
-                        color="primary"
-                        name="membership"
-                        inputProps={{ "aria-label": "membership" }}
-                      />
+                      <Switch checked={customer.membership} color="primary" name="membership" inputProps={{ 'aria-label': 'membership' }} />
                     )}
                   </Grid>
                   <Grid item style={styles.cell} xs={12} md={4}>
@@ -303,7 +277,7 @@ class CustomerFormPage extends React.Component<
                   <Link to="/customers">
                     <Button variant="contained">
                       {/* onClick={this.handleGoBack}> */}
-                      <ArrowBackIosIcon /> Back{" "}
+                      <ArrowBackIosIcon /> Back{' '}
                     </Button>
                   </Link>
                   <Button
@@ -317,11 +291,7 @@ class CustomerFormPage extends React.Component<
                     <SaveIcon /> Save
                   </Button>
                 </div>
-                <Snackbar
-                  open={this.state.snackbarOpen}
-                  autoHideDuration={this.state.autoHideDuration}
-                  onClose={this.onSnackBarClose}
-                >
+                <Snackbar open={this.state.snackbarOpen} autoHideDuration={this.state.autoHideDuration} onClose={this.onSnackBarClose}>
                   <Alert onClose={this.onSnackBarClose} severity="success">
                     The operation completed successfully !
                   </Alert>
@@ -337,10 +307,13 @@ class CustomerFormPage extends React.Component<
 // }
 
 function mapStateToProps(state) {
-  const { customer, isFetching,
-    //  errorMessage, 
-     user, updated } = state.customer;
-
+  const {
+    customer,
+    isFetching,
+    //  errorMessage,
+    user,
+    updated,
+  } = state.customer;
 
   return {
     customer,
@@ -353,8 +326,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getCustomer: (action) => dispatch(thunkApiCall(action)),
-    saveCustomer: (action) => dispatch(thunkApiCall(action)),
+    getCustomer: action => dispatch(thunkApiCall(action)),
+    saveCustomer: action => dispatch(thunkApiCall(action)),
     searchCustomer: (action?: TODO) => dispatch(thunkApiCall(action)),
   };
 }

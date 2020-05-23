@@ -35,11 +35,10 @@ import {
   LinearProgress,
 } from '@material-ui/core';
 import Snackbar from '@material-ui/core/Snackbar';
-// import DateFnsUtils from '@date-io/date-fns';
-// import { DatePicker } from '@material-ui/pickers';
 
 import { ApiAction, GET_ORDER, UPDATE_ORDER, CREATE_ORDER, EDIT_ORDER, ApiQActions } from '../store/types';
 import Alert from '@material-ui/lab/Alert';
+import SkeletonForm from '../components/SkeletonForm';
 
 const grey400 = grey['400'];
 
@@ -307,8 +306,7 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
       <PageBase title="Order" navigation="Application / Order ">
         {isFetching ? (
           <div>
-            <Skeleton variant="text" />
-            <Skeleton variant="rect" style={styles.fullWidth} height={300} />
+            <SkeletonForm />
           </div>
         ) : (
           <Formik
@@ -479,7 +477,7 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                     <List dense={false}>
                       {order.products.map((product, index) => (
                         <ListItem key={index}>
-                          <ListItemText primary={product.productName} secondary={`Price: $ ${product.unitPrice}`} />
+                          <ListItemText primary={product.name} secondary={`Price: $ ${product.unitPrice}`} />
                           <IconButton onClick={() => this.removeProduct(product)}>
                             <ActionDelete />
                           </IconButton>
@@ -518,33 +516,18 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                   <Dialog title="Add Product" open={this.state.open} maxWidth="xs" fullWidth>
                     <DialogTitle key="alert-dialog-title">{'Alert'}</DialogTitle>
                     <DialogContent key="alert-dialog-content" style={{ display: 'inline-flex' }}>
-                      <Select
-                        style={{ width: 200, marginRight: 10 }}
-                        label="Categories"
-                        name="categoryId"
-                      >
+                      <Select style={{ width: 200, marginRight: 10 }} label="Categories" name="categoryId">
                         {categoryList.map((category, index) => (
-                          <MenuItem
-                            key={index}
-                            value={category.id}
-                          >
-                            {category.categoryName}
+                          <MenuItem key={index} value={category.id}>
+                            {category.name}
                           </MenuItem>
                         ))}
                       </Select>
 
-                      <Select
-                        style={{ width: 200 }}
-                        label="Products"
-                        name="categoryId"
-                        onChange={this.onSelectProduct}
-                      >
+                      <Select style={{ width: 200 }} label="Products" name="categoryId" onChange={this.onSelectProduct}>
                         {productList.map((product, index) => (
-                          <MenuItem
-                            key={index}
-                            value={index}
-                          >
-                            {product.productName}
+                          <MenuItem key={index} value={index}>
+                            {product.name}
                           </MenuItem>
                         ))}
                       </Select>

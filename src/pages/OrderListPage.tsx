@@ -1,17 +1,8 @@
 import React from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableHead from '@material-ui/core/TableHead';
-import TableCell from '@material-ui/core/TableCell';
-import Pagination from '@material-ui/lab/Pagination';
-import TableRow from '@material-ui/core/TableRow';
 import Fab from '@material-ui/core/Fab';
-import ContentCreate from '@material-ui/icons/Create';
-import ActionDelete from '@material-ui/icons/Delete';
 import ContentAdd from '@material-ui/icons/Add';
 import Search from '@material-ui/icons/Search';
 import PageBase from '../components/PageBase';
-import AppBar from '@material-ui/core/AppBar';
 import { connect } from 'react-redux';
 import { getAction } from '../actions/order';
 import Dialog from '@material-ui/core/Dialog';
@@ -23,15 +14,12 @@ import { teal, pink, grey, green, common } from '@material-ui/core/colors';
 import { thunkApiCall } from '../services/thunks';
 import { LIST_ORDER, DELETE_ORDER, NEW_ORDER, ApiAction } from '../store/types';
 import { Order } from '../types';
-import { Container, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid } from '@material-ui/core';
-import Skeleton from '@material-ui/lab/Skeleton';
+import { DialogActions, DialogContent, DialogContentText, DialogTitle, Grid } from '@material-ui/core';
 import Alert from '../components/Alert';
+import SkeletonList from '../components/SkeletonList';
+import DataTable from '../components/DataTable';
 
-const teal500 = teal['500'];
 const pink500 = pink['500'];
-const grey500 = grey['500'];
-const green400 = green['400'];
-const white = common.white;
 
 const styles = {
   fab: {
@@ -50,55 +38,33 @@ const styles = {
     left: 'auto' as TODO,
     position: 'fixed' as TODO,
     marginRight: 20,
-    backgroundColor: teal500 as TODO,
+    backgroundColor: 'lightblue' as TODO,
   },
-  editButton: {
-    marginRight: '1em',
-    color: white,
-    backgroundColor: green400,
-    // width: 36,
-    // height: 36,
+  searchButton: {
+    marginRight: 20,
   },
-  editButtonIcon: {
-    fill: white,
-  },
-  deleteButton: {
-    color: 'grey',
-    fill: grey500,
-    // width: 36,
-    // height: 36,
-  },
-  columns: {
-    width10: {
-      width: '10%',
-    },
-  },
-  // dialog: {
-  //   width: '100%',
-  //   maxWidth: 'none',
-  //   margin: 'auto',
-  //   position: 'fixed' as TODO,
-  //   padding: '0px',
-  // },
   drawer: {
     backgroundColor: 'lightgrey',
   },
-  row: {
-    margin: '1.5em',
-    width: '95%',
-  },
-  pagination: {
-    width: 350,
-    margin: '0 auto',
-    paddingTop: 10,
-  },
   searchDrawer: {
-    width: '250px',
+    overflow: 'hidden',
+    width: 280,
+  },
+  searchGrid: {
+    width: 250,
     // backgroundColor: "lightgrey",
   },
 };
 
-interface OrderListProps {
+const defaultProps = {
+  model:"order",
+  dataKeys: ['reference', 'quantity', 'amount', 'customer.firstname', 'orderDate', 'shippedDate'],
+  headers: ['Reference', 'Quantity', 'Amount', 'Customer', 'Order Date', 'Shipping Date'],
+};
+
+type DefaultProps = typeof defaultProps;
+
+type OrderListProps = {
   pageCount: number;
   isFetching: boolean;
   orderList: Order[];
@@ -108,7 +74,7 @@ interface OrderListProps {
   deleteSuccess: boolean;
   errorMessage: string;
   deleted: boolean;
-}
+} & DefaultProps;
 
 interface OrderListState {
   open: boolean;
@@ -120,7 +86,7 @@ interface OrderListState {
   items: Order[];
   orderList: Order[];
   totalPages: number;
-  orderId: null;
+  orderId:  number;
   dialogText: string; //'Are you sure to do this?',
   search: {
     product: string;
@@ -137,9 +103,11 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
     this.onPageChange = this.onPageChange.bind(this);
     this.onSnackBarClose = this.onSnackBarClose.bind(this);
     this.handleNewOrder = this.handleNewOrder.bind(this);
+    this.onPageChange = this.onPageChange.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
-  // constructor(props) {
-  //   super(props);
+  
+  static defaultProps = defaultProps;
 
   state: OrderListState = {
     isFetching: true,
@@ -182,16 +150,19 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
     }
   }
 
-  onPageChange(event: React.ChangeEvent<unknown>, page: number) {
+  onPageChange(_event: React.ChangeEvent<unknown>, page: number) {
     const startIndex = (page - 1) * 10;
     const endIndex = startIndex + 10;
     const items = this.props.orderList.slice(startIndex, endIndex);
     this.setState({ page, items });
   }
 
-  onDelete(id) {
-    if (id) {
-      this.handleOpen(id);
+  onDelete(_event: React.ChangeEvent<unknown>, value: number) {
+    if (value != null && value > 0) {
+      // this.handleOpen(id);
+      this.setState({ dialogText: 'Are you sure to delete this data?' });
+      this.setState({ open: true });
+      this.setState({ orderId: value });
     }
   }
 
@@ -253,8 +224,10 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
   }
 
   render() {
-    const { orderList } = this.props;
-    const { isFetching } = this.state;
+
+
+    const { orderList, headers, dataKeys ,model} = this.props;
+    const { isFetching, page, totalPages, items } = this.state;
 
     const dialogButtons = [
       <Fab key="cancel-btn" color="primary" variant="extended" onClick={() => this.handleClose(false)}>
@@ -269,11 +242,7 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
       <PageBase title={'Orders (' + orderList.length + ')'} navigation="React CRM / Order">
         {isFetching ? (
           <div>
-            <Skeleton variant="rect" style={styles.row} height={50} />
-            <Skeleton variant="rect" style={styles.row} height={50} />
-            <Skeleton variant="rect" style={styles.row} height={50} />
-            <Skeleton variant="rect" style={styles.row} height={50} />
-            <Skeleton variant="rect" style={styles.row} height={50} />
+            <SkeletonList />
           </div>
         ) : (
           <div>
@@ -290,53 +259,16 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
                 The operation completed successfully !
               </Alert>
             </Snackbar>
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell style={styles.columns.width10}>Reference</TableCell>
-                  {/*<TableCell style={styles.columns.width10}>Price</TableCell>*/}
-                  <TableCell style={styles.columns.width10}>Quantity</TableCell>
-                  <TableCell style={styles.columns.width10}>Amount</TableCell>
-                  <TableCell style={styles.columns.width10}>Order Date</TableCell>
-                  <TableCell style={styles.columns.width10}>Shipped Date</TableCell>
-                  <TableCell style={styles.columns.width10}>Customer</TableCell>
-                  {/*<TableCell style={styles.columns.category}>Membership</TableCell>*/}
-                  <TableCell style={styles.columns.width10}>Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.state.items.map(item => (
-                  <TableRow key={item.id}>
-                    <TableCell style={styles.columns.width10}>{item.reference}</TableCell>
-                    <TableCell style={styles.columns.width10}>{item.products.length}</TableCell>
-                    <TableCell style={styles.columns.width10}>$ ${item.amount}</TableCell>
-                    <TableCell style={styles.columns.width10}>{item.orderDate}</TableCell>
-                    <TableCell style={styles.columns.width10}>{item.shippedDate}</TableCell>
-                    <TableCell style={styles.columns.width10}>
-                      {item.customer ? item.customer.firstname + ' ' + item.customer.lastname : ''}
-                    </TableCell>
-                    <TableCell style={styles.columns.width10}>
-                      <Fab size="small" style={styles.editButton} href={`order/${item.id}`}>
-                        <ContentCreate />
-                      </Fab>
-                      <Fab size="small" style={styles.deleteButton} onClick={() => this.onDelete(item.id)}>
-                        <ActionDelete />
-                      </Fab>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            <Container style={styles.pagination}>
-              <Pagination
-                // size="small"
-                count={this.state.totalPages}
-                page={this.state.page}
-                variant="outlined"
-                color="primary"
-                onChange={this.onPageChange}
-              />
-            </Container>
+            <DataTable
+            model={model}
+              items={items}
+              dataKeys={dataKeys}
+              headers={headers}
+              page={page}
+              totalPages={totalPages}
+              onDelete={this.onDelete}
+              onPageChange={this.onPageChange}
+            />
 
             <Dialog
               key="alert-dialog"
@@ -374,11 +306,7 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
                   <Button variant="contained" onClick={this.handleSearch} color="secondary">
                     Search
                   </Button>
-                  <Button
-                    variant="contained"
-                    onClick={this.handleSearch}
-                    color="default"
-                  >
+                  <Button variant="contained" onClick={this.handleSearch} color="default">
                     Cancel
                   </Button>
                 </Grid>
