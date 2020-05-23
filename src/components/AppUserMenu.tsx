@@ -1,6 +1,6 @@
 import React from "react";
 
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import { makeStyles,  createStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import { Typography, Menu, Avatar,IconButton} from "@material-ui/core";
 import ContentFilter from "@material-ui/icons/FilterList";

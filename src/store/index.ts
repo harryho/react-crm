@@ -8,8 +8,6 @@ import { orderReducer } from "../reducers/order";
 import { productReducer } from "../reducers/product";
 
 const rootReducer = combineReducers({
-  // system: systemReducer,
-  // chat: chatReducer,
   customer: customerReducer,
   auth: authReducer,
   order: orderReducer,

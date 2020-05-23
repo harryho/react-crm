@@ -5,7 +5,6 @@ import Switch from '@material-ui/core/Switch';
 import SaveIcon from '@material-ui/icons/Save';
 import Divider from '@material-ui/core/Divider';
 import PageBase from '../components/PageBase';
-import Skeleton from '@material-ui/lab/Skeleton';
 import { connect } from 'react-redux';
 import Card from '@material-ui/core/Card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
@@ -14,7 +13,6 @@ import { getAction } from '../actions/customer';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 
-import { grey } from '@material-ui/core/colors';
 import { thunkApiCall } from '../services/thunks';
 import { Customer, User } from '../types';
 import { LinearProgress, Grid } from '@material-ui/core';
@@ -22,42 +20,10 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { GET_CUSTOMER, ApiAction, UPDATE_CUSTOMER, CREATE_CUSTOMER } from '../store/types';
 import Alert from '@material-ui/lab/Alert';
 import SkeletonForm from '../components/SkeletonForm';
+import { formPageStyles } from '../styles';
 
-const grey400 = grey['400'];
+const styles = formPageStyles;
 
-const styles = {
-  toggleDiv: {
-    maxWidth: 300,
-    marginTop: 40,
-    marginBottom: 5,
-  },
-  toggleLabel: {
-    color: grey400,
-    fontWeight: 100,
-  },
-  buttons: {
-    marginTop: 30,
-    float: 'right' as TODO,
-  },
-  saveButton: {
-    marginLeft: 5,
-  },
-  card: {
-    width: 120,
-    maxWidth: 300,
-    marginTop: 40,
-    marginBottom: 5,
-  },
-  container: {
-    marginTop: '2em',
-  },
-  cell: {
-    padding: '1em',
-  },
-  fullWidth: {
-    width: '100%',
-  },
-};
 
 interface CustomerFormProps {
   // router: object;
@@ -65,8 +31,6 @@ interface CustomerFormProps {
   customer: Customer;
   getCustomer: typeof thunkApiCall;
   saveCustomer: typeof thunkApiCall;
-  searchCustomer: typeof thunkApiCall;
-  updateSuccess: boolean;
   addSuccess: boolean;
   errorMessage?: string;
   isFetching: boolean;
@@ -86,8 +50,6 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    // this.enableButton = this.enableButton.bind(this);
-    this.notifyFormError = this.notifyFormError.bind(this);
     this.onSnackBarClose = this.onSnackBarClose.bind(this);
   }
 
@@ -126,10 +88,6 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
     }
   }
 
-  notifyFormError(data) {
-    console.error('Form error:', data);
-  }
-
   handleClick(event) {
     event.preventDefault();
     // if (this.state.customer.id) this.props.updateCustomer(this.state.customer);
@@ -157,7 +115,7 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
   }
 
   render() {
-    const { errorMessage, isFetching, customer } = this.props;
+    const { isFetching, customer } = this.props;
 
     console.log(customer, isFetching);
 
@@ -325,8 +283,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getCustomer: action => dispatch(thunkApiCall(action)),
-    saveCustomer: action => dispatch(thunkApiCall(action)),
-    searchCustomer: (action?: TODO) => dispatch(thunkApiCall(action)),
+    saveCustomer: action => dispatch(thunkApiCall(action))
   };
 }
 

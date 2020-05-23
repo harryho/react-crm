@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, match } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import Switch from '@material-ui/core/Switch';
 import SaveIcon from '@material-ui/icons/Save';
 import Divider from '@material-ui/core/Divider';
 import PageBase from '../components/PageBase';
@@ -17,59 +16,21 @@ import { TextField } from 'formik-material-ui';
 import { grey } from '@material-ui/core/colors';
 import { thunkApiCall, thunkApiQCall } from '../services/thunks';
 import { Product, User, Category } from '../types';
-import { LinearProgress, Grid, Select, MenuItem } from '@material-ui/core';
+import { LinearProgress, Grid, MenuItem } from '@material-ui/core';
 import Snackbar from '@material-ui/core/Snackbar';
-import { GET_PRODUCT, ApiAction, UPDATE_PRODUCT, CREATE_PRODUCT, LIST_CATEGORY, EDIT_PRODUCT, ApiQActions } from '../store/types';
+import { ApiAction, UPDATE_PRODUCT, CREATE_PRODUCT, EDIT_PRODUCT, QActions, NEW_PRODUCT } from '../store/types';
 import Alert from '@material-ui/lab/Alert';
+import SkeletonForm from '../components/SkeletonForm';
+import { formPageStyles } from '../styles';
 
-const grey400 = grey['400'];
-
-const styles = {
-  toggleDiv: {
-    maxWidth: 300,
-    marginTop: 40,
-    marginBottom: 5,
-  },
-  toggleLabel: {
-    color: grey400,
-    fontWeight: 100,
-  },
-  buttons: {
-    marginTop: 30,
-    float: 'right' as TODO,
-  },
-  saveButton: {
-    marginLeft: 5,
-  },
-  card: {
-    width: 120,
-    maxWidth: 300,
-    marginTop: 40,
-    marginBottom: 5,
-  },
-  container: {
-    marginTop: '2em',
-  },
-  cell: {
-    padding: '1em',
-  },
-  fullWidth: {
-    width: '100%',
-  },
-};
+const styles = formPageStyles;
 
 interface ProductFormProps {
-  // router: object;
   match: match;
   product: Product;
   getProduct: typeof thunkApiQCall;
   saveProduct: typeof thunkApiCall;
-  searchProduct: typeof thunkApiCall;
-  newProduct: typeof thunkApiCall;
-  updateProduct: typeof thunkApiCall;
-  addProduct: typeof thunkApiCall;
   categoryList: Category[];
-  getCategoryList: typeof thunkApiCall;
   addSuccess: boolean;
   errorMessage?: string;
   isFetching: boolean;
@@ -86,12 +47,7 @@ interface ProductFormState {
 class ProductFormPage extends React.Component<ProductFormProps, ProductFormState> {
   constructor(props) {
     super(props);
-    // autoBind(this);
-
     this.handleChange = this.handleChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    // this.enableButton = this.enableButton.bind(this);
-    this.notifyFormError = this.notifyFormError.bind(this);
     this.onSnackBarClose = this.onSnackBarClose.bind(this);
   }
 
@@ -106,12 +62,10 @@ class ProductFormPage extends React.Component<ProductFormProps, ProductFormState
     console.log('componentDidMount ', this.props);
     // @ts-ignore
     const productId = this.props.match.params?.id;
-    let action: ApiQActions;
+    let action: QActions;
     if (productId) {
-      action = getAction(EDIT_PRODUCT, productId) as ApiQActions; //  Object.assign({}, this.getAction);
+      action = getAction(EDIT_PRODUCT, productId) as QActions;
       this.props.getProduct(action);
-      // const action2 = getAction(LIST_CATEGORY);
-      // this.props.getCategoryList(action2);
     }
   }
   componentDidUpdate(prevProps) {
@@ -129,17 +83,6 @@ class ProductFormPage extends React.Component<ProductFormProps, ProductFormState
 
       this.setState({ product: product });
     }
-  }
-
-  notifyFormError(data) {
-    console.error('Form error:', data);
-  }
-
-  handleClick(event) {
-    event.preventDefault();
-
-    // if (this.state.product.id) this.props.updateProduct(this.state.product);
-    // else this.props.addProduct(this.state.product);
   }
 
   onSnackBarClose() {
@@ -163,14 +106,13 @@ class ProductFormPage extends React.Component<ProductFormProps, ProductFormState
   }
 
   render() {
-    const { errorMessage, categoryList, product, isFetching } = this.props;
-
+    const { categoryList, product, isFetching } = this.props;
+    console.log(`isfetching ${isFetching}`);
     return (
       <PageBase title="Product" navigation="Application / Product ">
         {isFetching ? (
           <div>
-            <Skeleton variant="text" />
-            <Skeleton variant="rect" style={styles.fullWidth} height={300} />
+            <SkeletonForm />
           </div>
         ) : (
           <Formik
@@ -178,17 +120,14 @@ class ProductFormPage extends React.Component<ProductFormProps, ProductFormState
               ...product,
             }}
             validate={values => {
-              const errors: Partial<Product & User> = {};
-              // if (!values.firstname) {
-              //   errors.firstname = "Required";
-              // }
-              // if (!values.email) {
-              //   errors.email = "Required";
-              // } else if (
-              //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-              // ) {
-              //   errors.email = "Invalid email address";
-              // }
+              const errors: Partial<Product> = {};
+              if (!values.name) {
+                errors.name = 'Required';
+              }
+              if (!values.categoryId) {
+                errors.categoryId = 'Required';
+              }
+
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
@@ -197,10 +136,6 @@ class ProductFormPage extends React.Component<ProductFormProps, ProductFormState
                 setSubmitting(false);
                 console.log(JSON.stringify(values, null, 2));
               }, 500);
-              // setTimeout(() => {
-              //   setSubmitting(false);
-              //   console.log(JSON.stringify(values, null, 2));
-              // }, 500);
             }}
           >
             {({ submitForm, isSubmitting }) => (
@@ -215,7 +150,7 @@ class ProductFormPage extends React.Component<ProductFormProps, ProductFormState
                       placeholder="Category"
                       variant="outlined"
                       fullWidth={true}
-                      name="category.id"
+                      name="categoryId"
                     >
                       {categoryList.map((category, index) => (
                         <MenuItem
@@ -249,6 +184,7 @@ class ProductFormPage extends React.Component<ProductFormProps, ProductFormState
                       placeholder="Price"
                       label="Price"
                       fullWidth={true}
+                      type="number"
                       name="unitPrice"
                       onChange={this.handleChange}
                       required
@@ -314,7 +250,6 @@ class ProductFormPage extends React.Component<ProductFormProps, ProductFormState
 }
 
 function mapStateToProps(state) {
-  // const { productReducer } = state;
   const { product, isFetching, categoryList, updateSuccess, addSuccess, isAuthenticated, user, deleted, updated } = state.product;
 
   return {
@@ -333,13 +268,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    newProduct: action => dispatch(thunkApiCall(action)),
     getProduct: action => dispatch(thunkApiQCall(action)),
     saveProduct: action => dispatch(thunkApiCall(action)),
-    // updateProduct: action => dispatch(thunkApiCall(action)),
-    // addProduct: action => dispatch(thunkApiCall(action)),
-    getCategoryList: action => dispatch(thunkApiCall(action)),
-  };
+   };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductFormPage);

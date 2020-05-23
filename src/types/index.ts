@@ -1,3 +1,4 @@
+// @ts-ignore
 export interface Entity {
   id: number;
   text?: string;
@@ -9,11 +10,11 @@ export interface Category extends Entity {
   parentId: string;
 }
 
-export interface UserInfo extends Entity {
-  messages: string[];
-  notifications: string[];
-  tasks: string[];
-}
+// export interface UserInfo extends Entity {
+//   messages: string[];
+//   notifications: string[];
+//   tasks: string[];
+// }
 
 export interface User extends Entity {
   firstname: string;
@@ -54,7 +55,7 @@ export interface Order extends Entity {
 
 export interface Product extends Entity {
   name: string;
-  categoryId: number;
+  categoryId: number | string;
   numInStock: number;
   unitPrice: number;
   category: Category;
@@ -149,7 +150,7 @@ export class OrderModel implements Order {
 export class ProductModel implements Product {
   constructor(
     name: string = "",
-    categoryId: number = 0,
+    categoryId =  "" as string,
     numInStock: number = 0,
     unitPrice: number = 0,
     category = {} as Category,
@@ -164,7 +165,7 @@ export class ProductModel implements Product {
   }
   id: number;
   name: string;
-  categoryId: number;
+  categoryId: number | string;
   numInStock: number;
   unitPrice: number;
   category: Category;

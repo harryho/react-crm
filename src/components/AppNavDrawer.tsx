@@ -8,7 +8,7 @@ import AppDrawerMenu from "./AppDrawerMenu";
 const blue600 = blue["900"];
 const drawerWidth = 250;
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     root: {
       display: "flex",

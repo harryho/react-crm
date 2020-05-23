@@ -4,62 +4,27 @@ import ContentAdd from '@material-ui/icons/Add';
 import Search from '@material-ui/icons/Search';
 import PageBase from '../components/PageBase';
 import { connect } from 'react-redux';
-import { getAction } from '../actions/product';
-import Dialog from '@material-ui/core/Dialog';
+import { getAction, fetchingProduct } from '../actions/product';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
-import { pink, grey, green, common } from '@material-ui/core/colors';
-import { thunkApiCall } from '../services/thunks';
-import { NEW_PRODUCT, LIST_PRODUCT, ApiAction } from '../store/types';
+import { thunkApiCall, thunkApiQCall } from '../services/thunks';
+import { NEW_PRODUCT, LIST_PRODUCT, ApiAction, QActions, FETCHING_PRODUCT, DELETE_PRODUCT } from '../store/types';
 import { Product } from '../types';
-import { DialogActions, DialogContent, DialogContentText, DialogTitle, Grid } from '@material-ui/core';
 import Alert from '../components/Alert';
 import DataTable from '../components/DataTable';
 import SkeletonList from '../components/SkeletonList';
+import DeleteDialog from '../components/DeleteDialog';
+import { listPageStyle } from '../styles';
+import { Grid } from '@material-ui/core';
 
-const pink500 = pink['500'];
-
-const styles = {
-  fab: {
-    top: 'auto' as TODO,
-    right: 20,
-    bottom: 20,
-    left: 'auto' as TODO,
-    position: 'fixed' as TODO,
-    marginRight: 20,
-    backgroundColor: pink500, // {pink500}
-  },
-  fabSearch: {
-    top: 'auto' as TODO,
-    right: 100,
-    bottom: 20,
-    left: 'auto' as TODO,
-    position: 'fixed' as TODO,
-    marginRight: 20,
-    backgroundColor: 'lightblue' as TODO,
-  },
-  searchButton: {
-    marginRight: 20,
-  },
-  drawer: {
-    backgroundColor: 'lightgrey',
-  },
-  searchDrawer: {
-    overflow: 'hidden',
-    width: 280,
-  },
-  searchGrid: {
-    width: 250,
-    // backgroundColor: "lightgrey",
-  },
-};
+const styles = listPageStyle;
 
 const defaultProps = {
   model: 'product',
   dataKeys: ['name', 'category.name', 'unitPrice', 'numInStock'],
-  headers: ['Product Name', 'Category Name', 'Price', 'Unit In Stock', 'Actions'],
+  headers: ['Product Name', 'Category Name', 'Price', 'Total In Stock', 'Actions'],
 };
 
 type DefaultProps = typeof defaultProps;
@@ -70,7 +35,8 @@ type ProductListProps = {
   productList: Product[];
   searchProduct: typeof thunkApiCall;
   deleteProduct: typeof thunkApiCall;
-  newProduct: typeof thunkApiCall;
+  newProduct: typeof thunkApiQCall;
+  fetchingProduct: () => {};
   deleteSuccess: boolean;
   errorMessage: string;
   deleted: boolean;
@@ -87,7 +53,6 @@ interface ProductListState {
   productList: Product[];
   totalPages: number;
   productId: number;
-  dialogText: string; //'Are you sure to do this?',
   search: {
     product: string;
   };
@@ -98,9 +63,10 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
     super(props);
     this.handleToggle = this.handleToggle.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+    this.closeDialog = this.closeDialog.bind(this);
     this.onPageChange = this.onPageChange.bind(this);
     this.onSnackBarClose = this.onSnackBarClose.bind(this);
+    this.openDialog = this.openDialog.bind(this);
     this.handleNewProduct = this.handleNewProduct.bind(this);
   }
 
@@ -117,7 +83,6 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
     totalPages: 1,
     productId: null,
     productList: [],
-    dialogText: 'Are you sure to do this?',
     search: {
       product: '',
     },
@@ -153,12 +118,9 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
     this.setState({ page, items });
   }
 
-  onDelete(_event: React.ChangeEvent<unknown>, value: number) {
+  openDialog(_event: React.ChangeEvent<unknown>, value: number) {
     if (value != null && value > 0) {
-      // this.handleOpen(id);
-      this.setState({ dialogText: 'Are you sure to delete this data?' });
-      this.setState({ open: true });
-      this.setState({ productId: value });
+         this.setState({ open: true , productId: value });
     }
   }
 
@@ -171,20 +133,17 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
     this.props.searchProduct(action); //this.state.search);
   }
 
-  handleOpen(id) {
-    this.setState({ dialogText: 'Are you sure to delete this data?' });
-    this.setState({ open: true });
-    this.setState({ productId: id });
-  }
-
-  handleClose(isConfirmed) {
+  closeDialog(isConfirmed) {
     this.setState({ open: false });
 
     if (isConfirmed && this.state.productId) {
+      const action = getAction(DELETE_PRODUCT, this.state.productId, null, '')as ApiAction
+      this.props.deleteProduct(action);
       // this.props.deleteProduct(this.state.productId);
       this.setState({ productId: null });
     }
   }
+
   onSnackBarClose() {
     this.setState({
       snackbarOpen: false,
@@ -192,7 +151,9 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
   }
 
   handleNewProduct() {
-    const action = getAction(NEW_PRODUCT) as ApiAction;
+    this.props.fetchingProduct();
+
+    const action = getAction(NEW_PRODUCT) as QActions;
     this.props.newProduct(action);
     // @ts-ignore
     this.props.history.push('/newproduct');
@@ -208,30 +169,9 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
     }
   }
 
-  handleErrorMessage() {
-    this.setState({
-      snackbarOpen: true,
-    });
-  }
-
-  handleSnackBarClose() {
-    this.setState({
-      snackbarOpen: false,
-    });
-  }
-
   render() {
     const { productList, headers, dataKeys, model } = this.props;
     const { isFetching, page, totalPages, items } = this.state;
-
-    const dialogButtons = [
-      <Fab key="cancel-btn" color="primary" variant="extended" onClick={() => this.handleClose(false)}>
-        Cancel
-      </Fab>,
-      <Fab key="confirm-btn" color="secondary" variant="extended" onClick={() => this.handleClose(true)}>
-        Confirm
-      </Fab>,
-    ];
 
     return (
       <PageBase title={'Products (' + productList.length + ')'} navigation="React CRM / Product">
@@ -259,24 +199,12 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
               headers={headers}
               page={page}
               totalPages={totalPages}
-              onDelete={this.onDelete}
+              onDelete={this.openDialog}
               onPageChange={this.onPageChange}
             />
 
-            <Dialog
-              key="alert-dialog"
-              title="Confirm Dialog "
-              fullWidth
-              maxWidth="xs"
-              open={this.state.open}
-              onClick={() => this.handleClose(false)}
-            >
-              <DialogTitle key="alert-dialog-title">{'Alert'}</DialogTitle>
-              <DialogContent key="alert-dialog-content">
-                <DialogContentText key="alert-dialog-description">{this.state.dialogText}</DialogContentText>
-              </DialogContent>
-              <DialogActions key="alert-dialog-action">{dialogButtons}</DialogActions>
-            </Dialog>
+            <DeleteDialog open={this.state.open} closeDialog={this.closeDialog} />
+
             <Drawer anchor="right" open={this.state.searchOpen} onClose={this.handleToggle}>
               <Grid container style={styles.searchDrawer} spacing={1}>
                 <Grid item xs={12}>
@@ -307,14 +235,13 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
 }
 
 function mapStateToProps(state) {
-  const { productList, deleteSuccess, isFetching, isAuthenticated, errorMessage, user } = state.product;
+  const { productList,  isFetching,  errorMessage, user, deleted } = state.product;
 
   return {
     productList,
     isFetching,
-    isAuthenticated,
     errorMessage,
-    deleteSuccess,
+  deleted,
     user,
   };
 }
@@ -324,7 +251,8 @@ function mapDispatchToProps(dispatch) {
     searchProduct: action => dispatch(thunkApiCall(action)),
     getAllProducts: action => dispatch(thunkApiCall(action)),
     deleteProduct: action => dispatch(thunkApiCall(action)),
-    newProduct: action => dispatch(thunkApiCall(action)),
+    fetchingProduct: () => dispatch(fetchingProduct()),
+    newProduct: action => dispatch(thunkApiQCall(action)),
   };
 }
 

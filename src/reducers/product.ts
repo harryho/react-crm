@@ -6,7 +6,8 @@ import {
   GET_PRODUCT,
   LIST_PRODUCT,
   NEW_PRODUCT,
-  EDIT_PRODUCT
+  EDIT_PRODUCT,
+  FETCHING_PRODUCT
 } from '../store/types';
 import { Product, ProductModel } from '../types';
 
@@ -14,14 +15,22 @@ export function productReducer(
   state: ProductState = {
     isFetching: true,
     product: new ProductModel() as Product, // {} as Product,
+    categoryList: [],
     productList:[],
     deleted: false,
     updated: false,
   },
   action: ProductActionTypes
 ) {
-  // console.log(action)
+  console.log(action)
   switch (action.type) {
+    case FETCHING_PRODUCT:
+      return Object.assign({}, state, {
+        isFetching: true,
+        errorMessage: "",
+        deleted: false,
+        updated:false,
+      })
     case LIST_PRODUCT:
       return Object.assign({}, state, {
         isFetching: false,
@@ -29,15 +38,8 @@ export function productReducer(
         errorMessage: "",
         deleted: false,
         updated:false
-      });
-    case NEW_PRODUCT:
-      return Object.assign({}, state, {
-        isFetching: false,
-        product: action.payload, // new ProductModel("","","","","",false,0) as Product, 
-        errorMessage: action.error,
-        deleted: false,
-        updated: false,
-      });
+      })
+      
     case GET_PRODUCT:
       return Object.assign({}, state, {
         isFetching: false,
@@ -46,6 +48,7 @@ export function productReducer(
         deleted: false,
         updated: false
       });
+    case NEW_PRODUCT:
     case EDIT_PRODUCT:
       const {product, categoryList} = action.payload
       return Object.assign({}, state, {

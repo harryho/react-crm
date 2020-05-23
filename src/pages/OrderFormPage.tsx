@@ -2,13 +2,10 @@
 import React from 'react';
 import { Link, match } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import Switch from '@material-ui/core/Switch';
 import SaveIcon from '@material-ui/icons/Save';
 import Divider from '@material-ui/core/Divider';
 import PageBase from '../components/PageBase';
-import Skeleton from '@material-ui/lab/Skeleton';
 import { connect } from 'react-redux';
-import Card from '@material-ui/core/Card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ContentCreate from '@material-ui/icons/Create';
 import ActionDelete from '@material-ui/icons/Delete';
@@ -17,7 +14,6 @@ import { getAction } from '../actions/order';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 
-import { grey } from '@material-ui/core/colors';
 import { thunkApiCall, thunkApiQCall } from '../services/thunks';
 import { Customer, User, Category, Product, Order } from '../types';
 import {
@@ -36,76 +32,23 @@ import {
 } from '@material-ui/core';
 import Snackbar from '@material-ui/core/Snackbar';
 
-import { ApiAction, GET_ORDER, UPDATE_ORDER, CREATE_ORDER, EDIT_ORDER, ApiQActions } from '../store/types';
+import { ApiAction, GET_ORDER, UPDATE_ORDER, CREATE_ORDER, EDIT_ORDER, QActions } from '../store/types';
 import Alert from '@material-ui/lab/Alert';
 import SkeletonForm from '../components/SkeletonForm';
 
-const grey400 = grey['400'];
+import { formPageStyles } from '../styles';
 
-const styles = {
-  toggleDiv: {
-    maxWidth: 300,
-    marginTop: 40,
-    marginBottom: 5,
-  },
-  toggleLabel: {
-    color: grey400,
-    fontWeight: 100,
-  },
-  buttons: {
-    marginTop: 30,
-    float: 'right' as TODO,
-  },
-  saveButton: {
-    marginLeft: 5,
-  },
-  card: {
-    width: 120,
-    maxWidth: 300,
-    marginTop: 40,
-    marginBottom: 5,
-  },
-  container: {
-    marginTop: '2em',
-  },
-  cell: {
-    padding: '1em',
-  },
-  fullWidth: {
-    width: '100%',
-  },
-  productList: {
-    color: 'navy' as TODO,
-    paddingTop: 20,
-    fontWeight: 'bold' as TODO,
-  },
-  textField: {
-    marginLeft: 4, // theme.spacing(1),
-    marginRight: 4, //theme.spacing(1),
-    width: '100%',
-  },
-  dialog: {
-    width: 400,
-    maxWidth: 'none',
-  },
-};
+const styles = formPageStyles;
 
 interface OrderFormProps {
   match: match;
   order: Order;
   getOrder: typeof thunkApiQCall;
   saveOrder: typeof thunkApiCall;
-  searchOrder: typeof thunkApiCall;
   isFetching: boolean;
   updated: boolean;
-  newOrder: typeof thunkApiCall;
-  // updateOrder: typeof thunkApiCall;
-  getProductList: typeof thunkApiCall;
-  // addOrder: typeof thunkApiCall;
   categoryList: Category[];
   productList: Product[];
-  getAllOrders: typeof thunkApiCall;
-  getCategoryList: typeof thunkApiCall;
   errorMessage?: string;
 }
 
@@ -124,15 +67,13 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    // this.handleClick = this.handleClick.bind(this);
-    // this.notifyFormError = this.notifyFormError.bind(this);
     this.onSnackBarClose = this.onSnackBarClose.bind(this);
-    // this.addProduct = this.addProduct.bind(this);
     this.removeProduct = this.removeProduct.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.onAddProduct = this.onAddProduct.bind(this);
     this.onSelectProduct = this.onSelectProduct.bind(this);
     this.onSave = this.onSave.bind(this);
+    this.addProduct = this.addProduct.bind(this);
   }
 
   state = {
@@ -151,27 +92,12 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
     console.log('componentDidMount ', this.props);
     // @ts-ignore
     const orderId = this.props.match.params?.id;
-    let action: ApiQActions;
+    let action: QActions;
     if (orderId) {
-      action = getAction(EDIT_ORDER, orderId) as ApiQActions; //  Object.assign({}, this.getAction);
+      action = getAction(EDIT_ORDER, orderId) as QActions;
       this.props.getOrder(action);
     }
   }
-
-  // notifyFormError(data) {
-  //   console.error('Form error:', data);
-  // }
-
-  // handleClick(event, action) {
-  //   event.preventDefault();
-  //   console.log(event);
-  //   if (action && action === 'AddProduct') {
-  //     // this.setState({ open: true });
-  //   } else {
-  //     // if (this.state.order.id) this.props.updateOrder(this.state.order);
-  //     // else this.props.addOrder(this.state.order);
-  //   }
-  // }
 
   onSnackBarClose() {
     this.setState({
@@ -203,10 +129,6 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
       this.setState({ order: this.props.order });
       // const page = 1;
     }
-    // if (this.props.productList !== prevProps.productList) {
-    //   this.setState({ productList: this.props.productList });
-    // }
-
     if (this.props.updated !== prevProps.updated && this.props.updated === true) {
       this.setState({ snackbarOpen: true });
     }
@@ -222,14 +144,12 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
 
   onAddProduct() {
     const { order, product } = this.state;
-    // if (order && order.products && order.products.length) {
-    // this.state.order.products.splice(this.state.order.products.indexOf(product), 1);
     if (!order.products) {
       order.products = [];
     }
     if (product && product.id) {
       order.products.push(product);
-      this.setState({ order: this.state.order, product: {} as Product });
+      this.setState({ order: this.state.order, product: {} as Product , open:false});
     }
   }
 
@@ -240,16 +160,6 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
   addProduct() {
     this.setState({ open: true });
   }
-
-  // handleOk() {
-  //   const { order } = this.state;
-
-  //   order.products = order.products || [];
-  //   // order.products.push(this.state.product);
-  //   this.setState({ open: false });
-  //   this.setState({ order: this.state.order });
-  //   // this.enableButton();
-  // }
 
   onDelete(id) {
     if (id) {
@@ -291,16 +201,16 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
   }
 
   render() {
-    const { isFetching,order, categoryList, productList } = this.props;
+    const { isFetching, order, categoryList, productList } = this.props;
     // const {  } = this.state;
-    console.log(isFetching)
-    console.log(order)
+    console.log(isFetching);
+    console.log(order);
 
     return (
       <PageBase title="Order" navigation="Application / Order ">
         {isFetching ? (
           <div>
-            <SkeletonForm  withList={true}/>
+            <SkeletonForm withList={true} />
           </div>
         ) : (
           <Formik
@@ -309,16 +219,13 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
             }}
             validate={values => {
               const errors: Partial<Order & User> = {};
-              // if (!values.firstname) {
-              //   errors.firstname = "Required";
-              // }
-              // if (!values.email) {
-              //   errors.email = "Required";
-              // } else if (
-              //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-              // ) {
-              //   errors.email = "Invalid email address";
-              // }
+              if (!values.reference) {
+                errors.reference = "Required";
+              }
+              if (!values.orderDate) {
+                errors.orderDate = "Required";
+              }
+    
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
@@ -333,7 +240,8 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
               <Form>
                 <Grid container style={styles.container} spacing={3}>
                   <Grid item style={styles.cell} xs={12} md={4}>
-                    <Field  variant="outlined"
+                    <Field
+                      variant="outlined"
                       component={TextField}
                       placeholder="Customer"
                       label="Customer"
@@ -344,42 +252,45 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                     />
                   </Grid>
                   <Grid item style={styles.cell} xs={12} md={4}>
-                    <Field  variant="outlined"
+                    <Field
+                      variant="outlined"
                       component={TextField}
                       placeholder="Reference"
                       label="Reference Number"
                       name="reference"
-                      // onChange={this.handleChange}
                       fullWidth={true}
                       required
                     />
                   </Grid>
 
                   <Grid item style={styles.cell} xs={12} md={4}>
-                    <Field  variant="outlined"
+                    <Field
+                      variant="outlined"
                       component={TextField}
                       placeholder="Amount"
                       label="Amount"
                       fullWidth={true}
                       name="price"
-                      // onChange={this.handleChange}
                       required
                     />
                   </Grid>
 
                   <Grid item style={styles.cell} xs={12} md={4}>
-                    <Field  variant="outlined"
+                    <Field
+                      variant="outlined"
                       component={TextField}
                       placeholder="Quantity"
                       label="Quantity"
                       fullWidth={true}
                       type="number"
-                      name="quantity"
+                      name="products.length"
                       required
+                      disabled
                     />
                   </Grid>
                   <Grid item style={styles.cell} xs={12} md={4}>
-                    <Field  variant="outlined"
+                    <Field
+                      variant="outlined"
                       component={TextField}
                       id="orderDate"
                       placeholder="Order Date"
@@ -395,7 +306,8 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                   </Grid>
 
                   <Grid item style={styles.cell} xs={12} md={4}>
-                    <Field  variant="outlined"
+                    <Field
+                      variant="outlined"
                       component={TextField}
                       id="shippedDate"
                       placeholder="Shipped Date"
@@ -411,51 +323,48 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                   </Grid>
 
                   <Grid item style={styles.cell} xs={12} md={4}>
-                    <Field  variant="outlined"
+                    <Field
+                      variant="outlined"
                       component={TextField}
                       placeholder="Address"
                       label="Address"
                       name="shipAddress.address"
-                      // onChange={this.handleChange}
                       fullWidth={true}
-                      // value={order.shipAddress && order.shipAddress.address ? order.shipAddress.address : ''}
                       required
                     />
                   </Grid>
 
                   <Grid item style={styles.cell} xs={12} md={4}>
-                    <Field  variant="outlined"
+                    <Field
+                      variant="outlined"
                       component={TextField}
                       placeholder="City"
                       label="City"
                       name="shipAddress.city"
-                      // onChange={this.handleChange}
                       fullWidth={true}
-                      // value={order.shipAddress && order.shipAddress.city ? order.shipAddress.city : ''}
                       required
                     />
                   </Grid>
 
                   <Grid item style={styles.cell} xs={12} md={4}>
-                    <Field  variant="outlined"
+                    <Field
+                      variant="outlined"
                       component={TextField}
                       placeholder="Country"
                       label="Country"
                       name="shipAddress.country"
-                      // onChange={this.handleChange}
                       fullWidth={true}
-                      // value={order.shipAddress && order.shipAddress.country ? order.shipAddress.country : ''}
                       required
                     />
                   </Grid>
 
                   <Grid item style={styles.cell} xs={12} md={4}>
-                    <Field  variant="outlined"
+                    <Field
+                      variant="outlined"
                       component={TextField}
                       placeholder="Zip Code"
                       label="Zip Code"
                       name="shipAddress.zipcode"
-                      // onChange={this.handleChange}
                       fullWidth={true}
                       value={order.shipAddress && order.shipAddress.zipcode ? order.shipAddress.zipcode : ''}
                       required
@@ -490,14 +399,7 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                       <ArrowBackIosIcon /> Back{' '}
                     </Button>
                   </Link>
-                  <Button
-                    variant="contained"
-                    style={styles.saveButton}
-                    // type="button"
-                    onClick={submitForm}
-                    color="primary"
-                    disabled={isSubmitting}
-                  >
+                  <Button variant="contained" style={styles.saveButton} onClick={submitForm} color="primary" disabled={isSubmitting}>
                     <SaveIcon /> Save
                   </Button>
                   <Button variant="contained" style={styles.saveButton} onClick={this.addProduct} color="secondary">
@@ -507,7 +409,7 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
 
                 <React.Fragment>
                   <Dialog title="Add Product" open={this.state.open} maxWidth="xs" fullWidth>
-                    <DialogTitle key="alert-dialog-title">{'Alert'}</DialogTitle>
+                    <DialogTitle key="alert-dialog-title">{'Information'}</DialogTitle>
                     <DialogContent key="alert-dialog-content" style={{ display: 'inline-flex' }}>
                       <Select style={{ width: 200, marginRight: 10 }} label="Categories" name="categoryId">
                         {categoryList.map((category, index) => (
@@ -551,11 +453,9 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
 
 function mapStateToProps(state) {
   // const { customerList } = state.customer;
-  const { order, isFetching, updateSuccess, addSuccess, 
- user, productList, categoryList
-  ,updated } = state.order;
+  const { order, isFetching, updateSuccess, addSuccess, user, productList, categoryList, updated } = state.order;
 
-  console.log(" map ", isFetching)
+  console.log(' map ', isFetching);
 
   return {
     order,
@@ -567,20 +467,14 @@ function mapStateToProps(state) {
     updateSuccess,
     // isAuthenticated,
     user,
-    updated
+    updated,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    newOrder: action => dispatch(thunkApiCall(action)),
     getOrder: action => dispatch(thunkApiQCall(action)),
-    // updateOrder: action => dispatch(thunkApiCall(action)),
-    // addOrder: action => dispatch(thunkApiCall(action)),
     saveOrder: action => dispatch(thunkApiCall(action)),
-    getCategoryList: action => dispatch(thunkApiCall(action)),
-    getProductList: action => dispatch(thunkApiCall(action)),
-    getAllCustomers: action => dispatch(thunkApiCall(action)),
   };
 }
 

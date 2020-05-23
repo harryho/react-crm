@@ -5,59 +5,25 @@ import Search from '@material-ui/icons/Search';
 import PageBase from '../components/PageBase';
 import { connect } from 'react-redux';
 import { getAction } from '../actions/customer';
-import Dialog from '@material-ui/core/Dialog';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
-import { pink } from '@material-ui/core/colors';
 import { thunkApiCall } from '../services/thunks';
 import { LIST_CUSTOMER, DELETE_CUSTOMER, NEW_CUSTOMER } from '../store/types';
 import { Customer } from '../types';
-import { DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Divider } from '@material-ui/core';
+
 import Alert from '../components/Alert';
 import DataTable from '../components/DataTable';
 import SkeletonList from '../components/SkeletonList';
+import DeleteDialog from '../components/DeleteDialog';
+import { Grid, Tooltip, Divider } from '@material-ui/core';
+import { listPageStyle } from '../styles';
 
-const pink500 = pink['500'];
-
-const styles = {
-  fab: {
-    top: 'auto' as TODO,
-    right: 20,
-    bottom: 20,
-    left: 'auto' as TODO,
-    position: 'fixed' as TODO,
-    marginRight: 20,
-    backgroundColor: pink500, // {pink500}
-  },
-  fabSearch: {
-    top: 'auto' as TODO,
-    right: 100,
-    bottom: 20,
-    left: 'auto' as TODO,
-    position: 'fixed' as TODO,
-    marginRight: 20,
-    backgroundColor: 'lightblue' as TODO,
-  },
-  searchButton: {
-    marginRight: 20,
-  },
-  drawer: {
-    backgroundColor: 'lightgrey',
-  },
-  searchDrawer: {
-    overflow: 'hidden',
-    width: 280,
-  },
-  searchGrid: {
-    width: 250,
-    // backgroundColor: "lightgrey",
-  },
-};
+const styles = listPageStyle;
 
 const defaultProps = {
-  model: "customer",
+  model: 'customer',
   dataKeys: ['avatar', 'firstname', 'lastname', 'email', 'mobile', 'membership'],
   headers: ['', 'First Name', 'Last Name', 'Email', 'Mobile', 'Membership', 'Actions'],
 };
@@ -71,7 +37,7 @@ type CustomerListProps = {
   searchCustomer: typeof thunkApiCall;
   deleteCustomer: typeof thunkApiCall;
   newCustomer: typeof thunkApiCall;
-  deleteSuccess: boolean;
+  // deleteSuccess: boolean;
   errorMessage: string;
   deleted: boolean;
 } & DefaultProps;
@@ -87,7 +53,7 @@ interface CustomerListState {
   customerList: Customer[];
   totalPages: number;
   customerId: number;
-  dialogText: string; //'Are you sure to do this?',
+  // dialogText: string; //'Are you sure to do this?',
   search: {
     firstname: string;
     lastname: string;
@@ -95,17 +61,15 @@ interface CustomerListState {
 }
 
 class CustomerListPage extends React.Component<CustomerListProps, CustomerListState> {
-
   constructor(props) {
     super(props);
     this.handleToggle = this.handleToggle.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+    this.closeDialog = this.closeDialog.bind(this);
     this.onPageChange = this.onPageChange.bind(this);
     this.onSnackBarClose = this.onSnackBarClose.bind(this);
     this.handleNewCustomer = this.handleNewCustomer.bind(this);
-    this.handleOpen = this.handleOpen.bind(this);
-    this.onDelete = this.onDelete.bind(this);
+    this.openDialog = this.openDialog.bind(this);
   }
 
   static defaultProps = defaultProps;
@@ -121,7 +85,6 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     totalPages: 1,
     customerId: null,
     customerList: [],
-    dialogText: 'Are you sure to do this?',
     search: {
       firstname: '',
       lastname: '',
@@ -159,12 +122,9 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     this.setState({ page, items });
   }
 
-  onDelete(_event: React.ChangeEvent<unknown>, value: number) {
+  openDialog(_event: React.ChangeEvent<unknown>, value: number) {
     if (value != null && value > 0) {
-      // this.handleOpen(id);
-      this.setState({ dialogText: 'Are you sure to delete this data?' });
-      this.setState({ open: true });
-      this.setState({ customerId: value });
+      this.setState({ open: true, customerId: value });
     }
   }
 
@@ -178,13 +138,7 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     this.props.searchCustomer(action); //this.state.search);
   }
 
-  handleOpen(id) {
-    this.setState({ dialogText: 'Are you sure to delete this data?' });
-    this.setState({ open: true });
-    this.setState({ customerId: id });
-  }
-
-  handleClose(isConfirmed: boolean) {
+  closeDialog(isConfirmed: boolean) {
     this.setState({ open: false });
 
     if (isConfirmed && this.state.customerId) {
@@ -204,12 +158,6 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     }
   }
 
-  handleErrorMessage() {
-    this.setState({
-      snackbarOpen: true,
-    });
-  }
-
   onSnackBarClose() {
     this.setState({
       snackbarOpen: false,
@@ -224,19 +172,11 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
   }
 
   render() {
-    const { customerList, headers, dataKeys,model } = this.props;
+    const { customerList, headers, dataKeys, model } = this.props;
     const { isFetching, page, totalPages, items } = this.state;
 
     console.log(headers);
 
-    const dialogButtons = [
-      <Fab key="cancel-btn" color="primary" variant="extended" onClick={() => this.handleClose(false)}>
-        Cancel
-      </Fab>,
-      <Fab key="confirm-btn" color="secondary" variant="extended" onClick={() => this.handleClose(true)}>
-        Confirm
-      </Fab>,
-    ];
     return (
       <PageBase title={'Customers (' + customerList.length + ')'} navigation="React CRM / Customer">
         {isFetching ? (
@@ -246,48 +186,35 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
         ) : (
           <div>
             <div>
-              <Fab size="small" color="secondary" style={styles.fab} onClick={this.handleNewCustomer}>
-                <ContentAdd />
-              </Fab>
-
-              <Fab size="small" style={styles.fabSearch} onClick={this.handleToggle}>
-                <Search />
-              </Fab>
+              <Tooltip title="Add" aria-label="add">
+                <Fab size="small" color="secondary" style={styles.fab} onClick={this.handleNewCustomer}>
+                  <ContentAdd />
+                </Fab>
+              </Tooltip>
+              <Tooltip title="Search" aria-label="search">
+                <Fab size="small" style={styles.fabSearch} onClick={this.handleToggle}>
+                  <Search />
+                </Fab>
+              </Tooltip>
             </div>
-            {/* {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} */}
             <Snackbar open={this.state.snackbarOpen} autoHideDuration={this.state.autoHideDuration} onClose={this.onSnackBarClose}>
               <Alert onClose={this.onSnackBarClose} severity="success">
                 The operation completed successfully !
               </Alert>
             </Snackbar>
             <DataTable
-             model={model}
+              model={model}
               items={items}
               dataKeys={dataKeys}
               headers={headers}
               page={page}
               totalPages={totalPages}
-              onDelete={this.onDelete}
+              onDelete={this.openDialog}
               onPageChange={this.onPageChange}
             />
 
-            <React.Fragment>
-              <Dialog
-                key="alert-dialog"
-                title="Confirm Dialog "
-                fullWidth
-                maxWidth="xs"
-                open={this.state.open}
-                onClick={() => this.handleClose(false)}
-              >
-                <DialogTitle key="alert-dialog-title">{'Alert'}</DialogTitle>
-                <DialogContent key="alert-dialog-content">
-                  <DialogContentText key="alert-dialog-description">{this.state.dialogText}</DialogContentText>
-                </DialogContent>
+            <DeleteDialog open={this.state.open} closeDialog={this.closeDialog} />
 
-                <DialogActions key="alert-dialog-action">{dialogButtons}</DialogActions>
-              </Dialog>
-            </React.Fragment>
             <React.Fragment>
               <Drawer anchor="right" open={this.state.searchOpen} onClose={this.handleToggle} style={styles.searchDrawer}>
                 <Grid container spacing={2} style={styles.searchGrid}>

@@ -10,7 +10,8 @@ import {
   CREATE_PRODUCT,
   LIST_CATEGORY,
   EDIT_PRODUCT,
-  ApiQActions,
+  QActions,
+  FETCHING_PRODUCT,
 } from "../store/types";
 import { Entity } from "../types";
 
@@ -72,27 +73,57 @@ export function editProduct(result?: TODO) {
   };
 }
 
+export function fetchingProduct(){
+  return {
+    type: FETCHING_PRODUCT,
+    payload: null,
+    // errorMessage: result?.error
+  };
+}
+
+
+
+
+
+
 export function getAction(
   action: ProductActions,
   id = 0,
   data?: Entity,
   query?: string
-): ApiAction | ApiQActions {
+): 
+Partial<ApiAction & QActions>
+// ApiAction | QActions 
+
+{
   switch (action) {
-    case NEW_PRODUCT:
-      return {
-        type: NEW_PRODUCT,
-        endpoint: "products/",
-        method: HttpMethod.GET,
-      };
+
     case GET_PRODUCT:
       return {
         type: GET_PRODUCT,
         endpoint: "products/" + id + "?_expand=category",
         method: HttpMethod.GET,
       };
+
+      case NEW_PRODUCT:
+        const actions = {
+          product: {
+            type: NEW_PRODUCT,
+            endpoint: "products/",
+            method: HttpMethod.GET,
+          },  categoryList: {
+            type: LIST_CATEGORY,
+            endpoint: "categories/",
+            method: HttpMethod.GET,
+          },
+        };
+        return {
+          type: NEW_PRODUCT,
+          actions:actions,
+          // method: HttpMethod.GET,
+        };
     case EDIT_PRODUCT:
-      const actions = {
+      const editActions = {
         product: {
           type: GET_PRODUCT,
           endpoint: "products/" + id + "?_expand=category",
@@ -106,8 +137,8 @@ export function getAction(
       };
       return {
         type: EDIT_PRODUCT,
-        actions,
-        method: HttpMethod.GET,
+        actions:editActions,
+        // method: HttpMethod.GET,
         // response: { product: {} as Entity, categoryList: [] },
       };
 

@@ -36,7 +36,7 @@ import {
   CREATE_PRODUCT,
   NewAction,
   LIST_CATEGORY,
-  ApiQActions,
+  QActions,
   EDIT_PRODUCT,
   EDIT_ORDER,
 } from "../store/types";
@@ -97,7 +97,7 @@ function dispatchSignIn(dispatch, type, response) {
 }
 
 export const thunkApiCall = (
-  apiAction?: ApiAction 
+  apiAction?: ApiAction
 ): ThunkAction<void, AppState, null, Action<string>> => async (dispatch) => {
   let response: TODO;
   const { type, endpoint, method, data, filters } = apiAction;
@@ -112,10 +112,10 @@ export const thunkApiCall = (
 };
 
 export const thunkApiQCall = (
-  apiQAction?: ApiQActions 
+  qActions: QActions
 ): ThunkAction<void, AppState, null, Action<string>> => async (dispatch) => {
   const response = {};
-  const { type, actions } = apiQAction;
+  const { type, actions } = qActions;
   console.log(type);
 
   for (const key in actions) {
@@ -205,11 +205,12 @@ function dispatchReponse(dispatch, type, response) {
     case LIST_PRODUCT:
       dispatch(listProduct(response.data));
       break;
-    case NEW_PRODUCT:
-      dispatch(newProduct(response.data));
-      break;
+
     case GET_PRODUCT:
       dispatch(getProduct(response.data));
+      break;
+    case NEW_PRODUCT:
+      dispatch(newProduct(response));
       break;
     case EDIT_PRODUCT:
       dispatch(editProduct(response));

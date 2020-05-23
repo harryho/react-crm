@@ -1,7 +1,6 @@
 import {
-  Entity,
+
   Customer,
-  UserInfo,
   User,
   Order,
   Product,
@@ -69,12 +68,12 @@ export interface ApiAction {
   filters?: TODO;
 }
 
-export interface ApiQActions {
+export interface QActions {
   type: TODO;
   actions: { [key: string]: ApiAction };
   // response: { [key: string]: Entity | Entity[] };
   // endpoint: string,
-  method: HttpMethod;
+  // method: HttpMethod;
   // data?: TODO,
   // filters?: TODO,
 }
@@ -260,11 +259,13 @@ export const CREATE_PRODUCT = "CREATE_PRODUCT";
 export const DELETE_PRODUCT = "DELETE_PRODUCT";
 export const LIST_CATEGORY = "LIST_CATEGORY";
 export const EDIT_PRODUCT = "EDIT_PRODUCT";
+export const FETCHING_PRODUCT = "FETCHING_PRODUCT"
 
 export interface ProductState {
   isFetching: boolean;
   product: Product;
   productList: Product[];
+  categoryList: Category[];
   error?: null;
   deleted?: boolean;
   updated?: boolean;
@@ -283,7 +284,7 @@ interface ListProductAction {
 
 interface NewProductAction {
   type: typeof NEW_PRODUCT;
-  payload: Product;
+  payload: { product: Product; categoryList: Category[] };
   error?: string;
 }
 
@@ -316,6 +317,12 @@ interface EditProductAction {
   error?: string;
 }
 
+interface FetchingProductAction {
+  type: typeof FETCHING_PRODUCT;
+  payload: null;
+  error?: string;
+}
+
 export type ProductActions =
   | typeof EDIT_PRODUCT
   | typeof LIST_CATEGORY
@@ -324,7 +331,8 @@ export type ProductActions =
   | typeof NEW_PRODUCT
   | typeof UPDATE_PRODUCT
   | typeof CREATE_PRODUCT
-  | typeof DELETE_PRODUCT;
+  | typeof DELETE_PRODUCT
+  | typeof FETCHING_PRODUCT
 
 export type ProductActionTypes =
   | EditProductAction
@@ -334,9 +342,13 @@ export type ProductActionTypes =
   | CreateProductAction
   | ListProductAction
   | UpdateProductAction
-  | DeleteProductAction;
+  | DeleteProductAction
+  | FetchingProductAction
 
 export type NewAction =
   | typeof NEW_PRODUCT
   | typeof NEW_CUSTOMER
-  | typeof NEW_ORDER;
+  | typeof NEW_ORDER
+  
+
+  
