@@ -4,7 +4,8 @@ exports[`renders learn react link 1`] = `
 <div
   style={
     Object {
-      "padding": 40,
+      "paddingLeft": 30,
+      "paddingRight": 30,
       "paddingTop": 80,
     }
   }

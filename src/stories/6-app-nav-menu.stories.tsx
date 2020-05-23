@@ -9,7 +9,8 @@ import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router";
 
 import configureStore from "../store";
-import { StoryFnReactReturnType } from "@storybook/react/dist/client/preview/types";
+import ReactDOM from 'react-dom';
+
 
 interface DumpProps {
   name?: string;
@@ -26,6 +27,8 @@ function AppDrawerMenu(props: DumpProps) {
     </ul>
   </>)
 }
+
+
 
 const store = configureStore();
 storiesOf("Welcome", module).add("AppNavDrawer", () => (
@@ -44,18 +47,12 @@ storiesOf("AppNavDrawer", module)
         navDrawerOpen={true}
         username={"username"}
         onLogoutClick={() => {
-          console.log(` onLogoutClick |-> ${!this.props.navDrawerOpen}`);
+          // console.log(` onLogoutClick |-> ${!this.props.navDrawerOpen}`);
         }}
         handleDrawerToggle={() => {
-          console.log(`onLogoutClick |-> ${!this.props.navDrawerOpen}`);
+          // console.log(`onLogoutClick |-> ${!this.props.navDrawerOpen}`);
         }}
         isSmallScreem={false}
       ></AppNavDrawer>
-    ),
-    {
-      drawer: {
-        width: 250,
-      },
-      username: "test user",
-    }
+    )
   );

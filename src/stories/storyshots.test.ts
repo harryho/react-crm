@@ -3,6 +3,16 @@ import initStoryshots ,{ multiSnapshotWithOptions} from '@storybook/addon-storys
 
 jest.mock('@storybook/node-logger');
 
+jest.mock("react-dom", () => {
+  const original = jest.requireActual("react-dom");
+    return {
+        ...original,
+        createPortal: (node: any) => node,
+    };
+});
+
+
+
 // with react-test-renderer
 initStoryshots({
   framework: 'react',

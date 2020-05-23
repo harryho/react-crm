@@ -70,6 +70,7 @@
     "babel-plugin-macros": "^2.8.0",
     "chai": "^4.2.0",
     "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
     "jest": "^24.9.0",
     "node-sass": "^4.14.1",
     "react-docgen-typescript-loader": "^3.6.0",

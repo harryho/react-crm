@@ -1,8 +1,5 @@
 import React from "react";
 import Paper from "@material-ui/core/Paper";
-
-// import { typography } from "@material-ui/core/styles";
-
 import { common, grey } from '@material-ui/core/colors';
 
 
@@ -10,14 +7,13 @@ const white = common.white;
 const grey800 = grey['800'];
 
 interface InfoBoxProps  {
-  Icon: any, // eslint-disable-line
+  Icon?: any, // eslint-disable-line
   spanBgColor: string,
   title: string,
   value: string
 };
 
 const InfoBox = (props:InfoBoxProps) =>{
-  // render() {
     const { spanBgColor, title, value, Icon } = props;
 
     const styles = {

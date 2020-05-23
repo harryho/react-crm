@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
 
 import configureStore from "../store";
+
 const store = configureStore();
 
 
@@ -20,7 +21,6 @@ storiesOf('AppDrawerMenu', module)
 .add(
   'with menus items ',
   () => (
-    <AppDrawerMenu
-       />
+    <AppDrawerMenu />
   )
 );
