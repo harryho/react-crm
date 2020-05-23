@@ -19,7 +19,7 @@ export function customerReducer(
   },
   action: CustomerActionTypes
 ) {
-  console.log(action)
+  
   switch (action.type) {
     case LIST_CUSTOMER:
       return Object.assign({}, state, {

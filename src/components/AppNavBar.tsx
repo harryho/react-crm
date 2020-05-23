@@ -1,14 +1,10 @@
 import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/icons/Menu";
-import { common } from "@material-ui/core/colors";
 import { Tooltip, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
 
-const white = common.white;
-// import Button from "@material-ui/core/Button";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -27,9 +23,7 @@ interface AppNavBarProps {
 }
 // class Header extends React.Component {
 const AppNavBar: React.FC<AppNavBarProps> = ({ styles, handleDrawerToggle}) => {
-  // const AppNavBar=({ styles, handleDrawerToggle }) =>{
-// function AppNavBar<AppNavBarProps>({ styles, handleDrawerToggle }) {
-  const handleClick = () => {
+const handleClick = () => {
     window.open(
       "https://github.com/harryho/react-crm",
       undefined,
@@ -40,7 +34,7 @@ const AppNavBar: React.FC<AppNavBarProps> = ({ styles, handleDrawerToggle}) => {
 
   let style = useStyles(styles);
 
-  console.log(styles);
+  
 
   return (
     <div>
@@ -48,8 +42,7 @@ const AppNavBar: React.FC<AppNavBarProps> = ({ styles, handleDrawerToggle}) => {
         <Toolbar className={styles.toolbar}>
           <IconButton
             edge="start"
-            // className={style.menuButton}
-            onClick={handleDrawerToggle}
+               onClick={handleDrawerToggle}
             color="inherit"
             aria-label="menu"
           >
@@ -60,7 +53,6 @@ const AppNavBar: React.FC<AppNavBarProps> = ({ styles, handleDrawerToggle}) => {
           </Typography>
           <Tooltip title="GitHub" aria-label="add">
             <IconButton
-              // tooltipPosition="center-left"
               onClick={handleClick}
             >
               <svg

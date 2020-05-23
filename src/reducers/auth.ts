@@ -41,7 +41,7 @@ export function authReducer(
   action: AuthActionTypes
 ) {
   const payload = action.payload
-console.log(payload)
+
   switch (action.type) {
     case SIGN_IN:
       if (payload.token && payload.user ) {

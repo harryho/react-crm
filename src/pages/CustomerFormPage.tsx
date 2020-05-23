@@ -61,7 +61,7 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
   };
 
   componentDidMount() {
-    console.log('componentDidMount ', this.props);
+    
     // @ts-ignore
     const customerId = this.props.match.params?.id;
     let action: ApiAction;
@@ -72,7 +72,7 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
   }
 
   componentDidUpdate(prevProps) {
-    console.log('componentDidUpdate ', this.props);
+    
     if (this.props.updated !== prevProps.updated && this.props.updated === true) {
       this.setState({ snackbarOpen: true });
     }
@@ -101,10 +101,10 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
   }
 
   onSave(values: TODO) {
-    console.log(this.state.customer);
+    
 
     const customer = { ...this.state.customer, ...values };
-    console.log(customer);
+    
     let action: ApiAction;
     if (customer.id > 0) {
       action = getAction(UPDATE_CUSTOMER, null, customer);
@@ -117,7 +117,7 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
   render() {
     const { isFetching, customer } = this.props;
 
-    console.log(customer, isFetching);
+    
 
     return (
       <PageBase title="Customer" navigation="Application / Customer ">

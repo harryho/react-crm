@@ -77,9 +77,9 @@ const DataTable: React.FC<DataTableProps> = ({ model, items, dataKeys, totalPage
 
   const headerCount = headers.length;
 
-  console.log(items);
-  console.log(dataKeys);
-  console.log(headers);
+  
+  
+  
 
   return (
     <React.Fragment>

@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
 import Divider from '@material-ui/core/Divider';
 import PageBase from '../components/PageBase';
-import Skeleton from '@material-ui/lab/Skeleton';
 import { connect } from 'react-redux';
 import Card from '@material-ui/core/Card';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
@@ -13,7 +12,6 @@ import { getAction } from '../actions/product';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 
-import { grey } from '@material-ui/core/colors';
 import { thunkApiCall, thunkApiQCall } from '../services/thunks';
 import { Product, User, Category } from '../types';
 import { LinearProgress, Grid, MenuItem } from '@material-ui/core';
@@ -59,7 +57,7 @@ class ProductFormPage extends React.Component<ProductFormProps, ProductFormState
   };
 
   componentDidMount() {
-    console.log('componentDidMount ', this.props);
+    
     // @ts-ignore
     const productId = this.props.match.params?.id;
     let action: QActions;
@@ -69,7 +67,7 @@ class ProductFormPage extends React.Component<ProductFormProps, ProductFormState
     }
   }
   componentDidUpdate(prevProps) {
-    console.log('componentDidUpdate ', this.props);
+    
     if (this.props.updated !== prevProps.updated && this.props.updated === true) {
       this.setState({ snackbarOpen: true });
     }
@@ -92,10 +90,10 @@ class ProductFormPage extends React.Component<ProductFormProps, ProductFormState
   }
 
   onSave(values: TODO) {
-    console.log(this.state.product);
+    
 
     const product = { ...this.state.product, ...values };
-    console.log(product);
+    
     let action: ApiAction; // | ApiQActions;
     if (product.id > 0) {
       action = getAction(UPDATE_PRODUCT, null, product) as ApiAction;
@@ -107,7 +105,7 @@ class ProductFormPage extends React.Component<ProductFormProps, ProductFormState
 
   render() {
     const { categoryList, product, isFetching } = this.props;
-    console.log(`isfetching ${isFetching}`);
+    
     return (
       <PageBase title="Product" navigation="Application / Product ">
         {isFetching ? (
@@ -134,7 +132,7 @@ class ProductFormPage extends React.Component<ProductFormProps, ProductFormState
               this.onSave(values);
               setTimeout(() => {
                 setSubmitting(false);
-                console.log(JSON.stringify(values, null, 2));
+                
               }, 500);
             }}
           >

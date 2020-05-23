@@ -15,7 +15,7 @@ import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
 
 import { thunkApiCall, thunkApiQCall } from '../services/thunks';
-import { Customer, User, Category, Product, Order } from '../types';
+import { User, Category, Product, Order } from '../types';
 import {
   Grid,
   IconButton,
@@ -32,7 +32,7 @@ import {
 } from '@material-ui/core';
 import Snackbar from '@material-ui/core/Snackbar';
 
-import { ApiAction, GET_ORDER, UPDATE_ORDER, CREATE_ORDER, EDIT_ORDER, QActions } from '../store/types';
+import { ApiAction, UPDATE_ORDER, CREATE_ORDER, EDIT_ORDER, QActions } from '../store/types';
 import Alert from '@material-ui/lab/Alert';
 import SkeletonForm from '../components/SkeletonForm';
 
@@ -89,7 +89,7 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
   };
 
   componentDidMount() {
-    console.log('componentDidMount ', this.props);
+    
     // @ts-ignore
     const orderId = this.props.match.params?.id;
     let action: QActions;
@@ -182,15 +182,15 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
   onSelectProduct(event: React.ChangeEvent<{ value: TODO }>) {
     const productId = event.target.value;
 
-    console.log(productId);
+    
     this.setState({ product: this.props.productList[productId] });
   }
 
   onSave(values: TODO) {
-    console.log(this.state.order);
+    
 
     const order = { ...this.state.order, ...values };
-    console.log(order);
+    
     let action: ApiAction;
     if (order.id > 0) {
       action = getAction(UPDATE_ORDER, null, order) as ApiAction;
@@ -202,9 +202,6 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
 
   render() {
     const { isFetching, order, categoryList, productList } = this.props;
-    // const {  } = this.state;
-    console.log(isFetching);
-    console.log(order);
 
     return (
       <PageBase title="Order" navigation="Application / Order ">
@@ -455,7 +452,7 @@ function mapStateToProps(state) {
   // const { customerList } = state.customer;
   const { order, isFetching, updateSuccess, addSuccess, user, productList, categoryList, updated } = state.order;
 
-  console.log(' map ', isFetching);
+  
 
   return {
     order,
@@ -465,7 +462,6 @@ function mapStateToProps(state) {
     productList,
     addSuccess,
     updateSuccess,
-    // isAuthenticated,
     user,
     updated,
   };

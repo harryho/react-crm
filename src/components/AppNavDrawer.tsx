@@ -1,6 +1,6 @@
 import React from "react";
 import Drawer from "@material-ui/core/Drawer";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { blue, common } from "@material-ui/core/colors";
 import AppUserMenu from "./AppUserMenu";
 import AppDrawerMenu from "./AppDrawerMenu";
@@ -53,7 +53,7 @@ export default function AppNavDrawer(props: Props) {
     drawerStyle,
   } = props;
 
-  console.log(navDrawerOpen);
+  
 
   const drawer = (
     <>

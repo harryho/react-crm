@@ -106,7 +106,7 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
       const isFetching = this.props.isFetching;
       this.setState({ page, totalPages, items, isFetching });
     }
-    console.log(' this.props.deleted ' + this.props.deleted);
+    
 
     if (this.props.deleted !== prevProps.deleted && this.props.deleted === true) {
       this.setState({ snackbarOpen: true });

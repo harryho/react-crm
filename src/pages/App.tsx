@@ -99,7 +99,7 @@ class App extends React.Component<AppProps, AppState> {
   };
 
   componentDidMount() {
-    console.log(this.props);
+    
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
     // @ts-ignore
@@ -122,7 +122,7 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   signIn(c) {
-    console.log(c);
+    
     this.signInAction.data = c;
     this.props.signInUser(this.signInAction);
   }

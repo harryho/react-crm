@@ -74,13 +74,13 @@ export const thunkAuth = (
   let response;
 
   const { type, endpoint, method, data, filters } = apiAction;
-  console.log(type);
+  
   response = data;
   if (type == SIGN_IN) {
     response = await login(endpoint, method, data);
   }
 
-  console.log(response);
+  
   // cosnt { user, token, error} = response;
   dispatchSignIn(dispatch, type, response);
 };
@@ -101,13 +101,13 @@ export const thunkApiCall = (
 ): ThunkAction<void, AppState, null, Action<string>> => async (dispatch) => {
   let response: TODO;
   const { type, endpoint, method, data, filters } = apiAction;
-  console.log(type);
+  
   if (!isNewAction(type)) {
     response = await callApi(endpoint, method, data, filters);
   } else {
     response = getNewEntity(type);
   }
-  console.log(response);
+  
   dispatchReponse(dispatch, type, response);
 };
 
@@ -116,14 +116,14 @@ export const thunkApiQCall = (
 ): ThunkAction<void, AppState, null, Action<string>> => async (dispatch) => {
   const response = {};
   const { type, actions } = qActions;
-  console.log(type);
+  
 
   for (const key in actions) {
     const res = await callEndPoint(actions[key]);
     response[key] = res.data;
   }
 
-  console.log(response);
+  
   dispatchReponse(dispatch, type, response);
 };
 
@@ -158,7 +158,7 @@ async function callEndPoint(apiAction: ApiAction) {
 const isNewAction = (x: any): x is NewAction => x.toString().startsWith("NEW_");
 
 function dispatchReponse(dispatch, type, response) {
-  console.log(type);
+  
   switch (type) {
     case LIST_CUSTOMER:
       dispatch(listCustomers(response.data));

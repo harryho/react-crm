@@ -1,12 +1,8 @@
 // import { TypographyStyle } from "@material-ui/core/styles";
 import { grey , pink} from "@material-ui/core/colors";
-import { fontFamily } from "@material-ui/system";
 import {
-  createMuiTheme,
-  withStyles,
   createStyles,
   Theme,
-  WithStyles,
   StyleRules,
 } from "@material-ui/core/styles";
 const pink500 = pink['500'];

@@ -60,10 +60,6 @@ const SignInPage: React.FC<SignInPageProps> = ({
   //  errorMessage,
   onSignInClick,
 }) => {
-  const handleClick = event => {
-    event.preventDefault();
-  };
-
   return (
     <MuiThemeProvider theme={ThemeDefault}>
       <div>
@@ -91,10 +87,7 @@ const SignInPage: React.FC<SignInPageProps> = ({
               }}
               onSubmit={(values, { setSubmitting }) => {
                 onSignInClick(values);
-                // setTimeout(() => {
-                // setSubmitting(false);
-                // console.log(JSON.stringify(values, null, 2));
-                // }, 500);
+
               }}
             >
               {({ submitForm, isSubmitting }) => (

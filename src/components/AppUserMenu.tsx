@@ -1,5 +1,4 @@
 import React from "react";
-
 import { makeStyles,  createStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import { Typography, Menu, Avatar,IconButton} from "@material-ui/core";
@@ -60,7 +59,6 @@ interface AppUserMenuProps {
 export default function AppUserMenu <AppUserMenuProps>({
   username,
   onLogoutClick,
-  // userMenus = data.userMenus,
 }) {
   const styles = useStyles();
 

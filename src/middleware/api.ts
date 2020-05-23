@@ -54,10 +54,10 @@ export function getData(action: string, filters): Promise<TODO> {
         : exp + "s"
       : exp;
 
-    console.log(model);
+    
     let result;
     let expand: string, expandId: number;
-    console.log(expandModel);
+    
     if (model in ds) {
       if (id && id > 0) {
         result =
