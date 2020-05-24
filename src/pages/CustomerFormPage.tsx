@@ -24,7 +24,6 @@ import { formPageStyles } from '../styles';
 
 const styles = formPageStyles;
 
-
 interface CustomerFormProps {
   // router: object;
   match: match;
@@ -47,21 +46,18 @@ interface CustomerFormState {
 class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormState> {
   constructor(props) {
     super(props);
-
     this.handleChange = this.handleChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    // this.handleClick = this.handleClick.bind(this);
     this.onSnackBarClose = this.onSnackBarClose.bind(this);
   }
 
   state = {
-    // isFetching: true,
     customer: {} as Customer,
     snackbarOpen: false,
     autoHideDuration: 2000,
   };
 
   componentDidMount() {
-    
     // @ts-ignore
     const customerId = this.props.match.params?.id;
     let action: ApiAction;
@@ -72,7 +68,6 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
   }
 
   componentDidUpdate(prevProps) {
-    
     if (this.props.updated !== prevProps.updated && this.props.updated === true) {
       this.setState({ snackbarOpen: true });
     }
@@ -88,11 +83,11 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
     }
   }
 
-  handleClick(event) {
-    event.preventDefault();
-    // if (this.state.customer.id) this.props.updateCustomer(this.state.customer);
-    // else this.props.addCustomer(this.state.customer);
-  }
+  // handleClick(event) {
+  //   event.preventDefault();
+  //   // if (this.state.customer.id) this.props.updateCustomer(this.state.customer);
+  //   // else this.props.addCustomer(this.state.customer);
+  // }
 
   onSnackBarClose() {
     this.setState({
@@ -101,10 +96,8 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
   }
 
   onSave(values: TODO) {
-    
-
     const customer = { ...this.state.customer, ...values };
-    
+
     let action: ApiAction;
     if (customer.id > 0) {
       action = getAction(UPDATE_CUSTOMER, null, customer);
@@ -116,8 +109,6 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
 
   render() {
     const { isFetching, customer } = this.props;
-
-    
 
     return (
       <PageBase title="Customer" navigation="Application / Customer ">
@@ -224,22 +215,19 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
                     )}
                   </Grid>
                 </Grid>
-                {/* {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>} */}
-                <br />
+  s            <br />
                 <Divider />
                 {isSubmitting && <LinearProgress />}
                 <br />
                 <div style={styles.buttons}>
                   <Link to="/customers">
                     <Button variant="contained">
-                      {/* onClick={this.handleGoBack}> */}
                       <ArrowBackIosIcon /> Back{' '}
                     </Button>
                   </Link>
                   <Button
                     variant="contained"
                     style={styles.saveButton}
-                    // type="button"
                     onClick={submitForm}
                     color="primary"
                     disabled={isSubmitting}
@@ -260,13 +248,11 @@ class CustomerFormPage extends React.Component<CustomerFormProps, CustomerFormSt
     );
   }
 }
-// }
 
 function mapStateToProps(state) {
   const {
     customer,
     isFetching,
-    //  errorMessage,
     user,
     updated,
   } = state.customer;
@@ -274,7 +260,6 @@ function mapStateToProps(state) {
   return {
     customer,
     isFetching,
-    // errorMessage,
     user,
     updated,
   };
@@ -283,7 +268,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getCustomer: action => dispatch(thunkApiCall(action)),
-    saveCustomer: action => dispatch(thunkApiCall(action))
+    saveCustomer: action => dispatch(thunkApiCall(action)),
   };
 }
 

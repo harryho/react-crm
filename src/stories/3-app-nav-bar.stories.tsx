@@ -1,27 +1,28 @@
-import React from "react";
+import React from 'react';
 
-import { storiesOf } from "@storybook/react";
+import { storiesOf } from '@storybook/react';
 
-import { linkTo } from "@storybook/addon-links";
-import  AppNavBar  from "../components/AppNavBar";
-import { Welcome } from "@storybook/react/demo";
+import { linkTo } from '@storybook/addon-links';
+import AppNavBar from '../components/AppNavBar';
+import { Welcome } from '@storybook/react/demo';
+import { withConsole } from '@storybook/addon-console';
 
-storiesOf("Welcome", module).add("AppNavBar", () => <Welcome showApp={linkTo("AppNavBar")} />);
+storiesOf('Welcome', module).add('AppNavBar', () => <Welcome showApp={linkTo('AppNavBar')} />);
 
-
-
-storiesOf("AppNavBar", module)
+storiesOf('AppNavBar', module)
+  .addDecorator((storyFn, context) => withConsole()(storyFn)(context))
   .add(
-    "with styles",
+    'with styles',
     () => (
-           <AppNavBar styles={"appStlyes"}
-               handleDrawerToggle={
-                 ()=>{console.log(`handleDrawerToggle |->handleDrawerToggle`)} }
-               />
-    )
-    ,
-    { 
-      appStlyes:{
+      <AppNavBar
+        styles={'appStlyes'}
+        handleDrawerToggle={() => {
+          console.log(`handleDrawerToggle |-> handleDrawerToggle`);
+        }}
+      />
+    ),
+    {
+      appStlyes: {
         appBar: {
           position: 'fixed',
           top: 0,
@@ -29,9 +30,8 @@ storiesOf("AppNavBar", module)
           maxHeight: 58,
           minHeight: 0,
           width: `100%`,
-          marginLeft:  0,
-        }
-      }
-  }
+          marginLeft: 0,
+        },
+      },
+    }
   );
-

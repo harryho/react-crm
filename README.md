@@ -63,7 +63,7 @@ npm run build
 
 ## Docker 
 
-```
+```bash
 ## Run / Test release without building new image
 npm run build
 
@@ -83,7 +83,7 @@ docker run -d --publish 8080:80  --name rc2 rc-prd:2.0
 docker logs rc2  -f
 ```
 
-## Welcome to fork or clone!
+## Welcome to fork or clone
 
 For detailed explanation on how things work, checkout following links please.
 
@@ -99,7 +99,6 @@ There are another two similar projects respectively built on the Vue.js and Angu
 - [Ng4Crm](https://github.com/harryho/ng4crm.git). (It is no longer maintained with latest Angular)
 - [Vue-Crm](https://github.com/harryho/vue-crm.git).
 
-
 ### Change log
 
 - May 2020 -  Merge the branch rctsx to master
@@ -114,4 +113,3 @@ There are another two similar projects respectively built on the Vue.js and Angu
 - May 2018 -  Create an archived branch json-server
 
   This branch was the master which used Json-Server as fake API. Considering the hiccup of setting Json-Server up and maintenance, it will be replaced by fake service ( Readonly fake API). You still can find clone this branch by branch name **json-server**, but it will be no longer updated. It is an archived branch.
-
