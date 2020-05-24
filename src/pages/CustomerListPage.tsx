@@ -24,7 +24,7 @@ const styles = listPageStyle;
 
 const defaultProps = {
   model: 'customer',
-  dataKeys: ['avatar', 'firstname', 'lastname', 'email', 'mobile', 'membership'],
+  dataKeys: ['avatar', 'firstname', 'lastname', 'email', 'mobile', 'membership','actions'],
   headers: ['', 'First Name', 'Last Name', 'Email', 'Mobile', 'Membership', 'Actions'],
 };
 

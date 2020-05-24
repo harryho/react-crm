@@ -127,7 +127,6 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
     // reset page if items array has changed
     if (this.props.order !== prevProps.order) {
       this.setState({ order: this.props.order });
-      // const page = 1;
     }
     if (this.props.updated !== prevProps.updated && this.props.updated === true) {
       this.setState({ snackbarOpen: true });

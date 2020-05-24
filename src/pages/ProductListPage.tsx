@@ -23,7 +23,7 @@ const styles = listPageStyle;
 
 const defaultProps = {
   model: 'product',
-  dataKeys: ['name', 'category.name', 'unitPrice', 'numInStock'],
+  dataKeys: ['name', 'category.name', 'unitPrice', 'numInStock','actions'],
   headers: ['Product Name', 'Category Name', 'Price', 'Total In Stock', 'Actions'],
 };
 

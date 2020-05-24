@@ -24,7 +24,7 @@ const styles = listPageStyle;
 
 const defaultProps = {
   model: 'order',
-  dataKeys: ['reference', 'products.length', 'amount', 'customer.firstname', 'orderDate', 'shippedDate'],
+  dataKeys: ['reference', 'products.length', 'amount', 'customer.firstname', 'orderDate', 'shippedDate','actions'],
   headers: ['Reference', 'Quantity', 'Amount', 'Customer', 'Order Date', 'Shipping Date', 'Actions'],
 };
 
