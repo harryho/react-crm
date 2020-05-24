@@ -58,7 +58,7 @@ storiesOf("DataTable", module)
   ))
   .add("with data and actions ", () => (
     <DataTable
-      model={model}
+      model={"?path=/story/datatable--with-data-and-actions"}
       items={dataItems}
       dataKeys={dataKeysWithActions}
       headers={headersWithActions}

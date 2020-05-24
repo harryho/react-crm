@@ -84,7 +84,9 @@ function DataTable<DataTableProps>({
             <Fab
               size="small"
               style={styles.editButton}
-              href={`${model}/${data.id}`}
+              // ?path=/story/ is used for storybook 
+              href={ model 
+                && model.includes("?path=/story/") ?`${model}`: `${model}/${data.id}`}
             >
               <ContentCreate />
             </Fab>
