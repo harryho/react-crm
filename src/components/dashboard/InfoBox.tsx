@@ -24,13 +24,13 @@ const InfoBox = (props:InfoBoxProps) =>{
       },
       number: {
         display: "block",
-        fontWeight: 500, // typography.fontWeightMedium,
+        fontWeight: 500, 
         fontSize: 18,
         color: grey800
       },
       text: {
         fontSize: 20,
-        fontWeight:500, //  typography.fontWeightLight,
+        fontWeight:500, 
         color: grey800
       },
       iconSpan: {

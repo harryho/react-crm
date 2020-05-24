@@ -12,7 +12,7 @@ import { Customer, CustomerModel } from '../types';
 export function customerReducer(
   state: CustomerState = {
     isFetching: true,
-    customer: new CustomerModel() as Customer, // {} as Customer,
+    customer: new CustomerModel() as Customer, 
     customerList: [],
     deleted: false,
     updated: false,
@@ -32,7 +32,7 @@ export function customerReducer(
     case NEW_CUSTOMER:
       return Object.assign({}, state, {
         isFetching: false,
-        customer: action.payload, // new CustomerModel("","","","","",false,0) as Customer, 
+        customer: action.payload, 
         errorMessage: action.error,
         deleted: false,
         updated: false,

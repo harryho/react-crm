@@ -86,8 +86,5 @@ const BrowserUsage = (props: BrowserUsageProps) => {
   );
 };
 
-// BrowserUsage.propTypes = {
-//   data: PropTypes.array
-// };
 
 export default BrowserUsage;

@@ -92,7 +92,6 @@ class OrderListPage extends React.Component<OrderListProps, OrderListState> {
   };
 
   componentDidMount() {
-    // this.props.searchCustomer(this.apiAction);
     this.handleSearch();
   }
 

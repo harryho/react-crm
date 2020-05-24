@@ -1,21 +1,20 @@
-// import 'date-fns';
-import React from 'react';
-import { Link, match } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
-import SaveIcon from '@material-ui/icons/Save';
-import Divider from '@material-ui/core/Divider';
-import PageBase from '../components/PageBase';
-import { connect } from 'react-redux';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import ContentCreate from '@material-ui/icons/Create';
-import ActionDelete from '@material-ui/icons/Delete';
-import { getAction } from '../actions/order';
+import React from "react";
+import { Link, match } from "react-router-dom";
+import Button from "@material-ui/core/Button";
+import SaveIcon from "@material-ui/icons/Save";
+import Divider from "@material-ui/core/Divider";
+import PageBase from "../components/PageBase";
+import { connect } from "react-redux";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ContentCreate from "@material-ui/icons/Create";
+import ActionDelete from "@material-ui/icons/Delete";
+import { getAction } from "../actions/order";
 
-import { Formik, Form, Field } from 'formik';
-import { TextField } from 'formik-material-ui';
+import { Formik, Form, Field } from "formik";
+import { TextField } from "formik-material-ui";
 
-import { thunkApiCall, thunkApiQCall } from '../services/thunks';
-import { User, Category, Product, Order } from '../types';
+import { thunkApiCall, thunkApiQCall } from "../services/thunks";
+import { User, Category, Product, Order } from "../types";
 import {
   Grid,
   IconButton,
@@ -29,14 +28,20 @@ import {
   DialogActions,
   DialogContent,
   LinearProgress,
-} from '@material-ui/core';
-import Snackbar from '@material-ui/core/Snackbar';
+} from "@material-ui/core";
+import Snackbar from "@material-ui/core/Snackbar";
 
-import { ApiAction, UPDATE_ORDER, CREATE_ORDER, EDIT_ORDER, QActions } from '../store/types';
-import Alert from '@material-ui/lab/Alert';
-import SkeletonForm from '../components/SkeletonForm';
+import {
+  ApiAction,
+  UPDATE_ORDER,
+  CREATE_ORDER,
+  EDIT_ORDER,
+  QActions,
+} from "../store/types";
+import Alert from "@material-ui/lab/Alert";
+import SkeletonForm from "../components/SkeletonForm";
 
-import { formPageStyles } from '../styles';
+import { formPageStyles } from "../styles";
 
 const styles = formPageStyles;
 
@@ -58,7 +63,7 @@ interface OrderFormState {
   snackbarOpen: boolean;
   autoHideDuration: number;
   productId: number;
-  dialogText: string; //'Are you sure to do this?',
+  dialogText: string; 
   productList: Product[];
   product: Product;
 }
@@ -66,7 +71,6 @@ interface OrderFormState {
 class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
     this.onSnackBarClose = this.onSnackBarClose.bind(this);
     this.removeProduct = this.removeProduct.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
@@ -84,12 +88,11 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
     autoHideDuration: 2000,
     productId: null,
     productList: [],
-    dialogText: 'Are you sure to do this?',
+    dialogText: "Are you sure to do this?",
     product: {} as Product,
   };
 
   componentDidMount() {
-    
     // @ts-ignore
     const orderId = this.props.match.params?.id;
     let action: QActions;
@@ -105,30 +108,16 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
     });
   }
 
-  handleChange(event, date) {
-    const field = event ? event.target.name : null;
-    const { order } = this.state;
-
-    if (order) {
-      if (typeof date === 'object') {
-        let _order = Object.assign({}, order);
-        order.shippedDate = date.toLocaleDateString();
-        this.setState({ order: order });
-      } else if (event && event.target && field) {
-        let _order = Object.assign({}, order);
-        _order[field] = event.target.value;
-        this.setState({ order: _order });
-      }
-    }
-  }
-
   /* eslint-disable */
   componentDidUpdate(prevProps) {
     // reset page if items array has changed
     if (this.props.order !== prevProps.order) {
       this.setState({ order: this.props.order });
     }
-    if (this.props.updated !== prevProps.updated && this.props.updated === true) {
+    if (
+      this.props.updated !== prevProps.updated &&
+      this.props.updated === true
+    ) {
       this.setState({ snackbarOpen: true });
     }
   }
@@ -136,7 +125,10 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
   removeProduct(product) {
     const { order } = this.state;
     if (order && order.products && order.products.length) {
-      this.state.order.products.splice(this.state.order.products.indexOf(product), 1);
+      this.state.order.products.splice(
+        this.state.order.products.indexOf(product),
+        1
+      );
       this.setState({ order: this.state.order });
     }
   }
@@ -148,7 +140,11 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
     }
     if (product && product.id) {
       order.products.push(product);
-      this.setState({ order: this.state.order, product: {} as Product , open:false});
+      this.setState({
+        order: this.state.order,
+        product: {} as Product,
+        open: false,
+      });
     }
   }
 
@@ -167,29 +163,23 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
   }
 
   handleOpen(id) {
-    this.setState({ dialogText: 'Are you sure to delete this data?' });
+    this.setState({ dialogText: "Are you sure to delete this data?" });
     this.setState({ open: true });
     this.setState({ productId: id });
   }
 
   handleCategoryChange(event, index, values) {
-    // this.props.getProductList({
-    //   categoryId: this.props.categoryList[values].id,
-    // });
   }
 
   onSelectProduct(event: React.ChangeEvent<{ value: TODO }>) {
     const productId = event.target.value;
 
-    
     this.setState({ product: this.props.productList[productId] });
   }
 
   onSave(values: TODO) {
-    
-
     const order = { ...this.state.order, ...values };
-    
+
     let action: ApiAction;
     if (order.id > 0) {
       action = getAction(UPDATE_ORDER, null, order) as ApiAction;
@@ -213,7 +203,7 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
             initialValues={{
               ...order,
             }}
-            validate={values => {
+            validate={(values) => {
               const errors: Partial<Order & User> = {};
               if (!values.reference) {
                 errors.reference = "Required";
@@ -221,7 +211,7 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
               if (!values.orderDate) {
                 errors.orderDate = "Required";
               }
-    
+
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
@@ -293,7 +283,6 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                       label="Order Date"
                       type="date"
                       name="orderDate"
-                      // defaultValue="2010-"
                       style={styles.textField}
                       InputLabelProps={{
                         shrink: true,
@@ -310,7 +299,6 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                       label="Shipped Date"
                       type="date"
                       name="shippedDate"
-                      // defaultValue="2010-"
                       style={styles.textField}
                       InputLabelProps={{
                         shrink: true,
@@ -362,7 +350,11 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                       label="Zip Code"
                       name="shipAddress.zipcode"
                       fullWidth={true}
-                      value={order.shipAddress && order.shipAddress.zipcode ? order.shipAddress.zipcode : ''}
+                      value={
+                        order.shipAddress && order.shipAddress.zipcode
+                          ? order.shipAddress.zipcode
+                          : ""
+                      }
                       required
                     />
                   </Grid>
@@ -376,8 +368,13 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                     <List dense={false}>
                       {order.products.map((product, index) => (
                         <ListItem key={index}>
-                          <ListItemText primary={product.name} secondary={`Price: $ ${product.unitPrice}`} />
-                          <IconButton onClick={() => this.removeProduct(product)}>
+                          <ListItemText
+                            primary={product.name}
+                            secondary={`Price: $ ${product.unitPrice}`}
+                          />
+                          <IconButton
+                            onClick={() => this.removeProduct(product)}
+                          >
                             <ActionDelete />
                           </IconButton>
                         </ListItem>
@@ -391,23 +388,47 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                 <div style={styles.buttons}>
                   <Link to="/orders">
                     <Button variant="contained">
-                      {/* onClick={this.handleGoBack}> */}
-                      <ArrowBackIosIcon /> Back{' '}
+                      <ArrowBackIosIcon /> Back{" "}
                     </Button>
                   </Link>
-                  <Button variant="contained" style={styles.saveButton} onClick={submitForm} color="primary" disabled={isSubmitting}>
+                  <Button
+                    variant="contained"
+                    style={styles.saveButton}
+                    onClick={submitForm}
+                    color="primary"
+                    disabled={isSubmitting}
+                  >
                     <SaveIcon /> Save
                   </Button>
-                  <Button variant="contained" style={styles.saveButton} onClick={this.addProduct} color="secondary">
+                  <Button
+                    variant="contained"
+                    style={styles.saveButton}
+                    onClick={this.addProduct}
+                    color="secondary"
+                  >
                     <ContentCreate /> Add
                   </Button>
                 </div>
 
                 <React.Fragment>
-                  <Dialog title="Add Product" open={this.state.open} maxWidth="xs" fullWidth>
-                    <DialogTitle key="alert-dialog-title">{'Information'}</DialogTitle>
-                    <DialogContent key="alert-dialog-content" style={{ display: 'inline-flex' }}>
-                      <Select style={{ width: 200, marginRight: 10 }} label="Categories" name="categoryId">
+                  <Dialog
+                    title="Add Product"
+                    open={this.state.open}
+                    maxWidth="xs"
+                    fullWidth
+                  >
+                    <DialogTitle key="alert-dialog-title">
+                      {"Information"}
+                    </DialogTitle>
+                    <DialogContent
+                      key="alert-dialog-content"
+                      style={{ display: "inline-flex" }}
+                    >
+                      <Select
+                        style={{ width: 200, marginRight: 10 }}
+                        label="Categories"
+                        name="categoryId"
+                      >
                         {categoryList.map((category, index) => (
                           <MenuItem key={index} value={category.id}>
                             {category.name}
@@ -415,7 +436,12 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                         ))}
                       </Select>
 
-                      <Select style={{ width: 200 }} label="Products" name="categoryId" onChange={this.onSelectProduct}>
+                      <Select
+                        style={{ width: 200 }}
+                        label="Products"
+                        name="categoryId"
+                        onChange={this.onSelectProduct}
+                      >
                         {productList.map((product, index) => (
                           <MenuItem key={index} value={index}>
                             {product.name}
@@ -424,16 +450,28 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
                       </Select>
                     </DialogContent>
                     <DialogActions key="alert-dialog-action">
-                      <Button variant="contained" onClick={this.handleCancel} color="primary">
+                      <Button
+                        variant="contained"
+                        onClick={this.handleCancel}
+                        color="primary"
+                      >
                         Cancel
                       </Button>
-                      <Button variant="contained" onClick={this.onAddProduct} color="primary">
+                      <Button
+                        variant="contained"
+                        onClick={this.onAddProduct}
+                        color="primary"
+                      >
                         Ok
                       </Button>
                     </DialogActions>
                   </Dialog>
                 </React.Fragment>
-                <Snackbar open={this.state.snackbarOpen} autoHideDuration={this.state.autoHideDuration} onClose={this.onSnackBarClose}>
+                <Snackbar
+                  open={this.state.snackbarOpen}
+                  autoHideDuration={this.state.autoHideDuration}
+                  onClose={this.onSnackBarClose}
+                >
                   <Alert onClose={this.onSnackBarClose} severity="success">
                     The operation completed successfully !
                   </Alert>
@@ -448,28 +486,27 @@ class OrderFormPage extends React.Component<OrderFormProps, OrderFormState> {
 }
 
 function mapStateToProps(state) {
-  // const { customerList } = state.customer;
-  const { order, isFetching, updateSuccess, addSuccess, user, productList, categoryList, updated } = state.order;
-
-  
+  const {
+    order,
+    isFetching,
+    productList,
+    categoryList,
+    updated,
+  } = state.order;
 
   return {
     order,
     isFetching,
-    // customerList,
     categoryList,
     productList,
-    addSuccess,
-    updateSuccess,
-    user,
     updated,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getOrder: action => dispatch(thunkApiQCall(action)),
-    saveOrder: action => dispatch(thunkApiCall(action)),
+    getOrder: (action) => dispatch(thunkApiQCall(action)),
+    saveOrder: (action) => dispatch(thunkApiCall(action)),
   };
 }
 

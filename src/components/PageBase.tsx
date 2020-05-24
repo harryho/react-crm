@@ -9,14 +9,14 @@ const grey600 = grey["600"];
 const styles={
   navigation: {
     fontSize: 15,
-    fontWeight: 400, //TypographyStyle.fontWeightLight,
+    fontWeight: 400, 
     color: grey600,
     paddingBottom: 15,
     display: "block",
   },
   title: {
     fontSize: 24,
-    fontWeight: 500, // TypographyStyle.fontWeightLight,
+    fontWeight: 500, 
     marginBottom: 20,
   },
   paper: {

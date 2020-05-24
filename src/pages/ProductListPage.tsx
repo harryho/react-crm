@@ -139,8 +139,7 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
     if (isConfirmed && this.state.productId) {
       const action = getAction(DELETE_PRODUCT, this.state.productId, null, '')as ApiAction
       this.props.deleteProduct(action);
-      // this.props.deleteProduct(this.state.productId);
-      this.setState({ productId: null });
+        this.setState({ productId: null });
     }
   }
 

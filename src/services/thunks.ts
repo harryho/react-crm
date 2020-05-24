@@ -80,8 +80,6 @@ export const thunkAuth = (
     response = await login(endpoint, method, data);
   }
 
-  
-  // cosnt { user, token, error} = response;
   dispatchSignIn(dispatch, type, response);
 };
 

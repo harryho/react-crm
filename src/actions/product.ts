@@ -61,7 +61,6 @@ export function newProduct(result?: TODO) {
   return {
     type: NEW_PRODUCT,
     payload: result,
-    // errorMessage: result?.error
   };
 }
 
@@ -69,7 +68,7 @@ export function editProduct(result?: TODO) {
   return {
     type: EDIT_PRODUCT,
     payload: result,
-    // errorMessage: result?.error
+
   };
 }
 
@@ -77,7 +76,6 @@ export function fetchingProduct(){
   return {
     type: FETCHING_PRODUCT,
     payload: null,
-    // errorMessage: result?.error
   };
 }
 
@@ -120,7 +118,6 @@ Partial<ApiAction & QActions>
         return {
           type: NEW_PRODUCT,
           actions:actions,
-          // method: HttpMethod.GET,
         };
     case EDIT_PRODUCT:
       const editActions = {
@@ -138,8 +135,6 @@ Partial<ApiAction & QActions>
       return {
         type: EDIT_PRODUCT,
         actions:editActions,
-        // method: HttpMethod.GET,
-        // response: { product: {} as Entity, categoryList: [] },
       };
 
     case LIST_PRODUCT:

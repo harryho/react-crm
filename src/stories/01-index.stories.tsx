@@ -29,18 +29,17 @@ storiesOf('RoundedButton', module)
       </RoundedButton>
     ),
     { info: { 
-      // inline: true ,
       text: 
       `
-RoundButton with emojies
+        RoundButton with emojies
 
-~~~js  
-<RoundedButton color="papayawhip" onClick={action('clicked')}>
-<span role="img" aria-label="so cool">
-  😀 😎 👍 💯
-</span>
-</RoundedButton>
-~~~
+        ~~~js  
+        <RoundedButton color="papayawhip" onClick={action('clicked')}>
+        <span role="img" aria-label="so cool">
+          😀 😎 👍 💯
+        </span>
+        </RoundedButton>
+        ~~~
       `
     } }
   );

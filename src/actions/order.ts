@@ -56,7 +56,6 @@ export function newOrder(result?: TODO) {
   return {
     type: NEW_ORDER,
     payload: result,
-    // errorMessage: result?.error
   };
 }
 
@@ -64,7 +63,6 @@ export function editOrder(result?: TODO) {
   return {
     type: EDIT_ORDER,
     payload: result,
-    // errorMessage: result?.error
   };
 }
 

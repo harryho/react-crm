@@ -1,5 +1,4 @@
 import React from "react";
-
 import Assessment from "@material-ui/icons/Assessment";
 import Face from "@material-ui/icons/Face";
 import ThumbUp from "@material-ui/icons/ThumbUp";
@@ -9,7 +8,6 @@ import NewOrders from "../components/dashboard/NewOrders";
 import MonthlySales from "../components/dashboard/MonthlySales";
 import BrowserUsage from "../components/dashboard/BrowserUsage";
 import LineBarChart from "../components/dashboard/LineBarChart";
-// import globalStyles from "../styles";
 import Data from "../data";
 
 import { cyan, pink, purple, orange, grey } from "@material-ui/core/colors";

@@ -26,7 +26,6 @@ storiesOf('AppNavBar', module)
         appBar: {
           position: 'fixed',
           top: 0,
-          // overflow: 'hidden',
           maxHeight: 58,
           minHeight: 0,
           width: `100%`,

@@ -6,8 +6,6 @@ import { Link } from 'react-router-dom';
 import ThemeDefault from '../theme-default';
 import { Formik, Form, Field } from 'formik';
 import { TextField } from 'formik-material-ui';
-
-// import { grey, common } from '@material-ui/core/colors';
 import { LinearProgress } from '@material-ui/core';
 
 const styles = {
@@ -97,9 +95,7 @@ const SignInPage: React.FC<SignInPageProps> = ({
                       variant="outlined"
                       component={TextField}
                       placeholder="test@test.com"
-                      // ref={this.username}
                       name="username"
-                      // value={this.state.username ? this.state.username : ""}
                       label="Login ID"
                       fullWidth={true}
                       required

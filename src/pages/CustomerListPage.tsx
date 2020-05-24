@@ -37,7 +37,6 @@ type CustomerListProps = {
   searchCustomer: typeof thunkApiCall;
   deleteCustomer: typeof thunkApiCall;
   newCustomer: typeof thunkApiCall;
-  // deleteSuccess: boolean;
   errorMessage: string;
   deleted: boolean;
 } & DefaultProps;
@@ -53,7 +52,6 @@ interface CustomerListState {
   customerList: Customer[];
   totalPages: number;
   customerId: number;
-  // dialogText: string; //'Are you sure to do this?',
   search: {
     firstname: string;
     lastname: string;
@@ -92,7 +90,6 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
   };
 
   componentDidMount() {
-    // this.props.searchCustomer(this.apiAction);
     this.handleSearch();
   }
 
@@ -144,8 +141,7 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     if (isConfirmed && this.state.customerId) {
       const action = getAction(DELETE_CUSTOMER, this.state.customerId, null, '');
       this.props.deleteCustomer(action);
-      // this.props.deleteCustomer(this.state.customerId);
-      this.setState({ customerId: null });
+       this.setState({ customerId: null });
     }
   }
 
