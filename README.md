@@ -26,11 +26,18 @@ The goal of this starter project is to create reusable project for real-world bu
 
 ![Screenshot1](screenshots/screenshot-1.jpg)
 
-![Screenshot2](screenshots/screenshot-2.jpg)
+![Screenshot2](screenshots/screenshot-1.1.jpg)
 
-![Screenshot3](screenshots/screenshot-3.jpg)
+![Screenshot3](screenshots/screenshot-3.1.jpg)
 
-![Screenshot4](screenshots/screenshot-4.jpg)
+<!-- ![Screenshot4](screenshots/screenshot-4.jpg) -->
+
+----
+
+Storybook
+  
+![Screenshot4](screenshots/screenshot-6.jpg)
+
 
 ## Build Setup
 
