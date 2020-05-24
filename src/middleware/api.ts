@@ -90,7 +90,7 @@ export function getData(action: string, filters): Promise<TODO> {
         });
       }
     }
-    setTimeout(resolve, 600, { data: result });
+    setTimeout(resolve, 300, { data: result });
   });
 }
 
@@ -98,7 +98,7 @@ export function postData(action: string, data: Entity): Promise<TODO> {
   const { model } = parseRequest(action)
   return new Promise(function (resolve, _reject) {
     ds[model].push(data);
-    setTimeout(resolve, 500, { data: data });
+    setTimeout(resolve, 300, { data: data });
   });
 }
 
@@ -107,7 +107,7 @@ export function putData(action: string, data: Entity): Promise<TODO> {
   return new Promise(function (resolve, _reject) {
     const idx = ds[model].findIndex((d: { id: number }) => d.id === id);
     ds[model][idx] = Object.assign({}, data);
-    setTimeout(resolve, 500, { data: data });
+    setTimeout(resolve, 300, { data: data });
   });
 }
 
@@ -117,7 +117,7 @@ export function deleteData(action: string): Promise<TODO> {
     if (id > 0) {
       ds[model].splice(ds[model].findIndex((d: Entity) => d.id === id), 1);
     }
-    setTimeout(resolve, 500, { data: id });
+    setTimeout(resolve, 300, { data: id });
   });
 }
 
@@ -125,7 +125,7 @@ export function login(action: string, _method: HttpMethod, data: TODO): Promise<
   return new Promise(function (resolve, _reject) {
     if (data.username === "admin@test.com" && data.password === "password") {
       const { accessToken: accessToken, user } = ds.token;
-      setTimeout(resolve, 200, {
+      setTimeout(resolve, 300, {
         // data: {
         token: accessToken,
         user,

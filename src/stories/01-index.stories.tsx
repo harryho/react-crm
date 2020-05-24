@@ -28,5 +28,19 @@ storiesOf('RoundedButton', module)
         </span>
       </RoundedButton>
     ),
-    { info: { inline: true } }
+    { info: { 
+      // inline: true ,
+      text: 
+      `
+RoundButton with emojies
+
+~~~js  
+<RoundedButton color="papayawhip" onClick={action('clicked')}>
+<span role="img" aria-label="so cool">
+  😀 😎 👍 💯
+</span>
+</RoundedButton>
+~~~
+      `
+    } }
   );

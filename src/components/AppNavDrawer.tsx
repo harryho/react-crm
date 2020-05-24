@@ -35,7 +35,8 @@ const useStyles = makeStyles(() =>
 interface Props {
   navDrawerOpen: boolean;
   username: string;
-  onLogoutClick: () => void;
+  onSignoutClick: () => void;
+  onChangePassClick: ()=>void;
   handleDrawerToggle: () => void;
   isSmallScreem: boolean;
   drawerStyle: {};
@@ -48,7 +49,8 @@ export default function AppNavDrawer(props: Props) {
     username,
     navDrawerOpen,
     isSmallScreem,
-    onLogoutClick,
+    onSignoutClick,
+    onChangePassClick,
     handleDrawerToggle,
     drawerStyle,
   } = props;
@@ -57,7 +59,8 @@ export default function AppNavDrawer(props: Props) {
 
   const drawer = (
     <>
-      <AppUserMenu username={username} onLogoutClick={onLogoutClick} />
+      <AppUserMenu username={username} onSignoutClick={onSignoutClick} 
+      onChangePassClick={onChangePassClick} />
       <AppDrawerMenu />
     </>
   );

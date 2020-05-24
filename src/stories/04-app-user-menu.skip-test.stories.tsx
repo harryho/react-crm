@@ -16,7 +16,8 @@ storiesOf('AppUserMenu', module)
   () => (	
     <AppUserMenu 	
       username={"test user"}	
-      onLogoutClick={action('sign out')}	
-    />	
-  )	
+      onSignoutClick={action('Sign Out click')}
+      onChangePassClick={action('Change Password click')}
+    />
+  )
 );

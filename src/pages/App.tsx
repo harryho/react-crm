@@ -23,6 +23,8 @@ import OrderListPage from "./OrderListPage";
 import ProductFormPage from "./ProductFormPage";
 import ProductListPage from "./ProductListPage";
 import AboutPage from "./AboutPage";
+import NotFoundPage from "./NotFoundPage";
+import ChangePasswordPage from "./ChangePasswordPage";
 
 const isSmallsWindowScreen = () => {
   return window.innerWidth <= 600;
@@ -82,6 +84,7 @@ class App extends React.Component<AppProps, AppState> {
       showDashboard: false,
     };
     this.signOut = this.signOut.bind(this);
+    this.changePass = this.changePass.bind(this);
   }
 
   signInAction = {
@@ -99,13 +102,25 @@ class App extends React.Component<AppProps, AppState> {
   };
 
   componentDidMount() {
-    
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
     // @ts-ignore
     const pathname = this.props.location.pathname;
     const showDashboard = pathname === "/" || pathname.endsWith("dashboard");
     this.setState({ showDashboard });
+    // @ts-ignore
+    this.props.isAuthenticated && this.props.location.pathname === "/" && this.props.history.push("/dashboard");
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.isAuthenticated !== prevProps.isAuthenticated &&
+      this.props.isAuthenticated === true
+    ) {
+      // this.setState({ snackbarOpen: true });
+      // @ts-ignore
+      this.props.isAuthenticated && this.props.location.pathname === "/" && this.props.history.push("/dashboard");
+    }
   }
 
   handleDrawerToggle() {
@@ -122,13 +137,17 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   signIn(c) {
-    
     this.signInAction.data = c;
     this.props.signInUser(this.signInAction);
   }
 
   signOut() {
     this.props.signOutUser(this.signOutAction);
+  }
+
+  changePass() {
+    // @ts-ignore
+    this.props.history.push("/changepass");
   }
 
   render() {
@@ -146,7 +165,6 @@ class App extends React.Component<AppProps, AppState> {
 
     return (
       <MuiThemeProvider theme={themeDefault}>
-
         <div>
           {isAuthenticated && (
             <div>
@@ -158,7 +176,8 @@ class App extends React.Component<AppProps, AppState> {
                 drawerStyle={appStlyes.drawer}
                 navDrawerOpen={navDrawerOpen}
                 username={`${firstname} ${lastname}`}
-                onLogoutClick={this.signOut}
+                onSignoutClick={this.signOut}
+                onChangePassClick={this.changePass}
                 handleDrawerToggle={this.handleDrawerToggle.bind(this)}
                 isSmallScreem={isSmallScreen}
               />
@@ -174,8 +193,10 @@ class App extends React.Component<AppProps, AppState> {
                 <Route path={`/product/:id`} component={ProductFormPage} />
                 <Route path={`/newproduct`} component={ProductFormPage} />
                 <Route path={`/about`} component={AboutPage} />
+                <Route path="/changepass" component={ChangePasswordPage} />
+                {/* <Route path="/404" component={NotFoundPage} />
+                <Redirect to="/404" /> */}
               </div>
-              
             </div>
           )}
           {!isAuthenticated && (
