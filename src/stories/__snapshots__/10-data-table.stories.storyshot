@@ -1,0 +1,2203 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots DataTable default without data  1`] = `
+Array [
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#eee",
+          "borderRadius": "2px",
+          "color": "black",
+          "fontFamily": "Helvetica Neue, Helvetica, Segoe UI, Arial, freesans, sans-serif",
+          "fontSize": "15px",
+          "fontWeight": 300,
+          "lineHeight": "2",
+          "padding": "0px 5px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "borderBottom": "1px solid #eee",
+            "marginBottom": 10,
+            "paddingBottom": 0,
+            "paddingTop": 0,
+          }
+        }
+      >
+        <h1
+          style={
+            Object {
+              "display": "inline",
+              "fontSize": "25px",
+              "margin": 0,
+              "marginRight": "20px",
+              "padding": 0,
+            }
+          }
+        >
+          DataTable
+        </h1>
+        <h2
+          style={
+            Object {
+              "color": "#999",
+              "display": "inline",
+              "fontSize": "22px",
+              "fontWeight": 400,
+              "margin": "0 0 10px 0",
+              "padding": 0,
+            }
+          }
+        >
+          default without data 
+        </h2>
+      </div>
+    </div>
+  </div>,
+  <div
+    id="story-root"
+    style={Object {}}
+  >
+    <table
+      className="MuiTable-root"
+      role={null}
+    >
+      <thead
+        className="MuiTableHead-root"
+        role={null}
+      >
+        <tr
+          className="MuiTableRow-root MuiTableRow-head"
+          role={null}
+        >
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
+            role="columnheader"
+            scope="col"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Header A
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
+            role="columnheader"
+            scope="col"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Header B
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
+            role="columnheader"
+            scope="col"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Header C
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        className="MuiTableBody-root"
+        role={null}
+      >
+        <tr
+          className="MuiTableRow-root"
+          role={null}
+        >
+          <td
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+            colSpan={3}
+          >
+            <p
+              style={
+                Object {
+                  "textAlign": "center",
+                }
+              }
+            >
+              No Data Found !
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>,
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#eee",
+          "borderRadius": "2px",
+          "color": "black",
+          "fontFamily": "Helvetica Neue, Helvetica, Segoe UI, Arial, freesans, sans-serif",
+          "fontSize": "15px",
+          "fontWeight": 300,
+          "lineHeight": "2",
+          "padding": "0px 5px",
+        }
+      }
+    >
+      
+      <h1
+        style={
+          Object {
+            "borderBottom": "1px solid #EEE",
+            "fontSize": "25px",
+            "margin": "20px 0 0 0",
+            "padding": "0 0 5px 0",
+          }
+        }
+      >
+        Prop Types
+      </h1>
+      <div>
+        <h3
+          style={
+            Object {
+              "margin": "20px 0 0 0",
+            }
+          }
+        >
+          "
+          DataTable
+          " Component
+        </h3>
+        <small>
+          No propTypes defined!
+        </small>
+      </div>
+    </div>
+  </div>,
+]
+`;
+
+exports[`Storyshots DataTable with data and actions  1`] = `
+Array [
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#eee",
+          "borderRadius": "2px",
+          "color": "black",
+          "fontFamily": "Helvetica Neue, Helvetica, Segoe UI, Arial, freesans, sans-serif",
+          "fontSize": "15px",
+          "fontWeight": 300,
+          "lineHeight": "2",
+          "padding": "0px 5px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "borderBottom": "1px solid #eee",
+            "marginBottom": 10,
+            "paddingBottom": 0,
+            "paddingTop": 0,
+          }
+        }
+      >
+        <h1
+          style={
+            Object {
+              "display": "inline",
+              "fontSize": "25px",
+              "margin": 0,
+              "marginRight": "20px",
+              "padding": 0,
+            }
+          }
+        >
+          DataTable
+        </h1>
+        <h2
+          style={
+            Object {
+              "color": "#999",
+              "display": "inline",
+              "fontSize": "22px",
+              "fontWeight": 400,
+              "margin": "0 0 10px 0",
+              "padding": 0,
+            }
+          }
+        >
+          with data and actions 
+        </h2>
+      </div>
+    </div>
+  </div>,
+  <div
+    id="story-root"
+    style={Object {}}
+  >
+    <table
+      className="MuiTable-root"
+      role={null}
+    >
+      <thead
+        className="MuiTableHead-root"
+        role={null}
+      >
+        <tr
+          className="MuiTableRow-root MuiTableRow-head"
+          role={null}
+        >
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
+            role="columnheader"
+            scope="col"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Header A
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
+            role="columnheader"
+            scope="col"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Header B
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
+            role="columnheader"
+            scope="col"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Header C
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
+            role="columnheader"
+            scope="col"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        className="MuiTableBody-root"
+        role={null}
+      >
+        <tr
+          className="MuiTableRow-root"
+          role={null}
+        >
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+            role="cell"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Column A1
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+            role="cell"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Column B1
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+            role="cell"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Column C1
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+            role="cell"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            <a
+              aria-describedby={null}
+              aria-disabled={false}
+              aria-label="edit"
+              className="MuiButtonBase-root MuiFab-root MuiFab-sizeSmall"
+              href="?path=/story/datatable--with-data-and-actions"
+              onBlur={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseOver={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              style={
+                Object {
+                  "backgroundColor": "#66bb6a",
+                  "color": "#fff",
+                  "marginRight": "1em",
+                }
+              }
+              tabIndex={0}
+              title="Edit"
+            >
+              <span
+                className="MuiFab-label"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                  />
+                </svg>
+              </span>
+              <span
+                className="MuiTouchRipple-root"
+              />
+            </a>
+            <button
+              aria-describedby={null}
+              aria-label="delete"
+              className="MuiButtonBase-root MuiFab-root MuiFab-sizeSmall"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseOver={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              style={
+                Object {
+                  "color": "grey",
+                  "fill": "#9e9e9e",
+                }
+              }
+              tabIndex={0}
+              title="Delete"
+              type="button"
+            >
+              <span
+                className="MuiFab-label"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                  />
+                </svg>
+              </span>
+              <span
+                className="MuiTouchRipple-root"
+              />
+            </button>
+          </th>
+        </tr>
+        <tr
+          className="MuiTableRow-root"
+          role={null}
+        >
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+            role="cell"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Column A2
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+            role="cell"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Column B2
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+            role="cell"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Column C2
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+            role="cell"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            <a
+              aria-describedby={null}
+              aria-disabled={false}
+              aria-label="edit"
+              className="MuiButtonBase-root MuiFab-root MuiFab-sizeSmall"
+              href="?path=/story/datatable--with-data-and-actions"
+              onBlur={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseOver={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              style={
+                Object {
+                  "backgroundColor": "#66bb6a",
+                  "color": "#fff",
+                  "marginRight": "1em",
+                }
+              }
+              tabIndex={0}
+              title="Edit"
+            >
+              <span
+                className="MuiFab-label"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                  />
+                </svg>
+              </span>
+              <span
+                className="MuiTouchRipple-root"
+              />
+            </a>
+            <button
+              aria-describedby={null}
+              aria-label="delete"
+              className="MuiButtonBase-root MuiFab-root MuiFab-sizeSmall"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseOver={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              style={
+                Object {
+                  "color": "grey",
+                  "fill": "#9e9e9e",
+                }
+              }
+              tabIndex={0}
+              title="Delete"
+              type="button"
+            >
+              <span
+                className="MuiFab-label"
+              >
+                <svg
+                  aria-hidden={true}
+                  className="MuiSvgIcon-root"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                  />
+                </svg>
+              </span>
+              <span
+                className="MuiTouchRipple-root"
+              />
+            </button>
+          </th>
+        </tr>
+      </tbody>
+    </table>
+    <div
+      className="MuiContainer-root MuiContainer-maxWidthLg"
+      style={
+        Object {
+          "margin": "0 auto",
+          "paddingTop": 10,
+          "width": 350,
+        }
+      }
+    >
+      <nav
+        aria-label="pagination navigation"
+        className="MuiPagination-root"
+      >
+        <ul
+          className="MuiPagination-ul"
+        >
+          <li>
+            <button
+              aria-label="Go to previous page"
+              className="MuiButtonBase-root MuiPaginationItem-root MuiPaginationItem-page MuiPaginationItem-outlined MuiPaginationItem-outlinedPrimary Mui-disabled Mui-disabled"
+              disabled={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={-1}
+              type="button"
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiPaginationItem-icon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                />
+              </svg>
+            </button>
+          </li>
+          <li>
+            <button
+              aria-current="true"
+              aria-label="page 1"
+              className="MuiButtonBase-root MuiPaginationItem-root MuiPaginationItem-page MuiPaginationItem-outlined MuiPaginationItem-outlinedPrimary Mui-selected"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={0}
+              type="button"
+            >
+              1
+              <span
+                className="MuiTouchRipple-root"
+              />
+            </button>
+          </li>
+          <li>
+            <button
+              aria-label="Go to page 2"
+              className="MuiButtonBase-root MuiPaginationItem-root MuiPaginationItem-page MuiPaginationItem-outlined MuiPaginationItem-outlinedPrimary"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={0}
+              type="button"
+            >
+              2
+              <span
+                className="MuiTouchRipple-root"
+              />
+            </button>
+          </li>
+          <li>
+            <button
+              aria-label="Go to next page"
+              className="MuiButtonBase-root MuiPaginationItem-root MuiPaginationItem-page MuiPaginationItem-outlined MuiPaginationItem-outlinedPrimary"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={0}
+              type="button"
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiPaginationItem-icon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+              <span
+                className="MuiTouchRipple-root"
+              />
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>,
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#eee",
+          "borderRadius": "2px",
+          "color": "black",
+          "fontFamily": "Helvetica Neue, Helvetica, Segoe UI, Arial, freesans, sans-serif",
+          "fontSize": "15px",
+          "fontWeight": 300,
+          "lineHeight": "2",
+          "padding": "0px 5px",
+        }
+      }
+    >
+      <div
+        className="css-1fhpnuv"
+      >
+        <div
+          className="css-1si67pu"
+          data-simplebar={true}
+        >
+          <div
+            className="simplebar-wrapper"
+          >
+            <div
+              className="simplebar-height-auto-observer-wrapper"
+            >
+              <div
+                className="simplebar-height-auto-observer"
+              />
+            </div>
+            <div
+              className="simplebar-mask"
+            >
+              <div
+                className="simplebar-offset"
+              >
+                <div
+                  className="simplebar-content-wrapper"
+                  tabIndex={0}
+                >
+                  <div
+                    className="simplebar-content"
+                  >
+                    <pre
+                      className="hljs css-4zr3vl"
+                    >
+                      <code
+                        className="css-1maezg8"
+                      >
+                        <span
+                          className="token keyword"
+                        >
+                          const
+                        </span>
+                         model 
+                        <span
+                          className="token operator"
+                        >
+                          =
+                        </span>
+                         
+                        <span
+                          className="token string"
+                        >
+                          "customer"
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ;
+                        </span>
+                        
+  
+                        <span
+                          className="token keyword"
+                        >
+                          const
+                        </span>
+                         dataKeysWithActions 
+                        <span
+                          className="token operator"
+                        >
+                          =
+                        </span>
+                         
+                        <span
+                          className="token punctuation"
+                        >
+                          [
+                        </span>
+                        <span
+                          className="token string"
+                        >
+                          "headera"
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ,
+                        </span>
+                         
+                        <span
+                          className="token string"
+                        >
+                          "headerb"
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ,
+                        </span>
+                         
+                        <span
+                          className="token string"
+                        >
+                          "headerc"
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ,
+                        </span>
+                         
+                        <span
+                          className="token string"
+                        >
+                          "actions"
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ]
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ;
+                        </span>
+                        
+  
+                        <span
+                          className="token keyword"
+                        >
+                          const
+                        </span>
+                         headersWithActions 
+                        <span
+                          className="token operator"
+                        >
+                          =
+                        </span>
+                         
+                        <span
+                          className="token punctuation"
+                        >
+                          [
+                        </span>
+                        <span
+                          className="token string"
+                        >
+                          "Header A"
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ,
+                        </span>
+                         
+                        <span
+                          className="token string"
+                        >
+                          "Header B"
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ,
+                        </span>
+                         
+                        <span
+                          className="token string"
+                        >
+                          "Header C"
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ,
+                        </span>
+                         
+                        <span
+                          className="token string"
+                        >
+                          "Actions"
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ]
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ;
+                        </span>
+                        
+  
+                        <span
+                          className="token keyword"
+                        >
+                          const
+                        </span>
+                         dataItems 
+                        <span
+                          className="token operator"
+                        >
+                          =
+                        </span>
+                         
+                        <span
+                          className="token punctuation"
+                        >
+                          [
+                        </span>
+                        
+      
+                        <span
+                          className="token punctuation"
+                        >
+                          {
+                        </span>
+                         headera
+                        <span
+                          className="token punctuation"
+                        >
+                          :
+                        </span>
+                         
+                        <span
+                          className="token string"
+                        >
+                          "Column A1"
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ,
+                        </span>
+                         headerb
+                        <span
+                          className="token punctuation"
+                        >
+                          :
+                        </span>
+                         
+                        <span
+                          className="token string"
+                        >
+                          "Column B1"
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ,
+                        </span>
+                         headerc
+                        <span
+                          className="token punctuation"
+                        >
+                          :
+                        </span>
+                         
+                        <span
+                          className="token string"
+                        >
+                          "Column C1"
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ,
+                        </span>
+                         
+                        <span
+                          className="token punctuation"
+                        >
+                          }
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ,
+                        </span>
+                        
+      
+                        <span
+                          className="token punctuation"
+                        >
+                          {
+                        </span>
+                         headera
+                        <span
+                          className="token punctuation"
+                        >
+                          :
+                        </span>
+                         
+                        <span
+                          className="token string"
+                        >
+                          "Column A2"
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ,
+                        </span>
+                         headerb
+                        <span
+                          className="token punctuation"
+                        >
+                          :
+                        </span>
+                         
+                        <span
+                          className="token string"
+                        >
+                          "Column B2"
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ,
+                        </span>
+                         headerc
+                        <span
+                          className="token punctuation"
+                        >
+                          :
+                        </span>
+                         
+                        <span
+                          className="token string"
+                        >
+                          "Column C2"
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ,
+                        </span>
+                         
+                        <span
+                          className="token punctuation"
+                        >
+                          }
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ,
+                        </span>
+                        
+    
+                        <span
+                          className="token punctuation"
+                        >
+                          ]
+                        </span>
+                        <span
+                          className="token punctuation"
+                        >
+                          ;
+                        </span>
+                        
+    
+                        <span
+                          className="token tag"
+                        >
+                          <span
+                            className="token tag"
+                          >
+                            <span
+                              className="token punctuation"
+                            >
+                              &lt;
+                            </span>
+                            <span
+                              className="token class-name"
+                            >
+                              DataTable
+                            </span>
+                          </span>
+                          
+    
+                          <span
+                            className="token attr-name"
+                          >
+                            model
+                          </span>
+                          <span
+                            className="token script language-javascript"
+                          >
+                            <span
+                              className="token script-punctuation punctuation"
+                            >
+                              =
+                            </span>
+                            <span
+                              className="token punctuation"
+                            >
+                              {
+                            </span>
+                            model
+                            <span
+                              className="token punctuation"
+                            >
+                              }
+                            </span>
+                          </span>
+                          
+    
+                          <span
+                            className="token attr-name"
+                          >
+                            items
+                          </span>
+                          <span
+                            className="token script language-javascript"
+                          >
+                            <span
+                              className="token script-punctuation punctuation"
+                            >
+                              =
+                            </span>
+                            <span
+                              className="token punctuation"
+                            >
+                              {
+                            </span>
+                            dataItems
+                            <span
+                              className="token punctuation"
+                            >
+                              }
+                            </span>
+                          </span>
+                          
+    
+                          <span
+                            className="token attr-name"
+                          >
+                            dataKeys
+                          </span>
+                          <span
+                            className="token script language-javascript"
+                          >
+                            <span
+                              className="token script-punctuation punctuation"
+                            >
+                              =
+                            </span>
+                            <span
+                              className="token punctuation"
+                            >
+                              {
+                            </span>
+                            dataKeysWithActions
+                            <span
+                              className="token punctuation"
+                            >
+                              }
+                            </span>
+                          </span>
+                          
+    
+                          <span
+                            className="token attr-name"
+                          >
+                            headers
+                          </span>
+                          <span
+                            className="token script language-javascript"
+                          >
+                            <span
+                              className="token script-punctuation punctuation"
+                            >
+                              =
+                            </span>
+                            <span
+                              className="token punctuation"
+                            >
+                              {
+                            </span>
+                            headersWithActions
+                            <span
+                              className="token punctuation"
+                            >
+                              }
+                            </span>
+                          </span>
+                          
+    
+                          <span
+                            className="token attr-name"
+                          >
+                            page
+                          </span>
+                          <span
+                            className="token script language-javascript"
+                          >
+                            <span
+                              className="token script-punctuation punctuation"
+                            >
+                              =
+                            </span>
+                            <span
+                              className="token punctuation"
+                            >
+                              {
+                            </span>
+                            <span
+                              className="token number"
+                            >
+                              1
+                            </span>
+                            <span
+                              className="token punctuation"
+                            >
+                              }
+                            </span>
+                          </span>
+                          
+    
+                          <span
+                            className="token attr-name"
+                          >
+                            totalPages
+                          </span>
+                          <span
+                            className="token script language-javascript"
+                          >
+                            <span
+                              className="token script-punctuation punctuation"
+                            >
+                              =
+                            </span>
+                            <span
+                              className="token punctuation"
+                            >
+                              {
+                            </span>
+                            <span
+                              className="token number"
+                            >
+                              2
+                            </span>
+                            <span
+                              className="token punctuation"
+                            >
+                              }
+                            </span>
+                          </span>
+                          
+    
+                          <span
+                            className="token attr-name"
+                          >
+                            onDelete
+                          </span>
+                          <span
+                            className="token script language-javascript"
+                          >
+                            <span
+                              className="token script-punctuation punctuation"
+                            >
+                              =
+                            </span>
+                            <span
+                              className="token punctuation"
+                            >
+                              {
+                            </span>
+                            <span
+                              className="token function"
+                            >
+                              action
+                            </span>
+                            <span
+                              className="token punctuation"
+                            >
+                              (
+                            </span>
+                            <span
+                              className="token string"
+                            >
+                              "delete button click"
+                            </span>
+                            <span
+                              className="token punctuation"
+                            >
+                              )
+                            </span>
+                            <span
+                              className="token punctuation"
+                            >
+                              }
+                            </span>
+                          </span>
+                          
+    
+                          <span
+                            className="token attr-name"
+                          >
+                            onPageChange
+                          </span>
+                          <span
+                            className="token script language-javascript"
+                          >
+                            <span
+                              className="token script-punctuation punctuation"
+                            >
+                              =
+                            </span>
+                            <span
+                              className="token punctuation"
+                            >
+                              {
+                            </span>
+                            <span
+                              className="token function"
+                            >
+                              action
+                            </span>
+                            <span
+                              className="token punctuation"
+                            >
+                              (
+                            </span>
+                            <span
+                              className="token string"
+                            >
+                              "pagination click"
+                            </span>
+                            <span
+                              className="token punctuation"
+                            >
+                              )
+                            </span>
+                            <span
+                              className="token punctuation"
+                            >
+                              }
+                            </span>
+                          </span>
+                          
+  
+                          <span
+                            className="token punctuation"
+                          >
+                            /&gt;
+                          </span>
+                        </span>
+                      </code>
+                    </pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="simplebar-placeholder"
+            />
+          </div>
+          <div
+            className="simplebar-track simplebar-horizontal"
+          >
+            <div
+              className="simplebar-scrollbar"
+            />
+          </div>
+          <div
+            className="simplebar-track simplebar-vertical"
+          >
+            <div
+              className="simplebar-scrollbar"
+            />
+          </div>
+        </div>
+        <div
+          className="css-11xgcgt"
+        >
+          <button
+            className="css-1imo1gr"
+            onClick={[Function]}
+          >
+            Copy
+          </button>
+        </div>
+      </div>
+      <h1
+        style={
+          Object {
+            "borderBottom": "1px solid #EEE",
+            "fontSize": "25px",
+            "margin": "20px 0 0 0",
+            "padding": "0 0 5px 0",
+          }
+        }
+      >
+        Prop Types
+      </h1>
+      <div>
+        <h3
+          style={
+            Object {
+              "margin": "20px 0 0 0",
+            }
+          }
+        >
+          "
+          DataTable
+          " Component
+        </h3>
+        <small>
+          No propTypes defined!
+        </small>
+      </div>
+    </div>
+  </div>,
+]
+`;
+
+exports[`Storyshots DataTable with data only  1`] = `
+Array [
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#eee",
+          "borderRadius": "2px",
+          "color": "black",
+          "fontFamily": "Helvetica Neue, Helvetica, Segoe UI, Arial, freesans, sans-serif",
+          "fontSize": "15px",
+          "fontWeight": 300,
+          "lineHeight": "2",
+          "padding": "0px 5px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "borderBottom": "1px solid #eee",
+            "marginBottom": 10,
+            "paddingBottom": 0,
+            "paddingTop": 0,
+          }
+        }
+      >
+        <h1
+          style={
+            Object {
+              "display": "inline",
+              "fontSize": "25px",
+              "margin": 0,
+              "marginRight": "20px",
+              "padding": 0,
+            }
+          }
+        >
+          DataTable
+        </h1>
+        <h2
+          style={
+            Object {
+              "color": "#999",
+              "display": "inline",
+              "fontSize": "22px",
+              "fontWeight": 400,
+              "margin": "0 0 10px 0",
+              "padding": 0,
+            }
+          }
+        >
+          with data only 
+        </h2>
+      </div>
+    </div>
+  </div>,
+  <div
+    id="story-root"
+    style={Object {}}
+  >
+    <table
+      className="MuiTable-root"
+      role={null}
+    >
+      <thead
+        className="MuiTableHead-root"
+        role={null}
+      >
+        <tr
+          className="MuiTableRow-root MuiTableRow-head"
+          role={null}
+        >
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
+            role="columnheader"
+            scope="col"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Header A
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
+            role="columnheader"
+            scope="col"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Header B
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall"
+            role="columnheader"
+            scope="col"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Header C
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        className="MuiTableBody-root"
+        role={null}
+      >
+        <tr
+          className="MuiTableRow-root"
+          role={null}
+        >
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+            role="cell"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Column A1
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+            role="cell"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Column B1
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+            role="cell"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Column C1
+          </th>
+        </tr>
+        <tr
+          className="MuiTableRow-root"
+          role={null}
+        >
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+            role="cell"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Column A2
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+            role="cell"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Column B2
+          </th>
+          <th
+            aria-sort={null}
+            className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall"
+            role="cell"
+            style={
+              Object {
+                "width": "10%",
+              }
+            }
+          >
+            Column C2
+          </th>
+        </tr>
+      </tbody>
+    </table>
+    <div
+      className="MuiContainer-root MuiContainer-maxWidthLg"
+      style={
+        Object {
+          "margin": "0 auto",
+          "paddingTop": 10,
+          "width": 350,
+        }
+      }
+    >
+      <nav
+        aria-label="pagination navigation"
+        className="MuiPagination-root"
+      >
+        <ul
+          className="MuiPagination-ul"
+        >
+          <li>
+            <button
+              aria-label="Go to previous page"
+              className="MuiButtonBase-root MuiPaginationItem-root MuiPaginationItem-page MuiPaginationItem-outlined MuiPaginationItem-outlinedPrimary Mui-disabled Mui-disabled"
+              disabled={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={-1}
+              type="button"
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiPaginationItem-icon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                />
+              </svg>
+            </button>
+          </li>
+          <li>
+            <button
+              aria-current="true"
+              aria-label="page 1"
+              className="MuiButtonBase-root MuiPaginationItem-root MuiPaginationItem-page MuiPaginationItem-outlined MuiPaginationItem-outlinedPrimary Mui-selected"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={0}
+              type="button"
+            >
+              1
+            </button>
+          </li>
+          <li>
+            <button
+              aria-label="Go to page 2"
+              className="MuiButtonBase-root MuiPaginationItem-root MuiPaginationItem-page MuiPaginationItem-outlined MuiPaginationItem-outlinedPrimary"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={0}
+              type="button"
+            >
+              2
+            </button>
+          </li>
+          <li>
+            <button
+              aria-label="Go to next page"
+              className="MuiButtonBase-root MuiPaginationItem-root MuiPaginationItem-page MuiPaginationItem-outlined MuiPaginationItem-outlinedPrimary"
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={0}
+              type="button"
+            >
+              <svg
+                aria-hidden={true}
+                className="MuiSvgIcon-root MuiPaginationItem-icon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                />
+              </svg>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>,
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#eee",
+          "borderRadius": "2px",
+          "color": "black",
+          "fontFamily": "Helvetica Neue, Helvetica, Segoe UI, Arial, freesans, sans-serif",
+          "fontSize": "15px",
+          "fontWeight": 300,
+          "lineHeight": "2",
+          "padding": "0px 5px",
+        }
+      }
+    >
+      
+      <h1
+        style={
+          Object {
+            "borderBottom": "1px solid #EEE",
+            "fontSize": "25px",
+            "margin": "20px 0 0 0",
+            "padding": "0 0 5px 0",
+          }
+        }
+      >
+        Prop Types
+      </h1>
+      <div>
+        <h3
+          style={
+            Object {
+              "margin": "20px 0 0 0",
+            }
+          }
+        >
+          "
+          DataTable
+          " Component
+        </h3>
+        <small>
+          No propTypes defined!
+        </small>
+      </div>
+    </div>
+  </div>,
+]
+`;
+
+exports[`Storyshots Welcome DataTable 1`] = `
+Array [
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#eee",
+          "borderRadius": "2px",
+          "color": "black",
+          "fontFamily": "Helvetica Neue, Helvetica, Segoe UI, Arial, freesans, sans-serif",
+          "fontSize": "15px",
+          "fontWeight": 300,
+          "lineHeight": "2",
+          "padding": "0px 5px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "borderBottom": "1px solid #eee",
+            "marginBottom": 10,
+            "paddingBottom": 0,
+            "paddingTop": 0,
+          }
+        }
+      >
+        <h1
+          style={
+            Object {
+              "display": "inline",
+              "fontSize": "25px",
+              "margin": 0,
+              "marginRight": "20px",
+              "padding": 0,
+            }
+          }
+        >
+          Welcome
+        </h1>
+        <h2
+          style={
+            Object {
+              "color": "#999",
+              "display": "inline",
+              "fontSize": "22px",
+              "fontWeight": 400,
+              "margin": "0 0 10px 0",
+              "padding": 0,
+            }
+          }
+        >
+          DataTable
+        </h2>
+      </div>
+    </div>
+  </div>,
+  <div
+    id="story-root"
+    style={Object {}}
+  >
+    <article
+      style={
+        Object {
+          "backgroundColor": "#fff",
+          "color": "#000",
+          "fontFamily": "\\"Helvetica Neue\\", Helvetica, \\"Segoe UI\\", Arial, freesans, sans-serif",
+          "lineHeight": 1.4,
+          "padding": 15,
+        }
+      }
+    >
+      <h1>
+        Welcome to storybook
+      </h1>
+      <p>
+        This is a UI component dev environment for your app.
+      </p>
+      <p>
+        We've added some basic stories inside the 
+        <code
+          style={
+            Object {
+              "backgroundColor": "#f3f2f2",
+              "border": "1px solid #eae9e9",
+              "borderRadius": 4,
+              "color": "#3a3a3a",
+              "fontSize": 15,
+              "fontWeight": 600,
+              "padding": "2px 5px",
+            }
+          }
+        >
+          src/stories
+        </code>
+         directory.
+        <br />
+        A story is a single state of one or more UI components. You can have as many stories as you want.
+        <br />
+        (Basically a story is like a visual test case.)
+      </p>
+      <p>
+        See these sample 
+        <button
+          onClick={[Function]}
+          style={
+            Object {
+              "backgroundColor": "transparent",
+              "borderBottom": "1px solid #1474f3",
+              "borderLeft": "none",
+              "borderRight": "none",
+              "borderTop": "none",
+              "color": "#1474f3",
+              "cursor": "pointer",
+              "font": "inherit",
+              "padding": 0,
+              "paddingBottom": 2,
+              "textDecoration": "none",
+            }
+          }
+          type="button"
+        >
+          stories
+        </button>
+         for a component called 
+        <code
+          style={
+            Object {
+              "backgroundColor": "#f3f2f2",
+              "border": "1px solid #eae9e9",
+              "borderRadius": 4,
+              "color": "#3a3a3a",
+              "fontSize": 15,
+              "fontWeight": 600,
+              "padding": "2px 5px",
+            }
+          }
+        >
+          Button
+        </code>
+        .
+      </p>
+      <p>
+        Just like that, you can add your own components as stories.
+        <br />
+        You can also edit those components and see changes right away.
+        <br />
+        (Try editing the 
+        <code
+          style={
+            Object {
+              "backgroundColor": "#f3f2f2",
+              "border": "1px solid #eae9e9",
+              "borderRadius": 4,
+              "color": "#3a3a3a",
+              "fontSize": 15,
+              "fontWeight": 600,
+              "padding": "2px 5px",
+            }
+          }
+        >
+          Button
+        </code>
+         stories located at 
+        <code
+          style={
+            Object {
+              "backgroundColor": "#f3f2f2",
+              "border": "1px solid #eae9e9",
+              "borderRadius": 4,
+              "color": "#3a3a3a",
+              "fontSize": 15,
+              "fontWeight": 600,
+              "padding": "2px 5px",
+            }
+          }
+        >
+          src/stories/1-Button.stories.js
+        </code>
+        .)
+      </p>
+      <p>
+        Usually we create stories with smaller UI components in the app.
+        <br />
+        Have a look at the 
+        <a
+          href="https://storybook.js.org/basics/writing-stories"
+          rel="noopener noreferrer"
+          style={
+            Object {
+              "borderBottom": "1px solid #1474f3",
+              "color": "#1474f3",
+              "paddingBottom": 2,
+              "textDecoration": "none",
+            }
+          }
+          target="_blank"
+        >
+          Writing Stories
+        </a>
+         section in our documentation.
+      </p>
+      <p
+        style={
+          Object {
+            "opacity": 0.5,
+          }
+        }
+      >
+        <b>
+          NOTE:
+        </b>
+        <br />
+        Have a look at the 
+        <code
+          style={
+            Object {
+              "backgroundColor": "#f3f2f2",
+              "border": "1px solid #eae9e9",
+              "borderRadius": 4,
+              "color": "#3a3a3a",
+              "fontSize": 15,
+              "fontWeight": 600,
+              "padding": "2px 5px",
+            }
+          }
+        >
+          .storybook/webpack.config.js
+        </code>
+         to add webpack loaders and plugins you are using in this project.
+      </p>
+    </article>
+  </div>,
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#eee",
+          "borderRadius": "2px",
+          "color": "black",
+          "fontFamily": "Helvetica Neue, Helvetica, Segoe UI, Arial, freesans, sans-serif",
+          "fontSize": "15px",
+          "fontWeight": 300,
+          "lineHeight": "2",
+          "padding": "0px 5px",
+        }
+      }
+    >
+      
+      <h1
+        style={
+          Object {
+            "borderBottom": "1px solid #EEE",
+            "fontSize": "25px",
+            "margin": "20px 0 0 0",
+            "padding": "0 0 5px 0",
+          }
+        }
+      >
+        Prop Types
+      </h1>
+      <div>
+        <h3
+          style={
+            Object {
+              "margin": "20px 0 0 0",
+            }
+          }
+        >
+          "
+          Welcome
+          " Component
+        </h3>
+        <table
+          className="info-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                property
+              </th>
+              <th>
+                propType
+              </th>
+              <th>
+                required
+              </th>
+              <th>
+                default
+              </th>
+              <th>
+                description
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                className="info-table-monospace"
+              >
+                showApp
+              </td>
+              <td
+                className="info-table-monospace"
+              >
+                <span>
+                  unknown
+                </span>
+              </td>
+              <td
+                className={null}
+              >
+                -
+              </td>
+              <td
+                className={null}
+              >
+                <span>
+                  null
+                </span>
+              </td>
+              <td
+                className={null}
+              />
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>,
+]
+`;

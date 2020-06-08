@@ -1,0 +1,954 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots AppDrawerMenu with menus items  1`] = `
+Array [
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#eee",
+          "borderRadius": "2px",
+          "color": "black",
+          "fontFamily": "Helvetica Neue, Helvetica, Segoe UI, Arial, freesans, sans-serif",
+          "fontSize": "15px",
+          "fontWeight": 300,
+          "lineHeight": "2",
+          "padding": "0px 5px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "borderBottom": "1px solid #eee",
+            "marginBottom": 10,
+            "paddingBottom": 0,
+            "paddingTop": 0,
+          }
+        }
+      >
+        <h1
+          style={
+            Object {
+              "display": "inline",
+              "fontSize": "25px",
+              "margin": 0,
+              "marginRight": "20px",
+              "padding": 0,
+            }
+          }
+        >
+          AppDrawerMenu
+        </h1>
+        <h2
+          style={
+            Object {
+              "color": "#999",
+              "display": "inline",
+              "fontSize": "22px",
+              "fontWeight": 400,
+              "margin": "0 0 10px 0",
+              "padding": 0,
+            }
+          }
+        >
+          with menus items 
+        </h2>
+      </div>
+    </div>
+  </div>,
+  <div
+    id="story-root"
+    style={Object {}}
+  >
+    <div>
+      <a
+        className="MuiListItem-button"
+        href="/dashboard"
+        onClick={[Function]}
+      >
+        <li
+          aria-disabled={false}
+          className="MuiButtonBase-root MuiListItem-root MuiMenuItem-root MuiListItem-button MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
+          onBlur={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          role="menuitem"
+          tabIndex={-1}
+        >
+          <div
+            className="MuiListItemIcon-root"
+          >
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"
+              />
+            </svg>
+          </div>
+          <h6
+            className="MuiTypography-root makeStyles-menuItem-238 MuiTypography-h6"
+          >
+            DashBoard
+          </h6>
+        </li>
+      </a>
+      <a
+        className="MuiListItem-button"
+        href="/customers"
+        onClick={[Function]}
+      >
+        <li
+          aria-disabled={false}
+          className="MuiButtonBase-root MuiListItem-root MuiMenuItem-root MuiListItem-button MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
+          onBlur={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          role="menuitem"
+          tabIndex={-1}
+        >
+          <div
+            className="MuiListItemIcon-root"
+          >
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 5.9c1.16 0 2.1.94 2.1 2.1s-.94 2.1-2.1 2.1S9.9 9.16 9.9 8s.94-2.1 2.1-2.1m0 9c2.97 0 6.1 1.46 6.1 2.1v1.1H5.9V17c0-.64 3.13-2.1 6.1-2.1M12 4C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 9c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"
+              />
+            </svg>
+          </div>
+          <h6
+            className="MuiTypography-root makeStyles-menuItem-238 MuiTypography-h6"
+          >
+            Customer
+          </h6>
+        </li>
+      </a>
+      <a
+        className="MuiListItem-button"
+        href="/orders"
+        onClick={[Function]}
+      >
+        <li
+          aria-disabled={false}
+          className="MuiButtonBase-root MuiListItem-root MuiMenuItem-root MuiListItem-button MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
+          onBlur={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          role="menuitem"
+          tabIndex={-1}
+        >
+          <div
+            className="MuiListItemIcon-root"
+          >
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M15.55 13c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.37-.66-.11-1.48-.87-1.48H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2h7.45zM6.16 6h12.15l-2.76 5H8.53L6.16 6zM7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"
+              />
+            </svg>
+          </div>
+          <h6
+            className="MuiTypography-root makeStyles-menuItem-238 MuiTypography-h6"
+          >
+            Order
+          </h6>
+        </li>
+      </a>
+      <a
+        className="MuiListItem-button"
+        href="/products"
+        onClick={[Function]}
+      >
+        <li
+          aria-disabled={false}
+          className="MuiButtonBase-root MuiListItem-root MuiMenuItem-root MuiListItem-button MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
+          onBlur={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          role="menuitem"
+          tabIndex={-1}
+        >
+          <div
+            className="MuiListItemIcon-root"
+          >
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M18.36 9l.6 3H5.04l.6-3h12.72M20 4H4v2h16V4zm0 3H4l-1 5v2h1v6h10v-6h4v6h2v-6h1v-2l-1-5zM6 18v-4h6v4H6z"
+              />
+            </svg>
+          </div>
+          <h6
+            className="MuiTypography-root makeStyles-menuItem-238 MuiTypography-h6"
+          >
+            Product
+          </h6>
+        </li>
+      </a>
+      <a
+        className="MuiListItem-button"
+        href="/about"
+        onClick={[Function]}
+      >
+        <li
+          aria-disabled={false}
+          className="MuiButtonBase-root MuiListItem-root MuiMenuItem-root MuiListItem-button MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
+          onBlur={[Function]}
+          onDragLeave={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          role="menuitem"
+          tabIndex={-1}
+        >
+          <div
+            className="MuiListItemIcon-root"
+          >
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+              />
+            </svg>
+          </div>
+          <h6
+            className="MuiTypography-root makeStyles-menuItem-238 MuiTypography-h6"
+          >
+            About
+          </h6>
+        </li>
+      </a>
+    </div>
+  </div>,
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#eee",
+          "borderRadius": "2px",
+          "color": "black",
+          "fontFamily": "Helvetica Neue, Helvetica, Segoe UI, Arial, freesans, sans-serif",
+          "fontSize": "15px",
+          "fontWeight": 300,
+          "lineHeight": "2",
+          "padding": "0px 5px",
+        }
+      }
+    >
+      
+      <h1
+        style={
+          Object {
+            "borderBottom": "1px solid #EEE",
+            "fontSize": "25px",
+            "margin": "20px 0 0 0",
+            "padding": "0 0 5px 0",
+          }
+        }
+      >
+        Prop Types
+      </h1>
+      <div>
+        <h3
+          style={
+            Object {
+              "margin": "20px 0 0 0",
+            }
+          }
+        >
+          "
+          AppDrawerMenu
+          " Component
+        </h3>
+        <small>
+          No propTypes defined!
+        </small>
+      </div>
+      <div>
+        <h3
+          style={
+            Object {
+              "margin": "20px 0 0 0",
+            }
+          }
+        >
+          "
+          MemoryRouter
+          " Component
+        </h3>
+        <table
+          className="info-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                property
+              </th>
+              <th>
+                propType
+              </th>
+              <th>
+                required
+              </th>
+              <th>
+                default
+              </th>
+              <th>
+                description
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                className="info-table-monospace"
+              >
+                initialEntries
+              </td>
+              <td
+                className="info-table-monospace"
+              >
+                <span>
+                  array
+                </span>
+              </td>
+              <td
+                className={null}
+              >
+                -
+              </td>
+              <td
+                className={null}
+              >
+                -
+              </td>
+              <td
+                className={null}
+              />
+            </tr>
+            <tr>
+              <td
+                className="info-table-monospace"
+              >
+                initialIndex
+              </td>
+              <td
+                className="info-table-monospace"
+              >
+                <span>
+                  number
+                </span>
+              </td>
+              <td
+                className={null}
+              >
+                -
+              </td>
+              <td
+                className={null}
+              >
+                -
+              </td>
+              <td
+                className={null}
+              />
+            </tr>
+            <tr>
+              <td
+                className="info-table-monospace"
+              >
+                getUserConfirmation
+              </td>
+              <td
+                className="info-table-monospace"
+              >
+                <span>
+                  func
+                </span>
+              </td>
+              <td
+                className={null}
+              >
+                -
+              </td>
+              <td
+                className={null}
+              >
+                -
+              </td>
+              <td
+                className={null}
+              />
+            </tr>
+            <tr>
+              <td
+                className="info-table-monospace"
+              >
+                keyLength
+              </td>
+              <td
+                className="info-table-monospace"
+              >
+                <span>
+                  number
+                </span>
+              </td>
+              <td
+                className={null}
+              >
+                -
+              </td>
+              <td
+                className={null}
+              >
+                -
+              </td>
+              <td
+                className={null}
+              />
+            </tr>
+            <tr>
+              <td
+                className="info-table-monospace"
+              >
+                children
+              </td>
+              <td
+                className="info-table-monospace"
+              >
+                <span>
+                  node
+                </span>
+              </td>
+              <td
+                className={null}
+              >
+                -
+              </td>
+              <td
+                className={null}
+              >
+                -
+              </td>
+              <td
+                className={null}
+              />
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3
+          style={
+            Object {
+              "margin": "20px 0 0 0",
+            }
+          }
+        >
+          "
+          Provider
+          " Component
+        </h3>
+        <table
+          className="info-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                property
+              </th>
+              <th>
+                propType
+              </th>
+              <th>
+                required
+              </th>
+              <th>
+                default
+              </th>
+              <th>
+                description
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                className="info-table-monospace"
+              >
+                store
+              </td>
+              <td
+                className="info-table-monospace"
+              >
+                <span>
+                  other
+                </span>
+              </td>
+              <td
+                className={null}
+              >
+                -
+              </td>
+              <td
+                className={null}
+              >
+                -
+              </td>
+              <td
+                className={null}
+              />
+            </tr>
+            <tr>
+              <td
+                className="info-table-monospace"
+              >
+                context
+              </td>
+              <td
+                className="info-table-monospace"
+              >
+                <span>
+                  object
+                </span>
+              </td>
+              <td
+                className={null}
+              >
+                -
+              </td>
+              <td
+                className={null}
+              >
+                -
+              </td>
+              <td
+                className={null}
+              />
+            </tr>
+            <tr>
+              <td
+                className="info-table-monospace"
+              >
+                children
+              </td>
+              <td
+                className="info-table-monospace"
+              >
+                <span>
+                  any
+                </span>
+              </td>
+              <td
+                className={null}
+              >
+                -
+              </td>
+              <td
+                className={null}
+              >
+                -
+              </td>
+              <td
+                className={null}
+              />
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>,
+]
+`;
+
+exports[`Storyshots Welcome AppDrawerMenu 1`] = `
+Array [
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#eee",
+          "borderRadius": "2px",
+          "color": "black",
+          "fontFamily": "Helvetica Neue, Helvetica, Segoe UI, Arial, freesans, sans-serif",
+          "fontSize": "15px",
+          "fontWeight": 300,
+          "lineHeight": "2",
+          "padding": "0px 5px",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "borderBottom": "1px solid #eee",
+            "marginBottom": 10,
+            "paddingBottom": 0,
+            "paddingTop": 0,
+          }
+        }
+      >
+        <h1
+          style={
+            Object {
+              "display": "inline",
+              "fontSize": "25px",
+              "margin": 0,
+              "marginRight": "20px",
+              "padding": 0,
+            }
+          }
+        >
+          Welcome
+        </h1>
+        <h2
+          style={
+            Object {
+              "color": "#999",
+              "display": "inline",
+              "fontSize": "22px",
+              "fontWeight": 400,
+              "margin": "0 0 10px 0",
+              "padding": 0,
+            }
+          }
+        >
+          AppDrawerMenu
+        </h2>
+      </div>
+    </div>
+  </div>,
+  <div
+    id="story-root"
+    style={Object {}}
+  >
+    <article
+      style={
+        Object {
+          "backgroundColor": "#fff",
+          "color": "#000",
+          "fontFamily": "\\"Helvetica Neue\\", Helvetica, \\"Segoe UI\\", Arial, freesans, sans-serif",
+          "lineHeight": 1.4,
+          "padding": 15,
+        }
+      }
+    >
+      <h1>
+        Welcome to storybook
+      </h1>
+      <p>
+        This is a UI component dev environment for your app.
+      </p>
+      <p>
+        We've added some basic stories inside the 
+        <code
+          style={
+            Object {
+              "backgroundColor": "#f3f2f2",
+              "border": "1px solid #eae9e9",
+              "borderRadius": 4,
+              "color": "#3a3a3a",
+              "fontSize": 15,
+              "fontWeight": 600,
+              "padding": "2px 5px",
+            }
+          }
+        >
+          src/stories
+        </code>
+         directory.
+        <br />
+        A story is a single state of one or more UI components. You can have as many stories as you want.
+        <br />
+        (Basically a story is like a visual test case.)
+      </p>
+      <p>
+        See these sample 
+        <button
+          onClick={[Function]}
+          style={
+            Object {
+              "backgroundColor": "transparent",
+              "borderBottom": "1px solid #1474f3",
+              "borderLeft": "none",
+              "borderRight": "none",
+              "borderTop": "none",
+              "color": "#1474f3",
+              "cursor": "pointer",
+              "font": "inherit",
+              "padding": 0,
+              "paddingBottom": 2,
+              "textDecoration": "none",
+            }
+          }
+          type="button"
+        >
+          stories
+        </button>
+         for a component called 
+        <code
+          style={
+            Object {
+              "backgroundColor": "#f3f2f2",
+              "border": "1px solid #eae9e9",
+              "borderRadius": 4,
+              "color": "#3a3a3a",
+              "fontSize": 15,
+              "fontWeight": 600,
+              "padding": "2px 5px",
+            }
+          }
+        >
+          Button
+        </code>
+        .
+      </p>
+      <p>
+        Just like that, you can add your own components as stories.
+        <br />
+        You can also edit those components and see changes right away.
+        <br />
+        (Try editing the 
+        <code
+          style={
+            Object {
+              "backgroundColor": "#f3f2f2",
+              "border": "1px solid #eae9e9",
+              "borderRadius": 4,
+              "color": "#3a3a3a",
+              "fontSize": 15,
+              "fontWeight": 600,
+              "padding": "2px 5px",
+            }
+          }
+        >
+          Button
+        </code>
+         stories located at 
+        <code
+          style={
+            Object {
+              "backgroundColor": "#f3f2f2",
+              "border": "1px solid #eae9e9",
+              "borderRadius": 4,
+              "color": "#3a3a3a",
+              "fontSize": 15,
+              "fontWeight": 600,
+              "padding": "2px 5px",
+            }
+          }
+        >
+          src/stories/1-Button.stories.js
+        </code>
+        .)
+      </p>
+      <p>
+        Usually we create stories with smaller UI components in the app.
+        <br />
+        Have a look at the 
+        <a
+          href="https://storybook.js.org/basics/writing-stories"
+          rel="noopener noreferrer"
+          style={
+            Object {
+              "borderBottom": "1px solid #1474f3",
+              "color": "#1474f3",
+              "paddingBottom": 2,
+              "textDecoration": "none",
+            }
+          }
+          target="_blank"
+        >
+          Writing Stories
+        </a>
+         section in our documentation.
+      </p>
+      <p
+        style={
+          Object {
+            "opacity": 0.5,
+          }
+        }
+      >
+        <b>
+          NOTE:
+        </b>
+        <br />
+        Have a look at the 
+        <code
+          style={
+            Object {
+              "backgroundColor": "#f3f2f2",
+              "border": "1px solid #eae9e9",
+              "borderRadius": 4,
+              "color": "#3a3a3a",
+              "fontSize": 15,
+              "fontWeight": 600,
+              "padding": "2px 5px",
+            }
+          }
+        >
+          .storybook/webpack.config.js
+        </code>
+         to add webpack loaders and plugins you are using in this project.
+      </p>
+    </article>
+  </div>,
+  <div>
+    <div
+      style={
+        Object {
+          "backgroundColor": "#eee",
+          "borderRadius": "2px",
+          "color": "black",
+          "fontFamily": "Helvetica Neue, Helvetica, Segoe UI, Arial, freesans, sans-serif",
+          "fontSize": "15px",
+          "fontWeight": 300,
+          "lineHeight": "2",
+          "padding": "0px 5px",
+        }
+      }
+    >
+      
+      <h1
+        style={
+          Object {
+            "borderBottom": "1px solid #EEE",
+            "fontSize": "25px",
+            "margin": "20px 0 0 0",
+            "padding": "0 0 5px 0",
+          }
+        }
+      >
+        Prop Types
+      </h1>
+      <div>
+        <h3
+          style={
+            Object {
+              "margin": "20px 0 0 0",
+            }
+          }
+        >
+          "
+          Welcome
+          " Component
+        </h3>
+        <table
+          className="info-table"
+        >
+          <thead>
+            <tr>
+              <th>
+                property
+              </th>
+              <th>
+                propType
+              </th>
+              <th>
+                required
+              </th>
+              <th>
+                default
+              </th>
+              <th>
+                description
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                className="info-table-monospace"
+              >
+                showApp
+              </td>
+              <td
+                className="info-table-monospace"
+              >
+                <span>
+                  unknown
+                </span>
+              </td>
+              <td
+                className={null}
+              >
+                -
+              </td>
+              <td
+                className={null}
+              >
+                <span>
+                  null
+                </span>
+              </td>
+              <td
+                className={null}
+              />
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>,
+]
+`;
