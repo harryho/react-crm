@@ -1,31 +1,52 @@
-import React from 'react';
-import Fab from '@material-ui/core/Fab';
-import ContentAdd from '@material-ui/icons/Add';
-import Search from '@material-ui/icons/Search';
-import PageBase from '../components/PageBase';
-import { connect } from 'react-redux';
-import { getAction } from '../actions/customer';
-import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Snackbar from '@material-ui/core/Snackbar';
-import { thunkApiCall } from '../services/thunks';
-import { LIST_CUSTOMER, DELETE_CUSTOMER, NEW_CUSTOMER } from '../store/types';
-import { Customer } from '../types';
+import React from "react";
+import Fab from "@material-ui/core/Fab";
+import ContentAdd from "@material-ui/icons/Add";
+import Search from "@material-ui/icons/Search";
+import PageBase from "../components/PageBase";
+import { connect } from "react-redux";
+import { getAction } from "../actions/customer";
+import Drawer from "@material-ui/core/Drawer";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Snackbar from "@material-ui/core/Snackbar";
+import { thunkApiCall } from "../services/thunks";
+import { LIST_CUSTOMER, DELETE_CUSTOMER, NEW_CUSTOMER } from "../store/types";
+import { Customer, SearchFilter } from "../types";
 
-import Alert from '../components/Alert';
-import DataTable from '../components/DataTable';
-import SkeletonList from '../components/SkeletonList';
-import DeleteDialog from '../components/DeleteDialog';
-import { Grid, Tooltip, Divider } from '@material-ui/core';
-import { listPageStyle } from '../styles';
+import Alert from "../components/Alert";
+import DataTable from "../components/DataTable";
+import SkeletonList from "../components/SkeletonList";
+import DeleteDialog from "../components/DeleteDialog";
+import { Grid, Tooltip, Divider } from "@material-ui/core";
+import { listPageStyle } from "../styles";
+import {
+  buildSearchFilters,
+  buildJsonServerQuery,
+  clearSearchFilters,
+} from "../utils/app-utils";
 
 const styles = listPageStyle;
 
 const defaultProps = {
-  model: 'customer',
-  dataKeys: ['avatar', 'firstname', 'lastname', 'email', 'mobile', 'membership','actions'],
-  headers: ['', 'First Name', 'Last Name', 'Email', 'Mobile', 'Membership', 'Actions'],
+  model: "customer",
+  dataKeys: [
+    "avatar",
+    "firstname",
+    "lastname",
+    "email",
+    "mobile",
+    "membership",
+    "actions",
+  ],
+  headers: [
+    "",
+    "First Name",
+    "Last Name",
+    "Email",
+    "Mobile",
+    "Membership",
+    "Actions",
+  ],
 };
 
 type DefaultProps = typeof defaultProps;
@@ -53,12 +74,17 @@ interface CustomerListState {
   totalPages: number;
   customerId: number;
   search: {
-    firstname: string;
-    lastname: string;
+    contain: {
+      firstname: string;
+      lastname: string;
+    };
   };
 }
 
-class CustomerListPage extends React.Component<CustomerListProps, CustomerListState> {
+class CustomerListPage extends React.Component<
+  CustomerListProps,
+  CustomerListState
+> {
   constructor(props) {
     super(props);
     this.handleToggle = this.handleToggle.bind(this);
@@ -67,6 +93,8 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     this.onPageChange = this.onPageChange.bind(this);
     this.onSnackBarClose = this.onSnackBarClose.bind(this);
     this.handleNewCustomer = this.handleNewCustomer.bind(this);
+    this.handleSearchFilter = this.handleSearchFilter.bind(this);
+    this.clearSearchFilter = this.clearSearchFilter.bind(this);
     this.openDialog = this.openDialog.bind(this);
   }
 
@@ -84,8 +112,10 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     customerId: null,
     customerList: [],
     search: {
-      firstname: '',
-      lastname: '',
+      contain: {
+        firstname: "",
+        lastname: "",
+      },
     },
   };
 
@@ -104,9 +134,12 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
       const isFetching = this.props.isFetching;
       this.setState({ page, totalPages, items, isFetching });
     }
-    console.log(' this.props.deleted ' + this.props.deleted);
+    console.log(" this.props.deleted " + this.props.deleted);
 
-    if (this.props.deleted !== prevProps.deleted && this.props.deleted === true) {
+    if (
+      this.props.deleted !== prevProps.deleted &&
+      this.props.deleted === true
+    ) {
       this.setState({ snackbarOpen: true });
       this.handleSearch();
     }
@@ -130,18 +163,25 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
   }
 
   handleSearch() {
-    this.setState({ searchOpen: false, isFetching: true });
-    const action = getAction(LIST_CUSTOMER, null, null, '');
+    const filters = buildSearchFilters(this.state.search as SearchFilter);
+    const query = buildJsonServerQuery(filters);
+    const action = getAction(LIST_CUSTOMER, null, null, query);
     this.props.searchCustomer(action); //this.state.search);
+    this.setState({ searchOpen: false, isFetching: true });
   }
 
   closeDialog(isConfirmed: boolean) {
     this.setState({ open: false });
 
     if (isConfirmed && this.state.customerId) {
-      const action = getAction(DELETE_CUSTOMER, this.state.customerId, null, '');
+      const action = getAction(
+        DELETE_CUSTOMER,
+        this.state.customerId,
+        null,
+        ""
+      );
       this.props.deleteCustomer(action);
-       this.setState({ customerId: null });
+      this.setState({ customerId: null });
     }
   }
 
@@ -149,9 +189,16 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     const field = event.target.name;
     if (event && event.target && field) {
       const search = Object.assign({}, this.state.search);
-      search[field] = event.target.value;
+      search.contain[field] = event.target.value;
       this.setState({ search: search });
     }
+  }
+
+  clearSearchFilter() {
+    const search = Object.assign({}, this.state.search);
+    clearSearchFilters(search as SearchFilter);
+    this.setState({ search });
+    this.handleSearch()
   }
 
   onSnackBarClose() {
@@ -164,7 +211,7 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     const action = getAction(NEW_CUSTOMER);
     this.props.newCustomer(action);
     // @ts-ignore
-    this.props.history.push('/newcustomer');
+    this.props.history.push("/newcustomer");
   }
 
   render() {
@@ -174,7 +221,10 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
     console.log(headers);
 
     return (
-      <PageBase title={'Customers (' + customerList.length + ')'} navigation="React CRM / Customer">
+      <PageBase
+        title={"Customers (" + customerList.length + ")"}
+        navigation="React CRM / Customer"
+      >
         {isFetching ? (
           <div>
             <SkeletonList />
@@ -183,17 +233,30 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
           <div>
             <div>
               <Tooltip title="Add" aria-label="add">
-                <Fab size="small" color="secondary" style={styles.fab} onClick={this.handleNewCustomer}>
+                <Fab
+                  size="small"
+                  color="secondary"
+                  style={styles.fab}
+                  onClick={this.handleNewCustomer}
+                >
                   <ContentAdd />
                 </Fab>
               </Tooltip>
               <Tooltip title="Search" aria-label="search">
-                <Fab size="small" style={styles.fabSearch} onClick={this.handleToggle}>
+                <Fab
+                  size="small"
+                  style={styles.fabSearch}
+                  onClick={this.handleToggle}
+                >
                   <Search />
                 </Fab>
               </Tooltip>
             </div>
-            <Snackbar open={this.state.snackbarOpen} autoHideDuration={this.state.autoHideDuration} onClose={this.onSnackBarClose}>
+            <Snackbar
+              open={this.state.snackbarOpen}
+              autoHideDuration={this.state.autoHideDuration}
+              onClose={this.onSnackBarClose}
+            >
               <Alert onClose={this.onSnackBarClose} severity="success">
                 The operation completed successfully !
               </Alert>
@@ -209,40 +272,57 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
               onPageChange={this.onPageChange}
             />
 
-            <DeleteDialog open={this.state.open} closeDialog={this.closeDialog} />
+            <DeleteDialog
+              open={this.state.open}
+              closeDialog={this.closeDialog}
+            />
 
             <React.Fragment>
-              <Drawer anchor="right" open={this.state.searchOpen} onClose={this.handleToggle} style={styles.searchDrawer}>
-                <Grid container spacing={2} style={styles.searchGrid}>
-                  <Grid item xs={12}>
+              <Drawer
+                anchor="right"
+                open={this.state.searchOpen}
+                onClose={this.handleToggle}
+                style={styles.searchDrawer}
+              >
+                <Grid container spacing={0} style={styles.searchGrid}>
+                  <Grid item style={styles.searchField}>
                     <h5>Search</h5>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} style={styles.searchField}>
                     <TextField
                       placeholder="First Name"
                       label="First Name"
                       name="firstname"
                       fullWidth={true}
-                      value={this.state.search.firstname}
+                      value={this.state.search.contain.firstname}
                       onChange={this.handleSearchFilter}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} style={styles.searchField}>
                     <TextField
                       placeholder="Last Name"
                       label="Last Name"
                       fullWidth={true}
                       name="lastname"
-                      value={this.state.search.lastname}
+                      value={this.state.search.contain.lastname}
                       onChange={this.handleSearchFilter}
                     />
                   </Grid>
                   <Divider />
-                  <Grid item xs={12}>
-                    <Button variant="contained" onClick={this.handleSearch} color="secondary" style={styles.searchButton}>
+                  <Grid item xs={12} style={styles.searchField}>
+                    <Button
+                      variant="contained"
+                      onClick={this.handleSearch}
+                      color="secondary"
+                      style={styles.searchButton}
+                    >
                       Search
                     </Button>
-                    <Button variant="contained" onClick={this.handleSearch} color="default">
+                    <Button
+                      variant="contained"
+                      onClick={this.clearSearchFilter}
+                      color="default"
+                    >
                       Cancel
                     </Button>
                   </Grid>
@@ -257,7 +337,13 @@ class CustomerListPage extends React.Component<CustomerListProps, CustomerListSt
 }
 
 function mapStateToProps(state) {
-  const { customerList, isFetching, errorMessage, user, deleted } = state.customer;
+  const {
+    customerList,
+    isFetching,
+    errorMessage,
+    user,
+    deleted,
+  } = state.customer;
 
   return {
     customerList,

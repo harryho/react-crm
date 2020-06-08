@@ -75,7 +75,7 @@ export function getAction(action: CustomerActions,
     case LIST_CUSTOMER:
       return {
         type: LIST_CUSTOMER,
-        endpoint: 'customers/',
+        endpoint: `customers?_embed=orders&${query}`,
         method: HttpMethod.GET,
       }
     case UPDATE_CUSTOMER:

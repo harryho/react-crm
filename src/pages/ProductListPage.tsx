@@ -11,13 +11,14 @@ import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import { thunkApiCall, thunkApiQCall } from '../services/thunks';
 import { NEW_PRODUCT, LIST_PRODUCT, ApiAction, QActions, FETCHING_PRODUCT, DELETE_PRODUCT } from '../store/types';
-import { Product } from '../types';
+import { Product, SearchFilter } from '../types';
 import Alert from '../components/Alert';
 import DataTable from '../components/DataTable';
 import SkeletonList from '../components/SkeletonList';
 import DeleteDialog from '../components/DeleteDialog';
 import { listPageStyle } from '../styles';
 import { Grid } from '@material-ui/core';
+import { clearSearchFilters, buildSearchFilters, buildJsonServerQuery } from '../utils/app-utils';
 
 const styles = listPageStyle;
 
@@ -54,7 +55,9 @@ interface ProductListState {
   totalPages: number;
   productId: number;
   search: {
-    product: string;
+    contain:{
+      name: string;
+    }
   };
 }
 
@@ -66,6 +69,8 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
     this.closeDialog = this.closeDialog.bind(this);
     this.onPageChange = this.onPageChange.bind(this);
     this.onSnackBarClose = this.onSnackBarClose.bind(this);
+    this.handleSearchFilter = this.handleSearchFilter.bind(this);
+    this.clearSearchFilter = this.clearSearchFilter.bind(this);
     this.openDialog = this.openDialog.bind(this);
     this.handleNewProduct = this.handleNewProduct.bind(this);
   }
@@ -84,7 +89,9 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
     productId: null,
     productList: [],
     search: {
-      product: '',
+     contain:{
+      name: '',
+     }
     },
   };
 
@@ -129,8 +136,18 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
   }
 
   handleSearch() {
-    const action = getAction(LIST_PRODUCT, null, null, '') as ApiAction;
+    // const action = getAction(LIST_PRODUCT, null, null, '') as ApiAction;
+    // this.props.searchProduct(action); //this.state.search);
+
+
+    const filters = buildSearchFilters(this.state.search as SearchFilter);
+    const query = buildJsonServerQuery(filters);
+    // const action = getAction(LIST_CUSTOMER, null, null, query);
+    const action = getAction(LIST_PRODUCT, null, null, query) as ApiAction;
     this.props.searchProduct(action); //this.state.search);
+    this.setState({ searchOpen: false, isFetching: true });
+
+
   }
 
   closeDialog(isConfirmed) {
@@ -160,12 +177,18 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
 
   handleSearchFilter(event) {
     const field = event.target.name;
-
     if (event && event.target && field) {
       const search = Object.assign({}, this.state.search);
-      search[field] = event.target.value;
+      search.contain[field] = event.target.value;
       this.setState({ search: search });
     }
+  }
+
+  clearSearchFilter() {
+    const search = Object.assign({}, this.state.search);
+    clearSearchFilters(search as SearchFilter);
+    this.setState({ search });
+    this.handleSearch()
   }
 
   render() {
@@ -206,23 +229,26 @@ class ProductListPage extends React.Component<ProductListProps, ProductListState
 
             <Drawer anchor="right" open={this.state.searchOpen} onClose={this.handleToggle}>
               <Grid container style={styles.searchDrawer} spacing={1}>
-                <Grid item xs={12}>
+                <Grid item xs={12} style={styles.searchField}>
                   <h5>Search</h5>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} style={styles.searchField}>
                   <TextField
-                    placeholder="Product"
-                    label="Product"
-                    name="product"
+                    placeholder="Product Name"
+                    label="Product Name"
+                    name="name"
                     fullWidth={true}
-                    value={this.state.search.product}
+                    value={this.state.search.contain.name}
                     onChange={this.handleSearchFilter}
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <Button variant="contained" onClick={this.handleSearch} color="secondary">
+                <Grid item xs={12} style={styles.searchField}>
+                  <Button variant="contained"    style={styles.searchButton} onClick={this.handleSearch} color="secondary">
                     Search
                   </Button>
+                  <Button variant="contained"    style={styles.searchButton} onClick={this.clearSearchFilter} color="default" >
+                      Cancel
+                    </Button>
                 </Grid>
               </Grid>
             </Drawer>

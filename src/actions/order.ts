@@ -67,7 +67,7 @@ export function editOrder(result?: TODO) {
 }
 
 export function getAction(action: OrderActions,
-  id = 0, data?: Entity , query?: string): ApiAction | QActions {
+  id = 0, data?: Entity, query?: string): ApiAction | QActions {
 
   switch (action) {
     case NEW_ORDER:
@@ -79,37 +79,37 @@ export function getAction(action: OrderActions,
     case GET_ORDER:
       return {
         type: GET_ORDER,
-        endpoint: 'orders/' + id+ "?_expand=customer",
+        endpoint: 'orders/' + id + "?_expand=customer",
         method: HttpMethod.GET,
       }
-      case EDIT_ORDER:
-        const actions = {
-          order: {
-            type: GET_ORDER,
-            endpoint: "orders/" + id + "?_expand=customer",
-            method: HttpMethod.GET,
-          },
-          categoryList: {
-            type: LIST_CATEGORY,
-            endpoint: "categories/",
-            method: HttpMethod.GET,
-          },
-          productList: {
-            type: LIST_PRODUCT,
-            endpoint: "products?_expand=category",
-            method: HttpMethod.GET,
-          },
-        };
-        return {
-          type: EDIT_ORDER,
-          actions,
+    case EDIT_ORDER:
+      const actions = {
+        order: {
+          type: GET_ORDER,
+          endpoint: "orders/" + id + "?_expand=customer",
           method: HttpMethod.GET,
-          // response: { product: {} as Entity, categoryList: [] },
-        };
+        },
+        categoryList: {
+          type: LIST_CATEGORY,
+          endpoint: "categories/",
+          method: HttpMethod.GET,
+        },
+        productList: {
+          type: LIST_PRODUCT,
+          endpoint: "products?_expand=category",
+          method: HttpMethod.GET,
+        },
+      };
+      return {
+        type: EDIT_ORDER,
+        actions,
+        method: HttpMethod.GET,
+        // response: { product: {} as Entity, categoryList: [] },
+      };
     case LIST_ORDER:
       return {
         type: LIST_ORDER,
-        endpoint: 'orders?_expand=customer',
+        endpoint: `orders?_expand=customer&${query}`,
         method: HttpMethod.GET,
       }
     case UPDATE_ORDER:

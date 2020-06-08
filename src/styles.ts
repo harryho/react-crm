@@ -68,6 +68,9 @@ export const listPageStyle = {
   },
   searchGrid: {
     width: 250,
+  },
+  searchField: {
+    margin:10
   }
 }
 

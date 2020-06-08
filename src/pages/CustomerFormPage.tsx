@@ -231,7 +231,7 @@ class CustomerFormPage extends React.Component<
                     )}
                   </Grid>
                 </Grid>
-                s <br />
+                 <br />
                 <Divider />
                 {isSubmitting && <LinearProgress />}
                 <br />

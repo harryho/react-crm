@@ -1,12 +1,11 @@
 /* eslint-disable */
-// const BASE_URL = ''; // 'http://localhost:3001/api'
-// const BASE_URL = "http://localhost:5354/";
 import { DB } from "./demo-db"
 
 import { Entity } from '../types';
 import url from 'url';
 import querystring from 'querystring';
 import { HttpMethod } from "../store/types";
+import { getSeachFilters } from "../utils/app-utils";
 
 const ds = Object.assign({}, DB)
 const EXPAND = "_expand"
@@ -42,11 +41,12 @@ function parseRequest(req: string) {
   const model = getModel(parsedUrl.pathname);
   const id = getId(parsedUrl.pathname);
   const exp = getExpand(parsedQs)
-  return { model, id, exp }
+  const filters = getSeachFilters(parsedQs)
+  return { model, id, exp, filters }
 }
 
-export function getData(action: string, filters): Promise<TODO> {
-  const { model, id, exp } = parseRequest(action)
+export function getData(action: string): Promise<TODO> {
+  const { model, id, exp , filters} = parseRequest(action)
   return new Promise(function (resolve, _reject) {
     const expandModel = exp
       ? exp === "category"
@@ -55,7 +55,7 @@ export function getData(action: string, filters): Promise<TODO> {
       : exp;
 
     
-    let result;
+      let result: TODO;
     let expand: string, expandId: number;
     
     if (model in ds) {
@@ -88,6 +88,15 @@ export function getData(action: string, filters): Promise<TODO> {
           }
           return m;
         });
+      }
+
+      if (filters !== null && filters !== undefined
+        && Object.keys(filters).length > 0) {
+        result = result.filter(
+          row => Object.keys(filters).every(
+            prop => filters[prop](prop,row)
+          )
+        )
       }
     }
     setTimeout(resolve, 300, { data: result });
@@ -141,7 +150,7 @@ export function login(action: string, _method: HttpMethod, data: TODO): Promise<
 export function callApi(endpoint, method: HttpMethod, data?: TODO, filters?: TODO) {
   switch (method) {
     case HttpMethod.GET:
-      return getData(endpoint, filters);
+      return getData(endpoint);
     case HttpMethod.PUT:
       return putData(endpoint, data);
     case HttpMethod.POST:

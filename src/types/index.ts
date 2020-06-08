@@ -64,18 +64,32 @@ export interface Product extends Entity {
 
 export type ViewModel = Customer | Order | Product | Category  
 
+// export type SearchFilter = {
+//   equals?: TODO;
+//   contains?: TODO;
+//   startsWith?: TODO;
+//   endsWith?: TODO;
+//   lessThan?: TODO;
+//   greaterThan?: TODO;
+//   lessThanOrEqual?: TODO;
+//   greaterThanOrEqual?: TODO;
+//   between?: TODO;
+//   filters?: TODO;
+// };
+
 export type SearchFilter = {
-  equals?: TODO;
-  contains?: TODO;
-  startsWith?: TODO;
-  endsWith?: TODO;
-  lessThan?: TODO;
-  greaterThan?: TODO;
-  lessThanOrEqual?: TODO;
-  greaterThanOrEqual?: TODO;
-  between?: TODO;
-  filters?: TODO;
-};
+  equal?: TODO,
+  contain?: TODO,
+  startsWith?: TODO,
+  endsWith?: TODO,
+  lessThan?: TODO,
+  greaterThan?: TODO,
+  lessThanOrEqual?: TODO,
+  greaterThanOrEqual?: TODO,
+  // between?: TODO,
+  filters?: TODO
+
+}
 
 export class CustomerModel implements Customer {
   constructor(

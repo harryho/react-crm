@@ -2,7 +2,6 @@ import React from "react";
 import Paper from "@material-ui/core/Paper";
 
 import { BarChart, Bar, ResponsiveContainer, XAxis } from "recharts";
-// import GlobalStyles from "../../styles";
 
 import { common, pink } from "@material-ui/core/colors";
 

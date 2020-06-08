@@ -140,7 +140,7 @@ Partial<ApiAction & QActions>
     case LIST_PRODUCT:
       return {
         type: LIST_PRODUCT,
-        endpoint: "products?_expand=category",
+        endpoint: `products?_expand=category&${query}`,
         method: HttpMethod.GET,
       };
     case UPDATE_PRODUCT:
