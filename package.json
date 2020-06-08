@@ -1,6 +1,6 @@
 {
   "name": "react-crm",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.9.13",
