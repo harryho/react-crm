@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Property } from "csstype";
+import * as CSS from "csstype";
 
 export interface RoundedButtonProps {
-  color: Property.Color;
+  color: CSS.Color;
   style?: React.CSSProperties;
   onClick: () => void;
   children: React.ReactNode;
