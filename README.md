@@ -77,13 +77,13 @@ npm run build
 # Launch nginx image to test latest release
 docker pull nginx:alpine
 docker run -p 8080:80 -v \
-    <your_aboslute_path>/dist:/usr/share/nginx/html nginx:alpine
+    <your_absolute_path>/dist:/usr/share/nginx/html nginx:alpine
 
 
 # Build release image
 docker build . -t  rc-prd:2.0
 
-# Launch the development image in the backgroud
+# Launch the development image in the background
 docker run -d --publish 8080:80  --name rc2 rc-prd:2.0
 
 # Check the log
@@ -110,7 +110,7 @@ There are another two similar projects respectively built on the Vue.js and Angu
 
 - May 2020 -  Merge the branch rctsx to master
 
-  After the merge, the whole project moved to new techncial stack - TypeScript 3. Also, the Material-UI is upgraded to 4.x version.
+  After the merge, the whole project moved to new technical stack - TypeScript 3. Also, the Material-UI is upgraded to 4.x version. Nodejs 12.x is recommended.
 
 
 - Dec 2018 - Rebase demo branch to master
