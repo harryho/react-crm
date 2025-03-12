@@ -1,4 +1,6 @@
-# React Redux CRM
+## NOTICE: New React demo repo is available [here](https://github.com/harryho/react-demo). This repo is ___ARCHIVED___.
+
+### React Redux CRM
 
 > A reusable CRM project for real-world business based on React 16, React-Redux & Material-UI 4
 
