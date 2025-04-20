@@ -1,5 +1,3 @@
-## NOTICE: New React demo repo is available [here](https://github.com/harryho/react-demo). This repo is ___ARCHIVED___.
-
 ### React Redux CRM
 
 > A reusable CRM project for real-world business based on React 16, React-Redux & Material-UI 4
@@ -22,7 +20,7 @@ The goal of this starter project is to create reusable project for real-world bu
 
 ### Live Demo
 
-[Demo](https://react-app-demo.harryho.org) The demo is just a proof of concept. It doesn't have back-end API and all features of master branch.
+[Demo](https://react-demo-v4.harryho.org) The demo is just a proof of concept. It doesn't have back-end API and all features of master branch.
 
 ### Screenshots
 
@@ -45,7 +43,7 @@ Storybook
 
 ```bash
 # Clone project
-git clone https://github.com/harryho/react-crm.git
+git clone https://github.com/harryho/react-crm.git --branch r16m4
 
 
 # install the packages with npm
