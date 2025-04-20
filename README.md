@@ -1,30 +1,62 @@
-## NOTICE: New React demo repo is available [here](https://github.com/harryho/react-demo). This repo is ___ARCHIVED___.
+<h1 align="center">
+  React MUI Demo v6
+</h1>
 
-### React Redux CRM
+This react demo is built on the top of my customized React boilerplate with Storybook. 
 
-> A reusable CRM project for real-world business based on React 16, React-Redux & Material-UI 4
+The boilerplate repo is available [here](https://github.com/harryho/storybook-react-vite-ts-template). 
 
-This is the very first version, feel free to use for any app. Contributions are always welcome!
+If you want to build something simpler from scratch, you can follow the README to build your own app step by step.
 
-The goal of this starter project is to create reusable project for real-world business. To achieve this target, we need a solution which should include simple authentication process, restful API with token support and simple but elegant UI design.
 
-### Features
-
-- This project is built on the top of React/Redux.
-- The UI component are mainly built on Material-UI.
-- This project uses Redux-Thunk to support back-end API.
-- The backend API is just readonly dump service.
-- Use Formik to manage the form submission
-- Integrate with storybook for react.
-- The project is built on TypeScript 3.x
-- ~~Use Formsy to manage form submission~~
-- ~~To simulate real-world business, this starter project chooses Json-Server as fake Restful API. (You can simple replace it with your own API)~~
 
 ### Live Demo
 
-[Demo](https://react-app-demo.harryho.org) The demo is just a proof of concept. It doesn't have back-end API and all features of master branch.
+[Demo](https://react-demo-v6.harryho.org/) The demo is just a proof of concept. It doesn't have back-end API and all features of master branch.
 
 ### Screenshots
+
+![Screenshot1](screenshots/react-demo-v6-screen1.png)
+
+![Screenshot2](screenshots/react-demo-v6-screen2.png)
+
+![Screenshot3](screenshots/react-demo-v6-screen3.png)
+
+![Screenshot4](screenshots/react-demo-v6-screen4.png)
+
+<!-- ![Screenshot4](screenshots/screenshot-4.jpg) -->
+
+----
+
+
+## Getting Start
+
+```bash
+# Clone project
+git clone https://github.com/harryho/react-demo.git
+
+
+# install the packages with npm
+cd react-demo
+
+# development
+yarn dev
+
+# build
+yarn build
+
+```
+
+
+
+----
+
+
+### Previous demo
+
+[Previous Demo](https://react-demo-v4.harryho.org/) The demo is built on React 16 and Mui 4. Source code is available [here](https://github.com/harryho/react-crm/tree/r16m4)
+
+#### Screenshots
 
 ![Screenshot1](screenshots/screenshot-1.jpg)
 
@@ -32,88 +64,23 @@ The goal of this starter project is to create reusable project for real-world bu
 
 ![Screenshot3](screenshots/screenshot-3.1.jpg)
 
-<!-- ![Screenshot4](screenshots/screenshot-4.jpg) -->
-
-----
-
-Storybook
+#### Storybook
   
 ![Screenshot4](screenshots/screenshot-6.jpg)
 
 
-## Build Setup
-
-```bash
-# Clone project
-git clone https://github.com/harryho/react-crm.git
-
-
-# install the packages with npm
-cd react-crm
-npm install
-
-# start the server with hot reload at localhost:4000
-npm start
-# or yarn
-yarn start
-
-# Storybook
-## Start storybook
-npm run storybook
-## Build storybook
-npm run build-storybook
-
-## build for production
-npm run build
-
-```
-
-
-
-## Docker 
-
-```bash
-## Run / Test release without building new image
-npm run build
-
-# Launch nginx image to test latest release
-docker pull nginx:alpine
-docker run -p 8080:80 -v \
-    <your_absolute_path>/dist:/usr/share/nginx/html nginx:alpine
-
-
-# Build release image
-docker build . -t  rc-prd:2.0
-
-# Launch the development image in the background
-docker run -d --publish 8080:80  --name rc2 rc-prd:2.0
-
-# Check the log
-docker logs rc2  -f
-```
-
-## Welcome to fork or clone
-
-For detailed explanation on how things work, checkout following links please.
-
-- [React](https://facebook.github.io/react/)
-- [Redux](http://redux.js.org/)
-- [Material-UI](http://www.material-ui.com/)
-
-### Alternatives
-
-There are another two similar projects respectively built on the Vue.js and Angular. If you have interests in those technical stacks. You can find and clone those repositories below.
-
-- [Ng-MD-App](https://github.com/harryho/ng-md-app.git).
-- [Ng4Crm](https://github.com/harryho/ng4crm.git). (It is no longer maintained with latest Angular)
-- [Vue-Crm](https://github.com/harryho/vue-crm.git).
 
 ### Change log
+
+- Apr 2025 - Merge latest demo to master branch.
+
+- Dec 2024 - React 18 and Mui 6 live demo is released.
+
+- Jun 2024 - Uplifting to React 18 and Mui 6 is in progress.
 
 - May 2020 -  Merge the branch rctsx to master
 
   After the merge, the whole project moved to new technical stack - TypeScript 3. Also, the Material-UI is upgraded to 4.x version. Nodejs 12.x is recommended.
-
 
 - Dec 2018 - Rebase demo branch to master
 
