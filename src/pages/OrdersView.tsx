@@ -138,7 +138,7 @@ export default function OrdersView() {
                 <OrderTableHead
                   order={table.order}
                   orderBy={table.orderBy}
-                  rowCount={ordersList.length} {/* Use new state length */}
+                  rowCount={ordersList.length}
                   numSelected={table.selected.length}
                   onSort={table.onSort}
                   onSelectAllRows={(checked) =>
@@ -179,7 +179,7 @@ export default function OrdersView() {
 
                 <TableEmptyRows
                   height={68}
-                  emptyRows={emptyRows(table.page, table.rowsPerPage, ordersList.length)} {/* Use new state length */}
+                  emptyRows={emptyRows(table.page, table.rowsPerPage, ordersList.length)}
                 />
 
                 {(notFound || (ordersList.length === 0 && !isLoading && !error)) && <TableNoData searchQuery={filterName} />}
@@ -192,7 +192,7 @@ export default function OrdersView() {
         <TablePagination
           component="div"
           page={table.page}
-          count={ordersList.length} {/* Use new state length */}
+          count={ordersList.length}
           rowsPerPage={table.rowsPerPage}
           onPageChange={table.onChangePage}
           rowsPerPageOptions={[5, 10, 25]}

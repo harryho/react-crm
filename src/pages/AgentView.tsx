@@ -133,7 +133,7 @@ export function AgentView() {
                 <AgentTableHead
                   order={table.order}
                   orderBy={table.orderBy}
-                  rowCount={agentsList.length} {/* Use new state length */}
+                  rowCount={agentsList.length}
                   numSelected={table.selected.length}
                   onSort={table.onSort}
                   onSelectAllRows={(checked) =>
@@ -172,7 +172,7 @@ export function AgentView() {
 
                 <TableEmptyRows
                   height={68}
-                  emptyRows={emptyRows(table.page, table.rowsPerPage, agentsList.length)} {/* Use new state length */}
+                  emptyRows={emptyRows(table.page, table.rowsPerPage, agentsList.length)}
                 />
 
                 {(notFound || (agentsList.length === 0 && !isLoading && !error)) && <TableNoData searchQuery={filterName} />}
@@ -185,7 +185,7 @@ export function AgentView() {
         <TablePagination
           component="div"
           page={table.page}
-          count={agentsList.length} {/* Use new state length */}
+          count={agentsList.length}
           rowsPerPage={table.rowsPerPage}
           onPageChange={table.onChangePage}
           rowsPerPageOptions={[5, 10, 25]}

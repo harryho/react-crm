@@ -135,7 +135,7 @@ export function CustomerView() {
                 <CustomerTableHead
                   order={table.order}
                   orderBy={table.orderBy}
-                  rowCount={customersList.length} {/* Use new state length */}
+                  rowCount={customersList.length}
                   numSelected={table.selected.length}
                   onSort={table.onSort}
                   onSelectAllRows={(checked) =>
@@ -174,7 +174,7 @@ export function CustomerView() {
 
                 <TableEmptyRows
                   height={68}
-                  emptyRows={emptyRows(table.page, table.rowsPerPage, customersList.length)} {/* Use new state length */}
+                  emptyRows={emptyRows(table.page, table.rowsPerPage, customersList.length)}
                 />
 
                 {(notFound || (customersList.length === 0 && !isLoading && !error)) && <TableNoData searchQuery={filterName} />}
@@ -187,7 +187,7 @@ export function CustomerView() {
         <TablePagination
           component="div"
           page={table.page}
-          count={customersList.length} {/* Use new state length */}
+          count={customersList.length}
           rowsPerPage={table.rowsPerPage}
           onPageChange={table.onChangePage}
           rowsPerPageOptions={[5, 10, 25]}
