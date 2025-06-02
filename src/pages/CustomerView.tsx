@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -50,23 +50,45 @@ export function CustomerView() {
     });
   }
 
-  const table = useTable({
-    postDeleteRoute: '/customers',
-    service,
-    toggleNotice
-  });
-
-  const _customers = service.getAllItems();
+  const [customersList, setCustomersList] = useState<TODO[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [filterName, setFilterName] = useState('');
 
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const data = await service.getAllItems(); // service is customerService
+        // getAllItems in customerService returns an array of customers
+        setCustomersList(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error("Failed to fetch customers:", err);
+        setError("Failed to load customers. Please try again later.");
+        setCustomersList([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchCustomers();
+  }, []);
+
+  const table = useTable({
+    postDeleteRoute: '/customers', // This might need adjustment if not using _customers directly
+    service, // customerService
+    toggleNotice,
+    // data: customersList // Potentially pass data to useTable if it manages it
+  });
+
   const dataFiltered: TODO = applyFilter({
-    inputData: _customers as TODO,
+    inputData: customersList as TODO, // Use new state here
     comparator: getComparator(table.order, table.orderBy),
     filterName,
   });
 
-  const notFound = !dataFiltered.length && !!filterName;
+  const notFound = !dataFiltered.length && !!filterName && !isLoading; // Also check isLoading
 
   const handleClose = () => {
     setNotice({
@@ -104,21 +126,26 @@ export function CustomerView() {
 
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset' }}>
-            <Table sx={{ minWidth: 800 }}>
-              <CustomerTableHead
-                order={table.order}
-                orderBy={table.orderBy}
-                rowCount={_customers.length}
-                numSelected={table.selected.length}
-                onSort={table.onSort}
-                onSelectAllRows={(checked) =>
-                  table.onSelectAllRows(
-                    checked,
-                    _customers.map((customer: TODO) => customer.id)
-                  )
-                }
-                headLabel={[
-                  { id: 'name', label: 'Name' },
+            {isLoading ? (
+              <Typography sx={{ py: 10, textAlign: 'center' }}>Loading customers...</Typography>
+            ) : error ? (
+              <Typography color="error" sx={{ py: 10, textAlign: 'center' }}>{error}</Typography>
+            ) : (
+              <Table sx={{ minWidth: 800 }}>
+                <CustomerTableHead
+                  order={table.order}
+                  orderBy={table.orderBy}
+                  rowCount={customersList.length} {/* Use new state length */}
+                  numSelected={table.selected.length}
+                  onSort={table.onSort}
+                  onSelectAllRows={(checked) =>
+                    table.onSelectAllRows(
+                      checked,
+                      customersList.map((customer: TODO) => customer.id) // Use new state
+                    )
+                  }
+                  headLabel={[
+                    { id: 'name', label: 'Name' },
                   { id: 'email', label: 'Email' },
                   { id: 'mobile', label: 'Mobile' },  
                   { id: 'phone', label: 'Phone' },  
@@ -147,19 +174,20 @@ export function CustomerView() {
 
                 <TableEmptyRows
                   height={68}
-                  emptyRows={emptyRows(table.page, table.rowsPerPage, _customers.length)}
+                  emptyRows={emptyRows(table.page, table.rowsPerPage, customersList.length)} {/* Use new state length */}
                 />
 
-                {notFound && <TableNoData searchQuery={filterName} />}
+                {(notFound || (customersList.length === 0 && !isLoading && !error)) && <TableNoData searchQuery={filterName} />}
               </TableBody>
-            </Table>
+              </Table>
+            )}
           </TableContainer>
         </Scrollbar>
 
         <TablePagination
           component="div"
           page={table.page}
-          count={_customers.length}
+          count={customersList.length} {/* Use new state length */}
           rowsPerPage={table.rowsPerPage}
           onPageChange={table.onChangePage}
           rowsPerPageOptions={[5, 10, 25]}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -49,24 +49,44 @@ export function AgentView() {
     });
   }
 
-  const table = useTable({
-    postDeleteRoute: '/agents',
-    service,
-    toggleNotice
-  });
-
-  const _agents = service.getAllItems();
+  const [agentsList, setAgentsList] = useState<TODO[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [filterName, setFilterName] = useState('');
 
+  useEffect(() => {
+    const fetchAgents = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const data = await service.getAllItems(); // service is agentService
+        // getAllItems in agentService returns an array of agents
+        setAgentsList(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error("Failed to fetch agents:", err);
+        setError("Failed to load agents. Please try again later.");
+        setAgentsList([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchAgents();
+  }, []);
+
+  const table = useTable({
+    postDeleteRoute: '/agents',
+    service, // agentService
+    toggleNotice
+  });
+
   const dataFiltered: TODO = applyFilter({
-    inputData: _agents,
+    inputData: agentsList, // Use new state here
     comparator: getComparator(table.order, table.orderBy),
     filterName,
   });
 
-
-  const notFound = !dataFiltered.length && !!filterName;
+  const notFound = !dataFiltered.length && !!filterName && !isLoading; // Also check isLoading
 
   const handleClose = () => {
     setNotice({
@@ -104,21 +124,26 @@ export function AgentView() {
 
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset' }}>
-            <Table sx={{ minWidth: 800 }}>
-              <AgentTableHead
-                order={table.order}
-                orderBy={table.orderBy}
-                rowCount={_agents.length}
-                numSelected={table.selected.length}
-                onSort={table.onSort}
-                onSelectAllRows={(checked) =>
-                  table.onSelectAllRows(
-                    checked,
-                    _agents.map((agent: Agent) => agent.id)
-                  )
-                }
-                headLabel={[
-                  { id: 'name', label: 'Name' },
+            {isLoading ? (
+              <Typography sx={{ py: 10, textAlign: 'center' }}>Loading agents...</Typography>
+            ) : error ? (
+              <Typography color="error" sx={{ py: 10, textAlign: 'center' }}>{error}</Typography>
+            ) : (
+              <Table sx={{ minWidth: 800 }}>
+                <AgentTableHead
+                  order={table.order}
+                  orderBy={table.orderBy}
+                  rowCount={agentsList.length} {/* Use new state length */}
+                  numSelected={table.selected.length}
+                  onSort={table.onSort}
+                  onSelectAllRows={(checked) =>
+                    table.onSelectAllRows(
+                      checked,
+                      agentsList.map((agent: TODO) => agent.id) // Use new state
+                    )
+                  }
+                  headLabel={[
+                    { id: 'name', label: 'Name' },
                   { id: 'company', label: 'Company' },
                   { id: 'role', label: 'Role' },
                   { id: 'email', label: 'E-mail' },
@@ -147,19 +172,20 @@ export function AgentView() {
 
                 <TableEmptyRows
                   height={68}
-                  emptyRows={emptyRows(table.page, table.rowsPerPage, _agents.length)}
+                  emptyRows={emptyRows(table.page, table.rowsPerPage, agentsList.length)} {/* Use new state length */}
                 />
 
-                {notFound && <TableNoData searchQuery={filterName} />}
+                {(notFound || (agentsList.length === 0 && !isLoading && !error)) && <TableNoData searchQuery={filterName} />}
               </TableBody>
-            </Table>
+              </Table>
+            )}
           </TableContainer>
         </Scrollbar>
 
         <TablePagination
           component="div"
           page={table.page}
-          count={_agents.length}
+          count={agentsList.length} {/* Use new state length */}
           rowsPerPage={table.rowsPerPage}
           onPageChange={table.onChangePage}
           rowsPerPageOptions={[5, 10, 25]}

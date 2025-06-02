@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -54,24 +54,44 @@ export default function OrdersView() {
     });
   }
 
-  const table = useTable({
-    postDeleteRoute: '/orders',
-    service,
-    toggleNotice
-  });
-
-  const _orders = service.getAllItems();
+  const [ordersList, setOrdersList] = useState<TODO[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [filterName, setFilterName] = useState('');
 
+  useEffect(() => {
+    const fetchOrders = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const data = await service.getAllItems(); // service is orderService
+        // getAllItems in orderService returns an array of orders
+        setOrdersList(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error("Failed to fetch orders:", err);
+        setError("Failed to load orders. Please try again later.");
+        setOrdersList([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchOrders();
+  }, []);
+
+  const table = useTable({
+    postDeleteRoute: '/orders',
+    service, // orderService
+    toggleNotice
+  });
+
   const dataFiltered: TODO = applyFilter({
-    inputData: _orders,
+    inputData: ordersList, // Use new state here
     comparator: getComparator(table.order, table.orderBy),
     filterName,
   });
 
-
-  const notFound = !dataFiltered.length && !!filterName;
+  const notFound = !dataFiltered.length && !!filterName && !isLoading; // Also check isLoading
 
   const handleClose = () => {
     setNotice({
@@ -108,22 +128,27 @@ export default function OrdersView() {
         />
 
         <Scrollbar>
-          <TableContainer sx={{ overflow: 'unset'  }}>
-            <Table sx={{ minWidth: 800 }}>
-              <OrderTableHead
-                order={table.order}
-                orderBy={table.orderBy}
-                rowCount={_orders.length}
-                numSelected={table.selected.length}
-                onSort={table.onSort}
-                onSelectAllRows={(checked) =>
-                  table.onSelectAllRows(
-                    checked,
-                    _orders.map((order: Order) => order.id)
-                  )
-                }
-                headLabel={[
-                  { id: 'id', label: 'Order Number' },
+          <TableContainer sx={{ overflow: 'unset' }}>
+            {isLoading ? (
+              <Typography sx={{ py: 10, textAlign: 'center' }}>Loading orders...</Typography>
+            ) : error ? (
+              <Typography color="error" sx={{ py: 10, textAlign: 'center' }}>{error}</Typography>
+            ) : (
+              <Table sx={{ minWidth: 800 }}>
+                <OrderTableHead
+                  order={table.order}
+                  orderBy={table.orderBy}
+                  rowCount={ordersList.length} {/* Use new state length */}
+                  numSelected={table.selected.length}
+                  onSort={table.onSort}
+                  onSelectAllRows={(checked) =>
+                    table.onSelectAllRows(
+                      checked,
+                      ordersList.map((order: TODO) => order.id) // Use new state
+                    )
+                  }
+                  headLabel={[
+                    { id: 'id', label: 'Order Number' },
                   { id: 'item', label: 'Item' },
                   { id: 'amount', label: 'Total Amount', align: 'right' },
                   // { id: 'discount', label: 'Discount', align: 'right' },
@@ -154,19 +179,20 @@ export default function OrdersView() {
 
                 <TableEmptyRows
                   height={68}
-                  emptyRows={emptyRows(table.page, table.rowsPerPage, _orders.length)}
+                  emptyRows={emptyRows(table.page, table.rowsPerPage, ordersList.length)} {/* Use new state length */}
                 />
 
-                {notFound && <TableNoData searchQuery={filterName} />}
+                {(notFound || (ordersList.length === 0 && !isLoading && !error)) && <TableNoData searchQuery={filterName} />}
               </TableBody>
-            </Table>
+              </Table>
+            )}
           </TableContainer>
         </Scrollbar>
 
         <TablePagination
           component="div"
           page={table.page}
-          count={_orders.length}
+          count={ordersList.length} {/* Use new state length */}
           rowsPerPage={table.rowsPerPage}
           onPageChange={table.onChangePage}
           rowsPerPageOptions={[5, 10, 25]}

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 
 import Box from '@mui/material/Box';
@@ -6,9 +6,7 @@ import Grid from '@mui/material/Grid2';
 import Pagination from '@mui/material/Pagination';
 import Typography from '@mui/material/Typography';
 
-// import { _products } from '../_mock';
 import * as productService from "../services/productService";
-// import { DashboardContent } from 'src/layouts/dashboard';
 
 import { ProductItem } from '../components/product/ProductItem';
 import { ProductSort } from '../components/product/ProductSort';
@@ -59,25 +57,46 @@ const defaultFilters = {
   category: CATEGORY_OPTIONS[0].value,
 };
 
+const ROWS_PER_PAGE = 10; // Assuming default page size used by service
+
 function ProductsView() {
   const [sortBy, setSortBy] = useState('featured');
   const [openFilter, setOpenFilter] = useState(false);
   const [filters, setFilters] = useState<FiltersProps>(defaultFilters);
-  const [page, setPage] = useState(1);
-  const _products = productService.getItemsByPageNumber(page); //productService.getAllProducts();
-  // products =    productService.getProductsByPageNumber(page);
-  const [count, setCount] = useState(_products.length);
-  const [products, setProducts] = useState(_products);
 
+  const [page, setPage] = useState(1);
+  const [products, setProducts] = useState<TODO[]>([]); // Initialize with empty array
+  const [count, setCount] = useState(0); // Initialize count to 0
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        // productService.getItemsByPageNumber now returns { items: [], total: 0 }
+        const result = await productService.getItemsByPageNumber(page, ROWS_PER_PAGE);
+        setProducts(result.items);
+        setCount(result.total);
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+        setError("Failed to load products.");
+        setProducts([]); // Clear products on error
+        setCount(0); // Reset count on error
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [page]); // Re-run effect when page changes
 
   const handlePageChange = useCallback((
-    event: React.ChangeEvent<unknown>, page: number
+    event: React.ChangeEvent<unknown>, newPage: number
   )=>{
-    const products =    productService.getItemsByPageNumber(page);
-    setProducts(products)
-    setPage(page)
-  },[])
-
+    setPage(newPage); // Only update page state, useEffect will fetch data
+  },[]);
 
   const handleOpenFilter = useCallback(() => {
     setOpenFilter(true);
@@ -143,19 +162,31 @@ function ProductsView() {
 
       <CartIcon totalItems={8} />
 
-      <Grid container spacing={3}>
-        {products.map((product:TODO) => (
-          // <Grid key={product.id} xs={12} sm={6} md={3}>
-          <Grid key={product.id} size={{ xs: 12, sm: 6, md: 3 }}>
-            <ProductItem product={product} />
-          </Grid>
-        ))}
-      </Grid>
+      {isLoading && <Typography sx={{ textAlign: 'center', my: 5 }}>Loading products...</Typography>}
+      {error && <Typography color="error" sx={{ textAlign: 'center', my: 5 }}>{error}</Typography>}
 
-      <Pagination count={count} color="primary"
-       sx={{ mt: 8, mx: 'auto' }} page={page} onChange={handlePageChange}
+      {!isLoading && !error && (
+        <Grid container spacing={3}>
+          {products.map((product:TODO) => (
+            <Grid key={product.id} size={{ xs: 12, sm: 6, md: 3 }}>
+              <ProductItem product={product} />
+            </Grid>
+          ))}
+        </Grid>
+      )}
+
+      {!isLoading && !error && products.length === 0 && (
+        <Typography sx={{ textAlign: 'center', my: 5 }}>No products found.</Typography>
+      )}
+
+      <Pagination
+        count={Math.ceil(count / ROWS_PER_PAGE)}
+        color="primary"
+        sx={{ mt: 8, display: 'flex', justifyContent: 'center' }}
+        page={page}
+        onChange={handlePageChange}
+        disabled={isLoading || !!error}
       />
-
     </>
   );
 }
