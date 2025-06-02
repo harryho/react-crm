@@ -18,6 +18,7 @@
     "@emotion/styled": "^11",
     "@iconify/react": "latest",
     "@mui/icons-material": "^6",
+    "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^6",
     "@mui/styles": "^6.1.6",
     "@reduxjs/toolkit": "^2.3.0",
@@ -51,6 +52,7 @@
     "@storybook/react-vite": "^8.3.2",
     "@storybook/test": "^8.3.2",
     "@storybook/test-runner": "^0.19.1",
+    "@types/jest": "^29.5.12",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",
@@ -64,6 +66,7 @@
     "prop-types": "^15.8.1",
     "react-docgen-typescript-plugin": "^1.0.8",
     "storybook": "^8.3.2",
+    "typescript": "^5.3.3",
     "vite": "^5.4.19",
     "vitest": "^2.1.4"
   },

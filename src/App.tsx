@@ -83,11 +83,6 @@ const theme = createTheme({
   },
 });
 
-agentService.init();
-customerService.init();
-productService.init();
-orderService.init();
-
 
 export default function App() {
 

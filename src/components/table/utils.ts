@@ -3,7 +3,6 @@
 import { useCallback, useState } from 'react';
 import { useDialogs } from '@toolpad/core/useDialogs';
 import { useNavigate } from 'react-router-dom';
-import { enableCache } from '@iconify/react';
 
 // ----------------------------------------------------------------------
 
