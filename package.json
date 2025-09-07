@@ -4,6 +4,9 @@
   "description": "Boiler template to get up and running quickly with React, Storybook, Vite and TypeScript",
   "author": "Harry Ho <https://harryho.org/>",
   "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/chromaui/intro-storybook-react-template"
