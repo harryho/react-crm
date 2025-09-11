@@ -67,7 +67,7 @@
     "prop-types": "^15.8.1",
     "react-docgen-typescript-plugin": "^1.0.8",
     "storybook": "^8.3.2",
-    "vite": "^5.4.19",
+    "vite": "^5.4.20",
     "vitest": "^2.1.4"
   },
   "resolutions": {
