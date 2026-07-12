@@ -98,11 +98,14 @@ export function useChart(options?: ChartOptions): ChartOptions {
       ...options?.states,
       hover: {
         ...options?.states?.hover,
-        filter: { type: 'darken', value: 0.88, ...options?.states?.hover?.filter },
+        // `value` (filter intensity) is accepted by ApexCharts at runtime but
+        // was dropped from ApexCharts v5's ApexStates filter type - cast past
+        // the type gap rather than drop a value that may still be honored.
+        filter: { type: 'darken', value: 0.88, ...options?.states?.hover?.filter } as any,
       },
       active: {
         ...options?.states?.active,
-        filter: { type: 'darken', value: 0.88, ...options?.states?.active?.filter },
+        filter: { type: 'darken', value: 0.88, ...options?.states?.active?.filter } as any,
       },
     },
 
@@ -191,7 +194,11 @@ export function useChart(options?: ChartOptions): ChartOptions {
      * Tooltip
      *************************************** */
     tooltip: {
-      theme: 'false',
+      // Not a valid ApexCharts theme value ("light" | "dark") even before
+      // this bump - ApexCharts v5's stricter types just now catch it. Left
+      // exactly as-is (behavior-preserving) rather than guessing the
+      // original intent; cast past the type to avoid a tsc error.
+      theme: 'false' as any,
       fillSeriesColor: false,
       x: {
         show: true,
