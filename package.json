@@ -23,7 +23,6 @@
     "@mui/icons-material": "^7.3.11",
     "@mui/lab": "^7.0.1-beta.25",
     "@mui/material": "^7.3.11",
-    "@reduxjs/toolkit": "^2.3.0",
     "@toolpad/core": "^0.16.0",
     "apexcharts": "^5.16.0",
     "dayjs": "^1.11.13",
@@ -31,7 +30,6 @@
     "react-apexcharts": "^2.1.1",
     "react-dom": "^19.2.7",
     "react-helmet-async": "^3.0.0",
-    "react-redux": "^9.1.2",
     "react-router": "^7.18.1",
     "simplebar-react": "^3.2.6"
   },
@@ -48,7 +46,6 @@
   "devDependencies": {
     "@storybook/react": "^10.5.0",
     "@storybook/react-vite": "^10.5.0",
-    "@storybook/test": "^8.3.2",
     "@storybook/test-runner": "^0.24.4",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
