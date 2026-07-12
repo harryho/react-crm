@@ -3,7 +3,7 @@ export type Address = {
   line1: string;
   line2?: string;
   city: string;
-  region?: string;
+  region?: string | null;
   postalCode?: string;
   countryCode: string;
   isDefaultShipping: boolean;

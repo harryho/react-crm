@@ -20,7 +20,7 @@ export type OrderShipTo = {
   name?: string;
   line1?: string;
   city?: string;
-  region?: string;
+  region?: string | null;
   postalCode?: string;
   countryCode?: string;
 };

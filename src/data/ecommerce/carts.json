@@ -1,0 +1,105 @@
+[
+  {
+    "cartId": 1,
+    "userId": 1,
+    "sessionToken": "6786f546-6443-5802-980c-91f8f5c2aad9",
+    "status": "active",
+    "items": [
+      {
+        "variantId": 22,
+        "qty": 3
+      }
+    ]
+  },
+  {
+    "cartId": 2,
+    "userId": 2,
+    "sessionToken": "008bec9b-5ae9-580c-808c-f09a81612ad3",
+    "status": "active",
+    "items": []
+  },
+  {
+    "cartId": 3,
+    "userId": 3,
+    "sessionToken": "348345a1-4898-5a47-ac99-a6db021af5bf",
+    "status": "active",
+    "items": []
+  },
+  {
+    "cartId": 4,
+    "userId": 4,
+    "sessionToken": "233105ef-06b6-5bfb-bcdc-241deb544f4e",
+    "status": "active",
+    "items": [
+      {
+        "variantId": 35,
+        "qty": 2
+      }
+    ]
+  },
+  {
+    "cartId": 5,
+    "userId": 5,
+    "sessionToken": "350f9283-ebbd-5c86-9d17-2625fedbb8ac",
+    "status": "active",
+    "items": [
+      {
+        "variantId": 55,
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "cartId": 6,
+    "userId": 6,
+    "sessionToken": "c8ca8650-6db0-5c32-9823-ea55bedaa734",
+    "status": "active",
+    "items": []
+  },
+  {
+    "cartId": 7,
+    "userId": 7,
+    "sessionToken": "9851e8c5-1689-57be-9f82-0d9543ecaa6a",
+    "status": "active",
+    "items": []
+  },
+  {
+    "cartId": 8,
+    "userId": 8,
+    "sessionToken": "e92ae197-21fd-52b7-8c44-edcbc70aa430",
+    "status": "active",
+    "items": [
+      {
+        "variantId": 76,
+        "qty": 1
+      },
+      {
+        "variantId": 12,
+        "qty": 2
+      }
+    ]
+  },
+  {
+    "cartId": 9,
+    "userId": 9,
+    "sessionToken": "c4f73a4b-8e45-51c9-941a-feacbf850b79",
+    "status": "active",
+    "items": []
+  },
+  {
+    "cartId": 10,
+    "userId": 10,
+    "sessionToken": "4a62ddc5-6a03-5b7d-a196-d990cb20291b",
+    "status": "active",
+    "items": [
+      {
+        "variantId": 2,
+        "qty": 2
+      },
+      {
+        "variantId": 15,
+        "qty": 3
+      }
+    ]
+  }
+]

@@ -1,0 +1,650 @@
+[
+  {
+    "productId": 2,
+    "categoryId": 1,
+    "categoryName": "Beverages",
+    "name": "Product RECZE",
+    "slug": "product-recze",
+    "description": "Sample description for Product RECZE.",
+    "isActive": true,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-2/600/400",
+        "altText": "Product RECZE",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 2,
+        "sku": "SKU-0002",
+        "name": "Default",
+        "price": 19.0,
+        "currency": "USD",
+        "isActive": true,
+        "quantityOnHand": 84
+      }
+    ]
+  },
+  {
+    "productId": 5,
+    "categoryId": 2,
+    "categoryName": "Condiments",
+    "name": "Product EPEIM",
+    "slug": "product-epeim",
+    "description": "Sample description for Product EPEIM.",
+    "isActive": false,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-5/600/400",
+        "altText": "Product EPEIM",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 5,
+        "sku": "SKU-0005",
+        "name": "Default",
+        "price": 21.35,
+        "currency": "USD",
+        "isActive": false,
+        "quantityOnHand": 0
+      }
+    ]
+  },
+  {
+    "productId": 7,
+    "categoryId": 7,
+    "categoryName": "Produce",
+    "name": "Product HMLNI",
+    "slug": "product-hmlni",
+    "description": "Sample description for Product HMLNI.",
+    "isActive": true,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-7/600/400",
+        "altText": "Product HMLNI",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 7,
+        "sku": "SKU-0007",
+        "name": "Default",
+        "price": 30.0,
+        "currency": "USD",
+        "isActive": true,
+        "quantityOnHand": 129
+      }
+    ]
+  },
+  {
+    "productId": 8,
+    "categoryId": 2,
+    "categoryName": "Condiments",
+    "name": "Product WVJFP",
+    "slug": "product-wvjfp",
+    "description": "Sample description for Product WVJFP.",
+    "isActive": true,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-8/600/400",
+        "altText": "Product WVJFP",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 8,
+        "sku": "SKU-0008",
+        "name": "Default",
+        "price": 40.0,
+        "currency": "USD",
+        "isActive": true,
+        "quantityOnHand": 26
+      }
+    ]
+  },
+  {
+    "productId": 9,
+    "categoryId": 6,
+    "categoryName": "Meat/Poultry",
+    "name": "Product AOZBW",
+    "slug": "product-aozbw",
+    "description": "Sample description for Product AOZBW.",
+    "isActive": false,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-9/600/400",
+        "altText": "Product AOZBW",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 9,
+        "sku": "SKU-0009",
+        "name": "Default",
+        "price": 97.0,
+        "currency": "USD",
+        "isActive": false,
+        "quantityOnHand": 0
+      }
+    ]
+  },
+  {
+    "productId": 12,
+    "categoryId": 4,
+    "categoryName": "Dairy Product",
+    "name": "Product OSFNS",
+    "slug": "product-osfns",
+    "description": "Sample description for Product OSFNS.",
+    "isActive": true,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-12/600/400",
+        "altText": "Product OSFNS",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 12,
+        "sku": "SKU-0012",
+        "name": "Default",
+        "price": 38.0,
+        "currency": "USD",
+        "isActive": true,
+        "quantityOnHand": 34
+      }
+    ]
+  },
+  {
+    "productId": 14,
+    "categoryId": 7,
+    "categoryName": "Produce",
+    "name": "Product PWCJB",
+    "slug": "product-pwcjb",
+    "description": "Sample description for Product PWCJB.",
+    "isActive": true,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-14/600/400",
+        "altText": "Product PWCJB",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 14,
+        "sku": "SKU-0014",
+        "name": "Default",
+        "price": 23.25,
+        "currency": "USD",
+        "isActive": true,
+        "quantityOnHand": 108
+      }
+    ]
+  },
+  {
+    "productId": 15,
+    "categoryId": 2,
+    "categoryName": "Condiments",
+    "name": "Product KSZOI",
+    "slug": "product-kszoi",
+    "description": "Sample description for Product KSZOI.",
+    "isActive": true,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-15/600/400",
+        "altText": "Product KSZOI",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 15,
+        "sku": "SKU-0015",
+        "name": "Default",
+        "price": 15.5,
+        "currency": "USD",
+        "isActive": true,
+        "quantityOnHand": 145
+      }
+    ]
+  },
+  {
+    "productId": 16,
+    "categoryId": 3,
+    "categoryName": "Confections",
+    "name": "Product PAFRH",
+    "slug": "product-pafrh",
+    "description": "Sample description for Product PAFRH.",
+    "isActive": true,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-16/600/400",
+        "altText": "Product PAFRH",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 16,
+        "sku": "SKU-0016",
+        "name": "Default",
+        "price": 17.45,
+        "currency": "USD",
+        "isActive": true,
+        "quantityOnHand": 42
+      }
+    ]
+  },
+  {
+    "productId": 20,
+    "categoryId": 3,
+    "categoryName": "Confections",
+    "name": "Product QHFFP",
+    "slug": "product-qhffp",
+    "description": "Sample description for Product QHFFP.",
+    "isActive": true,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-20/600/400",
+        "altText": "Product QHFFP",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 20,
+        "sku": "SKU-0020",
+        "name": "Default",
+        "price": 81.0,
+        "currency": "USD",
+        "isActive": true,
+        "quantityOnHand": 50
+      }
+    ]
+  },
+  {
+    "productId": 22,
+    "categoryId": 5,
+    "categoryName": "Grains/Cereals",
+    "name": "Product CPHFY",
+    "slug": "product-cphfy",
+    "description": "Sample description for Product CPHFY.",
+    "isActive": true,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-22/600/400",
+        "altText": "Product CPHFY",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 22,
+        "sku": "SKU-0022",
+        "name": "Default",
+        "price": 21.0,
+        "currency": "USD",
+        "isActive": true,
+        "quantityOnHand": 124
+      }
+    ]
+  },
+  {
+    "productId": 24,
+    "categoryId": 1,
+    "categoryName": "Beverages",
+    "name": "Product QOGNU",
+    "slug": "product-qognu",
+    "description": "Sample description for Product QOGNU.",
+    "isActive": false,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-24/600/400",
+        "altText": "Product QOGNU",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 24,
+        "sku": "SKU-0024",
+        "name": "Default",
+        "price": 4.5,
+        "currency": "USD",
+        "isActive": false,
+        "quantityOnHand": 0
+      }
+    ]
+  },
+  {
+    "productId": 28,
+    "categoryId": 7,
+    "categoryName": "Produce",
+    "name": "Product OFBNT",
+    "slug": "product-ofbnt",
+    "description": "Sample description for Product OFBNT.",
+    "isActive": false,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-28/600/400",
+        "altText": "Product OFBNT",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 28,
+        "sku": "SKU-0028",
+        "name": "Default",
+        "price": 45.6,
+        "currency": "USD",
+        "isActive": false,
+        "quantityOnHand": 0
+      }
+    ]
+  },
+  {
+    "productId": 30,
+    "categoryId": 8,
+    "categoryName": "Seafood",
+    "name": "Product LYERX",
+    "slug": "product-lyerx",
+    "description": "Sample description for Product LYERX.",
+    "isActive": true,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-30/600/400",
+        "altText": "Product LYERX",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 30,
+        "sku": "SKU-0030",
+        "name": "Default",
+        "price": 25.89,
+        "currency": "USD",
+        "isActive": true,
+        "quantityOnHand": 140
+      }
+    ]
+  },
+  {
+    "productId": 35,
+    "categoryId": 1,
+    "categoryName": "Beverages",
+    "name": "Product NEVTJ",
+    "slug": "product-nevtj",
+    "description": "Sample description for Product NEVTJ.",
+    "isActive": true,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-35/600/400",
+        "altText": "Product NEVTJ",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 35,
+        "sku": "SKU-0035",
+        "name": "Default",
+        "price": 18.0,
+        "currency": "USD",
+        "isActive": true,
+        "quantityOnHand": 45
+      }
+    ]
+  },
+  {
+    "productId": 42,
+    "categoryId": 5,
+    "categoryName": "Grains/Cereals",
+    "name": "Product RJVNM",
+    "slug": "product-rjvnm",
+    "description": "Sample description for Product RJVNM.",
+    "isActive": false,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-42/600/400",
+        "altText": "Product RJVNM",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 42,
+        "sku": "SKU-0042",
+        "name": "Default",
+        "price": 14.0,
+        "currency": "USD",
+        "isActive": false,
+        "quantityOnHand": 0
+      }
+    ]
+  },
+  {
+    "productId": 45,
+    "categoryId": 8,
+    "categoryName": "Seafood",
+    "name": "Product AQOKR",
+    "slug": "product-aqokr",
+    "description": "Sample description for Product AQOKR.",
+    "isActive": true,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-45/600/400",
+        "altText": "Product AQOKR",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 45,
+        "sku": "SKU-0045",
+        "name": "Default",
+        "price": 9.5,
+        "currency": "USD",
+        "isActive": true,
+        "quantityOnHand": 135
+      }
+    ]
+  },
+  {
+    "productId": 49,
+    "categoryId": 3,
+    "categoryName": "Confections",
+    "name": "Product FPYPN",
+    "slug": "product-fpypn",
+    "description": "Sample description for Product FPYPN.",
+    "isActive": true,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-49/600/400",
+        "altText": "Product FPYPN",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 49,
+        "sku": "SKU-0049",
+        "name": "Default",
+        "price": 20.0,
+        "currency": "USD",
+        "isActive": true,
+        "quantityOnHand": 143
+      }
+    ]
+  },
+  {
+    "productId": 54,
+    "categoryId": 6,
+    "categoryName": "Meat/Poultry",
+    "name": "Product QAQRL",
+    "slug": "product-qaqrl",
+    "description": "Sample description for Product QAQRL.",
+    "isActive": true,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-54/600/400",
+        "altText": "Product QAQRL",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 54,
+        "sku": "SKU-0054",
+        "name": "Default",
+        "price": 7.45,
+        "currency": "USD",
+        "isActive": true,
+        "quantityOnHand": 48
+      }
+    ]
+  },
+  {
+    "productId": 55,
+    "categoryId": 6,
+    "categoryName": "Meat/Poultry",
+    "name": "Product YYWRT",
+    "slug": "product-yywrt",
+    "description": "Sample description for Product YYWRT.",
+    "isActive": true,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-55/600/400",
+        "altText": "Product YYWRT",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 55,
+        "sku": "SKU-0055",
+        "name": "Default",
+        "price": 24.0,
+        "currency": "USD",
+        "isActive": true,
+        "quantityOnHand": 85
+      }
+    ]
+  },
+  {
+    "productId": 57,
+    "categoryId": 5,
+    "categoryName": "Grains/Cereals",
+    "name": "Product OVLQI",
+    "slug": "product-ovlqi",
+    "description": "Sample description for Product OVLQI.",
+    "isActive": true,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-57/600/400",
+        "altText": "Product OVLQI",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 57,
+        "sku": "SKU-0057",
+        "name": "Default",
+        "price": 19.5,
+        "currency": "USD",
+        "isActive": true,
+        "quantityOnHand": 19
+      }
+    ]
+  },
+  {
+    "productId": 62,
+    "categoryId": 3,
+    "categoryName": "Confections",
+    "name": "Product WUXYK",
+    "slug": "product-wuxyk",
+    "description": "Sample description for Product WUXYK.",
+    "isActive": true,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-62/600/400",
+        "altText": "Product WUXYK",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 62,
+        "sku": "SKU-0062",
+        "name": "Default",
+        "price": 49.3,
+        "currency": "USD",
+        "isActive": true,
+        "quantityOnHand": 64
+      }
+    ]
+  },
+  {
+    "productId": 71,
+    "categoryId": 4,
+    "categoryName": "Dairy Product",
+    "name": "Product MYMOI",
+    "slug": "product-mymoi",
+    "description": "Sample description for Product MYMOI.",
+    "isActive": true,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-71/600/400",
+        "altText": "Product MYMOI",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 71,
+        "sku": "SKU-0071",
+        "name": "Default",
+        "price": 21.5,
+        "currency": "USD",
+        "isActive": true,
+        "quantityOnHand": 117
+      }
+    ]
+  },
+  {
+    "productId": 76,
+    "categoryId": 1,
+    "categoryName": "Beverages",
+    "name": "Product JYGFE",
+    "slug": "product-jygfe",
+    "description": "Sample description for Product JYGFE.",
+    "isActive": true,
+    "images": [
+      {
+        "url": "https://picsum.photos/seed/product-76/600/400",
+        "altText": "Product JYGFE",
+        "sortOrder": 0
+      }
+    ],
+    "variants": [
+      {
+        "variantId": 76,
+        "sku": "SKU-0076",
+        "name": "Default",
+        "price": 18.0,
+        "currency": "USD",
+        "isActive": true,
+        "quantityOnHand": 22
+      }
+    ]
+  }
+]
