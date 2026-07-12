@@ -7,7 +7,7 @@ import CheckboxGenerator from "../components/controls/Checkbox";
 import ButtonGenerator from "../components/controls/Button";
 import { Form, useLoaderData, useNavigate } from "react-router-dom";
 import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import { Alert, FormControl, Snackbar, Stack, Typography } from "@mui/material";
 import { useRouter } from "../routes/hooks/use-router";
 import Slide, { SlideProps } from '@mui/material/Slide';
@@ -269,8 +269,8 @@ export default function CustomerForm() {
                     {customer ? <ButtonGenerator text="Update" onClick={handleUpdate} />
                         : <ButtonGenerator text="Submit" type="submit" />
                     }
-                    {customer ? <ButtonGenerator text="Back" color="default" onClick={goBack} />
-                        : <ButtonGenerator text="Reset" color="default" onClick={resetForm} />}
+                    {customer ? <ButtonGenerator text="Back" color={"default" as any} onClick={goBack} />
+                        : <ButtonGenerator text="Reset" color={"default" as any} onClick={resetForm} />}
                 </Stack>
             </Form >
             <Snackbar

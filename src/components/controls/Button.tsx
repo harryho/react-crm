@@ -1,22 +1,15 @@
 import React from "react";
-import { Button } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { Button, type ButtonProps } from "@mui/material";
 
-const useStyles = makeStyles((theme:TODO) => ({
-  root: {
-    margin: theme.spacing(1)
-  },
-  label: {
-    textTransform: "none"
-  }
-}));
+type ButtonGeneratorProps = ButtonProps & {
+  text: React.ReactNode;
+};
 
-export default function ButtonGenerator(props: TODO) {
-  const classes = useStyles();
-  const { text, size, color, variant, onClick, ...other } = props;
+export default function ButtonGenerator(props: ButtonGeneratorProps) {
+  const { text, size, color, variant, onClick, sx, ...other } = props;
   return (
     <Button
-      classes={{ root: classes.root, label: classes.label }}
+      sx={{ m: 1, textTransform: "none", ...sx }}
       variant={variant || "contained"}
       size={size || "large"}
       color={color || "primary"}

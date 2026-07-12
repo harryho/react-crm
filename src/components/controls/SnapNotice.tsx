@@ -1,7 +1,7 @@
 import { HorizontalRule } from "@mui/icons-material";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
-import { TransitionProps } from "@mui/material/transitions/transition";
+import { TransitionProps } from "@mui/material/transitions";
 
 export type SnapNoticeProps = {
     open: boolean,

@@ -1,13 +1,19 @@
 import React, { useState } from "react";
-import { makeStyles } from "@mui/styles";
 
-export function useForm(initialFieldValues: TODO, selectedData: TODO) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type FormValues = Record<string, any>;
 
-  const [values, setValues] = useState(selectedData?selectedData:initialFieldValues);
+// selectedData comes from React Router's useLoaderData(), typed `unknown`
+// by design - cast once here rather than forcing every call site to cast.
+export function useForm(initialFieldValues: FormValues, selectedData: unknown) {
+
+  const [values, setValues] = useState<FormValues>(
+    (selectedData ? selectedData : initialFieldValues) as FormValues
+  );
   const [errors, setErrors] = useState({});
   const [currentField, setcurrentField] = useState("");
 
-  const handleInputChange = (e:TODO) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setValues({
       ...values,
@@ -32,13 +38,3 @@ export function useForm(initialFieldValues: TODO, selectedData: TODO) {
     currentField
   };
 }
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& .MuiFormControl-root": {
-      width: "80%",
-      margin: (theme as TODO).spacing(1)
-    }
-  }
-}));
-

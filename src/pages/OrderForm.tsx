@@ -7,7 +7,7 @@ import CheckboxGenerator from "../components/controls/Checkbox";
 import ButtonGenerator from "../components/controls/Button";
 import { Form, useLoaderData, useNavigate } from "react-router-dom";
 import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid2";
+import Grid from "@mui/material/Grid";
 import {
     Alert, FormControl, Snackbar, Stack, Step, StepLabel, Stepper, Typography
 } from "@mui/material";
@@ -253,8 +253,8 @@ export default function OrderForm() {
                     {order ? <ButtonGenerator text="Update" onClick={handleUpdate} />
                         : <ButtonGenerator text="Submit" type="submit" />
                     }
-                    {order ? <ButtonGenerator text="Back" color="default" onClick={goBack} />
-                        : <ButtonGenerator text="Reset" color="default" onClick={resetForm} />}
+                    {order ? <ButtonGenerator text="Back" color={"default" as any} onClick={goBack} />
+                        : <ButtonGenerator text="Reset" color={"default" as any} onClick={resetForm} />}
                 </Stack>
             </Form >
             <Snackbar

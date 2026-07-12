@@ -1,4 +1,4 @@
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { _tasks, _posts, _timeline } from '../_mock';
 import { AnalyticsNews } from '../components/analytics/AnalyticsNews';

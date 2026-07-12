@@ -42,7 +42,9 @@ const MuiCard: Components<Theme>['MuiCard'] = {
       zIndex: 0,
       position: 'relative',
       boxShadow: theme.customShadows.card,
-      borderRadius: theme.shape.borderRadius * 2,
+      // Shape.borderRadius is typed number | string as of MUI 7; this app's
+      // theme always sets it to a number, so cast rather than change behavior.
+      borderRadius: (theme.shape.borderRadius as number) * 2,
     }),
   },
 };
