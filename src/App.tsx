@@ -5,8 +5,8 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import Inventory2Icon from '@mui/icons-material/Inventory2';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import ContactsIcon from '@mui/icons-material/Contacts';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { AppProvider } from '@toolpad/core/react-router-dom';
+import { Outlet, useNavigate } from 'react-router';
+import { ReactRouterAppProvider } from '@toolpad/core/react-router';
 import { createTheme } from '@mui/material/styles';
 import logoMidPng from './assets/it-logo-mid.png';
 import { Session, type Navigation } from '@toolpad/core/AppProvider';
@@ -109,14 +109,14 @@ export default function App() {
 
   return (
     <SessionContext.Provider value={sessionContextValue}>
-      <AppProvider theme={theme}
+      <ReactRouterAppProvider theme={theme}
         navigation={NAVIGATION}
         branding={BRANDING}
         session={session}
         authentication={{ signIn, signOut }}
       >
         <Outlet />
-      </AppProvider>
+      </ReactRouterAppProvider>
     </SessionContext.Provider>
   );
 }

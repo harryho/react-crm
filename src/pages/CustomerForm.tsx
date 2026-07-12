@@ -5,7 +5,7 @@ import RadioGroupGenerator from "../components/controls/RadioGroup";
 import * as service from "../services/customerService";
 import CheckboxGenerator from "../components/controls/Checkbox";
 import ButtonGenerator from "../components/controls/Button";
-import { Form, useLoaderData, useNavigate } from "react-router-dom";
+import { Form, useLoaderData, useNavigate } from "react-router";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { Alert, FormControl, Snackbar, Stack, Typography } from "@mui/material";

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router';
+import { RouterProvider } from 'react-router/dom';
 import App from './App';
 import Layout from './layouts/Dashboard';
 import ProductsView from './pages/ProductsView';

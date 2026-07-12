@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import { useDialogs } from '@toolpad/core/useDialogs';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { enableCache } from '@iconify/react';
 
 // ----------------------------------------------------------------------
