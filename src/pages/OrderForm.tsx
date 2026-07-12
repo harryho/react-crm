@@ -253,6 +253,11 @@ export default function OrderForm() {
                     {order ? <ButtonGenerator text="Update" onClick={handleUpdate} />
                         : <ButtonGenerator text="Submit" type="submit" />
                     }
+                    {/* "default" isn't a valid MUI Button color (removed since v5) - was
+                        silently allowed by this component's old untyped props. Cast
+                        preserves the exact pre-existing (likely no-op) behavior rather
+                        than guessing what color was actually intended; worth deciding
+                        the real intent during the M1+ uplift. */}
                     {order ? <ButtonGenerator text="Back" color={"default" as any} onClick={goBack} />
                         : <ButtonGenerator text="Reset" color={"default" as any} onClick={resetForm} />}
                 </Stack>

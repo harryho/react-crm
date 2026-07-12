@@ -141,6 +141,9 @@ function ProductsView() {
         </Box>
       </Box>
 
+      {/* Hardcoded placeholder - there is no real cart state anywhere in this
+          app yet (see docs/uplift-analysis.md, M4: cart/checkout). Replace
+          with a real count once cart state exists. */}
       <CartIcon totalItems={8} />
 
       <Grid container spacing={3}>
