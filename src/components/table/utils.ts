@@ -57,13 +57,13 @@ export function getComparator<Key extends keyof any>(
 
 // ----------------------------------------------------------------------
 
-type ApplyFilterProps = {
-  inputData: Agent[] | Customer[] | Order[]; // Array<UserProps| CustomerProps |OrderProps >;
+type ApplyFilterProps<T extends { name: string }> = {
+  inputData: T[];
   filterName: string;
   comparator: (a: any, b: any) => number;
 };
 
-export function applyFilter({ inputData, comparator, filterName }: ApplyFilterProps) {
+export function applyFilter<T extends { name: string }>({ inputData, comparator, filterName }: ApplyFilterProps<T>): T[] {
   const stabilizedThis = inputData.map((el, index) => [el, index] as const);
 
   stabilizedThis.sort((a, b) => {
@@ -72,15 +72,15 @@ export function applyFilter({ inputData, comparator, filterName }: ApplyFilterPr
     return a[1] - b[1];
   });
 
-  inputData = stabilizedThis.map((el) => el[0]) as TODO;
+  let result = stabilizedThis.map((el) => el[0]);
 
   if (filterName) {
-    inputData = inputData.filter(
-      (user:TODO) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
-    ) as TODO;
+    result = result.filter(
+      (item) => item.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+    );
   }
 
-  return inputData;
+  return result;
 }
 
 //-------------------------------------------------------------

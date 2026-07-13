@@ -13,7 +13,6 @@ import { Session, type Navigation } from '@toolpad/core/AppProvider';
 import { SessionContext } from './SessionContext';
 import * as agentService from "./services/agentService";
 import * as productService from "./services/productService";
-import * as customerService from "./services/customerService";
 import * as orderService from "./services/orderService";
 
 const NAVIGATION: Navigation = [
@@ -32,8 +31,8 @@ const NAVIGATION: Navigation = [
     icon: <Inventory2Icon />,
   },
   {
-    segment: 'customers',
-    title: 'Customers',
+    segment: 'users',
+    title: 'Users',
     icon: <ContactsIcon />,
   },
   
@@ -84,7 +83,6 @@ const theme = createTheme({
 });
 
 agentService.init();
-customerService.init();
 productService.init();
 orderService.init();
 

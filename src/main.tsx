@@ -11,95 +11,95 @@ import { BlogView } from './pages/BlogView';
 import { NotFoundView } from './pages/NotFoundView';
 import { HelmetProvider } from 'react-helmet-async';
 import { AgentView } from './pages/AgentView';
-import { CustomerView } from './pages/CustomerView';
+import { UsersView, usersLoader } from './pages/UsersView';
 import AgentForm , { agentLoader  }from './pages/AgentForm';
 import SignInView from './pages/SignInView';
-import CustomerForm , { customerLoader  } from './pages/CustomerForm';
+import UserForm , { userLoader  } from './pages/UserForm';
 import OrderForm , {orderLoader} from './pages/OrderForm';
 
 
-const router = createBrowserRouter([
-  {
-    Component: App,
-    children: [
-      {
-        path: '',
-        Component: Layout,
-        children: [
-          {
-            path: '',
-            Component: OverviewAnalyticsView,
-          },
-          {
-            path: 'orders',
-            Component: OrdersView,
-          },
-          {
-            path: 'products',
-            Component: ProductsView,
-          },
-          {
-            path: 'customers',
-            Component: CustomerView,
-          },
-          {
-            path: 'blogs',
-            Component: BlogView,
-          },
-          {
-            path: 'agents',
-            Component: AgentView,
-          },
-          {
-            path: 'agent-form',
-            Component: AgentForm,
-          },
-          {
-            path: 'edit-agent/:id',
-            Component: AgentForm,
-            loader: agentLoader
+function createRouter() {
+  return createBrowserRouter([
+    {
+      Component: App,
+      children: [
+        {
+          path: '',
+          Component: Layout,
+          children: [
+            {
+              path: '',
+              Component: OverviewAnalyticsView,
+            },
+            {
+              path: 'orders',
+              Component: OrdersView,
+            },
+            {
+              path: 'products',
+              Component: ProductsView,
+            },
+            {
+              path: 'users',
+              Component: UsersView,
+              loader: usersLoader,
+            },
+            {
+              path: 'blogs',
+              Component: BlogView,
+            },
+            {
+              path: 'agents',
+              Component: AgentView,
+            },
+            {
+              path: 'agent-form',
+              Component: AgentForm,
+            },
+            {
+              path: 'edit-agent/:id',
+              Component: AgentForm,
+              loader: agentLoader
 
-          },
-          {
-            path: 'customer-form',
-            Component: CustomerForm,
-          },
-          {
-            path: 'edit-customer/:id',
-            Component: CustomerForm,
-            loader: customerLoader
+            },
+            {
+              path: 'user-form',
+              Component: UserForm,
+            },
+            {
+              path: 'edit-user/:id',
+              Component: UserForm,
+              loader: userLoader
 
-          },
-          {
-            path: 'order-form',
-            Component: OrderForm,
-          },
-          {
-            path: 'edit-order/:id',
-            Component: OrderForm,
-            loader: orderLoader
+            },
+            {
+              path: 'order-form',
+              Component: OrderForm,
+            },
+            {
+              path: 'edit-order/:id',
+              Component: OrderForm,
+              loader: orderLoader
 
-          },         
-          {
-            path: '*',
-            Component: NotFoundView
-          }
-        ]
-      },
-      {
-        path: '/sign-in',
-        Component: SignInView
-      },
-      {
-        path: '*',
-        Component: NotFoundView
-      }
-    ],
-  },
-]);
-
-
-
+            },
+            {
+              path: '*',
+              Component: NotFoundView
+            }
+          ]
+        },
+        {
+          path: '/sign-in',
+          Component: SignInView
+        },
+        {
+          path: '*',
+          Component: NotFoundView
+        }
+      ],
+    },
+  ]);
+}
 
 async function enableMocking() {
   if (!import.meta.env.DEV) {
@@ -109,7 +109,12 @@ async function enableMocking() {
   return worker.start({ onUnhandledRequest: 'bypass' });
 }
 
+// createBrowserRouter() kicks off the initial route's loader synchronously,
+// at construction time - not when <RouterProvider> renders. Any route with a
+// fetch-backed loader would race the MSW worker's startup if the router were
+// built up front, so it's built only after mocking is confirmed ready.
 enableMocking().then(() => {
+  const router = createRouter();
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <HelmetProvider >

@@ -16,25 +16,6 @@ declare module "@emotion/styled" {
   export default customStyled;
 }
 
-declare type  Customer = {
-  id: string;
-  name: string;
-  firstName?: string;
-  lastName?: string;
-  email: string;
-  shippingAddress?: string;
-  billingAddress?: string;
-  city?: string;
-  state?: string;
-  country?: string;
-  mobile: string;
-  phone: string;
-  credit?: string;
-  avatarUrl?: string;
-  hasItemInShoppingCart: boolean;
-  membership: string;
-}
-
 declare type Agent = {
   id: string;
   name: string;
