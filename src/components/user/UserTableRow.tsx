@@ -60,7 +60,7 @@ export function UserTableRow({ row, selected, onSelectRow, onDeleteRow }: UserTa
 
         <TableCell component="th" scope="row">
           <Box gap={2} display="flex" alignItems="center">
-            <Avatar alt={row.name}>{row.firstName.charAt(0)}</Avatar>
+            <Avatar alt={row.name} src={row.avatarUrl}>{row.firstName.charAt(0)}</Avatar>
             {row.name}
           </Box>
         </TableCell>

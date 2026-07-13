@@ -18,6 +18,7 @@ export type User = {
   lastName: string;
   companyName?: string;
   phone?: string;
+  avatarUrl?: string;
   isActive: boolean;
   addresses: Address[];
 };

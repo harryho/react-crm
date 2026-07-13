@@ -6,6 +6,7 @@ import ButtonGenerator from "../components/controls/Button";
 import { Form, useLoaderData, useNavigate, LoaderFunctionArgs } from "react-router";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
+import Avatar from "@mui/material/Avatar";
 import { Alert, FormControl, Snackbar, Stack, Typography } from "@mui/material";
 import { useRouter } from "../routes/hooks/use-router";
 import Slide, { SlideProps } from '@mui/material/Slide';
@@ -115,6 +116,7 @@ export default function UserForm() {
         lastName: values.lastName,
         companyName: values.companyName || undefined,
         phone: values.phone || undefined,
+        avatarUrl: user?.avatarUrl,
         isActive: values.isActive,
         addresses: values.addrLine1
             ? [{
@@ -156,9 +158,16 @@ export default function UserForm() {
 
     return (
         <Paper sx={{ px: 5, py: 5 }}>
-            <Typography variant="h4" sx={{ mb: { xs: 3, md: 5 } }}>
-                User Form
-            </Typography>
+            <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: { xs: 3, md: 5 } }}>
+                {user && (
+                    <Avatar src={user.avatarUrl} alt={`${user.firstName} ${user.lastName}`} sx={{ width: 56, height: 56 }}>
+                        {user.firstName.charAt(0)}
+                    </Avatar>
+                )}
+                <Typography variant="h4">
+                    User Form
+                </Typography>
+            </Stack>
             <Form onSubmit={handleSubmit}>
                 <Grid container rowSpacing={2} columnSpacing={4}>
 

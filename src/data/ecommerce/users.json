@@ -5,6 +5,7 @@
     "passwordHash": "$2b$12$sampledatasampledatasuXW9dTIWkKO3RhcaCzD9NQBnmWkVse1u",
     "firstName": "Billy",
     "lastName": "Braun",
+    "avatarUrl": "https://i.pravatar.cc/300?img=1",
     "phone": "(499) 633-7585",
     "isActive": true,
     "addresses": [
@@ -25,6 +26,7 @@
     "passwordHash": "$2b$12$sampledatasampledatasuXW9dTIWkKO3RhcaCzD9NQBnmWkVse1u",
     "firstName": "Cheryl",
     "lastName": "Romaguera",
+    "avatarUrl": "https://i.pravatar.cc/300?img=2",
     "phone": "(922) 436-7361 x2235",
     "isActive": true,
     "addresses": [
@@ -45,6 +47,7 @@
     "passwordHash": "$2b$12$sampledatasampledatasuXW9dTIWkKO3RhcaCzD9NQBnmWkVse1u",
     "firstName": "Lee",
     "lastName": "Doyle-Grant",
+    "avatarUrl": "https://i.pravatar.cc/300?img=3",
     "phone": "528-376-5760 x97546",
     "isActive": true,
     "addresses": [
@@ -65,6 +68,7 @@
     "passwordHash": "$2b$12$sampledatasampledatasuXW9dTIWkKO3RhcaCzD9NQBnmWkVse1u",
     "firstName": "Angel",
     "lastName": "Rolfson-Kulas",
+    "avatarUrl": "https://i.pravatar.cc/300?img=4",
     "phone": "624.509.7392 x1286",
     "isActive": true,
     "addresses": [
@@ -85,6 +89,7 @@
     "passwordHash": "$2b$12$sampledatasampledatasuXW9dTIWkKO3RhcaCzD9NQBnmWkVse1u",
     "firstName": "Sherri",
     "lastName": "Davis",
+    "avatarUrl": "https://i.pravatar.cc/300?img=5",
     "phone": "848-314-0999 x195",
     "isActive": true,
     "addresses": [
@@ -105,6 +110,7 @@
     "passwordHash": "$2b$12$sampledatasampledatasuXW9dTIWkKO3RhcaCzD9NQBnmWkVse1u",
     "firstName": "Tony",
     "lastName": "Paucek",
+    "avatarUrl": "https://i.pravatar.cc/300?img=6",
     "phone": "(424) 566-0764",
     "isActive": true,
     "addresses": [
@@ -125,6 +131,7 @@
     "passwordHash": "$2b$12$sampledatasampledatasuXW9dTIWkKO3RhcaCzD9NQBnmWkVse1u",
     "firstName": "Betty",
     "lastName": "Hammes",
+    "avatarUrl": "https://i.pravatar.cc/300?img=7",
     "phone": "939.834.8753 x03976",
     "isActive": true,
     "addresses": [
@@ -145,6 +152,7 @@
     "passwordHash": "$2b$12$sampledatasampledatasuXW9dTIWkKO3RhcaCzD9NQBnmWkVse1u",
     "firstName": "Kerry",
     "lastName": "Kuhlman",
+    "avatarUrl": "https://i.pravatar.cc/300?img=8",
     "phone": "1-494-294-7001 x164",
     "isActive": true,
     "addresses": [
@@ -165,6 +173,7 @@
     "passwordHash": "$2b$12$sampledatasampledatasuXW9dTIWkKO3RhcaCzD9NQBnmWkVse1u",
     "firstName": "Charlene",
     "lastName": "Krajcik",
+    "avatarUrl": "https://i.pravatar.cc/300?img=9",
     "phone": "1-549-588-5177",
     "isActive": true,
     "addresses": [
@@ -185,6 +194,7 @@
     "passwordHash": "$2b$12$sampledatasampledatasuXW9dTIWkKO3RhcaCzD9NQBnmWkVse1u",
     "firstName": "Conrad",
     "lastName": "Spinka",
+    "avatarUrl": "https://i.pravatar.cc/300?img=10",
     "phone": "1-226-573-7979 x21253",
     "isActive": true,
     "addresses": [
@@ -205,6 +215,7 @@
     "passwordHash": "$2b$12$sampledatasampledatasuXW9dTIWkKO3RhcaCzD9NQBnmWkVse1u",
     "firstName": "Lillie",
     "lastName": "Schultz",
+    "avatarUrl": "https://i.pravatar.cc/300?img=11",
     "phone": "406-912-2464 x0861",
     "isActive": true,
     "addresses": [
@@ -225,6 +236,7 @@
     "passwordHash": "$2b$12$sampledatasampledatasuXW9dTIWkKO3RhcaCzD9NQBnmWkVse1u",
     "firstName": "Brian",
     "lastName": "Jacobs",
+    "avatarUrl": "https://i.pravatar.cc/300?img=12",
     "phone": "1-950-769-6723 x2233",
     "isActive": true,
     "addresses": [
