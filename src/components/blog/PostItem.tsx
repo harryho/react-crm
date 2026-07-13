@@ -6,6 +6,7 @@ import Card from '@mui/material/Card';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 
+import type { Post } from '../../types';
 import { fnDate } from '../../utils/format-time';
 import { fnShortenNumber } from '../../utils/format-number';
 
@@ -15,23 +16,7 @@ import { Iconify } from '../iconify';
 import { SvgColor } from '../svg-color';
 import { lightPalette as palette } from '../../theme/core';
 
-// ----------------------------------------------------------------------
-
-export type PostItemProps = {
-  id: string;
-  title: string;
-  coverUrl: string;
-  totalViews: number;
-  description: string;
-  totalShares: number;
-  totalComments: number;
-  totalFavorites: number;
-  postedAt: string | number | null;
-  author: {
-    name: string;
-    avatarUrl: string;
-  };
-};
+export type PostItemProps = Post;
 
 export function PostItem({
   sx,
@@ -40,7 +25,7 @@ export function PostItem({
   latestPostLarge,
   ...other
 }: CardProps & {
-  post: PostItemProps;
+  post: Post;
   latestPost: boolean;
   latestPostLarge: boolean;
 }) {
@@ -118,7 +103,7 @@ export function PostItem({
     <Box
       component="img"
       alt={post.title}
-      src={post.coverUrl}
+      src={post.images[0]?.url}
       sx={{
         top: 0,
         width: 1,

@@ -8,19 +8,16 @@ import Avatar from '@mui/material/Avatar';
 import CardHeader from '@mui/material/CardHeader';
 import ListItemText from '@mui/material/ListItemText';
 
+import type { Post } from '../../types';
 import { fToNow } from '../../utils/format-time';
 
 import { Iconify } from '../iconify';
 import { Scrollbar } from '../scrollbar';
 
-import type { PostItemProps } from '../blog/PostItem';
-
-// ----------------------------------------------------------------------
-
 type Props = CardProps & {
   title?: string;
   subheader?: string;
-  list: PostItemProps[];
+  list: Post[];
 };
 
 export function AnalyticsNews({ title, subheader, list, ...other }: Props) {
@@ -68,7 +65,7 @@ function PostItem({ sx, item, ...other }: BoxProps & { item: Props['list'][numbe
       <Avatar
         variant="rounded"
         alt={item.title}
-        src={item.coverUrl}
+        src={item.images[0]?.url}
         sx={{ width: 48, height: 48, flexShrink: 0 }}
       />
 

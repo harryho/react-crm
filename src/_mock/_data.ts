@@ -77,7 +77,13 @@ export const _posts = [...Array(26)].map((_, index) => ({
   id: _id(index),
   title: _postTitles(index),
   description: _description(index),
-  coverUrl: `/assets/images/cover/cover-${index + 1}.webp`,
+  images: [
+    {
+      url: `https://picsum.photos/seed/blog-${index + 1}/600/400`,
+      altText: _postTitles(index),
+      sortOrder: 0,
+    },
+  ],
   totalViews: 8829,
   totalComments: 7977,
   totalShares: 8556,

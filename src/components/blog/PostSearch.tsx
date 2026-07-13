@@ -4,14 +4,12 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Autocomplete, { autocompleteClasses } from '@mui/material/Autocomplete';
 
+import type { Post } from '../../types';
+
 import { Iconify } from '../iconify';
 
-import type { PostItemProps } from './PostItem';
-
-// ----------------------------------------------------------------------
-
 type PostSearchProps = {
-  posts: PostItemProps[];
+  posts: Post[];
   sx?: SxProps<Theme>;
 };
 
