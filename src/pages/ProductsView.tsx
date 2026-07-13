@@ -16,6 +16,7 @@ import { ProductItem } from '../components/product/ProductItem';
 import { CartIcon } from '../components/product/CartIcon';
 import { RouterLink } from '../routes/components/RouterLink';
 import { useRouter } from '../routes/hooks/use-router';
+import { useCart } from '../contexts/CartContext';
 
 // ----------------------------------------------------------------------
 
@@ -29,6 +30,7 @@ export async function productsLoader() {
 export default function ProductsView() {
   const { products, categories } = useLoaderData() as { products: Product[]; categories: Category[] };
   const router = useRouter();
+  const cart = useCart();
 
   const [categoryId, setCategoryId] = useState<number | 'all'>('all');
   const [search, setSearch] = useState('');
@@ -94,15 +96,18 @@ export default function ProductsView() {
         />
       </Box>
 
-      {/* Hardcoded placeholder - there is no real cart state anywhere in this
-          app yet (see docs/uplift-analysis.md, M4: cart/checkout). Replace
-          with a real count once cart state exists. */}
-      <CartIcon totalItems={8} />
+      <CartIcon totalItems={cart.totalItems} onClick={() => router.push('/cart')} />
 
       <Grid container spacing={3}>
         {pageItems.map((product) => (
           <Grid key={product.productId} size={{ xs: 12, sm: 6, md: 3 }}>
-            <ProductItem product={product} onClick={() => router.push(`/edit-product/${product.productId}`)} />
+            <ProductItem
+              product={product}
+              onClick={() => router.push(`/edit-product/${product.productId}`)}
+              onAddToCart={
+                product.variants[0] ? () => cart.addItem(product.variants[0].variantId, 1) : undefined
+              }
+            />
           </Grid>
         ))}
       </Grid>

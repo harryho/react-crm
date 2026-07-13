@@ -13,9 +13,15 @@ import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
 
-import type { Order, User } from '../types';
-import { fetchOrderById, fetchUserById, updateOrderStatus } from '../api/client';
+import type { Order, User, Carrier } from '../types';
+import { fetchOrderById, fetchUserById, fetchCarriers, updateOrderStatus, recordPayment, recordShipment } from '../api/client';
 import { Label } from '../components/label';
 import ButtonGenerator from '../components/controls/Button';
 import { AnalyticsOrderTimeline } from '../components/analytics/AnalyticsOrderTimeline';
@@ -41,30 +47,55 @@ const STATUS_TIMELINE_TYPE: Record<string, string> = {
   cancelled: 'order5',
 };
 
-const NEXT_STATUS: Record<string, string | undefined> = {
-  pending: 'paid',
-  paid: 'shipped',
-  shipped: 'delivered',
-};
-
 export async function orderDetailLoader({ params }: LoaderFunctionArgs) {
   const order = await fetchOrderById(Number(params.id));
-  const user = await fetchUserById(order.userId);
-  return { order, user };
+  const [user, carriers] = await Promise.all([fetchUserById(order.userId), fetchCarriers()]);
+  return { order, user, carriers };
 }
 
 export default function OrderDetailView() {
-  const { order, user } = useLoaderData() as { order: Order; user: User };
+  const { order, user, carriers } = useLoaderData() as { order: Order; user: User; carriers: Carrier[] };
   const revalidator = useRevalidator();
   const router = useRouter();
   const [updating, setUpdating] = useState(false);
 
-  const nextStatus = NEXT_STATUS[order.status];
+  const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
+  const [provider, setProvider] = useState('card');
+  const [amount, setAmount] = useState(order.grandTotal);
+
+  const [shipmentDialogOpen, setShipmentDialogOpen] = useState(false);
+  const [carrierId, setCarrierId] = useState<number | ''>(carriers[0]?.carrierId ?? '');
+  const [trackingNumber, setTrackingNumber] = useState('');
+
   const canCancel = order.status === 'pending' || order.status === 'paid';
 
-  const handleAdvance = async (status: string) => {
+  const handleCancel = async () => {
     setUpdating(true);
-    await updateOrderStatus(order.orderId, status);
+    await updateOrderStatus(order.orderId, 'cancelled');
+    setUpdating(false);
+    revalidator.revalidate();
+  };
+
+  const handleRecordPayment = async () => {
+    setUpdating(true);
+    await recordPayment(order.orderId, { provider, amount });
+    setUpdating(false);
+    setPaymentDialogOpen(false);
+    revalidator.revalidate();
+  };
+
+  const handleRecordShipment = async () => {
+    if (!carrierId) return;
+    setUpdating(true);
+    await recordShipment(order.orderId, { carrierId, trackingNumber: trackingNumber || undefined });
+    setUpdating(false);
+    setShipmentDialogOpen(false);
+    revalidator.revalidate();
+  };
+
+  const handleMarkDelivered = async () => {
+    setUpdating(true);
+    await updateOrderStatus(order.orderId, 'delivered');
     setUpdating(false);
     revalidator.revalidate();
   };
@@ -165,30 +196,82 @@ export default function OrderDetailView() {
             }))}
           />
 
-          {(nextStatus || canCancel) && (
+          {order.status !== 'delivered' && order.status !== 'cancelled' && (
             <Card sx={{ p: 3, mt: 3 }}>
               <CardHeader title="Actions" sx={{ p: 0, mb: 2 }} />
               <Stack spacing={1}>
-                {nextStatus && (
-                  <ButtonGenerator
-                    text={`Advance to ${nextStatus.toUpperCase()}`}
-                    disabled={updating}
-                    onClick={() => handleAdvance(nextStatus)}
-                  />
+                {order.status === 'pending' && (
+                  <ButtonGenerator text="Record Payment" disabled={updating} onClick={() => setPaymentDialogOpen(true)} />
+                )}
+                {order.status === 'paid' && (
+                  <ButtonGenerator text="Record Shipment" disabled={updating} onClick={() => setShipmentDialogOpen(true)} />
+                )}
+                {order.status === 'shipped' && (
+                  <ButtonGenerator text="Mark Delivered" disabled={updating} onClick={handleMarkDelivered} />
                 )}
                 {canCancel && (
-                  <ButtonGenerator
-                    text="Cancel Order"
-                    color="error"
-                    disabled={updating}
-                    onClick={() => handleAdvance('cancelled')}
-                  />
+                  <ButtonGenerator text="Cancel Order" color="error" disabled={updating} onClick={handleCancel} />
                 )}
               </Stack>
             </Card>
           )}
         </Grid>
       </Grid>
+
+      <Dialog open={paymentDialogOpen} onClose={() => setPaymentDialogOpen(false)} fullWidth maxWidth="xs">
+        <DialogTitle>Record Payment</DialogTitle>
+        <DialogContent>
+          <Stack spacing={2} sx={{ mt: 1 }}>
+            <TextField select label="Provider" value={provider} onChange={(e) => setProvider(e.target.value)} fullWidth>
+              <MenuItem value="card">Card</MenuItem>
+              <MenuItem value="paypal">PayPal</MenuItem>
+              <MenuItem value="bank_transfer">Bank Transfer</MenuItem>
+            </TextField>
+            <TextField
+              type="number"
+              label="Amount"
+              value={amount}
+              onChange={(e) => setAmount(Number(e.target.value))}
+              fullWidth
+            />
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <ButtonGenerator text="Cancel" color={"default" as any} onClick={() => setPaymentDialogOpen(false)} />
+          <ButtonGenerator text="Confirm" disabled={updating} onClick={handleRecordPayment} />
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={shipmentDialogOpen} onClose={() => setShipmentDialogOpen(false)} fullWidth maxWidth="xs">
+        <DialogTitle>Record Shipment</DialogTitle>
+        <DialogContent>
+          <Stack spacing={2} sx={{ mt: 1 }}>
+            <TextField
+              select
+              label="Carrier"
+              value={carrierId}
+              onChange={(e) => setCarrierId(Number(e.target.value))}
+              fullWidth
+            >
+              {carriers.map((c) => (
+                <MenuItem key={c.carrierId} value={c.carrierId}>
+                  {c.name}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              label="Tracking Number"
+              value={trackingNumber}
+              onChange={(e) => setTrackingNumber(e.target.value)}
+              fullWidth
+            />
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <ButtonGenerator text="Cancel" color={"default" as any} onClick={() => setShipmentDialogOpen(false)} />
+          <ButtonGenerator text="Confirm" disabled={updating} onClick={handleRecordShipment} />
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

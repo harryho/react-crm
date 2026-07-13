@@ -17,6 +17,10 @@ import { UsersView, usersLoader } from './pages/UsersView';
 import AgentForm , { agentLoader  }from './pages/AgentForm';
 import SignInView from './pages/SignInView';
 import UserForm , { userLoader  } from './pages/UserForm';
+import CartView, { cartLoader } from './pages/CartView';
+import CheckoutView, { checkoutLoader } from './pages/CheckoutView';
+import InventoryView, { inventoryLoader } from './pages/InventoryView';
+import { CartProvider } from './contexts/CartContext';
 
 
 function createRouter() {
@@ -91,6 +95,21 @@ function createRouter() {
 
             },
             {
+              path: 'cart',
+              Component: CartView,
+              loader: cartLoader,
+            },
+            {
+              path: 'checkout',
+              Component: CheckoutView,
+              loader: checkoutLoader,
+            },
+            {
+              path: 'inventory',
+              Component: InventoryView,
+              loader: inventoryLoader,
+            },
+            {
               path: '*',
               Component: NotFoundView
             }
@@ -126,7 +145,9 @@ enableMocking().then(() => {
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <HelmetProvider >
-        <RouterProvider router={router} />
+        <CartProvider>
+          <RouterProvider router={router} />
+        </CartProvider>
       </HelmetProvider>
     </React.StrictMode>
   );
