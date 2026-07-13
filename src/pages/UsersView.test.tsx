@@ -35,7 +35,7 @@ describe('UsersView', () => {
     expect(await screen.findByText('Users')).toBeInTheDocument();
     // Seed data includes this user (src/data/ecommerce/users.json)
     await waitFor(() => {
-      expect(screen.getByText('Agnieszka Wojciechowska')).toBeInTheDocument();
+      expect(screen.getByText('Angel Rolfson-Kulas')).toBeInTheDocument();
     });
   });
 
@@ -44,16 +44,16 @@ describe('UsersView', () => {
     renderUsersView();
 
     await waitFor(() => {
-      expect(screen.getByText('Agnieszka Wojciechowska')).toBeInTheDocument();
+      expect(screen.getByText('Angel Rolfson-Kulas')).toBeInTheDocument();
     });
 
-    const row = screen.getByText('Agnieszka Wojciechowska').closest('tr')!;
+    const row = screen.getByText('Angel Rolfson-Kulas').closest('tr')!;
     await user.click(within(row).getByRole('button'));
     await user.click(await screen.findByRole('menuitem', { name: 'Delete' }));
     await user.click(await screen.findByRole('button', { name: /ok|confirm|yes/i }));
 
     await waitFor(() => {
-      expect(screen.queryByText('Agnieszka Wojciechowska')).not.toBeInTheDocument();
+      expect(screen.queryByText('Angel Rolfson-Kulas')).not.toBeInTheDocument();
     });
   });
 });

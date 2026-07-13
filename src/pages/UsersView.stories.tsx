@@ -30,7 +30,7 @@ type Story = StoryObj<typeof UsersViewHarness>;
 export const Default: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await waitFor(() => expect(canvas.getByText('Agnieszka Wojciechowska')).toBeInTheDocument());
+    await waitFor(() => expect(canvas.getByText('Angel Rolfson-Kulas')).toBeInTheDocument());
   },
 };
 
@@ -43,16 +43,16 @@ export const Empty: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await waitFor(() => expect(canvas.getByText('New user')).toBeInTheDocument());
-    expect(canvas.queryByText('Agnieszka Wojciechowska')).not.toBeInTheDocument();
+    expect(canvas.queryByText('Angel Rolfson-Kulas')).not.toBeInTheDocument();
   },
 };
 
 export const OpensDeleteConfirmation: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await waitFor(() => expect(canvas.getByText('Agnieszka Wojciechowska')).toBeInTheDocument());
+    await waitFor(() => expect(canvas.getByText('Angel Rolfson-Kulas')).toBeInTheDocument());
 
-    const row = canvas.getByText('Agnieszka Wojciechowska').closest('tr')!;
+    const row = canvas.getByText('Angel Rolfson-Kulas').closest('tr')!;
     await userEvent.click(within(row).getByRole('button'));
 
     // MUI's Popover/Menu and Dialog render through a portal to
