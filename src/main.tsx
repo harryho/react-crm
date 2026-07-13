@@ -4,7 +4,8 @@ import { createBrowserRouter } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
 import App from './App';
 import Layout from './layouts/Dashboard';
-import ProductsView from './pages/ProductsView';
+import ProductsView, { productsLoader } from './pages/ProductsView';
+import ProductForm, { productFormLoader } from './pages/ProductForm';
 import OrdersView, { ordersLoader } from './pages/OrdersView';
 import OrderDetailView, { orderDetailLoader } from './pages/OrderDetailView';
 import { OverviewAnalyticsView } from './pages/OverviewAnalyticsView';
@@ -44,6 +45,17 @@ function createRouter() {
             {
               path: 'products',
               Component: ProductsView,
+              loader: productsLoader,
+            },
+            {
+              path: 'product-form',
+              Component: ProductForm,
+              loader: productFormLoader,
+            },
+            {
+              path: 'edit-product/:id',
+              Component: ProductForm,
+              loader: productFormLoader,
             },
             {
               path: 'users',

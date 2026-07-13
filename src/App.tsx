@@ -12,7 +12,6 @@ import logoMidPng from './assets/it-logo-mid.png';
 import { Session, type Navigation } from '@toolpad/core/AppProvider';
 import { SessionContext } from './SessionContext';
 import * as agentService from "./services/agentService";
-import * as productService from "./services/productService";
 
 const NAVIGATION: Navigation = [
   {
@@ -82,7 +81,6 @@ const theme = createTheme({
 });
 
 agentService.init();
-productService.init();
 
 
 export default function App() {
