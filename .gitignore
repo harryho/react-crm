@@ -11,6 +11,7 @@
 # production
 /build
 /dist
+/storybook-static
 
 # misc
 .DS_Store
@@ -33,3 +34,6 @@ DS_Store
 
 # shell script
 *.sh
+
+# Docs
+docs/
