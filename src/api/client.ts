@@ -14,12 +14,43 @@ async function getJson<T>(path: string): Promise<T> {
   return response.json() as Promise<T>;
 }
 
+async function sendJson<T>(path: string, method: 'POST' | 'PUT' | 'PATCH', body: unknown): Promise<T> {
+  const response = await fetch(`${BASE_URL}${path}`, {
+    method,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!response.ok) {
+    throw new Error(`Request to ${path} failed with status ${response.status}`);
+  }
+  return response.json() as Promise<T>;
+}
+
+async function del(path: string): Promise<void> {
+  const response = await fetch(`${BASE_URL}${path}`, { method: 'DELETE' });
+  if (!response.ok) {
+    throw new Error(`Request to ${path} failed with status ${response.status}`);
+  }
+}
+
 export function fetchUsers(): Promise<User[]> {
   return getJson('/api/users');
 }
 
 export function fetchUserById(id: number): Promise<User> {
   return getJson(`/api/users/${id}`);
+}
+
+export function createUser(data: Omit<User, 'userId'>): Promise<User> {
+  return sendJson('/api/users', 'POST', data);
+}
+
+export function updateUser(id: number, data: Omit<User, 'userId'>): Promise<User> {
+  return sendJson(`/api/users/${id}`, 'PUT', data);
+}
+
+export function deleteUser(id: number): Promise<void> {
+  return del(`/api/users/${id}`);
 }
 
 export function fetchStaff(): Promise<Staff[]> {
@@ -38,10 +69,26 @@ export function fetchProductById(id: number): Promise<Product> {
   return getJson(`/api/products/${id}`);
 }
 
+export function createProduct(data: Omit<Product, 'productId'>): Promise<Product> {
+  return sendJson('/api/products', 'POST', data);
+}
+
+export function updateProduct(id: number, data: Omit<Product, 'productId'>): Promise<Product> {
+  return sendJson(`/api/products/${id}`, 'PUT', data);
+}
+
+export function deleteProduct(id: number): Promise<void> {
+  return del(`/api/products/${id}`);
+}
+
 export function fetchOrders(): Promise<Order[]> {
   return getJson('/api/orders');
 }
 
 export function fetchOrderById(id: number): Promise<Order> {
   return getJson(`/api/orders/${id}`);
+}
+
+export function updateOrderStatus(id: number, status: string): Promise<Order> {
+  return sendJson(`/api/orders/${id}/status`, 'PATCH', { status });
 }
