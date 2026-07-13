@@ -66,7 +66,7 @@ const NAVIGATION: Navigation = [
 ];
 const logo = <img src={logoMidPng} className="logo" alt="" />
 const BRANDING = {
-  title: 'React Demo V6',
+  title: 'React Ecom Demo',
   logo
 };
 

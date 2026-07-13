@@ -1,8 +1,8 @@
 <h1 align="center">
-  React MUI Demo v6
+  React Ecom Demo
 </h1>
 
-This react demo is built on the top of my customized React boilerplate with Storybook. 
+This react ecom demo is built on the top of my customized React boilerplate with Storybook. 
 
 The boilerplate repo is available [here](https://github.com/harryho/storybook-react-vite-ts-template). 
 
@@ -16,38 +16,40 @@ If you want to build something simpler from scratch, you can follow the README t
 
 ### Screenshots
 
-![Screenshot1](screenshots/react-demo-v6-screen1.png)
+![Screenshot1](screenshots/react-demo-v6.5-screen1.png)
 
-![Screenshot2](screenshots/react-demo-v6-screen2.png)
+![Screenshot2](screenshots/react-demo-v6.5-screen2.png)
 
 ![Screenshot3](screenshots/react-demo-v6-screen3.png)
 
-![Screenshot4](screenshots/react-demo-v6-screen4.png)
+
 
 <!-- ![Screenshot4](screenshots/screenshot-4.jpg) -->
 
 ----
 
+## Prerequisites
 
-## Getting Start
+- **Node.js >= 22** (required by Vite 8; enforced via `engines`)
+- **Yarn 1.22+** — the repo ships a `yarn.lock`; do not mix with npm or pnpm
+- **TypeScript >= 5.9**, **React 19.2**, **MUI 7.3**, **react-router 7.18**, **Vite 8.1**, **Storybook 10.5**, **MSW 2.3**, **Vitest 3.2**
+
+Quick check: `node -v` should report v22.x or newer.
+
+----
+
+## Getting Started
 
 ```bash
-# Clone project
-git clone https://github.com/harryho/react-demo.git
+git clone https://github.com/harryho/react-crm.git
+cd react-crm
+yarn install
 
-
-# install the packages with npm
-cd react-demo
-
-# development
-yarn dev
-
-# build
-yarn build
-
+yarn dev             # Vite + MSW mock API on http://localhost:5173
+yarn storybook       # Storybook on http://localhost:6006
+yarn test            # Vitest unit tests
+yarn build           # tsc + Vite production build
 ```
-
-
 
 ----
 
@@ -58,19 +60,23 @@ yarn build
 
 #### Screenshots
 
-![Screenshot1](screenshots/screenshot-1.jpg)
+<!-- ![Screenshot1](screenshots/screenshot-1.jpg) -->
 
 ![Screenshot2](screenshots/screenshot-1.1.jpg)
 
-![Screenshot3](screenshots/screenshot-3.1.jpg)
+<!-- ![Screenshot3](screenshots/screenshot-3.1.jpg) -->
 
 #### Storybook
-  
+   
 ![Screenshot4](screenshots/screenshot-6.jpg)
 
 
 
 ### Change log
+
+- Jul 2026 — Added full CRUD for Users / Products / Orders / Cart, a checkout → payment → shipment pipeline, dashboard analytics from live data, route-level code-splitting, production MSW, real Storybook stories, and a Vitest + Testing Library test setup.
+
+- Jun 2026 — Platform uplift and domain rework. Bumped to React 19.2, MUI 7.3, react-router 7.18, Vite 8.1, Storybook 10.5, TypeScript 5.9. Replaced json-server with **MSW 2** service-worker mocks and a typed fetch client. See [Prerequisites](#prerequisites) for the new toolchain floor.
 
 - Apr 2025 - Merge latest demo to master branch.
 
