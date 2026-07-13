@@ -129,10 +129,11 @@ function createRouter() {
   ]);
 }
 
+// This app has no real backend - every /api/* route is served by the MSW
+// worker below, in every environment. That's why mocking is started
+// unconditionally rather than gated to dev: without it, a production build
+// has nothing to serve API requests at all.
 async function enableMocking() {
-  if (!import.meta.env.DEV) {
-    return;
-  }
   const { worker } = await import('./mocks/browser');
   return worker.start({ onUnhandledRequest: 'bypass' });
 }
