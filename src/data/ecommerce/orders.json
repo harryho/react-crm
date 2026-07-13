@@ -92,7 +92,7 @@
     },
     "shipment": {
       "carrierId": 2,
-      "carrierName": "Shipper ETYNR",
+      "carrierName": "FedEx",
       "trackingNumber": "TRK-90002-2",
       "shippedAt": "2024-04-11T00:00:00Z"
     }
@@ -194,7 +194,7 @@
     },
     "shipment": {
       "carrierId": 1,
-      "carrierName": "Shipper GVSUA",
+      "carrierName": "UPS",
       "trackingNumber": "TRK-90004-1",
       "shippedAt": "2024-01-03T00:00:00Z",
       "deliveredAt": "2024-01-06T00:00:00Z"
@@ -385,7 +385,7 @@
     },
     "shipment": {
       "carrierId": 2,
-      "carrierName": "Shipper ETYNR",
+      "carrierName": "FedEx",
       "trackingNumber": "TRK-90008-2",
       "shippedAt": "2024-01-15T00:00:00Z",
       "deliveredAt": "2024-01-18T00:00:00Z"
@@ -544,7 +544,7 @@
     },
     "shipment": {
       "carrierId": 2,
-      "carrierName": "Shipper ETYNR",
+      "carrierName": "FedEx",
       "trackingNumber": "TRK-90011-2",
       "shippedAt": "2024-07-13T00:00:00Z"
     }
@@ -610,7 +610,7 @@
     },
     "shipment": {
       "carrierId": 3,
-      "carrierName": "Shipper ZHISN",
+      "carrierName": "DHL Express",
       "trackingNumber": "TRK-90012-3",
       "shippedAt": "2024-05-24T00:00:00Z",
       "deliveredAt": "2024-05-27T00:00:00Z"
@@ -721,7 +721,7 @@
     },
     "shipment": {
       "carrierId": 2,
-      "carrierName": "Shipper ETYNR",
+      "carrierName": "FedEx",
       "trackingNumber": "TRK-90014-2",
       "shippedAt": "2023-08-31T00:00:00Z"
     }
@@ -831,7 +831,7 @@
     },
     "shipment": {
       "carrierId": 1,
-      "carrierName": "Shipper GVSUA",
+      "carrierName": "UPS",
       "trackingNumber": "TRK-90016-1",
       "shippedAt": "2023-10-26T00:00:00Z"
     }
@@ -1085,7 +1085,7 @@
     },
     "shipment": {
       "carrierId": 3,
-      "carrierName": "Shipper ZHISN",
+      "carrierName": "DHL Express",
       "trackingNumber": "TRK-90021-3",
       "shippedAt": "2023-12-20T00:00:00Z"
     }
@@ -1195,7 +1195,7 @@
     },
     "shipment": {
       "carrierId": 2,
-      "carrierName": "Shipper ETYNR",
+      "carrierName": "FedEx",
       "trackingNumber": "TRK-90023-2",
       "shippedAt": "2023-10-21T00:00:00Z"
     }

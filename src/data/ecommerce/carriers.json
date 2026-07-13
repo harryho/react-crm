@@ -1,17 +1,17 @@
 [
   {
     "carrierId": 1,
-    "name": "Shipper GVSUA",
-    "phone": "(503) 555-0137"
+    "name": "UPS",
+    "phone": "(800) 742-5877"
   },
   {
     "carrierId": 2,
-    "name": "Shipper ETYNR",
-    "phone": "(425) 555-0136"
+    "name": "FedEx",
+    "phone": "(800) 463-3339"
   },
   {
     "carrierId": 3,
-    "name": "Shipper ZHISN",
-    "phone": "(415) 555-0138"
+    "name": "DHL Express",
+    "phone": "(800) 225-5345"
   }
 ]
