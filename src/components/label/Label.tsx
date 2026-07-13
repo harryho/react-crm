@@ -149,7 +149,6 @@ export const Label = forwardRef<HTMLSpanElement, LabelProps>(
       },
     };
     const lblStyle = labelStyle(theme, { color, variant });
-    console.log(lblStyle)
 
     return (
       <InputLabel

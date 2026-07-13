@@ -147,33 +147,21 @@ export function useTable(props?: useTableProps) {
     [onResetPage]
   );
 
-  // const onDialogConfirm = useCallback(
   const onDialogConfirm = async (message="") => {
       let deleteConfirmed =false
       await dialogs.confirm(
         message? message:
          "Are you sure to continue this DELETE operation?",
       ).then( (result :TODO) => {
-        console.log(result)
         deleteConfirmed = result;
       }).catch(e => console.log(e));
       return deleteConfirmed;
 
     }
-  //   []
-  // );
 
   const onMultipleDelete = useCallback(
     async (event: React.MouseEvent<HTMLInputElement>) => {
       const deleteConfirmed = await onDialogConfirm();
-      // await dialogs.confirm(
-      //   "Are you sure to continue this DELETE operation?",
-      // ).then(result => {
-      //   console.log(result)
-      //   return result;
-      // }).catch(e => console.log(e));
-
-      console.log(' deleteConfirmed ' + deleteConfirmed)
       if (deleteConfirmed) {
 
         if (selected.length > 0) {
