@@ -8,7 +8,7 @@ import ProductsView, { productsLoader } from './pages/ProductsView';
 import ProductForm, { productFormLoader } from './pages/ProductForm';
 import OrdersView, { ordersLoader } from './pages/OrdersView';
 import OrderDetailView, { orderDetailLoader } from './pages/OrderDetailView';
-import { OverviewAnalyticsView } from './pages/OverviewAnalyticsView';
+import { OverviewAnalyticsView, analyticsLoader } from './pages/OverviewAnalyticsView';
 import { BlogView } from './pages/BlogView';
 import { NotFoundView } from './pages/NotFoundView';
 import { HelmetProvider } from 'react-helmet-async';
@@ -35,6 +35,7 @@ function createRouter() {
             {
               path: '',
               Component: OverviewAnalyticsView,
+              loader: analyticsLoader,
             },
             {
               path: 'orders',

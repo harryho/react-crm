@@ -1,173 +1,134 @@
+import { useLoaderData } from 'react-router';
+
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { _tasks, _posts, _timeline } from '../_mock';
-import { AnalyticsNews } from '../components/analytics/AnalyticsNews';
-import { AnalyticsTasks } from '../components/analytics/AnalyticsTasks';
-import { AnalyticsCurrentVisits } from '../components/analytics/AnalyticsCurrentVisits';
+
+import { fetchOrders, fetchProducts, fetchUsers } from '../api/client';
+import { computeDashboardAnalytics } from '../utils/analytics';
+import { fnCurrency } from '../utils/format-number';
 import { AnalyticsOrderTimeline } from '../components/analytics/AnalyticsOrderTimeline';
-import { AnalyticsWebsiteVisits } from '../components/analytics/AnalyticsWebsiteVisits';
 import { AnalyticsWidgetSummary } from '../components/analytics/AnalyticsWidgetSummary';
 import { AnalyticsTrafficBySite } from '../components/analytics/AnalyticsTrafficBySite';
 import { AnalyticsCurrentSubject } from '../components/analytics/AnalyticsCurrentSubject';
 import { AnalyticsConversionRates } from '../components/analytics/AnalyticsConversionRates';
-
+import { AnalyticsWebsiteVisits } from '../components/analytics/AnalyticsWebsiteVisits';
+import { AnalyticsCurrentVisits } from '../components/analytics/AnalyticsCurrentVisits';
 
 // ----------------------------------------------------------------------
 
+export async function analyticsLoader() {
+  const [orders, products, users] = await Promise.all([fetchOrders(), fetchProducts(), fetchUsers()]);
+  return computeDashboardAnalytics(orders, products, users);
+}
+
 export function OverviewAnalyticsView() {
-  console.log(_tasks)
-  console.log(_posts)
-  console.log(_timeline)
+  const analytics = useLoaderData() as Awaited<ReturnType<typeof computeDashboardAnalytics>>;
+
   return (
-      <>
+    <>
       <Typography variant="h4" sx={{ mb: { xs: 3, md: 5 } }}>
-        Dashboard 
+        Dashboard
       </Typography>
 
       <Grid container spacing={3}>
-
-      {/* <Grid xs={12} md={6} lg={8}> */}
-      <Grid size={ {xs:12, md:6, lg: 8}}> 
-          <AnalyticsConversionRates
-            title="Conversion rates"
-            subheader="(+43%) than last year"
-            chart={{
-              categories: ['Italy', 'Japan', 'China', 'Canada', 'France'],
-              series: [
-                { name: '2022', data: [44, 55, 41, 64, 22] },
-                { name: '2023', data: [53, 32, 33, 52, 13] },
-              ],
-              
-            }}
-          />
-        </Grid>
-        <Grid size={ {xs:12, md:6, lg: 4}}>
-          <AnalyticsOrderTimeline title="Order timeline" list={_timeline} />
-        </Grid>
-    
-
-        {/* -------------------------------- */}
-        <Grid size={ {xs:12, sm:6, md: 3}}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <AnalyticsWidgetSummary
-            title="Weekly sales"
-            percent={2.6}
-            total={714000}
+            title="Total Revenue"
+            percent={0}
+            total={analytics.totalRevenue}
             icon={<img alt="icon" src="/assets/icons/glass/ic-glass-bag.svg" />}
-            chart={{
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-              series: [22, 8, 35, 50, 82, 84, 77, 12],
-            }}
+            chart={{ categories: analytics.revenueByCategory.categories, series: analytics.revenueByCategory.series }}
           />
         </Grid>
 
-        <Grid size={ {xs:12, sm:6, md: 3}}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <AnalyticsWidgetSummary
-            title="New users"
-            percent={-0.1}
-            total={1352831}
+            title="Active Users"
+            percent={0}
+            total={analytics.activeUsers}
             color="secondary"
             icon={<img alt="icon" src="/assets/icons/glass/ic-glass-users.svg" />}
-            chart={{
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-              series: [56, 47, 40, 62, 73, 30, 23, 54],
-            }}
+            chart={{ categories: analytics.ordersByMonth.categories, series: analytics.ordersByMonth.series }}
           />
         </Grid>
 
-        <Grid size={ {xs:12, sm:6, md: 3}}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <AnalyticsWidgetSummary
-            title="Purchase orders"
-            percent={2.8}
-            total={1723315}
+            title="Total Orders"
+            percent={0}
+            total={analytics.totalOrders}
             color="warning"
             icon={<img alt="icon" src="/assets/icons/glass/ic-glass-buy.svg" />}
-            chart={{
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-              series: [40, 70, 50, 28, 70, 75, 7, 64],
-            }}
+            chart={{ categories: analytics.ordersByStatus.categories, series: analytics.ordersByStatus.series }}
           />
         </Grid>
 
-        <Grid size={ {xs:12, sm:6, md: 3}}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <AnalyticsWidgetSummary
-            title="Messages"
-            percent={3.6}
-            total={234}
+            title="Low Stock SKUs"
+            percent={0}
+            total={analytics.lowStockCount}
             color="error"
             icon={<img alt="icon" src="/assets/icons/glass/ic-glass-message.svg" />}
+            chart={{ categories: analytics.stockByCategory.categories, series: analytics.stockByCategory.lowStock }}
+          />
+        </Grid>
+
+        <Grid size={{ xs: 12, md: 6, lg: 8 }}>
+          <AnalyticsConversionRates
+            title="Revenue by Category"
+            subheader={`Total: ${fnCurrency(analytics.totalRevenue)}`}
             chart={{
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-              series: [56, 30, 23, 54, 47, 40, 62, 73],
+              categories: analytics.revenueByCategory.categories,
+              series: [{ name: 'Revenue', data: analytics.revenueByCategory.series }],
             }}
           />
         </Grid>
-        {/* -------------------------------- */}
-      
-        <Grid size={ {xs:12, md:6, lg: 4}}>
+        <Grid size={{ xs: 12, md: 6, lg: 4 }}>
+          <AnalyticsOrderTimeline title="Recent Order Activity" list={analytics.recentStatusChanges} />
+        </Grid>
+
+        <Grid size={{ xs: 12, md: 6, lg: 4 }}>
           <AnalyticsCurrentSubject
-            title="Current subject"
+            title="Stock by Category"
             chart={{
-              categories: ['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math'],
+              categories: analytics.stockByCategory.categories,
               series: [
-                { name: 'Series 1', data: [80, 50, 30, 40, 100, 20] },
-                { name: 'Series 2', data: [20, 30, 40, 80, 20, 80] },
-                { name: 'Series 3', data: [44, 76, 78, 13, 43, 10] },
+                { name: 'Total Stock', data: analytics.stockByCategory.totalStock },
+                { name: 'Low Stock SKUs', data: analytics.stockByCategory.lowStock },
               ],
             }}
           />
         </Grid>
-        <Grid size={ {xs:12, md:6, lg: 8}}>
+        <Grid size={{ xs: 12, md: 6, lg: 8 }}>
           <AnalyticsWebsiteVisits
-            title="Website visits"
-            subheader="(+43%) than last year"
+            title="Orders Over Time"
+            subheader="Orders placed per month"
             chart={{
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-              series: [
-                { name: 'Team A', data: [43, 33, 22, 37, 67, 68, 37, 24, 55] },
-                { name: 'Team B', data: [51, 70, 47, 67, 40, 37, 24, 70, 24] },
-              ],
+              categories: analytics.ordersByMonth.categories,
+              series: [{ name: 'Orders', data: analytics.ordersByMonth.series }],
             }}
           />
         </Grid>
 
-        {/* -------------------------------- */}
-        <Grid size={ {xs:12, md:6, lg: 8}}>
-          <AnalyticsNews title="News"    list={_posts.slice(0, 5)} /> 
-        
-        </Grid>
-        <Grid size={ {xs:12, md:6, lg: 4}}>
-          <AnalyticsCurrentVisits
-            title="Current visits"
-            chart={{
-              series: [
-                { label: 'America', value: 3500 },
-                { label: 'Asia', value: 2500 },
-                { label: 'Europe', value: 1500 },
-                { label: 'Africa', value: 500 },
-              ],
-            }}
-            
-          />
-        </Grid>
-     
-
-        <Grid size={ {xs:12, md:6, lg: 4}}>
+        <Grid size={{ xs: 12, md: 6, lg: 8 }}>
           <AnalyticsTrafficBySite
-            title="Traffic by site"
-            list={[
-              { value: 'facebook', label: 'Facebook', total: 323234 },
-              { value: 'google', label: 'Google', total: 341212 },
-              { value: 'linkedin', label: 'Linkedin', total: 411213 },
-              { value: 'twitter', label: 'Twitter', total: 443232 },
-            ]}
+            title="Top Products by Revenue"
+            list={analytics.topProductsByRevenue.map((p) => ({ value: p.label, label: p.label, total: p.total }))}
           />
         </Grid>
-
-        <Grid size={ {xs:12, md:6, lg: 8}}>
-          <AnalyticsTasks title="Tasks" list={_tasks} />
+        <Grid size={{ xs: 12, md: 6, lg: 4 }}>
+          <AnalyticsCurrentVisits
+            title="Orders by Status"
+            chart={{
+              series: analytics.ordersByStatus.categories.map((label, i) => ({
+                label,
+                value: analytics.ordersByStatus.series[i],
+              })),
+            }}
+          />
         </Grid>
       </Grid>
-      </>
-   
+    </>
   );
 }
