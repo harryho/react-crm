@@ -5,7 +5,8 @@ import { RouterProvider } from 'react-router/dom';
 import App from './App';
 import Layout from './layouts/Dashboard';
 import ProductsView from './pages/ProductsView';
-import OrdersView from './pages/OrdersView';
+import OrdersView, { ordersLoader } from './pages/OrdersView';
+import OrderDetailView, { orderDetailLoader } from './pages/OrderDetailView';
 import { OverviewAnalyticsView } from './pages/OverviewAnalyticsView';
 import { BlogView } from './pages/BlogView';
 import { NotFoundView } from './pages/NotFoundView';
@@ -15,7 +16,6 @@ import { UsersView, usersLoader } from './pages/UsersView';
 import AgentForm , { agentLoader  }from './pages/AgentForm';
 import SignInView from './pages/SignInView';
 import UserForm , { userLoader  } from './pages/UserForm';
-import OrderForm , {orderLoader} from './pages/OrderForm';
 
 
 function createRouter() {
@@ -34,6 +34,12 @@ function createRouter() {
             {
               path: 'orders',
               Component: OrdersView,
+              loader: ordersLoader,
+            },
+            {
+              path: 'orders/:id',
+              Component: OrderDetailView,
+              loader: orderDetailLoader,
             },
             {
               path: 'products',
@@ -70,16 +76,6 @@ function createRouter() {
               path: 'edit-user/:id',
               Component: UserForm,
               loader: userLoader
-
-            },
-            {
-              path: 'order-form',
-              Component: OrderForm,
-            },
-            {
-              path: 'edit-order/:id',
-              Component: OrderForm,
-              loader: orderLoader
 
             },
             {

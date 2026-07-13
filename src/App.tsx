@@ -13,7 +13,6 @@ import { Session, type Navigation } from '@toolpad/core/AppProvider';
 import { SessionContext } from './SessionContext';
 import * as agentService from "./services/agentService";
 import * as productService from "./services/productService";
-import * as orderService from "./services/orderService";
 
 const NAVIGATION: Navigation = [
   {
@@ -84,7 +83,6 @@ const theme = createTheme({
 
 agentService.init();
 productService.init();
-orderService.init();
 
 
 export default function App() {

@@ -33,20 +33,3 @@ declare type Agent = {
 
 }
 
-declare type Order = {
-  id: string;
-  orderId: string;
-  itemSummary: string;
-  customer: string;
-  totalPrice: string;
-  status: string;
-  discount: string;
-  promoteCode? : string;
-  couponCode?: string;
-
-  avatarUrl?: string;
-  isDelayed: boolean;
-  shippingAddress: string;
-  billingAddress?: string;
-};
-
