@@ -18,6 +18,7 @@ function createRouter() {
         {
           path: '',
           Component: Layout,
+          HydrateFallback: () => null,
           children: [
             {
               path: '',

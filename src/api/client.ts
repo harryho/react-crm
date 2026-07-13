@@ -8,6 +8,7 @@ async function getJson<T>(path: string): Promise<T> {
   if (!response.ok) {
     throw new Error(`Request to ${path} failed with status ${response.status}`);
   }
+  assertJson(path, response);
   return response.json() as Promise<T>;
 }
 
@@ -20,7 +21,19 @@ async function sendJson<T>(path: string, method: 'POST' | 'PUT' | 'PATCH', body:
   if (!response.ok) {
     throw new Error(`Request to ${path} failed with status ${response.status}`);
   }
+  assertJson(path, response);
   return response.json() as Promise<T>;
+}
+
+function assertJson(path: string, response: Response): void {
+  const contentType = response.headers.get('content-type') ?? '';
+  if (!contentType.includes('application/json')) {
+    throw new Error(
+      `Expected JSON from ${path} but received ${contentType || 'no content-type'}. ` +
+        `MSW is the only backend in this app — if the service worker didn't intercept, ` +
+        `the request hit the IIS server directly and returned an HTML page.`
+    );
+  }
 }
 
 async function del(path: string): Promise<void> {
