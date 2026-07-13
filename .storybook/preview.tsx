@@ -7,9 +7,7 @@ import { handlers } from '../src/mocks/handlers';
 
 initialize();
 
-// Mirrors the theme built in src/App.tsx - components that touch
-// theme.vars.palette (e.g. Label) render blank/crash without cssVariables
-// enabled here the same way the real app enables it.
+// ponytail: must mirror src/App.tsx's createTheme({ cssVariables: ... }) - any component touching theme.vars.* renders blank without it.
 const theme = createTheme({
   cssVariables: {
     colorSchemeSelector: 'data-toolpad-color-scheme',
@@ -27,9 +25,7 @@ const preview = {
       },
        expanded: true ,
     },
-    // Default every story to the app's real handlers/seed data so pages that
-    // fetch on mount just work. Stories can override per-story via
-    // `parameters.msw.handlers` to exercise empty/error states.
+    // ponytail: default to the app's real MSW handlers so pages that fetch on mount just work; stories can override via parameters.msw.handlers to exercise empty/error states.
     msw: {
       handlers,
     },

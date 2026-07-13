@@ -101,8 +101,6 @@ export const StyledLabel = styled(Box)(({
     padding: theme.spacing(0, 0.75),
     fontSize: theme.typography.pxToRem(12),
     fontWeight: theme.typography.fontWeightBold,
-    // Shape.borderRadius is typed number | string as of MUI 7; this app's
-    // theme always sets it to a number, so cast rather than change behavior.
     borderRadius: (theme.shape.borderRadius as number) * 0.75,
     transition: theme.transitions.create('all', {
       duration: theme.transitions.duration.shorter,

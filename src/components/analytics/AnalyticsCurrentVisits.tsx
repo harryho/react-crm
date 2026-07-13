@@ -10,8 +10,6 @@ import { fnNumber } from '../../utils/format-number';
 
 import { Chart, useChart, ChartLegends } from '../chart';
 
-// ----------------------------------------------------------------------
-
 type Props = CardProps & {
   title?: string;
   subheader?: string;
@@ -70,9 +68,6 @@ export function AnalyticsCurrentVisits({ title, subheader, chart, ...other }: Pr
 
       <ChartLegends
         labels={chartOptions?.labels}
-        // ApexCharts v5's ApexOptions.colors type also allows color-formatter
-        // callbacks; this codebase only ever passes literal color strings, so
-        // the cast is safe (ChartLegends itself only accepts string[]).
         colors={chartOptions?.colors as string[] | undefined}
         sx={{ p: 3, justifyContent: 'center' }}
       />

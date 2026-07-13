@@ -3,8 +3,6 @@ import React, { useState } from "react";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type FormValues = Record<string, any>;
 
-// selectedData comes from React Router's useLoaderData(), typed `unknown`
-// by design - cast once here rather than forcing every call site to cast.
 export function useForm(initialFieldValues: FormValues, selectedData: unknown) {
 
   const [values, setValues] = useState<FormValues>(

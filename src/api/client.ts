@@ -1,9 +1,6 @@
 import type { User, Staff, Category, Product, Order, Carrier, OrderShipTo } from '../types';
 
-// In a browser, relative URLs (e.g. "/api/users") resolve against the page's
-// own origin. Node's fetch has no such default and throws on a relative URL
-// before MSW even gets a chance to intercept it - so this needs a real base
-// URL outside the browser (verification scripts, any future SSR/Node usage).
+// ponytail: Node's fetch throws on a relative URL, unlike a browser; MSW still catches it either way, so BASE_URL stays empty in the browser and gets a fake origin outside.
 const BASE_URL = typeof window !== 'undefined' ? '' : 'http://localhost';
 
 async function getJson<T>(path: string): Promise<T> {

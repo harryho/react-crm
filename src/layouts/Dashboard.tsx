@@ -8,12 +8,6 @@ import { varAlpha } from '../theme/styles';
 import { lightPalette as palette } from '../theme/core/palette';
 
 export default function Layout() {
-  // const { session , setSession} = useSession() as TODO;
-  // const location = useLocation() as TODO;
-
-  // Routes are code-split via React Router's `lazy` (see main.tsx), which has
-  // no built-in pending UI of its own (unlike React.lazy + Suspense) - this
-  // shows feedback while a route's chunk and loader are still in flight.
   const navigation = useNavigation();
 
   return (

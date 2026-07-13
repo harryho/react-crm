@@ -9,13 +9,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import SignInView from './pages/SignInView';
 import { CartProvider } from './contexts/CartContext';
 
-// Each page route is code-split via React Router's `lazy` route API rather
-// than plain React.lazy(): every page module also exports a loader function
-// from the same file, and a static top-level import of that loader (the
-// React.lazy() + Suspense approach) would still pull the whole page's code
-// into this file's chunk, defeating the split entirely. `lazy` dynamically
-// imports the Component and its loader together, so nothing loads until the
-// route is actually visited.
+// ponytail: each route uses React Router's `lazy` (not React.lazy + Suspense) so a static import of a page's loader wouldn't pull its component into this chunk. `lazy` loads Component + loader together on first visit.
 function createRouter() {
   return createBrowserRouter([
     {
@@ -156,19 +150,13 @@ function createRouter() {
   ]);
 }
 
-// This app has no real backend - every /api/* route is served by the MSW
-// worker below, in every environment. That's why mocking is started
-// unconditionally rather than gated to dev: without it, a production build
-// has nothing to serve API requests at all.
+// ponytail: MSW is the only thing serving /api/* in every environment, so mocking starts unconditionally - gating it to dev would leave the prod build with no backend.
 async function enableMocking() {
   const { worker } = await import('./mocks/browser');
   return worker.start({ onUnhandledRequest: 'bypass' });
 }
 
-// createBrowserRouter() kicks off the initial route's loader synchronously,
-// at construction time - not when <RouterProvider> renders. Any route with a
-// fetch-backed loader would race the MSW worker's startup if the router were
-// built up front, so it's built only after mocking is confirmed ready.
+// ponytail: createBrowserRouter() runs the initial loader synchronously at construction; build the router only after MSW is ready so the first fetch doesn't race the worker.
 enableMocking().then(() => {
   const router = createRouter();
   ReactDOM.createRoot(document.getElementById('root')!).render(

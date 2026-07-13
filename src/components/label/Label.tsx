@@ -9,8 +9,6 @@ import { varAlpha, stylesMode } from '../../theme/styles';
 import { InputLabel } from '@mui/material';
 import { InputRounded } from '@mui/icons-material';
 
-
-// ----------------------------------------------------------------------
 export const labelClasses = { root: 'mnl__label__root', icon: 'mnl__label__icon' };
 
 export type LabelColor =
@@ -151,12 +149,11 @@ export const Label = forwardRef<HTMLSpanElement, LabelProps>(
     const lblStyle = labelStyle(theme, { color, variant });
 
     return (
-      <InputLabel
-        ref={ref}
-        component="span"
-        className={labelClasses.root.concat(className ? ` ${className}` : '')}
-        // ownerState={{ color, variant }}
-        sx={{ ...(startIcon && { pl: 0.75 }), ...(endIcon && { pr: 0.75 }), ...sx, ...lblStyle }}
+    <InputLabel
+      ref={ref}
+      component="span"
+      className={labelClasses.root.concat(className ? ` ${className}` : '')}
+      sx={{ ...(startIcon && { pl: 0.75 }), ...(endIcon && { pr: 0.75 }), ...sx, ...lblStyle }}
       >
         {startIcon && (
           <Box component="span" className={labelClasses.icon} sx={{ mr: 0.75, ...iconStyles }}>
@@ -175,8 +172,6 @@ export const Label = forwardRef<HTMLSpanElement, LabelProps>(
     );
   }
 );
-
-// ----------------------------------------------------------------------
 
 function sentenceCase(string: string): string {
   return string.charAt(0).toUpperCase() + string.slice(1);

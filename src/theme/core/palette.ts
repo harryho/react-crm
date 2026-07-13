@@ -3,8 +3,6 @@ import type { ColorSystemOptions } from '@mui/material/styles';
 import COLORS from './colors.json';
 import { varAlpha, createPaletteChannel } from '../styles';
 
-// ----------------------------------------------------------------------
-
 declare module '@mui/material/styles' {
   interface CommonColors {
     whiteChannel: string;
@@ -54,33 +52,15 @@ declare module '@mui/material' {
 
 export type ColorType = 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error';
 
-// ----------------------------------------------------------------------
-
-// Grey
 export const grey = createPaletteChannel(COLORS.grey);
-
-// Primary
 export const primary = createPaletteChannel(COLORS.primary);
-
-// Secondary
 export const secondary = createPaletteChannel(COLORS.secondary);
-
-// Info
 export const info = createPaletteChannel(COLORS.info);
-
-// Success
 export const success = createPaletteChannel(COLORS.success);
-
-// Warning
 export const warning = createPaletteChannel(COLORS.warning);
-
-// Error
 export const error = createPaletteChannel(COLORS.error);
-
-// Common
 export const common = createPaletteChannel(COLORS.common);
 
-// Text
 export const text = {
   light: createPaletteChannel({
     primary: grey[800],
@@ -89,7 +69,6 @@ export const text = {
   }),
 };
 
-// Background
 export const background = {
   light: createPaletteChannel({
     paper: '#FFFFFF',
@@ -98,7 +77,6 @@ export const background = {
   }),
 };
 
-// Action
 export const baseAction = {
   hover: varAlpha(grey['500Channel'], 0.08),
   selected: varAlpha(grey['500Channel'], 0.16),
@@ -113,9 +91,6 @@ export const action = {
   light: { ...baseAction, active: grey[600] },
 };
 
-/*
- * Base palette
- */
 export const basePalette = {
   primary,
   secondary,
@@ -135,8 +110,6 @@ export const lightPalette = {
   background: background.light,
   action: action.light,
 };
-
-// ----------------------------------------------------------------------
 
 export const colorSchemes: Partial<Record<'light', ColorSystemOptions>> = {
   light: { palette: lightPalette },

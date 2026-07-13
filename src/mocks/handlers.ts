@@ -7,9 +7,7 @@ import { staff } from '../data/staff';
 const DELAY_MS = 300;
 const SHIPPING_FLAT_FEE = 9.99;
 
-// Mutable in-memory copies so create/update/delete during a session are
-// reflected in subsequent GETs. Resets on page reload - there is no real
-// backend, this is still just a fixture.
+// ponytail: in-memory mutable copies so writes during a session are visible to subsequent GETs; resets on page reload (no real backend).
 let usersDb: User[] = [...users];
 let productsDb: Product[] = [...products];
 let ordersDb: Order[] = [...orders];

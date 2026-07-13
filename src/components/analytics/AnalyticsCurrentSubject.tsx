@@ -8,8 +8,6 @@ import CardHeader from '@mui/material/CardHeader';
 
 import { Chart, useChart, ChartLegends } from '../chart';
 
-// ----------------------------------------------------------------------
-
 type Props = CardProps & {
   title?: string;
   subheader?: string;
@@ -61,9 +59,6 @@ export function AnalyticsCurrentSubject({ title, subheader, chart, ...other }: P
 
       <ChartLegends
         labels={chart.series.map((item) => item.name)}
-        // ApexCharts v5's ApexOptions.colors type also allows color-formatter
-        // callbacks; this codebase only ever passes literal color strings, so
-        // the cast is safe (ChartLegends itself only accepts string[]).
         colors={chartOptions?.colors as string[] | undefined}
         sx={{ p: 3, justifyContent: 'center' }}
       />

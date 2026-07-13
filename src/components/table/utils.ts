@@ -5,8 +5,6 @@ import { useDialogs } from '@toolpad/core/useDialogs';
 import { useNavigate } from 'react-router';
 import { enableCache } from '@iconify/react';
 
-// ----------------------------------------------------------------------
-
 export const visuallyHidden = {
   border: 0,
   margin: -1,
@@ -19,13 +17,9 @@ export const visuallyHidden = {
   clip: 'rect(0 0 0 0)',
 } as const;
 
-// ----------------------------------------------------------------------
-
 export function emptyRows(page: number, rowsPerPage: number, arrayLength: number) {
   return page ? Math.max(0, (1 + page) * rowsPerPage - arrayLength) : 0;
 }
-
-// ----------------------------------------------------------------------
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -36,8 +30,6 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   }
   return 0;
 }
-
-// ----------------------------------------------------------------------
 
 export function getComparator<Key extends keyof any>(
   order: 'asc' | 'desc',
@@ -54,8 +46,6 @@ export function getComparator<Key extends keyof any>(
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
-
-// ----------------------------------------------------------------------
 
 type ApplyFilterProps<T extends { name: string }> = {
   inputData: T[];
@@ -83,9 +73,6 @@ export function applyFilter<T extends { name: string }>({ inputData, comparator,
   return result;
 }
 
-//-------------------------------------------------------------
-
-
 export type useTableProps = {
   postDeleteRoute: string | undefined
   service: TODO,
@@ -101,7 +88,6 @@ export function useTable(props?: useTableProps) {
   const dialogs = useDialogs();
   const navigate = useNavigate();
   const { postDeleteRoute, service, toggleNotice } = props || {};
-  // const { handleDialogOpen } = props;
 
   const onSort = useCallback(
     (id: string) => {

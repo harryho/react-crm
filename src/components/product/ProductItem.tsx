@@ -10,8 +10,6 @@ import { fnCurrency } from '../../utils/format-number';
 import { Label } from '../label';
 import { Iconify } from '../iconify';
 
-// ----------------------------------------------------------------------
-
 type ProductItemProps = {
   product: Product;
   onClick?: () => void;
