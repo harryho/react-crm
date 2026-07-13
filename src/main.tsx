@@ -4,25 +4,18 @@ import { createBrowserRouter } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
 import App from './App';
 import Layout from './layouts/Dashboard';
-import ProductsView, { productsLoader } from './pages/ProductsView';
-import ProductForm, { productFormLoader } from './pages/ProductForm';
-import OrdersView, { ordersLoader } from './pages/OrdersView';
-import OrderDetailView, { orderDetailLoader } from './pages/OrderDetailView';
-import { OverviewAnalyticsView, analyticsLoader } from './pages/OverviewAnalyticsView';
-import { BlogView } from './pages/BlogView';
 import { NotFoundView } from './pages/NotFoundView';
 import { HelmetProvider } from 'react-helmet-async';
-import { AgentView } from './pages/AgentView';
-import { UsersView, usersLoader } from './pages/UsersView';
-import AgentForm , { agentLoader  }from './pages/AgentForm';
 import SignInView from './pages/SignInView';
-import UserForm , { userLoader  } from './pages/UserForm';
-import CartView, { cartLoader } from './pages/CartView';
-import CheckoutView, { checkoutLoader } from './pages/CheckoutView';
-import InventoryView, { inventoryLoader } from './pages/InventoryView';
 import { CartProvider } from './contexts/CartContext';
 
-
+// Each page route is code-split via React Router's `lazy` route API rather
+// than plain React.lazy(): every page module also exports a loader function
+// from the same file, and a static top-level import of that loader (the
+// React.lazy() + Suspense approach) would still pull the whole page's code
+// into this file's chunk, defeating the split entirely. `lazy` dynamically
+// imports the Component and its loader together, so nothing loads until the
+// route is actually visited.
 function createRouter() {
   return createBrowserRouter([
     {
@@ -34,81 +27,115 @@ function createRouter() {
           children: [
             {
               path: '',
-              Component: OverviewAnalyticsView,
-              loader: analyticsLoader,
+              lazy: () =>
+                import('./pages/OverviewAnalyticsView').then((mod) => ({
+                  Component: mod.OverviewAnalyticsView,
+                  loader: mod.analyticsLoader,
+                })),
             },
             {
               path: 'orders',
-              Component: OrdersView,
-              loader: ordersLoader,
+              lazy: () =>
+                import('./pages/OrdersView').then((mod) => ({
+                  Component: mod.default,
+                  loader: mod.ordersLoader,
+                })),
             },
             {
               path: 'orders/:id',
-              Component: OrderDetailView,
-              loader: orderDetailLoader,
+              lazy: () =>
+                import('./pages/OrderDetailView').then((mod) => ({
+                  Component: mod.default,
+                  loader: mod.orderDetailLoader,
+                })),
             },
             {
               path: 'products',
-              Component: ProductsView,
-              loader: productsLoader,
+              lazy: () =>
+                import('./pages/ProductsView').then((mod) => ({
+                  Component: mod.default,
+                  loader: mod.productsLoader,
+                })),
             },
             {
               path: 'product-form',
-              Component: ProductForm,
-              loader: productFormLoader,
+              lazy: () =>
+                import('./pages/ProductForm').then((mod) => ({
+                  Component: mod.default,
+                  loader: mod.productFormLoader,
+                })),
             },
             {
               path: 'edit-product/:id',
-              Component: ProductForm,
-              loader: productFormLoader,
+              lazy: () =>
+                import('./pages/ProductForm').then((mod) => ({
+                  Component: mod.default,
+                  loader: mod.productFormLoader,
+                })),
             },
             {
               path: 'users',
-              Component: UsersView,
-              loader: usersLoader,
+              lazy: () =>
+                import('./pages/UsersView').then((mod) => ({
+                  Component: mod.UsersView,
+                  loader: mod.usersLoader,
+                })),
             },
             {
               path: 'blogs',
-              Component: BlogView,
+              lazy: () => import('./pages/BlogView').then((mod) => ({ Component: mod.BlogView })),
             },
             {
               path: 'agents',
-              Component: AgentView,
+              lazy: () => import('./pages/AgentView').then((mod) => ({ Component: mod.AgentView })),
             },
             {
               path: 'agent-form',
-              Component: AgentForm,
+              lazy: () => import('./pages/AgentForm').then((mod) => ({ Component: mod.default })),
             },
             {
               path: 'edit-agent/:id',
-              Component: AgentForm,
-              loader: agentLoader
-
+              lazy: () =>
+                import('./pages/AgentForm').then((mod) => ({
+                  Component: mod.default,
+                  loader: mod.agentLoader,
+                })),
             },
             {
               path: 'user-form',
-              Component: UserForm,
+              lazy: () => import('./pages/UserForm').then((mod) => ({ Component: mod.default })),
             },
             {
               path: 'edit-user/:id',
-              Component: UserForm,
-              loader: userLoader
-
+              lazy: () =>
+                import('./pages/UserForm').then((mod) => ({
+                  Component: mod.default,
+                  loader: mod.userLoader,
+                })),
             },
             {
               path: 'cart',
-              Component: CartView,
-              loader: cartLoader,
+              lazy: () =>
+                import('./pages/CartView').then((mod) => ({
+                  Component: mod.default,
+                  loader: mod.cartLoader,
+                })),
             },
             {
               path: 'checkout',
-              Component: CheckoutView,
-              loader: checkoutLoader,
+              lazy: () =>
+                import('./pages/CheckoutView').then((mod) => ({
+                  Component: mod.default,
+                  loader: mod.checkoutLoader,
+                })),
             },
             {
               path: 'inventory',
-              Component: InventoryView,
-              loader: inventoryLoader,
+              lazy: () =>
+                import('./pages/InventoryView').then((mod) => ({
+                  Component: mod.default,
+                  loader: mod.inventoryLoader,
+                })),
             },
             {
               path: '*',
