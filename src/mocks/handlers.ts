@@ -1,10 +1,11 @@
 import { http, delay, HttpResponse } from 'msw';
 
-import type { User, Product, Order } from '../types';
-import { users, categories, products, orders } from '../data/ecommerce';
+import type { User, Product, Order, OrderItem, OrderShipTo } from '../types';
+import { users, categories, products, orders, carriers } from '../data/ecommerce';
 import { staff } from '../data/staff';
 
 const DELAY_MS = 300;
+const SHIPPING_FLAT_FEE = 9.99;
 
 // Mutable in-memory copies so create/update/delete during a session are
 // reflected in subsequent GETs. Resets on page reload - there is no real
@@ -63,6 +64,11 @@ export const handlers = [
     }
     usersDb = usersDb.filter((u) => u.userId !== id);
     return new HttpResponse(null, { status: 204 });
+  }),
+
+  http.get('*/api/carriers', async () => {
+    await delay(DELAY_MS);
+    return HttpResponse.json(carriers);
   }),
 
   http.get('*/api/staff', async () => {
@@ -149,6 +155,111 @@ export const handlers = [
       ...current,
       status,
       statusHistory: [...current.statusHistory, { status, changedAt: new Date().toISOString() }],
+    };
+    ordersDb = [...ordersDb.slice(0, index), updated, ...ordersDb.slice(index + 1)];
+    return HttpResponse.json(updated);
+  }),
+
+  http.post('*/api/orders', async ({ request }) => {
+    await delay(DELAY_MS);
+    const body = (await request.json()) as {
+      userId: number;
+      items: { variantId: number; qty: number }[];
+      shipTo: OrderShipTo;
+    };
+
+    const items: OrderItem[] = body.items.map(({ variantId, qty }) => {
+      const product = productsDb.find((p) => p.variants.some((v) => v.variantId === variantId))!;
+      const variant = product.variants.find((v) => v.variantId === variantId)!;
+      return {
+        variantId,
+        productName: product.name,
+        sku: variant.sku,
+        unitPrice: variant.price,
+        qty,
+        discount: 0,
+        lineTotal: variant.price * qty,
+      };
+    });
+
+    productsDb = productsDb.map((product) => ({
+      ...product,
+      variants: product.variants.map((variant) => {
+        const item = body.items.find((i) => i.variantId === variant.variantId);
+        return item ? { ...variant, quantityOnHand: Math.max(0, variant.quantityOnHand - item.qty) } : variant;
+      }),
+    }));
+
+    const subtotal = items.reduce((sum, item) => sum + item.lineTotal, 0);
+    const orderId = nextId(ordersDb, 'orderId');
+    const now = new Date().toISOString();
+    const order: Order = {
+      orderId,
+      orderNumber: `ORD-${orderId}`,
+      userId: body.userId,
+      status: 'pending',
+      currency: 'USD',
+      subtotal,
+      discountTotal: 0,
+      shippingTotal: SHIPPING_FLAT_FEE,
+      grandTotal: subtotal + SHIPPING_FLAT_FEE,
+      shipTo: body.shipTo,
+      orderedAt: now,
+      items,
+      statusHistory: [{ status: 'pending', changedAt: now }],
+    };
+    ordersDb = [...ordersDb, order];
+    return HttpResponse.json(order, { status: 201 });
+  }),
+
+  http.patch('*/api/orders/:id/payment', async ({ params, request }) => {
+    await delay(DELAY_MS);
+    const id = Number(params.id);
+    const index = ordersDb.findIndex((o) => o.orderId === id);
+    if (index === -1) {
+      return HttpResponse.json({ message: `Order ${id} not found` }, { status: 404 });
+    }
+    const body = (await request.json()) as { provider: string; amount: number; providerRef?: string };
+    const current = ordersDb[index];
+    const now = new Date().toISOString();
+    const updated: Order = {
+      ...current,
+      status: 'paid',
+      payment: {
+        amount: body.amount,
+        currency: current.currency,
+        provider: body.provider,
+        providerRef: body.providerRef,
+        status: 'captured',
+        createdAt: now,
+      },
+      statusHistory: [...current.statusHistory, { status: 'paid', changedAt: now }],
+    };
+    ordersDb = [...ordersDb.slice(0, index), updated, ...ordersDb.slice(index + 1)];
+    return HttpResponse.json(updated);
+  }),
+
+  http.patch('*/api/orders/:id/shipment', async ({ params, request }) => {
+    await delay(DELAY_MS);
+    const id = Number(params.id);
+    const index = ordersDb.findIndex((o) => o.orderId === id);
+    if (index === -1) {
+      return HttpResponse.json({ message: `Order ${id} not found` }, { status: 404 });
+    }
+    const body = (await request.json()) as { carrierId: number; trackingNumber?: string };
+    const carrier = carriers.find((c) => c.carrierId === body.carrierId);
+    const current = ordersDb[index];
+    const now = new Date().toISOString();
+    const updated: Order = {
+      ...current,
+      status: 'shipped',
+      shipment: {
+        carrierId: body.carrierId,
+        carrierName: carrier?.name ?? `Carrier ${body.carrierId}`,
+        trackingNumber: body.trackingNumber,
+        shippedAt: now,
+      },
+      statusHistory: [...current.statusHistory, { status: 'shipped', changedAt: now }],
     };
     ordersDb = [...ordersDb.slice(0, index), updated, ...ordersDb.slice(index + 1)];
     return HttpResponse.json(updated);

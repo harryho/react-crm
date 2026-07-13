@@ -1,4 +1,4 @@
-import type { User, Staff, Category, Product, Order } from '../types';
+import type { User, Staff, Category, Product, Order, Carrier, OrderShipTo } from '../types';
 
 // In a browser, relative URLs (e.g. "/api/users") resolve against the page's
 // own origin. Node's fetch has no such default and throws on a relative URL
@@ -91,4 +91,30 @@ export function fetchOrderById(id: number): Promise<Order> {
 
 export function updateOrderStatus(id: number, status: string): Promise<Order> {
   return sendJson(`/api/orders/${id}/status`, 'PATCH', { status });
+}
+
+export function fetchCarriers(): Promise<Carrier[]> {
+  return getJson('/api/carriers');
+}
+
+export function createOrder(data: {
+  userId: number;
+  items: { variantId: number; qty: number }[];
+  shipTo: OrderShipTo;
+}): Promise<Order> {
+  return sendJson('/api/orders', 'POST', data);
+}
+
+export function recordPayment(
+  orderId: number,
+  data: { provider: string; amount: number; providerRef?: string }
+): Promise<Order> {
+  return sendJson(`/api/orders/${orderId}/payment`, 'PATCH', data);
+}
+
+export function recordShipment(
+  orderId: number,
+  data: { carrierId: number; trackingNumber?: string }
+): Promise<Order> {
+  return sendJson(`/api/orders/${orderId}/shipment`, 'PATCH', data);
 }
